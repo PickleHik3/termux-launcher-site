@@ -10,45 +10,49 @@ class TermuxLauncherSite {
       {
         name: "OpenAI-compatible",
         items: [
-          { method: "GET", path: "/v1/models", description: "List installed, loadable models and their capabilities.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  \"$OPENAI_BASE_URL/models\" | jq ." },
-          { method: "POST", path: "/v1/chat/completions", description: "Chat Completions — text, streaming (SSE), media, and tools.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' \\\n  \"$OPENAI_BASE_URL/chat/completions\"" },
-          { method: "POST", path: "/v1/responses", description: "Stateless Responses adapter for current Codex clients. Text/image input and function calls." },
+          { method: "GET", path: "/v1/models", description: "List installed, loadable models and their capabilities. Multimodal models are also exposed as separate -vision and -audio model IDs.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  \"$OPENAI_BASE_URL/models\" | jq ." },
+          { method: "POST", path: "/v1/chat/completions", description: "Chat Completions — text, streaming (SSE), image/audio input, and tools.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' \\\n  \"$OPENAI_BASE_URL/chat/completions\"" },
           { method: "POST", path: "/v1/completions", description: "Legacy text completions." },
-          { method: "POST", path: "/v1/embeddings", description: "Embeddings for models advertising text_embeddings. Float vectors only." },
-          { method: "POST", path: "/v1/audio/speech", description: "Returns unsupported-operation — speech output is not available." }
+          { method: "POST", path: "/v1/embeddings", description: "Embeddings for models that advertise text_embeddings (e.g. embeddinggemma-300m). Returns OpenAI-shape float vectors.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"embeddinggemma-300m\",\"input\":\"hello world\"}' \\\n  \"$OPENAI_BASE_URL/embeddings\"" },
+          { method: "POST", path: "/v1/audio/speech", description: "Present for OpenAI compatibility, but always returns an unsupported_audio_output error — there is no local speech backend." }
         ]
       },
       {
         name: "Ollama-compatible",
         items: [
+          { method: "GET", path: "/api/version", description: "Server version string (reports as 0.13.3-termux-launcher)." },
           { method: "GET", path: "/api/tags", description: "List installed models." },
           { method: "POST", path: "/api/chat", description: "Chat and tool calls. Streams newline-delimited JSON." },
           { method: "POST", path: "/api/generate", description: "Prompt-style generation.", example: "curl \"$BASE/api/generate\" -d '{\n  \"model\": \"MODEL_ID\",\n  \"prompt\": \"Why is the sky blue?\"\n}'" },
           { method: "POST", path: "/api/show", description: "Show one model's details and capabilities." },
           { method: "GET", path: "/api/ps", description: "Show the loaded model." },
-          { method: "POST", path: "/api/embed", description: "Create embeddings when supported." }
+          { method: "POST", path: "/api/embed", description: "Create embeddings for text_embeddings models (Ollama shape)." }
         ]
       },
       {
         name: "Model management",
         items: [
-          { method: "GET", path: "/v1/ai/status", description: "Overall status, settings, and limitations." },
+          { method: "GET", path: "/v1/ai/status", description: "Overall AI status, settings, device profile, and limitations." },
+          { method: "GET", path: "/v1/ai/models", description: "Full model catalog with sizes, backends, and capabilities." },
           { method: "GET", path: "/v1/ai/runtime", description: "Loaded model and runtime state." },
-          { method: "POST", path: "/v1/ai/runtime/load", description: "Load a model." },
-          { method: "POST", path: "/v1/ai/runtime/unload", description: "Unload the active model." },
-          { method: "POST", path: "/v1/ai/runtime/preflight", description: "Check whether a model can load safely before touching the runtime." },
-          { method: "POST", path: "/v1/ai/models/download-catalog", description: "Download a catalog model." }
+          { method: "POST", path: "/v1/ai/runtime/preflight", description: "Check whether a model can load safely (ABI, memory, accelerator) before touching the runtime." },
+          { method: "POST", path: "/v1/ai/runtime/load", description: "Load a model into the isolated :tai_runtime process." },
+          { method: "POST", path: "/v1/ai/runtime/keep-warm", description: "Keep the loaded model resident for a set number of minutes." },
+          { method: "POST", path: "/v1/ai/runtime/unload", description: "Unload the active model and free memory." },
+          { method: "POST", path: "/v1/ai/models/download", description: "Download a catalog model (requires explicit terms acceptance)." }
         ]
       },
       {
         name: "LauncherCtl",
         items: [
-          { method: "GET", path: "/v1/status", description: "Backend and LauncherCtl runtime status." },
+          { method: "GET", path: "/v1/status", description: "Backend (Shizuku), notification-listener, and endpoint status." },
           { method: "GET", path: "/v1/apps", description: "The launcher's launchable activity catalog." },
           { method: "GET", path: "/v1/system/resources", description: "CPU, memory, battery, network, thermal, and storage snapshot." },
           { method: "GET", path: "/v1/notifications", description: "Cached notification list (needs listener access)." },
-          { method: "POST", path: "/v1/agent/execute", description: "Execute a named tool. Confirmation-gated for risky tools." },
-          { method: "POST", path: "/v1/auth/rotate", description: "Rotate the API token and rewrite token and endpoint files." }
+          { method: "GET", path: "/v1/media/now-playing", description: "Currently playing media session, when available." },
+          { method: "GET", path: "/v1/agent/tools", description: "List the callable agent tools and their JSON schemas." },
+          { method: "POST", path: "/v1/agent/execute", description: "Execute a named tool. Confirmation-gated for risky tools.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"tool\":\"system.resources\",\"arguments\":{},\"confirm\":true}' \\\n  \"$BASE/v1/agent/execute\"" },
+          { method: "POST", path: "/v1/auth/rotate", description: "Rotate the API token and rewrite the token and endpoint files." }
         ]
       }
     ];
