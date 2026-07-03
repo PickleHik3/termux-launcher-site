@@ -2,7 +2,7 @@
 
 class TermuxLauncherSite {
   constructor() {
-    this.views = ["setup", "wiki", "ai", "showcase"];
+    this.views = ["setup", "wiki", "ai"];
     this.spyMap = null;
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
@@ -103,7 +103,7 @@ class TermuxLauncherSite {
     if (event.target && /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     const viewNumber = Number.parseInt(event.key, 10);
-    if (viewNumber >= 1 && viewNumber <= 4) {
+    if (viewNumber >= 1 && viewNumber <= this.views.length) {
       this.setView(this.views[viewNumber - 1], null, true);
     }
   }

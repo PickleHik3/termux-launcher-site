@@ -3,7 +3,11 @@ title: Extra Keys
 order: 60
 ---
 
-Edit `~/.termux/termux.properties`, then run `termux-reload-settings`. This compact row assumes the tmux setup with `CTRL b` as its prefix.
+Termux Launcher includes the regular Termux Extra Keys plus a convenient paste popup. Edit `~/.termux/termux.properties`, then run `termux-reload-settings`.
+
+## Compact tmux row
+
+The easiest default. Assumes the [tmux setup](#wiki/tmux) with `CTRL b` as the prefix.
 
 ```properties
 extra-keys = [[ \
@@ -18,4 +22,30 @@ extra-keys = [[ \
 ]]
 ```
 
-A two-row layout with dedicated modifier keys is in the repository documentation. Turn on compact dock spacing first.
+## Two-row layout
+
+Dedicated modifier keys and more tmux controls. Turn on **compact dock spacing** first (Appearance settings).
+
+```properties
+extra-keys = [[ \
+  {macro: "CTRL b h", display: "𝍣"}, \
+  {macro: "CTRL b v", display: "𝍬"}, \
+  {macro: "ALT LEFT", display: "⬸"}, \
+  {macro: "CTRL b c", display: "+"}, \
+  {macro: "ALT RIGHT", display: "⤑"}, \
+  {macro: "CTRL b [", display: "✏"}, \
+  {macro: "CTRL b z", display: "□"}, \
+  {macro: "CTRL b x", display: "×", popup: {macro: "CTRL b k", display: "⊠"}} \
+], [ \
+  {key: ESC, display: "Esc", popup: {macro: "CTRL b F12", display: "⟲"}}, \
+  {key: TAB, display: "TAB"}, \
+  {key: SHIFT, display: "SHFT"}, \
+  {key: CTRL, display: "CTRL"}, \
+  {key: ALT, display: "ALT"}, \
+  {key: LEFT, popup: DOWN}, \
+  {key: RIGHT, popup: UP}, \
+  {key: KEYBOARD, popup: PASTE} \
+]]
+```
+
+> After editing `termux.properties`, always run `termux-reload-settings` to apply it.
