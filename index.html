@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,19 +107,16 @@
   <!-- ==================================================== -->
   <section data-view="wiki" data-screen-label="2 Wiki" style="display:none">
     <div class="wiki-layout" style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:236px minmax(0,1fr) 200px;gap:40px;padding:36px 24px 120px;align-items:start">
+      {% assign wiki_articles = site.wiki | sort: "order" %}
 
-      <!-- sidebar -->
       <aside class="wiki-sidebar" style="position:sticky;top:70px">
         <div style="font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding:0 0 10px 12px">Documentation</div>
         <nav style="display:flex;flex-direction:column;gap:1px">
-          <button data-article="overview" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">Overview</button>
-          <button data-article="surface" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">The launcher surface</button>
-          <button data-article="launcherctl" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">launcherctl bridge</button>
-          <button data-article="shell" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">tmux &amp; shell setup</button>
-          <button data-article="shizuku" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">Shizuku, rish &amp; btop</button>
-          <button data-article="keys" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">Extra Keys</button>
-          <button data-article="agent" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">Agent &amp; MCP</button>
-          <button data-article="trouble" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">Troubleshooting</button>
+          {% for article in wiki_articles %}
+            {% assign article_filename = article.path | split: "/" | last %}
+            {% assign article_key = article_filename | split: "." | first %}
+            <button data-article="{{ article_key | escape }}" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">{{ article.title | escape }}</button>
+          {% endfor %}
         </nav>
         <div style="border-top:1px solid var(--line);margin:16px 0 0;padding:14px 0 0 12px">
           <a data-nav="ai" href="#ai" style="display:block;font-family:var(--mono);font-size:13px;color:var(--cyan);text-decoration:none;cursor:pointer;margin-bottom:9px">Termux AI ↗</a>
@@ -125,154 +124,26 @@
         </div>
       </aside>
 
-      <!-- content -->
       <main data-wiki-content style="min-width:0">
-
-        <article data-article-body="overview" style="display:block">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-overview" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">Overview</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 20px;max-width:660px">Termux Launcher replaces your Android home screen with a live Termux session. Everything you'd tap for on a normal launcher — opening apps, searching, media, system status — happens in and around the prompt. It's built on Termux + Termux:Monet and inspired by TEL.</p>
-          <h3 data-spy id="w-ov-req" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:30px 0 10px;color:var(--cream)">Requirements</h3>
-          <ul style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.8;margin:0 0 20px;padding-left:20px;max-width:640px">
-            <li>A modern Android device (Termux-compatible).</li>
-            <li>The <span style="font-family:var(--mono);color:var(--cream)">com.termux</span> build cannot coexist with the regular Termux app — they share a package identity.</li>
-            <li>Recommended companion: the <a href="https://github.com/Julow/Unexpected-Keyboard" target="_blank" rel="noopener" style="color:var(--cyan)">Unexpected Keyboard</a>, which this launcher is tuned for.</li>
-          </ul>
-          <h3 data-spy id="w-ov-forks" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:30px 0 10px;color:var(--cream)">Companion forks</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;margin:0 0 12px;max-width:660px">Add-ons must be signed to match the launcher. Mixing differently-signed Termux add-ons causes shared-UID errors — always use the matching Termux:API and Termux:Styling forks from the <a data-nav="setup" data-scrollto="setup-downloads" href="#setup" style="color:var(--cyan);cursor:pointer">downloads section</a>.</p>
-        </article>
-
-        <article data-article-body="surface" style="display:none">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-surface" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">The launcher surface</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 24px;max-width:660px">The terminal is the home screen. Launcher controls live around the Termux session.</p>
-          <h3 data-spy id="w-sf-apps" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 8px;color:var(--cream)">Apps row</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;margin:0 0 8px;max-width:660px">Long-press an icon to pin, move, or drop it in a folder. Long-press empty space for list-based management.</p>
-          <h3 data-spy id="w-sf-az" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 8px;color:var(--cream)">A–Z row</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;margin:0 0 8px;max-width:660px">Swipe across to filter installed apps by letter. Swipe upward from a letter to launch an app in that group.</p>
-          <h3 data-spy id="w-sf-search" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 8px;color:var(--cream)">Terminal search</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;margin:0 0 8px;max-width:660px">Type the split character before a query to search apps. Default is <span style="font-family:var(--mono);color:var(--cream)">%</span> — so <span style="font-family:var(--mono);color:var(--cream)">%whatsapp</span> finds WhatsApp.</p>
-          <h3 data-spy id="w-sf-lock" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 8px;color:var(--cream)">Lock screen</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;margin:0 0 18px;max-width:660px">Double-tap the alphabet row to lock the phone — once a lock method is configured in Apps Bar settings.</p>
-          <div style="background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:8px;padding:13px 16px;font-family:var(--mono);font-size:13.5px;color:var(--cream);max-width:660px">Long press Terminal <span style="color:var(--dim)">→</span> More <span style="color:var(--dim)">→</span> <span style="color:var(--gold)">Appearance · Apps Bar · TAI</span></div>
-        </article>
-
-        <article data-article-body="launcherctl" style="display:none">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-lc" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">launcherctl bridge</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 20px;max-width:660px"><span style="font-family:var(--mono);color:var(--cream)">launcherctl</span> is a localhost API bridge that exposes Android and launcher data to shell tools without high-frequency polling. It's installed automatically when the launcher session starts, and authenticates with a bearer token in <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/</span>.</p>
-          <h3 data-spy id="w-lc-try" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:28px 0 12px;color:var(--cream)">Try it first</h3>
-          <div style="display:flex;flex-direction:column;gap:8px;max-width:660px;margin-bottom:20px">
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> launcherctl status</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> launcherctl apps</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> launcherctl launch whatsapp</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
+        {% if wiki_articles.size > 0 %}
+          {% for article in wiki_articles %}
+            {% assign article_filename = article.path | split: "/" | last %}
+            {% assign article_key = article_filename | split: "." | first %}
+            <article data-article-body="{{ article_key | escape }}" style="display:{% if forloop.first %}block{% else %}none{% endif %}">
+              <div class="wiki-kicker">DOCUMENTATION</div>
+              <h1 data-spy id="w-{{ article_key | escape }}">{{ article.title | escape }}</h1>
+              <div class="wiki-prose">{{ article.content | markdownify }}</div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <div class="wiki-empty">
+            <div class="wiki-kicker">DOCUMENTATION</div>
+            <h1>No wiki pages yet</h1>
+            <p>Create the first page from the content manager.</p>
           </div>
-          <h3 data-spy id="w-lc-cli" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:28px 0 12px;color:var(--cream)">The toolbox</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.7;margin:0 0 12px;max-width:660px"><span style="font-family:var(--mono);color:var(--cream)">resources · media · notifications · capabilities · tools · agent · events · mcp · update-scripts · token rotate</span>. Media &amp; notification commands need notification-listener access granted to the launcher.</p>
-          <h3 data-spy id="w-lc-bind" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:28px 0 12px;color:var(--cream)">Bind apps to tmux keys</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.7;margin:0 0 12px;max-width:660px">Here <span style="font-family:var(--mono);color:var(--cream)">Alt + w</span> opens WhatsApp:</p>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:14px;max-width:660px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--cream)">bind -n M-w run-shell 'tmux display-message "Opening WhatsApp"; \
-  launcherctl launch whatsapp &gt;/dev/null 2&gt;&amp;1 \
-  || tmux display-message "Launch failed"'</pre>
-          </div>
-          <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:16px 0 0">Full endpoint list &amp; security model → <a data-nav="ai" href="#ai" style="color:var(--cyan);text-decoration:none;cursor:pointer">API reference</a></p>
-        </article>
-
-        <article data-article-body="shell" style="display:none">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-shell" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">tmux &amp; shell setup</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 20px;max-width:660px">For a persistent workspace: <span style="font-family:var(--mono);color:var(--cream)">fish · oh-my-posh · tmux · eza · zoxide</span>. Turn on Material colors first so the tmux theme follows your wallpaper.</p>
-          <h3 data-spy id="w-sh-pkg" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 10px;color:var(--cream)">Install packages</h3>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:14px;max-width:660px;margin-bottom:20px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.5;color:var(--cream)">pkg i -y tmux curl jq git fish oh-my-posh eza zoxide termux-api</pre>
-          </div>
-          <h3 data-spy id="w-sh-mat" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 10px;color:var(--cream)">Material colors</h3>
-          <div style="background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:8px;padding:13px 16px;font-family:var(--mono);font-size:13.5px;color:var(--cream);max-width:660px;margin-bottom:20px">Long press Terminal <span style="color:var(--dim)">→</span> More <span style="color:var(--dim)">→</span> Appearance <span style="color:var(--dim)">→</span> <span style="color:var(--gold)">Terminal Material colors</span></div>
-          <h3 data-spy id="w-sh-cfg" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 10px;color:var(--cream)">Pull the defaults</h3>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:14px;max-width:660px;margin-bottom:20px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--cream)">mkdir -p ~/.config/fish ~/.config/ohmyposh ~/.tmux
-BASE=https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples
-curl -fsSL "$BASE/config.fish"              -o ~/.config/fish/config.fish
-curl -fsSL "$BASE/termux-launcher.omp.json" -o ~/.config/ohmyposh/termux-launcher.omp.json
-curl -fsSL "$BASE/tmux.conf"                -o ~/.tmux.conf
-curl -fsSL "$BASE/material-theme.tmux"      -o ~/.tmux/material-theme.tmux</pre>
-          </div>
-          <div style="display:flex;gap:10px;background:rgba(111,183,196,.07);border:1px solid rgba(111,183,196,.28);border-left:3px solid var(--cyan);border-radius:8px;padding:12px 14px;font-family:var(--mono);font-size:13px;color:#bfe1e7;max-width:660px">
-            <span>ℹ</span><span>After an APK update, refresh only the repo-owned helpers with <span style="color:var(--cream)">launcherctl update-scripts</span> — your <span style="color:var(--cream)">~/.tmux.conf</span> stays intact.</span>
-          </div>
-        </article>
-
-        <article data-article-body="shizuku" style="display:none">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-shz" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">Shizuku, rish &amp; btop</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 20px;max-width:660px">Shizuku unlocks lock-screen control, a privileged shell, and the <span style="font-family:var(--mono);color:var(--cream)">btop</span> helper. Install and start Shizuku, then set up <span style="font-family:var(--mono);color:var(--cream)">rish</span>.</p>
-          <h3 data-spy id="w-shz-rish" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 10px;color:var(--cream)">Set up rish</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;margin:0 0 12px;max-width:660px">Let Shizuku create <span style="font-family:var(--mono);color:var(--cream)">rish</span> + <span style="font-family:var(--mono);color:var(--cream)">rish_shizuku.dex</span>, copy both into a directory on your <span style="font-family:var(--mono);color:var(--cream)">$PATH</span>, and set <span style="font-family:var(--mono);color:var(--cream)">RISH_APPLICATION_ID="com.termux"</span> at the bottom of <span style="font-family:var(--mono);color:var(--cream)">rish</span>. Then verify:</p>
-          <div style="display:flex;flex-direction:column;gap:8px;max-width:660px;margin-bottom:18px">
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> launcherctl tty-doctor</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> rish -c "id"</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-          </div>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.7;margin:0;max-width:660px">Then run the shell-setup script and choose <span style="font-family:var(--mono);color:var(--cream)">All</span> or <span style="font-family:var(--mono);color:var(--cream)">btop only</span>. On Android 14+, keep <span style="font-family:var(--mono);color:var(--cream)">rish_shizuku.dex</span> non-writable.</p>
-        </article>
-
-        <article data-article-body="keys" style="display:none">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-keys" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">Extra Keys</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 20px;max-width:660px">Edit <span style="font-family:var(--mono);color:var(--cream)">~/.termux/termux.properties</span>, then run <span style="font-family:var(--mono);color:var(--cream)">termux-reload-settings</span>. This compact row assumes the tmux setup with <span style="font-family:var(--mono);color:var(--cream)">CTRL b</span> as prefix.</p>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:14px;max-width:660px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--cream)">extra-keys = [[ \
-  {macro: "CTRL b F12", display: "♼"}, \
-  {macro: "CTRL b h", display: "𝍣", popup: {macro: "CTRL b v", display: "𝍬"}}, \
-  {macro: "CTRL b 1", display: "⓵"}, \
-  {macro: "CTRL b 2", display: "⓶"}, \
-  {macro: "CTRL b 3", display: "⓷"}, \
-  {macro: "CTRL b [", display: "✎"}, \
-  {key: KEYBOARD, popup: PASTE}, \
-  {macro: "CTRL b", display: "㋡"} \
-]]</pre>
-          </div>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:14px;line-height:1.7;margin:16px 0 0;max-width:660px">A two-row layout with dedicated modifier keys is in the repo docs — turn on compact dock spacing first.</p>
-        </article>
-
-        <article data-article-body="agent" style="display:none">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-agent" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">Agent &amp; MCP</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 20px;max-width:660px">LauncherCtl exposes a shared tool registry for local agents, MCP clients, and scripts. Routing is deterministic — it does not load a hidden model. Execution is confirmation-gated for medium/high/critical risk tools.</p>
-          <h3 data-spy id="w-ag-agent" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 10px;color:var(--cream)">Route &amp; execute</h3>
-          <div style="display:flex;flex-direction:column;gap:8px;max-width:660px;margin-bottom:20px">
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> launcherctl agent --dry-run "open maps"</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> launcherctl agent "open maps"</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-          </div>
-          <h3 data-spy id="w-ag-mcp" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:26px 0 10px;color:var(--cream)">MCP stdio bridge</h3>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.7;margin:0 0 12px;max-width:660px">For MCP-capable clients (Codex, OpenCode, Crush). Requires Python in Termux.</p>
-          <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px;max-width:660px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> pkg install python &amp;&amp; launcherctl mcp</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        </article>
-
-        <article data-article-body="trouble" style="display:none">
-          <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;margin-bottom:6px">DOCUMENTATION</div>
-          <h1 data-spy id="w-trouble" style="font-family:var(--mono);font-weight:700;font-size:32px;margin:0 0 14px;color:var(--cream)">Troubleshooting</h1>
-          <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;margin:0 0 18px;max-width:660px">When the terminal feels stale or unresponsive, start here:</p>
-          <div style="display:flex;flex-direction:column;gap:8px;max-width:660px;margin-bottom:24px">
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> termux-reload-settings</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-            <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px"><code data-cmd-text style="font-family:var(--mono);font-size:13.5px;color:var(--cream)"><span style="color:var(--green)">$</span> launcherctl restart</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-          </div>
-          <h3 data-spy id="w-tr-common" style="font-family:var(--mono);font-weight:600;font-size:18px;margin:22px 0 12px;color:var(--cream)">Common fixes</h3>
-          <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;max-width:660px">
-            <div style="background:var(--panel);padding:13px 15px"><span style="font-family:var(--mono);font-size:13.5px;color:var(--gold)">401 Unauthorized</span> <span style="font-family:var(--sans);font-size:14px;color:var(--mute)">— run <span style="font-family:var(--mono);color:var(--cream)">launcherctl token rotate</span>.</span></div>
-            <div style="background:var(--panel);padding:13px 15px"><span style="font-family:var(--mono);font-size:13.5px;color:var(--gold)">Connection refused</span> <span style="font-family:var(--sans);font-size:14px;color:var(--mute)">— reopen the launcher, check <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/endpoint</span>.</span></div>
-            <div style="background:var(--panel);padding:13px 15px"><span style="font-family:var(--mono);font-size:13.5px;color:var(--gold)">No tty detected</span> <span style="font-family:var(--sans);font-size:14px;color:var(--mute)">— run <span style="font-family:var(--mono);color:var(--cream)">launcherctl tty-doctor</span>.</span></div>
-            <div style="background:var(--panel);padding:13px 15px"><span style="font-family:var(--mono);font-size:13.5px;color:var(--gold)">media / notifications empty</span> <span style="font-family:var(--sans);font-size:14px;color:var(--mute)">— grant notification access in Android settings.</span></div>
-          </div>
-        </article>
-
+        {% endif %}
       </main>
 
-      <!-- toc -->
       <aside class="wiki-toc" style="position:sticky;top:70px">
         <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:12px;display:flex;align-items:center;gap:6px">≡ On this page</div>
         <nav data-wiki-toc style="display:flex;flex-direction:column;gap:7px;border-left:1px solid var(--line);padding-left:14px"></nav>

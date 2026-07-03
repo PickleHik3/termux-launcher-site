@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 28px;
+  background: #0d1012;
+  color: #8b938f;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+h1,
+h2,
+h3 {
+  color: #d7d4cb;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2,
+h3 {
+  margin: 28px 0 10px;
+  font-size: 18px;
+}
+
+a {
+  color: #5fb4c4;
+}
+
+:not(pre) > code {
+  color: #d7d4cb;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+pre {
+  padding: 14px;
+  overflow-x: auto;
+  border: 1px solid #262d31;
+  border-radius: 8px;
+  background: #080a0b;
+  color: #d7d4cb;
+  font: 12.5px/1.65 "IBM Plex Mono", ui-monospace, monospace;
+}
+
+blockquote {
+  margin: 0 0 20px;
+  padding: 13px 16px;
+  border: 1px solid #262d31;
+  border-left: 3px solid #e3b341;
+  border-radius: 8px;
+  background: #0a0e10;
+  color: #d7d4cb;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}

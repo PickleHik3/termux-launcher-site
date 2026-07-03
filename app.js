@@ -65,6 +65,7 @@ class TermuxLauncherSite {
 
   mount() {
     this.buildEndpointReference();
+    this.decorateWikiContent();
     this.observer = "IntersectionObserver" in window
       ? new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
@@ -131,14 +132,22 @@ class TermuxLauncherSite {
 
     if (this.observer) this.observer.disconnect();
     this.spyMap = null;
-    if (view === "wiki") this.showArticle(subview || "overview");
+    if (view === "wiki") this.showArticle(subview);
     if (view === "ai") this.buildSpy(document.querySelector('#tl [data-view="ai"]'));
     window.scrollTo({ top: 0, behavior: "auto" });
   }
 
   showArticle(name) {
     const articles = [...document.querySelectorAll("#tl [data-article-body]")];
-    if (!articles.some((article) => article.dataset.articleBody === name)) name = "overview";
+    const toc = document.querySelector("#tl [data-wiki-toc]");
+    if (!articles.length) {
+      if (toc) toc.replaceChildren();
+      if (window.location.hash !== "#wiki") window.history.replaceState(null, "", "#wiki");
+      return;
+    }
+    if (!articles.some((article) => article.dataset.articleBody === name)) {
+      name = articles[0].dataset.articleBody;
+    }
 
     articles.forEach((article) => {
       article.style.display = article.dataset.articleBody === name ? "block" : "none";
@@ -154,7 +163,7 @@ class TermuxLauncherSite {
 
     this.buildSpy(
       document.querySelector(`#tl [data-article-body="${name}"]`),
-      document.querySelector("#tl [data-wiki-toc]")
+      toc
     );
     const hash = `#wiki/${name}`;
     if (window.location.hash !== hash) window.history.replaceState(null, "", hash);
@@ -166,7 +175,7 @@ class TermuxLauncherSite {
     this.spyMap = {};
     if (toc) toc.replaceChildren();
 
-    scope.querySelectorAll("[data-spy]").forEach((heading) => {
+    scope.querySelectorAll("[data-spy], .wiki-prose h2, .wiki-prose h3").forEach((heading) => {
       if (toc) {
         const link = document.createElement("a");
         link.textContent = heading.textContent;
@@ -185,6 +194,45 @@ class TermuxLauncherSite {
       const active = link === activeLink;
       link.style.color = active ? "var(--gold)" : "var(--dim)";
       link.style.fontWeight = active ? "600" : "400";
+    });
+  }
+
+  decorateWikiContent() {
+    document.querySelectorAll("#tl [data-article-body]").forEach((article) => {
+      const articleKey = article.dataset.articleBody;
+      const usedIds = new Set();
+
+      article.querySelectorAll(".wiki-prose h2, .wiki-prose h3").forEach((heading) => {
+        const base = heading.textContent
+          .toLowerCase()
+          .normalize("NFKD")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "") || "section";
+        let id = `w-${articleKey}-${base}`;
+        let suffix = 2;
+        while (usedIds.has(id) || document.getElementById(id)) id = `w-${articleKey}-${base}-${suffix++}`;
+        usedIds.add(id);
+        heading.id = id;
+      });
+
+      article.querySelectorAll(".wiki-prose pre").forEach((pre) => {
+        if (pre.dataset.cmd !== undefined) return;
+        pre.dataset.cmd = "";
+        const code = pre.querySelector("code") || pre;
+        code.dataset.cmdText = "";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.copy = "";
+        button.className = "wiki-copy";
+        button.innerHTML = "<span data-copy-label>copy</span>";
+        button.setAttribute("aria-label", "Copy code");
+        pre.appendChild(button);
+      });
+
+      article.querySelectorAll('.wiki-prose a[href^="http"]').forEach((link) => {
+        link.target = "_blank";
+        link.rel = "noopener";
+      });
     });
   }
 
@@ -297,6 +345,21 @@ class TermuxLauncherSite {
       event.preventDefault();
       this.scrollToId(anchor.dataset.anchor);
       return;
+    }
+
+    const wikiLink = event.target.closest('.wiki-prose a[href^="#"]');
+    if (wikiLink) {
+      const target = wikiLink.getAttribute("href").slice(1);
+      if (this.views.includes(target)) {
+        event.preventDefault();
+        this.setView(target, null, true);
+        return;
+      }
+      if (document.getElementById(target)) {
+        event.preventDefault();
+        this.scrollToId(target);
+        return;
+      }
     }
 
     const scrollTarget = event.target.closest("[data-scrollto]");

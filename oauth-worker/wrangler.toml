@@ -1,0 +1,9 @@
+name = "termux-launcher-cms-auth"
+main = "src/index.ts"
+compatibility_date = "2026-07-03"
+workers_dev = true
+
+[vars]
+ALLOWED_GITHUB_LOGIN = "PickleHik3"
+ALLOWED_ORIGIN = "https://picklehik3.github.io"
+ALLOWED_SITE_DOMAIN = "picklehik3.github.io"

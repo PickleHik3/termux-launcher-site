@@ -1,0 +1,45 @@
+backend:
+  name: github
+  repo: PickleHik3/termux-launcher-site
+  branch: main
+  base_url: https://termux-launcher-cms-auth.vajdan-amal.workers.dev
+  auth_endpoint: auth
+  site_domain: picklehik3.github.io
+  use_graphql: true
+
+local_backend: true
+site_url: https://picklehik3.github.io/termux-launcher-site/
+display_url: https://picklehik3.github.io/termux-launcher-site/
+media_folder: assets/uploads
+public_folder: /termux-launcher-site/assets/uploads
+
+editor:
+  preview: true
+
+collections:
+  - name: wiki
+    label: Wiki
+    label_singular: Wiki page
+    folder: _wiki
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    identifier_field: title
+    summary: "{{order}} — {{title}}"
+    sortable_fields: [order, title]
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        hint: Used for the sidebar and page heading. The filename created for a new page becomes its stable URL key.
+      - label: Navigation order
+        name: order
+        widget: number
+        value_type: int
+        min: 1
+        hint: Lower numbers appear first. Existing pages use increments of ten.
+      - label: Content
+        name: body
+        widget: markdown
+        hint: Start sections at Heading 2; the page title is generated automatically.

@@ -1,0 +1,17 @@
+url: "https://picklehik3.github.io"
+baseurl: "/termux-launcher-site"
+
+collections:
+  wiki:
+    output: false
+
+kramdown:
+  input: GFM
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - node_modules
+  - oauth-worker
+  - vendor
