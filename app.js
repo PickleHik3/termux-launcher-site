@@ -66,6 +66,8 @@ class TermuxLauncherSite {
   mount() {
     this.buildEndpointReference();
     this.decorateWikiContent();
+    this.buildSearchIndex();
+    this.wireSearch();
     this.observer = "IntersectionObserver" in window
       ? new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
@@ -102,6 +104,11 @@ class TermuxLauncherSite {
   handleKey(event) {
     if (event.target && /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.key === "/") {
+      event.preventDefault();
+      this.openSearch();
+      return;
+    }
     const viewNumber = Number.parseInt(event.key, 10);
     if (viewNumber >= 1 && viewNumber <= this.views.length) {
       this.setView(this.views[viewNumber - 1], null, true);
@@ -234,6 +241,187 @@ class TermuxLauncherSite {
         link.rel = "noopener";
       });
     });
+  }
+
+  buildSearchIndex() {
+    const index = [];
+    // Wiki articles (Docs)
+    document.querySelectorAll("#tl [data-article-body]").forEach((article) => {
+      const key = article.dataset.articleBody;
+      const button = document.querySelector(`#tl [data-article="${key}"]`);
+      const title = (button ? button.textContent : article.querySelector("h1")?.textContent || key).trim();
+      index.push({
+        title,
+        tag: "Docs",
+        view: "wiki",
+        sub: key,
+        text: (article.textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
+      });
+    });
+    // Static destinations
+    const statics = [
+      { title: "Download & install", tag: "About", view: "setup", id: "setup-downloads", kw: "apk build com.termux io.vaj.tl companion install release" },
+      { title: "Model catalog", tag: "Termux AI", view: "ai", id: "ai-catalog", kw: "gemma qwen deepseek embedding litert mnn model ram download" },
+      { title: "Add & import your own models", tag: "Termux AI", view: "ai", id: "ai-import", kw: "hugging face token import repo url litert mnn gguf" },
+      { title: "Chat from the terminal with AIChat", tag: "Termux AI", view: "ai", id: "ai-aichat", kw: "aichat openai compatible client endpoint token config" },
+      { title: "tai commands", tag: "Termux AI", view: "ai", id: "ai-commands", kw: "tai status models load runtime keep-warm doctor cli" },
+      { title: "API reference", tag: "Termux AI", view: "ai", id: "ep-intro", kw: "openai ollama endpoints v1 chat completions embeddings launcherctl" }
+    ];
+    statics.forEach((s) => index.push({
+      title: s.title, tag: s.tag, view: s.view, id: s.id,
+      text: (s.title + " " + s.kw).toLowerCase()
+    }));
+    this.searchIndex = index;
+    this.searchItems = [];
+    this.searchActive = -1;
+  }
+
+  wireSearch() {
+    this.searchRoot = document.querySelector("[data-search]");
+    this.searchToggle = document.querySelector("[data-search-toggle]");
+    this.searchInput = document.querySelector("[data-search-input]");
+    this.searchResults = document.querySelector("[data-search-results]");
+    if (!this.searchRoot || !this.searchInput || !this.searchResults) return;
+
+    this.searchToggle.addEventListener("click", () => this.openSearch());
+    this.searchInput.addEventListener("input", () => this.runSearch(this.searchInput.value));
+    this.searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") { this.closeSearch(true); return; }
+      if (event.key === "ArrowDown") { event.preventDefault(); this.moveActive(1); return; }
+      if (event.key === "ArrowUp") { event.preventDefault(); this.moveActive(-1); return; }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const pick = this.searchItems[this.searchActive] || this.searchItems[0];
+        if (pick) this.goToResult(pick);
+      }
+    });
+    this.searchResults.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-result]");
+      if (!button) return;
+      const item = this.searchItems[Number.parseInt(button.dataset.result, 10)];
+      if (item) this.goToResult(item);
+    });
+    document.addEventListener("click", (event) => {
+      if (!this.searchRoot.contains(event.target) && !this.searchResults.contains(event.target)) {
+        this.closeSearch(false);
+      }
+    });
+  }
+
+  openSearch() {
+    if (!this.searchRoot) return;
+    this.searchRoot.classList.add("open");
+    this.searchToggle.setAttribute("aria-expanded", "true");
+    this.searchInput.focus();
+    this.searchInput.select();
+    if (this.searchInput.value.trim()) this.runSearch(this.searchInput.value);
+  }
+
+  closeSearch(clear) {
+    if (!this.searchRoot) return;
+    this.searchRoot.classList.remove("open");
+    this.searchToggle.setAttribute("aria-expanded", "false");
+    this.searchResults.hidden = true;
+    this.searchResults.replaceChildren();
+    this.searchItems = [];
+    this.searchActive = -1;
+    if (clear) this.searchInput.value = "";
+  }
+
+  runSearch(query) {
+    const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if (!terms.length) {
+      this.searchResults.hidden = true;
+      this.searchResults.replaceChildren();
+      this.searchItems = [];
+      return;
+    }
+    const scored = [];
+    for (const entry of this.searchIndex) {
+      const title = entry.title.toLowerCase();
+      let score = 0;
+      let matchesAll = true;
+      for (const term of terms) {
+        const inTitle = title.includes(term);
+        const inText = entry.text.includes(term);
+        if (!inTitle && !inText) { matchesAll = false; break; }
+        score += inTitle ? 3 : 1;
+      }
+      if (matchesAll) scored.push({ entry, score });
+    }
+    scored.sort((a, b) => b.score - a.score);
+    this.searchItems = scored.slice(0, 8).map((s) => s.entry);
+    this.searchActive = this.searchItems.length ? 0 : -1;
+    this.renderResults(terms);
+  }
+
+  renderResults(terms) {
+    this.searchResults.replaceChildren();
+    if (!this.searchItems.length) {
+      const empty = document.createElement("div");
+      empty.className = "search-empty";
+      empty.textContent = "No matches. Try another term.";
+      this.searchResults.appendChild(empty);
+      this.searchResults.hidden = false;
+      return;
+    }
+    this.searchItems.forEach((item, i) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.result = String(i);
+      button.className = "search-result" + (i === this.searchActive ? " active" : "");
+
+      const head = document.createElement("div");
+      const title = document.createElement("span");
+      title.className = "sr-title";
+      title.textContent = item.title;
+      const tag = document.createElement("span");
+      tag.className = "sr-tag";
+      tag.textContent = item.tag;
+      head.append(title, tag);
+      button.appendChild(head);
+
+      const snippet = this.snippetFor(item, terms);
+      if (snippet) {
+        const snip = document.createElement("div");
+        snip.className = "sr-snippet";
+        snip.textContent = snippet;
+        button.appendChild(snip);
+      }
+      this.searchResults.appendChild(button);
+    });
+    this.searchResults.hidden = false;
+  }
+
+  snippetFor(item, terms) {
+    const text = item.text;
+    if (!text) return "";
+    let at = -1;
+    for (const term of terms) {
+      const found = text.indexOf(term);
+      if (found >= 0 && (at < 0 || found < at)) at = found;
+    }
+    if (at < 0) return "";
+    const start = Math.max(0, at - 32);
+    let slice = text.slice(start, start + 120).trim();
+    if (start > 0) slice = "… " + slice;
+    if (start + 120 < text.length) slice += " …";
+    return slice;
+  }
+
+  moveActive(delta) {
+    if (!this.searchItems.length) return;
+    this.searchActive = (this.searchActive + delta + this.searchItems.length) % this.searchItems.length;
+    this.searchResults.querySelectorAll("[data-result]").forEach((el, i) => {
+      el.classList.toggle("active", i === this.searchActive);
+      if (i === this.searchActive) el.scrollIntoView({ block: "nearest" });
+    });
+  }
+
+  goToResult(item) {
+    this.setView(item.view, item.sub || null, true);
+    if (item.id) window.setTimeout(() => this.scrollToId(item.id), 90);
+    this.closeSearch(true);
   }
 
   buildEndpointReference() {

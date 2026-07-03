@@ -305,3 +305,125 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---- nav brand + search (sleek tmux styling) ---- */
+.brand-logo {
+  flex: none;
+}
+
+.nav-search {
+  position: relative;
+}
+.search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--mute);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.search-btn:hover {
+  color: var(--gold);
+}
+.search-field {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  width: 210px;
+  padding: 5px 11px;
+  background: var(--panel);
+  border: 1px solid var(--gline);
+  border-radius: 8px;
+}
+.nav-search.open .search-btn {
+  display: none;
+}
+.nav-search.open .search-field {
+  display: flex;
+}
+.search-input {
+  flex: 1;
+  min-width: 0;
+  color: var(--cream);
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.search-input::placeholder {
+  color: var(--dim);
+}
+
+.search-results {
+  position: fixed;
+  top: 52px;
+  right: 16px;
+  z-index: 70;
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(70vh, 460px);
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.8);
+}
+.search-results[hidden] {
+  display: none;
+}
+.search-result {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.search-result:hover,
+.search-result.active {
+  background: var(--gold-soft);
+}
+.search-result .sr-title {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--cream);
+}
+.search-result .sr-tag {
+  margin-left: 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.search-result .sr-snippet {
+  margin-top: 2px;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--mute);
+}
+.search-empty {
+  padding: 14px 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--dim);
+}
+
+@media (max-width: 620px) {
+  .search-field {
+    width: 150px;
+  }
+  .search-results {
+    top: 50px;
+  }
+}
