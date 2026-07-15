@@ -10,49 +10,69 @@ class TermuxLauncherSite {
       {
         name: "OpenAI-compatible",
         items: [
-          { method: "GET", path: "/v1/models", description: "List installed, loadable models and their capabilities. Multimodal models are also exposed as separate -vision and -audio model IDs.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  \"$OPENAI_BASE_URL/models\" | jq ." },
-          { method: "POST", path: "/v1/chat/completions", description: "Chat Completions — text, streaming (SSE), image/audio input, and tools.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' \\\n  \"$OPENAI_BASE_URL/chat/completions\"" },
-          { method: "POST", path: "/v1/completions", description: "Legacy text completions." },
-          { method: "POST", path: "/v1/embeddings", description: "Embeddings for models that advertise text_embeddings (e.g. embeddinggemma-300m). Returns OpenAI-shape float vectors.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"embeddinggemma-300m\",\"input\":\"hello world\"}' \\\n  \"$OPENAI_BASE_URL/embeddings\"" },
-          { method: "POST", path: "/v1/audio/speech", description: "Present for OpenAI compatibility, but always returns an unsupported_audio_output error — there is no local speech backend." }
+          { method: "GET", path: "/v1/models", description: "List installed, loadable models and their capabilities. Multimodal LiteRT-LM models also appear as separate -vision and -audio model IDs.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  \"$OPENAI_BASE_URL/models\" | jq .", response: "{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"gemma-4-e2b-it-litert-lm\",\n      \"object\": \"model\",\n      \"owned_by\": \"termux-launcher\",\n      \"_backend\": \"litert-lm\",\n      \"_capabilities\": [\"text_chat\", \"tool_use\", \"vision\"]\n    }\n  ]\n}" },
+          { method: "POST", path: "/v1/chat/completions", description: "Chat Completions — text, image/audio input, and tools. Set \"stream\": true for token-by-token Server-Sent Events.", params: "Body: <b>model</b>, <b>messages</b>[], optional <b>stream</b>, <b>tools</b>, <b>temperature</b>, <b>max_tokens</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' \\\n  \"$OPENAI_BASE_URL/chat/completions\"", note: "60 requests / minute. Requires a chat model loaded (tai load MODEL_ID)." },
+          { method: "POST", path: "/v1/responses", description: "OpenAI Responses API — the newer input/output shape used by Codex and recent clients. Accepts a string or structured input and supports tools and streaming.", params: "Body: <b>model</b>, <b>input</b> (string or content array), optional <b>stream</b>, <b>tools</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"input\":\"Say hi in one word.\"}' \\\n  \"$OPENAI_BASE_URL/responses\"", note: "60 requests / minute." },
+          { method: "POST", path: "/v1/completions", description: "Legacy text completions (prompt in, text out). Prefer chat/completions or responses for new work.", note: "60 requests / minute." },
+          { method: "POST", path: "/v1/embeddings", description: "Embeddings for models that advertise text_embeddings (e.g. embeddinggemma-300m). Returns OpenAI-shape float vectors.", params: "Body: <b>model</b>, <b>input</b> (string or string[]), optional <b>encoding_format</b>, <b>dimensions</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"embeddinggemma-300m\",\"input\":\"hello world\"}' \\\n  \"$OPENAI_BASE_URL/embeddings\"", note: "60 requests / minute." },
+          { method: "POST", path: "/v1/audio/speech", description: "Present for OpenAI SDK compatibility only. Always returns HTTP 501 unsupported_audio_output — there is no local text-to-speech runner.", response: "HTTP 501\n{\n  \"error\": {\n    \"type\": \"api_error\",\n    \"code\": \"unsupported_audio_output\",\n    \"message\": \"Audio output is not available from the local LiteRT-LM or MNN runners.\"\n  }\n}" }
         ]
       },
       {
         name: "Ollama-compatible",
         items: [
-          { method: "GET", path: "/api/version", description: "Server version string (reports as 0.13.3-termux-launcher)." },
-          { method: "GET", path: "/api/tags", description: "List installed models." },
-          { method: "POST", path: "/api/chat", description: "Chat and tool calls. Streams newline-delimited JSON." },
-          { method: "POST", path: "/api/generate", description: "Prompt-style generation.", example: "curl \"$BASE/api/generate\" -d '{\n  \"model\": \"MODEL_ID\",\n  \"prompt\": \"Why is the sky blue?\"\n}'" },
-          { method: "POST", path: "/api/show", description: "Show one model's details and capabilities." },
-          { method: "GET", path: "/api/ps", description: "Show the loaded model." },
-          { method: "POST", path: "/api/embed", description: "Create embeddings for text_embeddings models (Ollama shape)." }
+          { method: "GET", path: "/api/version", description: "Server version string. Reports an Ollama-compatible version so Ollama clients accept the endpoint.", response: "{ \"version\": \"0.13.3-termux-launcher\" }" },
+          { method: "GET", path: "/api/tags", description: "List installed models in Ollama shape (name, size, digest, details)." },
+          { method: "GET", path: "/api/ps", description: "List currently loaded models. Empty array when nothing is resident.", response: "{ \"models\": [] }" },
+          { method: "POST", path: "/api/chat", description: "Chat and tool calls, Ollama shape. Streams newline-delimited JSON (NDJSON) unless \"stream\": false.", note: "60 requests / minute." },
+          { method: "POST", path: "/api/generate", description: "Prompt-style generation, Ollama shape.", example: "curl \"$BASE/api/generate\" -d '{\n  \"model\": \"MODEL_ID\",\n  \"prompt\": \"Why is the sky blue?\"\n}'", note: "60 requests / minute." },
+          { method: "POST", path: "/api/show", description: "Show one model's details and capabilities.", params: "Body: <b>model</b>." },
+          { method: "POST", path: "/api/embed", description: "Create embeddings for text_embeddings models (Ollama shape).", note: "60 requests / minute." },
+          { method: "POST", path: "/api/pull", description: "Pull a model by name. Long-running; streams progress as NDJSON." }
         ]
       },
       {
         name: "Model management",
         items: [
-          { method: "GET", path: "/v1/ai/status", description: "Overall AI status, settings, device profile, and limitations." },
-          { method: "GET", path: "/v1/ai/models", description: "Full model catalog with sizes, backends, and capabilities." },
-          { method: "GET", path: "/v1/ai/runtime", description: "Loaded model and runtime state." },
-          { method: "POST", path: "/v1/ai/runtime/preflight", description: "Check whether a model can load safely (ABI, memory, accelerator) before touching the runtime." },
-          { method: "POST", path: "/v1/ai/runtime/load", description: "Load a model into the isolated :tai_runtime process." },
-          { method: "POST", path: "/v1/ai/runtime/keep-warm", description: "Keep the loaded model resident for a set number of minutes." },
-          { method: "POST", path: "/v1/ai/runtime/unload", description: "Unload the active model and free memory." },
-          { method: "POST", path: "/v1/ai/models/download", description: "Download a catalog model (requires explicit terms acceptance)." }
+          { method: "GET", path: "/v1/ai/status", description: "Overall AI status: runtime state, active settings/roles, device profile, and capability limitations.", response: "{\n  \"ok\": true,\n  \"name\": \"TAI\",\n  \"runtime\": {\n    \"loaded\": false,\n    \"loadedModelId\": null,\n    \"runtimeName\": \"litert-lm\",\n    \"state\": \"unloaded\",\n    \"backend\": \"none\"\n  },\n  \"settings\": { \"roles\": { \"...\": \"...\" } }\n}" },
+          { method: "GET", path: "/v1/ai/models", description: "Full model catalog with display names, sizes, licenses, and per-model runtime profiles (compatible accelerators, context sizes)." },
+          { method: "GET", path: "/v1/ai/models/downloads", description: "List in-progress and queued model downloads with source URLs and target paths." },
+          { method: "GET", path: "/v1/ai/runtime", description: "Loaded model and runtime state (backend, keep-warm/idle timers, active generation).", response: "{\n  \"ok\": true,\n  \"runtime\": {\n    \"loaded\": true,\n    \"loadedModelId\": \"MODEL_ID\",\n    \"state\": \"ready\",\n    \"backend\": \"gpu\",\n    \"keepWarmRemainingMs\": 0\n  }\n}" },
+          { method: "POST", path: "/v1/ai/runtime/preflight", description: "Check whether a model can load safely (ABI, memory, accelerator) without touching the runtime.", params: "Body: <b>model</b> (or <b>modelId</b>)." },
+          { method: "POST", path: "/v1/ai/runtime/load", description: "Load a model into the isolated :tai_runtime process. Only one generation model is resident at a time.", params: "Body: <b>model</b> (or <b>modelId</b>), optional <b>accelerator</b>: auto | cpu | gpu.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"accelerator\":\"auto\"}' \\\n  \"$BASE/v1/ai/runtime/load\"", note: "20 requests / minute. Heavy — allocates GPU/CPU memory." },
+          { method: "POST", path: "/v1/ai/runtime/keep-warm", description: "Keep the loaded model resident for a set number of minutes instead of unloading on idle.", params: "Body: <b>minutes</b> (or <b>keepWarmMinutes</b>), optional <b>model</b>." },
+          { method: "POST", path: "/v1/ai/runtime/unload", description: "Unload the active model and free its memory." },
+          { method: "POST", path: "/v1/ai/runtime/cancel", description: "Cancel an in-flight load or generation on the runtime." },
+          { method: "POST", path: "/v1/ai/models/download", description: "Download a catalog model by URL. Gated models require explicit terms acceptance.", params: "Body: <b>model</b> (or <b>modelId</b>), <b>url</b>, <b>acceptedTerms</b>: true.", note: "20 requests / minute. Downloads are several GB." },
+          { method: "POST", path: "/v1/ai/models/download-catalog", description: "Download a built-in catalog entry by its catalog ID.", params: "Body: <b>modelId</b> (or <b>model</b>)." },
+          { method: "POST", path: "/v1/ai/models/import", description: "Register a model from a Hugging Face repo URL or a local package path, with per-capability flags.", params: "Body: <b>model</b>/<b>modelId</b>, <b>url</b> or <b>path</b>, optional <b>displayName</b>, <b>roleHint</b>, <b>license</b>, <b>backend</b>, <b>autoLoad</b>." },
+          { method: "POST", path: "/v1/ai/models/delete", description: "Delete a downloaded or imported model and its files.", params: "Body: <b>model</b> (or <b>modelId</b>).", note: "Destructive — removes model files from disk." },
+          { method: "POST", path: "/v1/ai/models/downloads/cancel", description: "Cancel an in-progress model download.", params: "Body: <b>modelId</b> (or download <b>id</b>)." }
         ]
       },
       {
-        name: "LauncherCtl",
+        name: "Launcher & agent",
         items: [
-          { method: "GET", path: "/v1/status", description: "Backend (Shizuku), notification-listener, and endpoint status." },
-          { method: "GET", path: "/v1/apps", description: "The launcher's launchable activity catalog." },
-          { method: "GET", path: "/v1/system/resources", description: "CPU, memory, battery, network, thermal, and storage snapshot." },
-          { method: "GET", path: "/v1/notifications", description: "Cached notification list (needs listener access)." },
-          { method: "GET", path: "/v1/media/now-playing", description: "Currently playing media session, when available." },
-          { method: "GET", path: "/v1/agent/tools", description: "List the callable agent tools and their JSON schemas." },
-          { method: "POST", path: "/v1/agent/execute", description: "Execute a named tool. Confirmation-gated for risky tools.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"tool\":\"system.resources\",\"arguments\":{},\"confirm\":true}' \\\n  \"$BASE/v1/agent/execute\"" },
-          { method: "POST", path: "/v1/auth/rotate", description: "Rotate the API token and rewrite the token and endpoint files." }
+          { method: "GET", path: "/v1/status", description: "Bridge status: privileged backend (Shizuku), notification-listener connectivity, and policy.", response: "{\n  \"ok\": true,\n  \"apiVersion\": \"v1\",\n  \"backendType\": \"SHIZUKU\",\n  \"backendState\": \"READY\",\n  \"notificationListenerConnected\": true\n}" },
+          { method: "GET", path: "/v1/launcher/capabilities", description: "Device profile, integration flags (OpenAI/MCP), memory, SoC, and availability warnings.", response: "{\n  \"ok\": true,\n  \"integrations\": { \"openAiCompatible\": true, \"mcpStdio\": true },\n  \"device\": {\n    \"socModel\": \"SM8475\",\n    \"supportedAbis\": [\"arm64-v8a\"],\n    \"memoryGiB\": 14.9\n  }\n}" },
+          { method: "GET", path: "/v1/apps", description: "The launcher's launchable activity catalog (label, package, activity, stableId).", response: "{\n  \"ok\": true,\n  \"count\": 113,\n  \"apps\": [\n    {\n      \"label\": \"Maps\",\n      \"packageName\": \"com.example.maps\",\n      \"activityName\": \"com.example.maps.MainActivity\",\n      \"stableId\": \"com.example.maps/...MainActivity\",\n      \"launchable\": true\n    }\n  ]\n}" },
+          { method: "POST", path: "/v1/apps/launch", description: "Launch an app by fuzzy query, resolved against the app catalog.", params: "Body: <b>query</b> (app name or package fragment).", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"query\":\"maps\"}' \\\n  \"$BASE/v1/apps/launch\"", note: "30 requests / minute." },
+          { method: "POST", path: "/v1/app/restart", description: "Restart the launcher activity.", note: "5 requests / minute." },
+          { method: "GET", path: "/v1/system/resources", description: "CPU, memory, battery, network, thermal, and storage snapshot.", response: "{\n  \"ok\": true,\n  \"cpuCores\": 8,\n  \"cpuPercent\": 19.7,\n  \"memTotalBytes\": 11807469568,\n  \"memAvailableBytes\": 5217705984\n}" },
+          { method: "GET", path: "/v1/notifications", description: "Current cached notification list. Needs notification-listener access granted to the launcher.", note: "Requires notification-listener access." },
+          { method: "POST", path: "/v1/notifications/recent", description: "Most recent notification events from the persisted log.", params: "Body: optional <b>limit</b>." },
+          { method: "POST", path: "/v1/notifications/search", description: "Search the notification-event log by text query.", params: "Body: <b>query</b>, optional <b>limit</b>." },
+          { method: "POST", path: "/v1/notifications/since", description: "Notification events after a timestamp (epoch ms).", params: "Body: <b>since</b> (epoch ms, required), optional <b>limit</b>." },
+          { method: "POST", path: "/v1/notifications/stats", description: "Aggregate counts by package over the retained event log.", response: "{\n  \"total\": 10000,\n  \"posted\": 9111,\n  \"removed\": 889,\n  \"packages\": [ { \"packageName\": \"com.example.app\", \"count\": 4032 } ]\n}" },
+          { method: "GET", path: "/v1/media/now-playing", description: "Currently playing media session, when a listener is connected.", response: "{ \"listenerConnected\": true, \"nowPlaying\": null, \"ok\": true }" },
+          { method: "GET", path: "/v1/media/art", description: "Album art for the active media session (binary image)." },
+          { method: "GET", path: "/v1/events", description: "Recent bridge/agent events from the ring buffer (most recent last)." },
+          { method: "GET", path: "/v1/events/stream", description: "Live event stream as Server-Sent Events. Keep the connection open and read events as they arrive.", note: "12 concurrent opens / minute — one long-lived stream, not a poll loop." },
+          { method: "POST", path: "/v1/events/tail", description: "Fetch events since a timestamp without holding a stream open.", params: "Body: optional <b>since</b> (epoch ms), <b>limit</b>." },
+          { method: "GET", path: "/v1/agent/tools", description: "List the callable agent tools and their JSON schemas (for tool-using clients and MCP).", response: "{\n  \"ok\": true,\n  \"count\": 15,\n  \"tools\": [\n    {\n      \"name\": \"apps.search\",\n      \"openAiName\": \"apps_search\",\n      \"risk\": \"low\",\n      \"requiresConfirmation\": false\n    }\n  ]\n}" },
+          { method: "POST", path: "/v1/agent/route", description: "Route a natural-language request to the right agent tool and run it.", params: "Body: <b>request</b> (natural-language string).", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"request\":\"show recent notifications\"}' \\\n  \"$BASE/v1/agent/route\"" },
+          { method: "POST", path: "/v1/agent/execute", description: "Execute a named tool directly. Risky tools are confirmation-gated — pass confirm: true.", params: "Body: <b>tool</b>, <b>arguments</b> (object), optional <b>confirm</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"tool\":\"system.resources\",\"arguments\":{},\"confirm\":true}' \\\n  \"$BASE/v1/agent/execute\"" },
+          { method: "POST", path: "/v1/auth/rotate", description: "Rotate the API token and rewrite ~/.launcherctl/token and ~/.launcherctl/endpoint. All existing clients must re-read the new token.", note: "5 requests / minute. Invalidates the current token immediately." }
         ]
       }
     ];
@@ -265,7 +285,7 @@ class TermuxLauncherSite {
       { title: "Add & import your own models", tag: "Termux AI", view: "ai", id: "ai-import", kw: "hugging face token import repo url litert mnn gguf" },
       { title: "Chat from the terminal with AIChat", tag: "Termux AI", view: "ai", id: "ai-aichat", kw: "aichat openai compatible client endpoint token config" },
       { title: "tai commands", tag: "Termux AI", view: "ai", id: "ai-commands", kw: "tai status models load runtime keep-warm doctor cli" },
-      { title: "API reference", tag: "Termux AI", view: "ai", id: "ep-intro", kw: "openai ollama endpoints v1 chat completions embeddings launcherctl" }
+      { title: "API reference", tag: "Termux AI", view: "ai", id: "ep-intro", kw: "openai ollama endpoints v1 chat completions responses embeddings launcherctl rate limit 429 errors streaming sse agent tools" }
     ];
     statics.forEach((s) => index.push({
       title: s.title, tag: s.tag, view: s.view, id: s.id,
@@ -486,22 +506,52 @@ class TermuxLauncherSite {
     description.style.cssText = "font-family:var(--sans);font-size:14px;color:var(--mute);line-height:1.55;margin:11px 0 0";
     card.append(heading, description);
 
-    if (endpoint.example) {
-      const command = document.createElement("div");
-      command.dataset.cmd = "";
-      command.style.cssText = "position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:13px;margin-top:12px";
+    if (endpoint.params) {
+      const params = document.createElement("p");
+      params.innerHTML = endpoint.params;
+      params.style.cssText = "font-family:var(--sans);font-size:13px;color:var(--dim);line-height:1.6;margin:9px 0 0";
+      card.appendChild(params);
+    }
+
+    if (endpoint.note) {
+      const note = document.createElement("div");
+      note.innerHTML = endpoint.note;
+      note.style.cssText = "display:flex;gap:8px;margin-top:11px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.28);border-radius:7px;padding:8px 11px;font-family:var(--mono);font-size:11.5px;color:#e6c4b4;line-height:1.5";
+      card.appendChild(note);
+    }
+
+    card.appendChild(this.createEndpointBlock(endpoint.example, "Request"));
+    card.appendChild(this.createEndpointBlock(endpoint.response, "Response", true));
+    return card;
+  }
+
+  createEndpointBlock(text, label, readOnly) {
+    if (!text) return document.createDocumentFragment();
+    const wrap = document.createElement("div");
+    wrap.style.cssText = "margin-top:12px";
+    if (label) {
+      const tag = document.createElement("div");
+      tag.textContent = label;
+      tag.style.cssText = "font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:5px";
+      wrap.appendChild(tag);
+    }
+    const command = document.createElement("div");
+    command.dataset.cmd = "";
+    command.style.cssText = "position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:13px";
+    if (!readOnly) {
       const copy = document.createElement("button");
       copy.dataset.copy = "";
       copy.innerHTML = "<span data-copy-label>copy</span>";
       copy.style.cssText = "position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer";
-      const example = document.createElement("pre");
-      example.dataset.cmdText = "";
-      example.textContent = endpoint.example;
-      example.style.cssText = "margin:0;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--cream)";
-      command.append(copy, example);
-      card.appendChild(command);
+      command.appendChild(copy);
     }
-    return card;
+    const pre = document.createElement("pre");
+    pre.dataset.cmdText = "";
+    pre.textContent = text;
+    pre.style.cssText = `margin:0;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:${readOnly ? "var(--mute)" : "var(--cream)"}`;
+    command.appendChild(pre);
+    wrap.appendChild(command);
+    return wrap;
   }
 
   handleClick(event) {

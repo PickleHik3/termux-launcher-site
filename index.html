@@ -447,6 +447,9 @@
           <div style="font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.04em;margin-bottom:6px">API REFERENCE</div>
           <button data-scrollto="ep-intro" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Introduction</button>
           <button data-scrollto="ep-base" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Base URL &amp; auth</button>
+          <button data-scrollto="ep-ratelimits" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Rate limits</button>
+          <button data-scrollto="ep-errors" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Errors &amp; status</button>
+          <button data-scrollto="ep-streaming" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Streaming</button>
           <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:16px 0 6px">Endpoints</div>
           <div data-eplist style="display:flex;flex-direction:column;gap:2px"></div>
         </aside>
@@ -469,6 +472,39 @@ export OPENAI_BASE_URL="$BASE/v1"
 export OPENAI_API_KEY="$TOKEN"</pre>
             </div>
             <p style="font-family:var(--sans);color:var(--dim);font-size:13.5px;line-height:1.6;max-width:640px;margin:14px 0 0">Default bind mode is <span style="font-family:var(--mono);color:var(--mute)">localhost</span> (<span style="font-family:var(--mono);color:var(--mute)">127.0.0.1</span>). LAN mode is opt-in; treat the token as a network secret when enabled. No CORS headers are emitted — browser clients can't call the API directly.</p>
+          </div>
+
+          <div data-spy id="ep-ratelimits" style="scroll-margin-top:64px;margin-top:40px">
+            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Rate limits</h3>
+            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Every route is rate-limited per a rolling 60-second window, per route. Exceeding a limit returns <span style="font-family:var(--mono);color:var(--cream)">HTTP 429</span>. <b style="color:var(--cream)">No <span style="font-family:var(--mono)">Retry-After</span> or <span style="font-family:var(--mono)">RateLimit-*</span> headers are sent</b> — back off in your client (a short sleep and retry) when you see a 429.</p>
+            <div style="overflow-x:auto;max-width:660px"><table style="border-collapse:collapse;width:100%;font-family:var(--mono);font-size:13px"><tbody>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Reads (status, models, resources, notifications)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">120 / min</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Generation &amp; agent (chat, responses, embeddings, execute)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">60 / min</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">App launch</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">30 / min</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Model load / download / import</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">20 / min</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Live event stream (opens)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">12 / min</td></tr>
+              <tr><td style="padding:8px 12px;color:var(--mute)">Destructive (app restart, token rotate)</td><td style="padding:8px 12px;text-align:right;color:var(--cream)">5 / min</td></tr>
+            </tbody></table></div>
+          </div>
+
+          <div data-spy id="ep-errors" style="scroll-margin-top:64px;margin-top:40px">
+            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Errors &amp; status</h3>
+            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Errors use the OpenAI error envelope, with a string <span style="font-family:var(--mono);color:var(--cream)">code</span> you can switch on. Common codes: <span style="font-family:var(--mono);color:var(--mute)">bad_request</span> (400), <span style="font-family:var(--mono);color:var(--mute)">model_not_found</span> (404), <span style="font-family:var(--mono);color:var(--mute)">unsupported_audio_output</span> (501). Missing or wrong bearer token returns 401.</p>
+            <div data-cmd style="position:relative;background:var(--panelink);border:1px solid var(--line);border-radius:10px;padding:15px;max-width:660px">
+              <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:var(--panelink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
+              <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--cream)">{
+  "error": {
+    "type": "invalid_request_error",
+    "code": "model_not_found",
+    "message": "Unknown TAI model: MODEL_ID"
+  }
+}</pre>
+            </div>
+          </div>
+
+          <div data-spy id="ep-streaming" style="scroll-margin-top:64px;margin-top:40px">
+            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Streaming</h3>
+            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 8px">The OpenAI routes (<span style="font-family:var(--mono);color:var(--cream)">/v1/chat/completions</span>, <span style="font-family:var(--mono);color:var(--cream)">/v1/responses</span>) stream as <b style="color:var(--cream)">Server-Sent Events</b> when you send <span style="font-family:var(--mono);color:var(--cream)">"stream": true</span>, terminated by a <span style="font-family:var(--mono);color:var(--mute)">data: [DONE]</span> line. The Ollama routes (<span style="font-family:var(--mono);color:var(--cream)">/api/chat</span>, <span style="font-family:var(--mono);color:var(--cream)">/api/generate</span>) stream <b style="color:var(--cream)">newline-delimited JSON</b> by default. The launcher event feed <span style="font-family:var(--mono);color:var(--cream)">/v1/events/stream</span> is a long-lived SSE connection — open one stream rather than polling.</p>
           </div>
 
           <div data-epdetail style="margin-top:44px;display:flex;flex-direction:column;gap:14px"></div>
