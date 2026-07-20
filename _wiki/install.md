@@ -3,43 +3,87 @@ title: Install & first run
 order: 15
 ---
 
-The [About page](#setup) has the simplest three-step install. This page is the fuller reference for first-run details and edge cases.
+This guide gets you to a safe, reversible first launch. Do not set Termux Launcher as Home until the bootstrap finishes and you can reopen your important apps.
 
-## 1. Install the APKs
+## 1. Pick the correct edition
 
-1. Download the Main app plus the matching **API** and **Styling** companions from the same build pack — see [downloads](#setup).
-2. All three must share one signing key. Mixing packs or adding stock Termux add-ons causes shared-UID / signing errors.
-3. Open the Main app once so Termux finishes its first-run bootstrap. Wait for the `fish ❯` prompt.
+| Edition | Android package | Use it when |
+| --- | --- | --- |
+| **Termux edition** | `com.termux` | You want the recommended build and the official Termux package ecosystem. It replaces an existing official Termux install. |
+| **VAJ edition** | `io.vaj.tl` | You must keep official Termux installed side by side. It uses the separately maintained VAJ package repository. |
 
-## 2. Optional: switch package manager first
+The `com.termux` edition cannot coexist with official Termux because both use the same Android package identity. Back up anything important before replacing an existing installation. If you are unsure, begin with the VAJ edition and read the release notes.
 
-If you want to switch Termux from `pkg`/`apt` to `pacman`, do it **before** setting Termux Launcher as your Home app — that keeps fail-safe mode easy to reach. See the Termux wiki on [switching package manager](https://wiki.termux.com/wiki/Switching_package_manager).
+## 2. Install one matching build family
 
-## 3. Set it as your home launcher
+1. Download the Main APK from the project’s [Releases](https://github.com/PickleHik3/termux-launcher/releases).
+2. If you use Termux:API or Termux:Styling, download the matching forks from the same edition family.
+3. Do not mix official add-ons, old forks, or APKs signed with a different key. Android will reject shared-UID/signature mismatches.
 
-From Android settings, or from inside the launcher:
+You only need the Main APK to try the launcher.
+
+## 3. Let first-run setup finish
+
+Open Termux Launcher normally. The first launch extracts the Termux bootstrap; wait until a prompt appears. The new Quick start popup opens after a genuinely new bootstrap completes, not merely after an app upgrade.
+
+The tour covers:
+
+- the terminal home screen;
+- touch and terminal app search;
+- appearance and built-in keyboard controls;
+- the optional fish/tmux workspace;
+- LauncherCtl, Shizuku, and TAI;
+- where to choose the default Home app.
+
+Tap **Skip** if you already know the launcher. Replay it later from **Settings → Quick start tour**.
+
+## 4. Verify the basics before changing Home
+
+At the prompt, run:
+
+```shell
+launcherctl status
+launcherctl apps
+```
+
+Then check these touch paths:
+
+1. Tap one pinned app and return Home.
+2. Type `%settings` without pressing Enter; confirm the dock filters.
+3. Long-press an app icon; dismiss the actions without changing anything.
+4. Long-press the terminal and open **More → Settings**.
+
+![Current settings hub showing the Assistant, Launcher, and System sections](assets/onboarding/screenshots/03-settings-hub.webp)
+
+## 5. Set it as Home
+
+Use either Android’s default-app settings or:
 
 ```text
-Long press Terminal -> More -> Apps Bar -> Set as home launcher
+Settings → Apps & Access → Set as home launcher
 ```
 
-Current builds ship with **Terminal Material colors on by default**, so the terminal and tmux theme follow your wallpaper immediately — no manual toggle.
+Keep a fallback route in mind while learning: Android Settings → Apps → Default apps → Home app.
 
-## Keeping it fresh
+If you plan to switch the Termux package manager from `pkg`/`apt` to `pacman`, do it before making the launcher your default Home. Recovery is easier while another Home app is still selected.
 
-If terminal drawing or input feels slow after an update:
+## First ten minutes
 
-```sh
+- Leave Material colors and the default dock enabled.
+- Learn `%` search and the A–Z row.
+- Decide whether to use the built-in keyboard or an external one.
+- Grant notification access only if you want dots, inline notification views, media, or LauncherCtl notification commands.
+- Skip Shizuku and TAI until the core launcher feels stable.
+
+## Updating later
+
+Install the newer matching APK over the existing app. Do not uninstall just to update; uninstalling may remove app data.
+
+After an update:
+
+```shell
 termux-reload-settings
-```
-
-After updating the APK, refresh only the repo-owned helper scripts (your `~/.tmux.conf` and configs stay intact):
-
-```sh
 launcherctl update-scripts
 ```
 
-## Helpful apps
-
-- [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) — tuned for terminal and tmux. Also on the [Play Store](https://play.google.com/store/apps/details?id=juloo.keyboard2).
-- [Shizuku](https://github.com/rikkaapps/shizuku) — only if you want optional lock-screen, Shizuku shell, or the `btop` helper. See [Shizuku, rish & btop](#wiki/shizuku).
+`launcherctl update-scripts` refreshes repo-owned helpers with timestamped backups. It does not overwrite `~/.tmux.conf`.

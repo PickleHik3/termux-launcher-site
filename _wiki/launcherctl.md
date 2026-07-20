@@ -3,50 +3,82 @@ title: launcherctl bridge
 order: 30
 ---
 
-`launcherctl` is a localhost API bridge that exposes Android and launcher data to shell tools without high-frequency polling. It is installed automatically when the launcher session starts and authenticates with a bearer token in `~/.launcherctl/`.
+`launcherctl` is the launcher’s command-line bridge to Android. The app installs it when the launcher starts and serves an authenticated API on localhost. Begin with read-only commands; add permissions and automation only when you need them.
 
-## Try it first
+## Confirm it is ready
 
 ```shell
 launcherctl status
 launcherctl apps
-launcherctl launch whatsapp
+launcherctl resources
 ```
 
-## The toolbox
+- `status` reports the bridge and optional backend state.
+- `apps` lists launch targets exposed to the launcher, including profiles Android makes visible.
+- `resources` returns a current CPU, memory, battery, thermal, network, and storage snapshot.
+
+If the command is missing, reopen Termux Launcher. If it exists but cannot connect, run `launcherctl restart`.
+
+## Launch an app
 
 ```shell
-launcherctl resources        # CPU, memory, battery, thermal, storage
-launcherctl media            # current media session
-launcherctl notifications    # cached notifications
-launcherctl restart          # restart the launcher bridge
-launcherctl update-scripts   # refresh repo-owned helper scripts
-launcherctl token rotate     # rotate the API token
+launcherctl launch maps
 ```
 
-Media and notification commands need Android notification-listener access granted to the launcher.
+Queries are fuzzy. Use a more specific label or package fragment when two apps match. This is the same catalog used by the dock and `%` search.
 
-## Endpoint & token
+## Optional data sources
 
-TAI and `launcherctl` share one local server. Its address and secret live in:
+| Command | Needs | What it returns |
+| --- | --- | --- |
+| `launcherctl media` | Notification-listener access | Current media session and playback metadata |
+| `launcherctl notifications` | Notification-listener access | Current cached notifications |
+| notification recent/search/stats routes | Notification-listener access | Persisted event history and aggregates |
+| Shizuku-backed helpers | Shizuku permission | Privileged actions exposed by their specific tool |
+
+No permission is required for ordinary app launch or the basic resource snapshot.
+
+## Endpoint and token
+
+The current endpoint and bearer token live in:
 
 ```text
 ~/.launcherctl/endpoint
 ~/.launcherctl/token
 ```
 
-The address normally looks like `http://127.0.0.1:54298`. Every route requires the bearer token. Localhost bind is the default; LAN mode is opt-in — treat the token as a network secret when enabled.
+The server binds to localhost by default. Treat the token as a secret: do not paste it into screenshots, bug reports, shell history, dotfile repositories, or chat. If it leaks:
 
-## Bind apps to tmux keys
-
-Here `Alt + w` opens WhatsApp:
-
-```tmux
-bind -n M-w run-shell 'tmux display-message "Opening WhatsApp"; \
-  launcherctl launch whatsapp >/dev/null 2>&1 \
-  || tmux display-message "Launch failed"'
+```shell
+launcherctl token rotate
 ```
 
-Change the app ids to match your `launcherctl apps` output.
+Existing clients must reread the new token.
 
-Full endpoint list and security model → [API reference](#ai). For agent tools and MCP, see [Agent & MCP](#wiki/agent).
+## Use it in tmux and scripts
+
+```tmux
+bind -n M-m run-shell 'launcherctl launch maps >/dev/null 2>&1 || tmux display-message "Launch failed: Maps"'
+```
+
+For scripts, prefer JSON-capable commands/routes and check exit status. Avoid high-frequency polling; use the event stream or event tail routes for changing state.
+
+## Keep helpers current
+
+```shell
+launcherctl update-scripts
+```
+
+This validates downloaded repo-owned helpers, writes timestamped backups when replacing them, and does not modify `~/.tmux.conf`.
+
+## Clients and automation
+
+Generate starting configurations instead of hand-copying endpoint/token values:
+
+```shell
+launcherctl client-config codex
+launcherctl client-config opencode
+launcherctl client-config ollama
+```
+
+For risk-classified tools and natural-language routing, continue to **Agent & MCP**. For every endpoint and request body, use the **Termux AI** page’s API reference.

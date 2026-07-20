@@ -1,69 +1,77 @@
 ---
-title: tmux keybinds & theme
+title: tmux keys & status
 order: 45
 ---
 
-The bundled [termux-launcher-tmux](https://github.com/PickleHik3/termux-launcher-tmux) plugin ships Android-friendly keybinds, a Material status bar, and helper widgets. It's installed by the [shell setup](#wiki/shell) script.
+tmux is optional, but it is the easiest way to keep a terminal workspace alive as Android apps open over it. The Termux Launcher plugin adds Material themes, Android-friendly bindings, and status widgets backed by LauncherCtl.
 
-## Forgot a key? Open the popup
+Install it through **Recreate the shell workspace**, then start:
 
-The fastest way to learn the bindings is the built-in reference popup — it lists every current keybind on screen:
+```shell
+tmux new-session -A -s main
+```
+
+## Learn one key first
+
+Press `Alt+e` inside the plugin to open the current key reference. It is more trustworthy than memorizing an old screenshot.
+
+The public config uses `Ctrl+Space` as the main prefix and `Ctrl+b` as a fallback.
+
+## Essential actions
 
 | Key | Action |
 | --- | --- |
-| `Alt + e` | Show the keybind reference popup |
 | `prefix q` | Reload `~/.tmux.conf` |
-| `F12` | Reload Termux settings (`termux-reload-settings`) |
+| `F12` | Run `termux-reload-settings` |
+| `prefix h` / `prefix v` | Split below / right in the current path |
+| `prefix x` | Kill current pane |
+| `prefix c` | Create a window in the current path |
+| `Alt+1 … 9` | Jump to a window |
+| `Alt+← / →` | Previous / next window |
+| `Alt+↑ / ↓` | Previous / next session |
 
-The default prefix is `Ctrl + Space`, with `Ctrl + b` available as a fallback.
+The full table remains visible in the plugin popup.
 
-## Panes
+## Status widgets
 
-| Key | Action |
-| --- | --- |
-| `prefix h` | Split below (current path) |
-| `prefix v` | Split right (current path) |
-| `prefix x` | Kill the current pane |
-| `Ctrl+Alt + arrows` | Move focus between panes |
-| `Ctrl+Alt+Shift + arrows` | Resize the current pane |
+The live configuration uses a compact top bar for sessions/windows plus CPU, memory, weather, and latency/date context. Available plugin options include:
 
-## Windows
+- system resource widgets;
+- weather mode;
+- current media;
+- storage, battery, CPU temperature, and battery temperature;
+- `rounded`, `sleek`, and `purem3` visual themes;
+- top or bottom status position.
 
-| Key | Action |
-| --- | --- |
-| `prefix c` | New window (current path) |
-| `prefix k` | Kill window |
-| `prefix r` | Rename window |
-| `Alt + 1 … 9` | Jump to window 1–9 |
-| `Alt + ← / →` | Previous / next window |
-| `Alt+Shift + ← / →` | Move window left / right |
-
-## Sessions
-
-| Key | Action |
-| --- | --- |
-| `prefix Shift+c` | New session (current path) |
-| `prefix Shift+r` | Rename session |
-| `prefix Shift+k` | Kill session |
-| `Alt + ↑ / ↓` | Previous / next session |
-
-## App-launch shortcuts
-
-The plugin does not install app shortcuts by default — add only the ones you want to `~/.tmux.conf`. In tmux config, `M-` means `Alt+`:
+Enable only the widgets you read. LauncherCtl-backed resource snapshots avoid aggressive shell polling.
 
 ```tmux
-bind -n M-w run-shell 'tmux display-message "Opening WhatsApp"; launcherctl launch whatsapp >/dev/null 2>&1 || tmux display-message "Launch failed: WhatsApp"'
-bind -n M-y run-shell 'tmux display-message "Opening YouTube"; launcherctl launch youtube >/dev/null 2>&1 || tmux display-message "Launch failed: YouTube"'
-```
-
-Change the app ids to match your `launcherctl apps` output.
-
-## Themes
-
-The plugin defaults to the compact `rounded` Material theme. `sleek` and `purem3` are also available, and a `pure-m3` color mode works with both `rounded` and `sleek`:
-
-```tmux
+set -g @termux-launcher-tmux-system-widgets on
+set -g @termux-launcher-tmux-weather on
+set -g @termux-launcher-tmux-now-playing on
 set -g @termux-launcher-tmux-theme sleek
+set -g @termux-launcher-tmux-status-position top
 ```
 
-All themes read the launcher's exported Material palette, so they follow your wallpaper automatically.
+## Launch Android apps
+
+Ask LauncherCtl for exact labels, then add deliberate bindings:
+
+```shell
+launcherctl apps
+```
+
+```tmux
+bind -n M-m run-shell 'launcherctl launch maps >/dev/null 2>&1 || tmux display-message "Launch failed: Maps"'
+```
+
+Do not copy the developer phone’s full personal binding list; conflicts depend on your apps and keyboard.
+
+## Reload and recover
+
+```shell
+tmux source-file ~/.tmux.conf
+termux-reload-settings
+```
+
+If tmux itself is broken, start a normal shell/failsafe session and temporarily move only your tmux config out of the way after making a backup. Do not clear the entire Termux app just to debug tmux.
