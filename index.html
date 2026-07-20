@@ -6,12 +6,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0d10">
-<meta name="description" content="Termux Launcher turns your Android home screen into a live Termux session, with app launching, system status, local AI, and tmux workflows at the prompt.">
+<meta name="description" content="Termux Launcher turns Android into a fast, keyboard-first home screen where apps, media, messages, tmux, and your shell stay together at the prompt.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Termux Launcher">
 <meta property="og:description" content="Your home screen is a terminal.">
 <meta property="og:url" content="https://picklehik3.github.io/termux-launcher-site/">
-<meta property="og:image" content="https://picklehik3.github.io/termux-launcher-site/assets/social-preview.webp">
+<meta property="og:image" content="https://picklehik3.github.io/termux-launcher-site/assets/social-preview-command.webp">
 <meta name="twitter:card" content="summary_large_image">
 <title>Termux Launcher ‚Äî Your home screen is a terminal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
 <link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
-<link rel="stylesheet" href="styles.css?v=20260720-2">
+<link rel="stylesheet" href="styles.css?v=20260720-9">
 </head>
 <body>
 <div id="site-shell">
@@ -34,13 +34,13 @@
         <span>Termux Launcher</span>
       </button>
       <div class="nav-tabs">
-        <button data-nav="setup">Overview</button>
+        <button data-nav="setup">Product</button>
         <button data-nav="wiki">Docs</button>
         <button data-nav="ai">Termux&nbsp;AI</button>
       </div>
       <div class="nav-actions">
         <a data-hide-sm href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ‚Üó</a>
-        <button class="download-button" data-nav="setup" data-scrollto="setup-downloads">Download</button>
+        <button class="download-button" data-nav="setup" data-scrollto="tl-install">Install</button>
       </div>
     </div>
   </nav>
@@ -52,60 +52,92 @@
     <section class="hero-section">
       <div class="hero-grid">
         <div class="hero-copy">
-          <div class="hero-kicker">// your home screen is a terminal</div>
-          <h1>Your Android home<br>screen, <span>at the prompt.</span></h1>
-          <p>A terminal-first Android home launcher built on Termux + Termux:Monet. Apps, search, music, live system status and on-device AI all live in and around the prompt ‚Äî a real daily driver.</p>
-          <div class="hero-chips">
-            <span>‚åÇ A‚ÄìZ launching</span>
-            <span>‚ô´ Sixel media</span>
-            <span>‚ñ¶ Live tmux status</span>
-            <span>‚óÜ On-device AI</span>
-          </div>
+          <div class="hero-kicker">OPEN SOURCE ¬∑ ANDROID 8+ ¬∑ AGSL BLUR ON 13+</div>
+          <h1>A home screen<br><span>you can command.</span></h1>
+          <p>Termux Launcher turns Android into a fast, keyboard-first workspace. Your apps, music, messages and shell stay together at the prompt.</p>
           <div class="hero-actions">
-            <a class="primary-button" data-scrollto="setup-downloads" href="#setup">‚Üì Download &amp; install</a>
-            <a class="secondary-button" data-nav="wiki" href="#wiki">Read the docs ‚Üí</a>
+            <a class="primary-button" data-scrollto="tl-install" href="#setup">Install Termux Launcher</a>
+            <a class="secondary-button" data-scrollto="tour" href="#setup">Watch the tour ‚Üì</a>
           </div>
+          <p class="hero-note"><span data-release-tag="PickleHik3/termux-launcher:main">v0.2.29</span> <span>¬∑</span> GPL-3.0-only <span>¬∑</span> built on Termux + Termux:Monet</p>
         </div>
 
-        <figure class="hero-media">
+        <figure class="hero-media" id="tour">
           <div class="phone-frame">
-            <video src="assets/screen-20260720-171651.mp4" controls loop muted autoplay playsinline preload="metadata" width="1080" height="2412" style="height:auto" aria-label="Termux Launcher workflow screen recording"></video>
+            <video src="assets/screen-20260720-171651.mp4" poster="assets/screen-recording-poster.jpg" controls loop muted autoplay playsinline preload="metadata" width="1080" height="2412" aria-label="Termux Launcher workflow screen recording"></video>
           </div>
-          <figcaption>Launch ¬∑ search ¬∑ media ¬∑ tmux ‚Äî the full workflow</figcaption>
+          <figcaption>45-second tour ¬∑ real Nothing Phone 2 ¬∑ no mockup</figcaption>
         </figure>
       </div>
     </section>
 
-    <section class="feature-section">
-      <div class="section-rule">THE WHOLE PHONE, FROM THE PROMPT<span></span></div>
-      <div class="feature-cards">
-        <article><div class="feature-icon">‚åÇ</div><h2>A‚ÄìZ app launching</h2><p>Swipe the alphabet row to filter installed apps by letter. No icon grid to page through.</p></article>
-        <article><div class="feature-icon">‚ô´</div><h2>Sixel media art</h2><p>Album covers render right in the terminal via <code>kew</code>, with a live audio spectrum.</p></article>
-        <article><div class="feature-icon">‚ñ¶</div><h2>Live tmux status</h2><p>CPU, RAM, battery and weather in the tmux bar ‚Äî themed to your wallpaper via Material colors.</p></article>
-        <article><div class="feature-icon">‚óÜ</div><h2>On-device AI</h2><p>Local models via <code>TAI</code> ‚Äî an OpenAI- &amp; Ollama-compatible endpoint that never leaves the device.</p></article>
-        <article><div class="feature-icon">‚åò</div><h2>launcherctl bridge</h2><p>A localhost API exposing apps, media and system data to your shell, tmux binds and agents.</p></article>
-        <article><div class="feature-icon">‚úâ</div><h2>Actionable notifications</h2><p>Reply to messages and act on notifications inline, without ever leaving the home screen.</p></article>
-      </div>
+    <section class="project-facts" aria-label="Project facts">
+      <a href="https://github.com/PickleHik3/termux-launcher/stargazers" target="_blank" rel="noopener"><strong data-github-stars>147</strong><span>GitHub stars ¬∑ live</span></a>
+      <a href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener"><strong data-release-tag="PickleHik3/termux-launcher:main">v0.2.29</strong><span>Latest Termux edition</span></a>
+      <a href="https://github.com/PickleHik3/termux-launcher/blob/main/LICENSE" target="_blank" rel="noopener"><strong>GPL-3.0-only</strong><span>Open source</span></a>
+      <div><strong>Android 8+</strong><span>AGSL blur on Android 13+</span></div>
     </section>
 
-    <section class="screens-section">
-      <div class="section-rule">SCREENS<span></span>NOTHING PHONE 2</div>
-      <div class="screens-strip">
-        <figure><div><img src="assets/shots/home.jpeg" alt="Home screen with dock and A‚ÄìZ row" loading="lazy"></div><figcaption>Home ¬∑ dock ¬∑ A‚ÄìZ</figcaption></figure>
-        <figure><div><img src="assets/shots/kew.jpeg" alt="kew music player with sixel cover art" loading="lazy"></div><figcaption>kew ¬∑ sixel cover art</figcaption></figure>
-        <figure><div><img src="assets/shots/clock.jpeg" alt="sigye terminal clock widget" loading="lazy"></div><figcaption>sigye ¬∑ terminal clock</figcaption></figure>
-        <figure><div><img src="assets/shots/settings.jpeg" alt="Termux Launcher settings screen" loading="lazy"></div><figcaption>Settings ¬∑ TAI, Shizuku</figcaption></figure>
-        <figure><div><img src="assets/shots/notify.jpeg" alt="Inline notification reply" loading="lazy"></div><figcaption>Inline notification reply</figcaption></figure>
+    <section class="stories-section" id="product">
+      <header class="stories-intro">
+        <div class="section-rule">BUILT FOR HOW YOU ACTUALLY USE ANDROID<span></span></div>
+        <h2>Less hunting.<br>More doing.</h2>
+        <p>The terminal stays the center of gravity, while the parts of Android you need remain one gesture away.</p>
+      </header>
+
+      <div class="story-list">
+        <article class="story-row">
+          <div class="story-copy">
+            <div class="story-number">01 ¬∑ LAUNCH</div>
+            <h3>Reach anything without opening a drawer.</h3>
+            <p>Use the app dock or search installed apps from the terminal. Android-exposed cloned and work-profile launch targets appear alongside your regular apps.</p>
+            <ul><li>App dock</li><li>Terminal app search</li><li>Clone and work-profile discovery</li></ul>
+          </div>
+          <figure class="story-visual">
+            <img src="assets/shots/home.jpeg" alt="Termux Launcher home screen with the A‚ÄìZ app rail and keyboard" loading="lazy">
+            <figcaption>Everything is reachable from home.</figcaption>
+          </figure>
+        </article>
+
+        <article class="story-row story-row-reverse">
+          <div class="story-copy">
+            <div class="story-number">02 ¬∑ STAY</div>
+            <h3>Your shell never disappears behind the experience.</h3>
+            <p>Android Material colors flow through launcher surfaces and the shell. Sixel artwork renders in the terminal, while the optional tmux plugin adds CPU, RAM, weather and extra keys.</p>
+            <ul><li>Material theme integration</li><li>Sixel image drawing</li><li>Optional tmux workspace</li></ul>
+          </div>
+          <figure class="story-visual">
+            <img src="assets/shots/kew.jpeg" alt="Music playing in kew with sixel album artwork" loading="lazy">
+            <figcaption>Album art, spectrum and controls at the prompt.</figcaption>
+          </figure>
+        </article>
+
+        <article class="story-row">
+          <div class="story-copy">
+            <div class="story-number">03 ¬∑ ACT</div>
+            <h3>Do the small things without leaving home.</h3>
+            <p>Use <code>launcherctl</code> to launch apps and read launcher or system data. Optional MCP tools, Shizuku helpers, and experimental LiteRT/MNN model backends extend the same workflow.</p>
+            <ul><li>LauncherCtl shell bridge</li><li>Optional MCP and Shizuku tools</li><li>Experimental LiteRT + MNN AI</li></ul>
+          </div>
+          <figure class="story-visual">
+            <img src="assets/shots/notify.jpeg" alt="Replying to a notification directly from Termux Launcher" loading="lazy">
+            <figcaption>Reply without breaking context.</figcaption>
+          </figure>
+        </article>
       </div>
     </section>
 
     <!-- ===== INSTALL FLOW (downloads nested inside) ===== -->
     <div id="tl-install" style="max-width:1000px;margin:0 auto;padding:56px 22px 30px;scroll-margin-top:70px">
-      <div style="display:flex;gap:10px;margin:0 0 28px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.3);border-left:3px solid var(--orange);border-radius:8px;padding:13px 15px;font-family:var(--mono);font-size:13px;color:#e6c4b4;max-width:640px">
-        <span>‚ö†</span><span>The <b style="color:#f0d0c0">com.termux</b> build shares Termux's package identity ‚Äî uninstall the regular Termux app first, or use the <a data-scrollto="setup-downloads" href="#setup" style="color:var(--gold);text-decoration:underline;cursor:pointer">io.vaj.tl</a> build, which installs side-by-side.</span>
-      </div>
+      <header class="install-lead">
+        <div class="section-rule">INSTALL<span></span>3 STEPS</div>
+        <h2>Make the shell your home.</h2>
+        <p>Choose one edition, install its Main APK, add matching companions only if you need them, then set Termux Launcher as your Android home app.</p>
+      </header>
 
-      <div style="display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gold)">INSTALL<span style="flex:1;height:1px;background:var(--line)"></span>3 STEPS</div>
+      <div class="install-alert" style="display:flex;gap:10px;margin:0 0 28px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.3);border-left:3px solid var(--orange);border-radius:8px;padding:13px 15px;font-family:var(--mono);font-size:13px;color:#e6c4b4;max-width:640px">
+        <span>‚ö†</span><span>The recommended <b style="color:#f0d0c0">com.termux</b> edition replaces a regular Termux install. Use the <a data-scrollto="setup-downloads" href="#setup" style="color:var(--gold);text-decoration:underline;cursor:pointer">io.vaj.tl</a> edition only when you need a side-by-side install and accept its manually maintained package repository.</span>
+      </div>
 
       <!-- steps -->
       <div style="margin-top:22px;display:flex;flex-direction:column;gap:0">
@@ -116,8 +148,8 @@
             <div style="width:2px;flex:1;background:linear-gradient(var(--gline),var(--line));margin:8px 0"></div>
           </div>
           <div style="padding-bottom:34px;min-width:0">
-            <h2 style="font-family:var(--mono);font-weight:600;font-size:21px;margin:6px 0 6px;color:var(--cream)">Pick a build &amp; download the three APKs</h2>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.6;margin:0 0 20px;max-width:560px">Each build is a pack of three APKs signed with one key ‚Äî the Main app plus the matching API and Styling companions. <b style="color:var(--cream)">Install all three from the same pack</b> and never mix builds or add stock Termux add-ons.</p>
+            <h2 style="font-family:var(--mono);font-weight:600;font-size:21px;margin:6px 0 6px;color:var(--cream)">Pick an edition and install the Main APK</h2>
+            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.6;margin:0 0 20px;max-width:620px">API and Styling are optional. If you use either companion, choose the matching fork and edition because all installed add-ons must share the launcher's package family and signing key.</p>
 
             <!-- inline downloads -->
             <div id="setup-downloads" style="scroll-margin-top:58px">
@@ -126,421 +158,12 @@
                 <div style="position:relative;background:linear-gradient(180deg,var(--gold-soft),transparent 45%),var(--panel);border:1px solid var(--gline);border-radius:16px;padding:24px 22px">
                   <span style="position:absolute;top:-11px;left:22px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#0d1012;background:var(--gold);border-radius:5px;padding:3px 10px">Recommended</span>
                   <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.04em;margin:8px 0 4px">com.termux ecosystem</div>
-                  <h3 style="font-family:var(--mono);font-weight:700;font-size:21px;margin:0 0 6px;color:var(--cream)">Compatibility build</h3>
-                  <p style="font-family:var(--sans);color:var(--mute);font-size:14px;line-height:1.6;margin:0 0 16px">Uses the <span style="font-family:var(--mono);color:var(--cream)">com.termux</span> prefix for maximum compatibility with the established Termux package ecosystem and repos.</p>
+                  <h3 style="font-family:var(--mono);font-weight:700;font-size:21px;margin:0 0 6px;color:var(--cream)">Termux edition</h3>
+                  <p style="font-family:var(--sans);color:var(--mute);font-size:14px;line-height:1.6;margin:0 0 16px">The recommended build. It uses official Termux repositories and supports arm64-v8a, armeabi-v7a, x86_64 and x86.</p>
                   <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
-                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-launcher.png" alt="" width="26" height="26" style="width:26px;height:26px;border-radius:6px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">Main app</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">com.termux ¬∑ v0.2.29</div></div></div><a href="https://github.com/PickleHik3/termux-launcher/releases/tag/v0.2.29" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--gline);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-api.svg" alt="" width="26" height="26" style="width:26px;height:26px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">API companion</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">com.termux.api ¬∑ v0.53.0</div></div></div><a href="https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--gline);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-styling.svg" alt="" width="26" height="26" style="width:26px;height:26px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">Styling companion</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">com.termux.styling ¬∑ v0.32.1</div></div></div><a href="https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--gline);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-launcher.png" alt="" width="26" height="26" style="width:26px;height:26px;border-radius:6px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">Main app</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">com.termux ¬∑ <span data-release-tag="PickleHik3/termux-launcher:main">v0.2.29</span></div></div></div><a href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--gline);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-api.svg" alt="" width="26" height="26" style="width:26px;height:26px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">API companion ¬∑ optional</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">com.termux.api ¬∑ <span data-release-tag="PickleHik3/termux-api:main">v0.53.0</span></div></div></div><a href="https://github.com/PickleHik3/termux-api/releases" data-release-link="PickleHik3/termux-api:main" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--gline);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-styling.svg" alt="" width="26" height="26" style="width:26px;height:26px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">Styling companion ¬∑ optional</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">com.termux.styling ¬∑ <span data-release-tag="PickleHik3/termux-styling:main">v0.32.1</span></div></div></div><a href="https://github.com/PickleHik3/termux-styling/releases" data-release-link="PickleHik3/termux-styling:main" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--gline);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
                   </div>
-                  <a href="https://github.com/PickleHik3/termux-launcher/releases/tag/v0.2.29" target="_blank" rel="noopener" style="display:block;text-align:center;font-family:var(--mono);font-size:14px;font-weight:600;color:#0d1012;background:var(--gold);border-radius:9px;padding:11px;text-decoration:none">Start with Main ¬∑ v0.2.29 ‚Üó</a>
-                  <div style="display:flex;gap:9px;margin-top:14px;background:rgba(217,139,106,.08);border:1px solid rgba(217,139,106,.28);border-radius:8px;padding:10px 12px;font-family:var(--mono);font-size:12px;color:#e6c4b4;line-height:1.5"><span>‚ö†</span><span>Cannot coexist with the regular Termux app ‚Äî uninstall it first.</span></div>
-                </div>
-
-                <!-- custom -->
-                <div style="background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 22px">
-                  <div style="font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.04em;margin:8px 0 4px">io.vaj.tl ecosystem</div>
-                  <h3 style="font-family:var(--mono);font-weight:700;font-size:21px;margin:0 0 6px;color:var(--cream)">Custom build</h3>
-                  <p style="font-family:var(--sans);color:var(--mute);font-size:14px;line-height:1.6;margin:0 0 16px">Own <span style="font-family:var(--mono);color:var(--cream)">io.vaj.tl</span> package prefix with a custom repo of packages compiled for it. Installs side-by-side with a stock Termux install.</p>
-                  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
-                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-launcher.png" alt="" width="26" height="26" style="width:26px;height:26px;border-radius:6px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">Main app</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">io.vaj.tl ¬∑ v0.2.29-vaj</div></div></div><a href="https://github.com/PickleHik3/termux-launcher/releases/tag/v0.2.29-vaj" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--cyan);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-api.svg" alt="" width="26" height="26" style="width:26px;height:26px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">API companion</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">io.vaj.tl.api ¬∑ v0.53.0-vaj</div></div></div><a href="https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0-vaj" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--cyan);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--panelink);border:1px solid var(--line);border-radius:9px;padding:10px 13px"><div style="display:flex;align-items:center;gap:11px"><img src="assets/icons/termux-styling.svg" alt="" width="26" height="26" style="width:26px;height:26px;flex:none"><div><div style="font-family:var(--mono);font-size:13px;color:var(--cream)">Styling companion</div><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">io.vaj.tl.styling ¬∑ v0.32.1-vaj</div></div></div><a href="https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1-vaj" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:12px;color:var(--cyan);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:6px 11px">Release ‚Üó</a></div>
-                  </div>
-                  <a href="https://github.com/PickleHik3/termux-launcher/releases/tag/v0.2.29-vaj" target="_blank" rel="noopener" style="display:block;text-align:center;font-family:var(--mono);font-size:14px;font-weight:600;color:var(--cyan);background:transparent;border:1px solid var(--cyan);border-radius:9px;padding:11px;text-decoration:none">Start with Main ¬∑ v0.2.29-vaj ‚Üó</a>
-                </div>
-              </div>
-
-              <!-- install notes -->
-              <div style="margin-top:16px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:20px 22px">
-                <div class="install-notes-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
-                  <div><div style="font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:5px">One pack only</div><div style="font-family:var(--sans);font-size:13px;color:var(--mute);line-height:1.55">All three APKs must share one build and signing key. Mixing signatures causes shared-UID errors.</div></div>
-                  <div><div style="font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:5px">Enable unknown sources</div><div style="font-family:var(--sans);font-size:13px;color:var(--mute);line-height:1.55">Allow your file manager or browser to install APKs, then open the Main app first.</div></div>
-                  <div><div style="font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:5px">Requirements</div><div style="font-family:var(--sans);font-size:13px;color:var(--mute);line-height:1.55">Android 8.0+. The custom <span style="font-family:var(--mono)">io.vaj.tl</span> build currently targets arm64-v8a.</div></div>
-                </div>
-                <div style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:16px;padding-top:14px;border-top:1px solid var(--line)"><a href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">All launcher releases ‚Üó</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- step 2 -->
-        <div style="display:grid;grid-template-columns:52px 1fr;gap:20px">
-          <div style="display:flex;flex-direction:column;align-items:center">
-            <div style="width:44px;height:44px;border-radius:10px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;flex:none">2</div>
-            <div style="width:2px;flex:1;background:linear-gradient(var(--gline),var(--line));margin:8px 0"></div>
-          </div>
-          <div style="padding-bottom:34px">
-            <h2 style="font-family:var(--mono);font-weight:600;font-size:21px;margin:6px 0 6px;color:var(--cream)">Open it once</h2>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.6;margin:0;max-width:560px">Launch the Main app so Termux finishes its first-run bootstrap. Wait for the <span style="font-family:var(--mono);color:var(--cream)">fish ‚ùØ</span> prompt, then you're ready to set it as home.</p>
-          </div>
-        </div>
-        <!-- step 3 -->
-        <div style="display:grid;grid-template-columns:52px 1fr;gap:20px">
-          <div style="display:flex;flex-direction:column;align-items:center">
-            <div style="width:44px;height:44px;border-radius:10px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;flex:none">3</div>
-          </div>
-          <div>
-            <h2 style="font-family:var(--mono);font-weight:600;font-size:21px;margin:6px 0 6px;color:var(--cream)">Set it as your home launcher</h2>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.6;margin:0 0 14px;max-width:560px">From Android settings, or right inside the launcher:</p>
-            <div style="background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:8px;padding:13px 16px;font-family:var(--mono);font-size:13.5px;color:var(--cream);max-width:560px">Long press Terminal <span style="color:var(--dim)">‚Üí</span> More <span style="color:var(--dim)">‚Üí</span> Apps Bar <span style="color:var(--dim)">‚Üí</span> <span style="color:var(--gold)">Set as home launcher</span></div>
-            <div style="display:flex;gap:9px;margin-top:16px;background:var(--panelink);border:1px solid var(--line);border-radius:8px;padding:11px 14px;font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55;max-width:560px"><span style="color:var(--green);font-family:var(--mono)">‚úì</span><span>Current builds ship with <b style="color:var(--cream)">Terminal Material colors on by default</b>, so the terminal and tmux theme follow your wallpaper out of the box ‚Äî no manual toggle needed.</span></div>
-            <div style="display:inline-flex;align-items:center;gap:9px;margin-top:18px;font-family:var(--mono);font-size:15px;color:var(--green)"><span style="font-size:18px">‚úì</span> That's it ‚Äî the terminal is home.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================================================== -->
-  <!-- ====================  2:WIKI  ====================== -->
-  <!-- ==================================================== -->
-  <section data-view="wiki" data-screen-label="2 Docs" style="display:none">
-    <div class="wiki-layout" style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:236px minmax(0,1fr) 200px;gap:40px;padding:36px 24px 120px;align-items:start">
-      {% assign wiki_articles = site.wiki | sort: "order" %}
-
-      <aside class="wiki-sidebar" style="position:sticky;top:70px">
-        <div style="font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);padding:0 0 10px 12px">Documentation</div>
-        <nav style="display:flex;flex-direction:column;gap:1px">
-          {% for article in wiki_articles %}
-            {% assign article_filename = article.path | split: "/" | last %}
-            {% assign article_key = article_filename | split: "." | first %}
-            <button data-article="{{ article_key | escape }}" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">{{ article.title | escape }}</button>
-          {% endfor %}
-        </nav>
-        <div style="border-top:1px solid var(--line);margin:16px 0 0;padding:14px 0 0 12px">
-          <a data-nav="ai" href="#ai" style="display:block;font-family:var(--mono);font-size:13px;color:var(--cyan);text-decoration:none;cursor:pointer;margin-bottom:9px">Termux AI ‚Üó</a>
-          <a href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener" style="display:block;font-family:var(--mono);font-size:13px;color:var(--cyan);text-decoration:none">GitHub repo ‚Üó</a>
-        </div>
-      </aside>
-
-      <main data-wiki-content style="min-width:0">
-        {% if wiki_articles.size > 0 %}
-          {% for article in wiki_articles %}
-            {% assign article_filename = article.path | split: "/" | last %}
-            {% assign article_key = article_filename | split: "." | first %}
-            <article data-article-body="{{ article_key | escape }}" style="display:{% if forloop.first %}block{% else %}none{% endif %}">
-              <div class="wiki-kicker">DOCUMENTATION</div>
-              <h1 data-spy id="w-{{ article_key | escape }}">{{ article.title | escape }}</h1>
-              <div class="wiki-prose">{{ article.content | markdownify }}</div>
-            </article>
-          {% endfor %}
-        {% else %}
-          <div class="wiki-empty">
-            <div class="wiki-kicker">DOCUMENTATION</div>
-            <h1>No wiki pages yet</h1>
-            <p>Create the first page from the content manager.</p>
-          </div>
-        {% endif %}
-      </main>
-
-      <aside class="wiki-toc" style="position:sticky;top:70px">
-        <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:12px;display:flex;align-items:center;gap:6px">‚â° On this page</div>
-        <nav data-wiki-toc style="display:flex;flex-direction:column;gap:7px;border-left:1px solid var(--line);padding-left:14px"></nav>
-      </aside>
-    </div>
-  </section>
-
-  <!-- ==================================================== -->
-  <!-- ==================  3:TERMUX-AI  =================== -->
-  <!-- ==================================================== -->
-  <section data-view="ai" data-screen-label="3 Termux AI" style="display:none">
-    <!-- product hero -->
-    <div style="max-width:1000px;margin:0 auto;padding:64px 24px 20px">
-      <div style="font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.06em;margin-bottom:14px">TAI ¬∑ TERMUX AI</div>
-      <h1 style="font-family:var(--mono);font-weight:700;font-size:clamp(34px,6vw,56px);line-height:1.02;letter-spacing:-.01em;margin:0;color:var(--cream);max-width:720px">Local language models,<br><span style="color:var(--gold)">on your device.</span></h1>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:17px;line-height:1.6;max-width:620px;margin:18px 0 0">TAI hosts models locally and speaks OpenAI- and Ollama-compatible HTTP. Your prompts and output stay on the device unless you deliberately expose the API to your network.</p>
-    </div>
-
-    <!-- feature grid -->
-    <div style="max-width:1000px;margin:0 auto;padding:34px 24px 10px">
-      <div class="feature-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">‚óÜ</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">On-device &amp; private</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Localhost bind by default. Bearer-token auth on every request.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">‚áÑ</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">OpenAI + Ollama</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Drop-in for Codex, OpenCode, Crush, AIChat and Ollama clients.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">‚ñ§</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Two backends</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">LiteRT-LM (default) and a bundled MNN backend, routed per model.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">‚öô</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Phone actions via MCP</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Model generation and Android permissions stay separate and gated.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">‚óê</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Capability-aware</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Text, image, audio, tools, embeddings ‚Äî each model reports what it serves.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">‚Ü•</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Import your own</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">LiteRT-LM <span style="font-family:var(--mono)">.litertlm</span>/<span style="font-family:var(--mono)">.task</span> and MNN model directories.</div></div>
-      </div>
-    </div>
-
-    <!-- model catalog -->
-    <div id="ai-catalog" style="max-width:1000px;margin:0 auto;padding:44px 24px 10px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">Model catalog</h2>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:15px;margin:0 0 6px;max-width:660px">Models aren't bundled in the APK ‚Äî pull them from the in-app gallery or with <span style="font-family:var(--mono);color:var(--cream)">tai</span> (several GB each). Only one generation model loads at a time, inside the isolated <span style="font-family:var(--mono);color:var(--cream)">:tai_runtime</span> process. This is the full built-in catalog; you can also <a data-scrollto="ai-import" href="#ai" style="color:var(--cyan);text-decoration:none;cursor:pointer">import your own</a>.</p>
-      <p style="font-family:var(--sans);color:var(--dim);font-size:13.5px;margin:0 0 18px;max-width:680px">Two backends ‚Äî <span style="font-family:var(--mono);color:var(--mute)">LiteRT-LM</span> (Google AI Edge) and <span style="font-family:var(--mono);color:var(--mute)">MNN</span>. <span style="color:var(--green)">rec</span> = recommended default ¬∑ <span style="color:var(--orange)">gated</span> = accept the provider's Hugging Face terms first ¬∑ <span style="color:var(--cyan)">import</span> = added via the import flow, not a direct download. Multimodal LiteRT-LM models also appear as separate <span style="font-family:var(--mono);color:var(--mute)">-vision</span> / <span style="font-family:var(--mono);color:var(--mute)">-audio</span> IDs on the API.</p>
-      <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden;overflow-x:auto">
-        <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px">
-          <thead><tr style="background:var(--panelink)">
-            <th style="text-align:left;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Model</th>
-            <th style="text-align:left;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Backend</th>
-            <th style="text-align:left;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Best for</th>
-            <th style="text-align:right;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Download</th>
-            <th style="text-align:right;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">RAM</th>
-          </tr></thead>
-          <tbody style="font-family:var(--sans);color:var(--cream)">
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Gemma 4 E2B IT <span style="font-family:var(--mono);font-size:11px;color:var(--green)">¬∑ rec</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">General chat ¬∑ image ¬∑ audio ¬∑ tools</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">2.4 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">8 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Gemma 4 E4B IT</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Coding ¬∑ reasoning ¬∑ multimodal ¬∑ tools</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">3.7 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">12 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 1.5B Instruct <span style="font-family:var(--mono);font-size:11px;color:var(--cyan)">¬∑ import</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Lightweight text ¬∑ code ¬∑ multilingual</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">1.5 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">DeepSeek-R1 Distill 1.5B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Small reasoning tasks</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">1.7 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">FunctionGemma 270M <span style="font-family:var(--mono);font-size:11px;color:var(--orange)">¬∑ gated</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Function/tool selection (CPU-only)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">0.3 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">EmbeddingGemma 300M <span style="font-family:var(--mono);font-size:11px;color:var(--orange)">¬∑ gated</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Embeddings (<span style="font-family:var(--mono)">/v1/embeddings</span>)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">183 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen3 Embedding 0.6B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Embeddings (<span style="font-family:var(--mono)">/v1/embeddings</span>)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">378 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5-Coder 1.5B <span style="font-family:var(--mono);font-size:11px;color:var(--green)">¬∑ rec</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Coding ¬∑ tools ¬∑ terminal clients</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">971 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4‚Äì6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5-Coder 7B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Higher-quality coding</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4.4 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">10‚Äì12 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 0.5B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Tiny general chat</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">557 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">3 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 1.5B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Lightweight multilingual chat</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">879 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4‚Äì6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 3B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Balanced multilingual chat</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">2.4 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6‚Äì8 GB+</td></tr>
-            <tr><td style="padding:10px 14px">DeepSeek-R1 1.5B Qwen</td><td style="padding:10px 14px;font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;color:var(--mute)">Small reasoning tasks</td><td style="padding:10px 14px;text-align:right;font-family:var(--mono);color:var(--mute)">1.0 GB</td><td style="padding:10px 14px;text-align:right;font-family:var(--mono);color:var(--mute)">4‚Äì6 GB+</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:16px;background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:8px;padding:13px 16px;font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;max-width:820px">
-        <span style="color:var(--gold);font-family:var(--mono)">‚óê</span><span><b style="color:var(--cream)">About the multimodal LiteRT models.</b> Gemma 4 E2B / E4B are multimodal, but rather than holding text, vision and audio in memory at once, TAI splits each into separate <span style="font-family:var(--mono);color:var(--cream)">-vision</span> and <span style="font-family:var(--mono);color:var(--cream)">-audio</span> model IDs that share one downloaded file. Only the mode you request is loaded at a time ‚Äî a deliberate trade-off to cut RAM cost and avoid memory pressure on phones. Pick the ID matching the input you intend to send.<br><span style="font-size:12.5px;color:var(--dim)">Learn more about the backends: <a href="https://ai.google.dev/edge/litert" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">LiteRT (Google AI Edge) ‚Üó</a> ¬∑ <a href="https://github.com/alibaba/MNN" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">MNN ‚Üó</a> (<a href="https://mnn-docs.readthedocs.io/" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">docs</a>)</span></span>
-      </div>
-    </div>
-
-    <!-- ===== IMPORT & ADD MODELS ===== -->
-    <div id="ai-import" style="max-width:1000px;margin:0 auto;padding:44px 24px 10px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">Add &amp; import your own models</h2>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.6;margin:0 0 16px;max-width:680px">Beyond the built-in catalog, TAI can pull any compatible model straight from Hugging Face. The suggested flow: set a Hugging Face token once, then either download a catalog entry or paste a model's repo URL into the import window. Everything runs through <span style="font-family:var(--mono);color:var(--cream)">Settings ‚Üí TAI / Termux AI</span>.</p>
-      <div style="display:flex;gap:10px;margin:0 0 26px;background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:8px;padding:13px 16px;font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;max-width:820px">
-        <span style="color:var(--green);font-family:var(--mono)">‚Üß</span><span><b style="color:var(--cream)">Recommended: let the app download for you.</b> Rather than fetching files by hand, just paste the model's Hugging Face URL into the import window ‚Äî TAI downloads, verifies, and registers it. Browse compatible models here: <a href="https://huggingface.co/litert-community" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">huggingface.co/litert-community</a> (LiteRT) and <a href="https://huggingface.co/taobao-mnn" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">huggingface.co/taobao-mnn</a> (MNN). Copy any model's page URL and paste it into <b style="color:var(--cream)">Add a model</b>.</span>
-      </div>
-
-      <div class="import-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:start">
-        <!-- step 1: HF token -->
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--gold);color:#0d1012;font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">1</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Set a Hugging Face token</h3>
-          </div>
-          <div style="padding:6px;background:#070a0b;border:1px solid var(--line);border-radius:24px;align-self:center;max-width:220px"><img src="assets/screenshots/tai-hf-token.jpeg" alt="Hugging Face token dialog in Termux AI settings" loading="lazy" width="917" height="2048" style="display:block;width:100%;height:auto;border-radius:18px"></div>
-          <p style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;margin:0">A classic <b style="color:var(--cream)">Read</b> token ‚Äî or a fine-grained token with <span style="font-family:var(--mono);color:var(--cream)">Contents: Read</span> ‚Äî is enough. It's sent only to Hugging Face download URLs. For a <span style="color:var(--orange)">gated</span> model, also open its huggingface.co page and accept the terms first.</p>
-        </div>
-
-        <!-- step 2: import window -->
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">2</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Paste a repo URL to add</h3>
-          </div>
-          <div style="padding:6px;background:#070a0b;border:1px solid var(--line);border-radius:24px;align-self:center;max-width:220px"><img src="assets/screenshots/tai-import.jpeg" alt="Add a model window: Hugging Face repo URL and capability checkboxes" loading="lazy" width="917" height="2048" style="display:block;width:100%;height:auto;border-radius:18px"></div>
-          <p style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;margin:0">In <b style="color:var(--cream)">Add a model</b>, paste a Hugging Face repo URL (or pick a local LiteRT package). Capabilities are guessed from known LiteRT/MNN model names ‚Äî tick or untick them, then <span style="font-family:var(--mono);color:var(--cream)">Import &amp; verify</span>. Catalog entries download the same way; just tap one and confirm the provider terms.</p>
-        </div>
-
-        <!-- step 3: connect clients -->
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">3</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Point your client at it</h3>
-          </div>
-          <div style="padding:6px;background:#070a0b;border:1px solid var(--line);border-radius:24px;align-self:center;max-width:220px"><img src="assets/screenshots/tai-endpoint.jpeg" alt="Endpoint and access dialog showing OpenAI base URL and bearer token" loading="lazy" width="917" height="2048" style="display:block;width:100%;height:auto;border-radius:18px"></div>
-          <p style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;margin:0">Once installed, load it (<span style="font-family:var(--mono);color:var(--cream)">tai load MODEL_ID</span>) and connect any OpenAI- or Ollama-compatible client with the local base URL and bearer token from <b style="color:var(--cream)">Endpoint &amp; access</b> ‚Äî the same values live in <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/</span>.</p>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:10px;margin-top:26px;background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:8px;padding:13px 16px;font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;max-width:820px">
-        <span style="color:var(--cyan);font-family:var(--mono)">‚Ñπ</span><span><b style="color:var(--cream)">Supported packages:</b> LiteRT-LM <span style="font-family:var(--mono);color:var(--cream)">.litertlm</span> / <span style="font-family:var(--mono);color:var(--cream)">.task</span>, MNN model directories (<span style="font-family:var(--mono)">config.json</span> + sidecars), and LiteRT EmbeddingGemma <span style="font-family:var(--mono);color:var(--cream)">.tflite</span> with its tokenizer. GGUF, safetensors, PyTorch and ONNX weights are <b style="color:var(--cream)">not</b> supported ‚Äî run those under a separate runtime such as llama.cpp in Termux.</span>
-      </div>
-    </div>
-
-    <!-- ===== QUICKSTART: AICHAT ===== -->
-    <div id="ai-aichat" style="max-width:1000px;margin:0 auto;padding:44px 24px 10px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">Quickstart: chat from the terminal with AIChat</h2>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.6;margin:0 0 22px;max-width:700px"><a href="https://github.com/sigoden/aichat" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">AIChat</a> is the fastest and lightest way to talk to your on-device model right now ‚Äî a single terminal binary, no extra runtime. It's in both this launcher's repo and the official Termux repo.</p>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start" class="feature-grid">
-        <div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--gold);color:#0d1012;font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">1</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Install</h3>
-          </div>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:14px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--cream)">pkg i -y aichat</pre>
-          </div>
-        </div>
-        <div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">2</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Run &amp; answer the prompts</h3>
-          </div>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:14px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--cream)">aichat</pre>
-          </div>
-        </div>
-      </div>
-
-      <p style="font-family:var(--sans);color:var(--mute);font-size:14.5px;line-height:1.7;margin:22px 0 14px;max-width:700px">On first run, AIChat offers to create a config file. Walk through it:</p>
-      <ol style="font-family:var(--sans);color:var(--mute);font-size:14.5px;line-height:1.7;margin:0 0 18px;padding-left:22px;max-width:700px">
-        <li>Choose the <b style="color:var(--cream)">OpenAI-Compatible</b> platform.</li>
-        <li>Give it any name (e.g. <span style="font-family:var(--mono);color:var(--cream)">tai</span>).</li>
-        <li>Paste the <b style="color:var(--cream)">API base URL</b> and <b style="color:var(--cream)">API key</b> from <span style="font-family:var(--mono);color:var(--cream)">Settings ‚Üí TAI / Termux AI ‚Üí Endpoint &amp; access</span> ‚Äî the base URL already ends in <span style="font-family:var(--mono);color:var(--cream)">/v1</span>, and the key is the bearer token. (The same two values are in <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/endpoint</span> and <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/token</span>.)</li>
-      </ol>
-
-      <p style="font-family:var(--sans);color:var(--dim);font-size:13.5px;line-height:1.7;margin:0 0 12px;max-width:700px">Prefer to write the config by hand? It looks like this in <span style="font-family:var(--mono);color:var(--mute)">~/.config/aichat/config.yaml</span>:</p>
-      <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:14px;max-width:700px">
-        <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button>
-        <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--cream)">clients:
-  - type: openai-compatible
-    name: tai
-    api_base: http://127.0.0.1:54298/v1   # your endpoint
-    api_key: YOUR_TOKEN                    # your bearer token
-    models:
-      - name: gemma-4-e2b-it               # any installed model id</pre>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:18px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.3);border-left:3px solid var(--orange);border-radius:8px;padding:12px 15px;font-family:var(--sans);font-size:13px;color:#e6c4b4;line-height:1.6;max-width:700px">
-        <span style="font-family:var(--mono)">‚ö†</span><span>Chat and coding models work well over AIChat. The <b style="color:#f0d0c0">embedding models are untested</b> with AIChat's RAG features for now ‚Äî treat them as experimental.</span>
-      </div>
-    </div>
-
-    <!-- tai commands -->
-    <div id="ai-commands" style="max-width:1000px;margin:0 auto;padding:38px 24px 20px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 16px;color:var(--cream)">tai commands</h2>
-      <div class="command-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:760px">
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai status</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai models</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai download MODEL_ID URL --accept-terms</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai preflight MODEL_ID</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai load MODEL_ID [--auto|--cpu|--gpu]</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai keep-warm MODEL_ID --minutes 30</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai runtime</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai unload</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai delete MODEL_ID</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai doctor</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-      </div>
-      <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:14px 0 0;max-width:760px">Prefix any command with <span style="color:var(--mute)">tai --json</span> for raw API JSON you can pipe into <span style="color:var(--mute)">jq</span> and scripts. <span style="color:var(--mute)">tai load</span>, <span style="color:var(--mute)">preflight</span>, and <span style="color:var(--mute)">keep-warm</span> default to the assistant model when no ID is given. See <span style="color:var(--mute)">tai --help</span> for the full command set.</p>
-    </div>
-
-    <!-- ===== API REFERENCE ===== -->
-    <div style="background:var(--ink);border-top:1px solid var(--line);margin-top:44px">
-      <div class="api-layout" style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:44px;padding:44px 24px 110px;align-items:start">
-        <!-- endpoint index -->
-        <aside class="api-sidebar" style="position:sticky;top:70px">
-          <div style="font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.04em;margin-bottom:6px">API REFERENCE</div>
-          <button data-scrollto="ep-intro" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Introduction</button>
-          <button data-scrollto="ep-base" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Base URL &amp; auth</button>
-          <button data-scrollto="ep-ratelimits" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Rate limits</button>
-          <button data-scrollto="ep-errors" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Errors &amp; status</button>
-          <button data-scrollto="ep-streaming" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Streaming</button>
-          <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:16px 0 6px">Endpoints</div>
-          <div data-eplist style="display:flex;flex-direction:column;gap:2px"></div>
-        </aside>
-        <!-- endpoint detail -->
-        <main style="min-width:0">
-          <div data-spy id="ep-intro" style="scroll-margin-top:64px">
-            <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.06em;margin-bottom:6px">API REFERENCE</div>
-            <h2 style="font-family:var(--mono);font-weight:700;font-size:30px;margin:0 0 14px;color:var(--cream)">Introduction</h2>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;max-width:640px;margin:0 0 8px">Use TAI's local API to run and interact with models. The same server also powers <span style="font-family:var(--mono);color:var(--cream)">launcherctl</span>. Every route requires the bearer token.</p>
-          </div>
-
-          <div data-spy id="ep-base" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Base URL &amp; auth</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">TAI stores its current address and secret token in <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/</span>. OpenAI-compatible clients append <span style="font-family:var(--mono);color:var(--cream)">/v1</span>; Ollama clients use the base address as-is.</p>
-            <div data-cmd style="position:relative;background:var(--panelink);border:1px solid var(--line);border-radius:10px;padding:15px;max-width:660px">
-              <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:var(--panelink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-              <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--cream)">BASE=$(sed -n '1p' ~/.launcherctl/endpoint)
-TOKEN=$(cat ~/.launcherctl/token)
-export OPENAI_BASE_URL="$BASE/v1"
-export OPENAI_API_KEY="$TOKEN"</pre>
-            </div>
-            <p style="font-family:var(--sans);color:var(--dim);font-size:13.5px;line-height:1.6;max-width:640px;margin:14px 0 0">Default bind mode is <span style="font-family:var(--mono);color:var(--mute)">localhost</span> (<span style="font-family:var(--mono);color:var(--mute)">127.0.0.1</span>). LAN mode is opt-in; treat the token as a network secret when enabled. No CORS headers are emitted ‚Äî browser clients can't call the API directly.</p>
-          </div>
-
-          <div data-spy id="ep-ratelimits" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Rate limits</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Every route is rate-limited per a rolling 60-second window, per route. Exceeding a limit returns <span style="font-family:var(--mono);color:var(--cream)">HTTP 429</span>. <b style="color:var(--cream)">No <span style="font-family:var(--mono)">Retry-After</span> or <span style="font-family:var(--mono)">RateLimit-*</span> headers are sent</b> ‚Äî back off in your client (a short sleep and retry) when you see a 429.</p>
-            <div style="overflow-x:auto;max-width:660px"><table style="border-collapse:collapse;width:100%;font-family:var(--mono);font-size:13px"><tbody>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Reads (status, models, resources, notifications)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">120 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Generation &amp; agent (chat, responses, embeddings, execute)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">60 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">App launch</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">30 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Model load / download / import</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">20 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Live event stream (opens)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">12 / min</td></tr>
-              <tr><td style="padding:8px 12px;color:var(--mute)">Destructive (app restart, token rotate)</td><td style="padding:8px 12px;text-align:right;color:var(--cream)">5 / min</td></tr>
-            </tbody></table></div>
-          </div>
-
-          <div data-spy id="ep-errors" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Errors &amp; status</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Errors use the OpenAI error envelope, with a string <span style="font-family:var(--mono);color:var(--cream)">code</span> you can switch on. Common codes: <span style="font-family:var(--mono);color:var(--mute)">bad_request</span> (400), <span style="font-family:var(--mono);color:var(--mute)">model_not_found</span> (404), <span style="font-family:var(--mono);color:var(--mute)">unsupported_audio_output</span> (501). Missing or wrong bearer token returns 401.</p>
-            <div data-cmd style="position:relative;background:var(--panelink);border:1px solid var(--line);border-radius:10px;padding:15px;max-width:660px">
-              <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:var(--panelink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-              <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--cream)">{
-  "error": {
-    "type": "invalid_request_error",
-    "code": "model_not_found",
-    "message": "Unknown TAI model: MODEL_ID"
-  }
-}</pre>
-            </div>
-          </div>
-
-          <div data-spy id="ep-streaming" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Streaming</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 8px">The OpenAI routes (<span style="font-family:var(--mono);color:var(--cream)">/v1/chat/completions</span>, <span style="font-family:var(--mono);color:var(--cream)">/v1/responses</span>) stream as <b style="color:var(--cream)">Server-Sent Events</b> when you send <span style="font-family:var(--mono);color:var(--cream)">"stream": true</span>, terminated by a <span style="font-family:var(--mono);color:var(--mute)">data: [DONE]</span> line. The Ollama routes (<span style="font-family:var(--mono);color:var(--cream)">/api/chat</span>, <span style="font-family:var(--mono);color:var(--cream)">/api/generate</span>) stream <b style="color:var(--cream)">newline-delimited JSON</b> by default. The launcher event feed <span style="font-family:var(--mono);color:var(--cream)">/v1/events/stream</span> is a long-lived SSE connection ‚Äî open one stream rather than polling.</p>
-          </div>
-
-          <div data-epdetail style="margin-top:44px;display:flex;flex-direction:column;gap:14px"></div>
-        </main>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===============  SETUP ¬∑ POST-INSTALL SHELL  =============== -->
-  <section data-view="setup" data-screen-label="1c Shell" style="display:none">
-    <div style="max-width:940px;margin:0 auto;padding:44px 24px 110px;border-top:1px solid var(--line)">
-      <div style="display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gold);margin-bottom:18px">OPTIONAL<span style="flex:1;height:1px;background:var(--line)"></span>POST-INSTALL</div>
-      <div style="border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--gold-soft),transparent 55%),var(--panel);padding:26px 26px 28px;max-width:760px">
-        <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">One command for the shell theme</h2>
-        <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.6;margin:0 0 16px;max-width:620px">Once you're home, recreate the opinionated workspace from the video ‚Äî <span style="font-family:var(--mono);color:var(--cream)">fish ¬∑ oh-my-posh ¬∑ tmux ¬∑ zoxide ¬∑ eza</span> plus the Material tmux theme and the optional Shizuku <span style="font-family:var(--mono);color:var(--cream)">btop</span> wrapper. Terminal Material colors are already on by default, so the theme picks up your wallpaper immediately.</p>
-        <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px">
-          <button data-copy style="position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-          <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--cream)">curl -fsSL https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples/setup-tmux-btop -o ~/setup-shell \
-  && chmod 700 ~/setup-shell && ~/setup-shell</pre>
-        </div>
-        <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:14px 0 0">The script asks whether to install everything, tmux only, or btop only. Want to know exactly what it changes, plus how fish, oh-my-posh, zoxide and eza fit together? ‚Üí <a data-nav="wiki" href="#wiki" style="color:var(--cyan);text-decoration:none;cursor:pointer">read the shell &amp; tmux docs</a></p>
-      </div>
-
-      <!-- tmux keybinds highlight -->
-      <div style="margin-top:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:24px 26px;max-width:760px">
-        <h3 style="font-family:var(--mono);font-weight:600;font-size:18px;margin:0 0 6px;color:var(--cream)">tmux keybinds</h3>
-        <p style="font-family:var(--sans);color:var(--mute);font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:620px">The bundled <span style="font-family:var(--mono);color:var(--cream)">termux-launcher-tmux</span> plugin ships Android-friendly keybinds. Forget one? There's a popup that lists every current binding:</p>
-        <div style="display:flex;align-items:center;gap:14px;background:var(--panelink);border:1px solid var(--gline);border-radius:10px;padding:14px 16px;margin-bottom:16px">
-          <kbd style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:7px;padding:7px 12px;white-space:nowrap">Alt + e</kbd>
-          <span style="font-family:var(--sans);font-size:14.5px;color:var(--cream)">Show the keybind reference popup</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 20px;font-family:var(--mono);font-size:12.5px;color:var(--mute)">
-          <div><span style="color:var(--gold)">Ctrl + Space</span> ¬∑ prefix (<span style="color:var(--dim)">Ctrl + b</span> fallback)</div>
-          <div><span style="color:var(--gold)">Alt + 1‚Ä¶9</span> ¬∑ jump to window</div>
-          <div><span style="color:var(--gold)">Alt + ‚Üê / ‚Üí</span> ¬∑ prev / next window</div>
-          <div><span style="color:var(--gold)">Alt + ‚Üë / ‚Üì</span> ¬∑ prev / next session</div>
-          <div><span style="color:var(--gold)">Ctrl+Alt + arrows</span> ¬∑ move between panes</div>
-          <div><span style="color:var(--gold)">F12</span> ¬∑ reload Termux settings</div>
-        </div>
-        <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:16px 0 0">Full keybind tables, themes and app-launch shortcuts ‚Üí <a data-nav="wiki" href="#wiki" style="color:var(--cyan);text-decoration:none;cursor:pointer">shell &amp; tmux docs</a></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- footer -->
-  <footer style="border-top:1px solid var(--line);background:var(--panelink)">
-    <div style="max-width:1200px;margin:0 auto;padding:28px 22px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
-      <div style="display:flex;align-items:center;gap:10px">
-        <img src="assets/icons/termux-launcher.png" alt="" width="22" height="22" style="width:22px;height:22px;border-radius:6px">
-        <span style="font-family:var(--mono);font-size:12.5px;color:var(--dim)">termux-launcher ¬∑ the shell is the launcher</span>
-      </div>
-      <div style="display:flex;gap:16px;font-family:var(--mono);font-size:12.5px">
-        <a data-nav="setup" href="#setup" style="color:var(--mute);text-decoration:none;cursor:pointer">Overview</a>
-        <a data-nav="wiki" href="#wiki" style="color:var(--mute);text-decoration:none;cursor:pointer">Docs</a>
-        <a data-nav="ai" href="#ai" style="color:var(--mute);text-decoration:none;cursor:pointer">Termux AI</a>
-        <a href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">GitHub ‚Üó</a>
-      </div>
-    </div>
-  </footer>
-
-</div>
-</div>
-<script src="app.js?v=20260720-2" defer></script>
-</body>
-</html>
+                  <a href="https://github.com/PickleHik3/termux-launcher/releases" data-releas◊æ7‚⁄$z{-ÆÈ‹j◊ù2„WÉ∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂&6∂w&˜VÊCßG&Á7&VÁC∂&˜&FW#¶ÊˆÊS∑FFñÊs£gÇ∂7W'6˜#ßˆñÁFW"#‰W'&˜'2f◊≤7FGW3¬ˆ'WGFˆ„‡–¢∆'WGFˆ‚FF◊67&ˆ∆«FÛ“&W◊7G&V÷ñÊr"7Gñ∆S“&Fó7∆ì¶&∆ˆ6≥∑FWáB÷∆ñv„¶∆VgC∑vñGFÉ£S∂fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂fˆÁB◊6ó¶S£2„WÉ∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂&6∂w&˜VÊCßG&Á7&VÁC∂&˜&FW#¶ÊˆÊS∑FFñÊs£gÇ∂7W'6˜#ßˆñÁFW"#Â7G&V÷ñÊs¬ˆ'WGFˆ„‡–¢∆Fób7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£É∂∆WGFW"◊76ñÊs¢„FV”∑FWáB◊G&Á6f˜&”ßWW&66S∂6ˆ∆˜#ßf"Ç“÷Fñ“ì∂÷&vñ„£gÇgÇ#‰VÊGˆñÁG3¬ˆFóc‡–¢∆FóbFF÷W∆ó7B7Gñ∆S“&Fó7∆ì¶f∆WÉ∂f∆WÇ÷Fó&V7Fñˆ„¶6ˆ«V÷„∂v£'Ç#„¬ˆFóc‡–¢¬ˆ6ñFS‡–¢¬““VÊGˆñÁBFWFñ¬“”‡–¢∆÷ñ‚7Gñ∆S“&÷ñ‚◊vñGFÉ£#‡–¢∆FóbFF◊7íñC“&W÷ñÁG&Ú"7Gñ∆S“'67&ˆ∆¬÷÷&vñ‚◊F˜£cGÇ#‡–¢∆Fób7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£'É∂6ˆ∆˜#ßf"Ç“÷vˆ∆Bì∂∆WGFW"◊76ñÊs¢„fV”∂÷&vñ‚÷&˜GFˆ”£gÇ#‰í$TdU$T‰4S¬ˆFóc‡–¢∆É"7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊vVñváC£s∂fˆÁB◊6ó¶S£3É∂÷&vñ„£GÉ∂6ˆ∆˜#ßf"Ç“÷7&V“í#‰ñÁG&ˆGV7Fñˆ„¬ˆÉ#‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂fˆÁB◊6ó¶S£gÉ∂∆ñÊR÷ÜVñváC£„s∂÷Ç◊vñGFÉ£cCÉ∂÷&vñ„£áÇ#ÂW6RDíw2∆ˆ6¬íFÚ'V‚ÊBñÁFW&7BvóFÇ÷ˆFV«2‚FÜR6÷R6W'fW"«6Ú˜vW'2«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#Ê∆VÊ6ÜW&7F√¬˜7„‚‚WfW'í&˜WFR&WVó&W2FÜR&V&W"Fˆ∂V‚„¬˜‡–¢¬ˆFóc‡–†–¢∆FóbFF◊7íñC“&W÷&6R"7Gñ∆S“'67&ˆ∆¬÷÷&vñ‚◊F˜£cGÉ∂÷&vñ‚◊F˜£CÇ#‡–¢∆É27Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊vVñváC£c∂fˆÁB◊6ó¶S£#É∂÷&vñ„£É∂6ˆ∆˜#ßf"Ç“÷7&V“í#‰&6RU$¬f◊≤WFÉ¬ˆÉ3‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂fˆÁB◊6ó¶S£R„WÉ∂∆ñÊR÷ÜVñváC£„s∂÷Ç◊vñGFÉ£cCÉ∂÷&vñ„£GÇ#ÂDí7F˜&W2óG27W'&VÁBFG&W72ÊB6V7&WBFˆ∂V‚ñ‚«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#Á‚ÚÊ∆VÊ6ÜW&7F¬Û¬˜7„‚‚˜V‰í÷6ˆ◊Fñ&∆R6∆ñVÁG2VÊB«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‚˜c¬˜7„„≤ˆ∆∆÷6∆ñVÁG2W6RFÜR&6RFG&W722÷ó2„¬˜‡–¢∆FóbFF÷6÷B7Gñ∆S“'˜6óFñˆ„ß&V∆FófS∂&6∂w&˜VÊCßf"Ç“◊ÊV∆ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷∆ñÊRì∂&˜&FW"◊&FóW3£É∑FFñÊs£WÉ∂÷Ç◊vñGFÉ£ccÇ#‡–¢∆'WGFˆ‚FF÷6˜í7Gñ∆S“'˜6óFñˆ„¶'6ˆ«WFS∑F˜£óÉ∑&ñváC£óÉ∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£É∑FWáB◊G&Á6f˜&”ßWW&66S∂6ˆ∆˜#ßf"Ç“÷vˆ∆Bì∂&6∂w&˜VÊCßf"Ç“◊ÊV∆ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷v∆ñÊRì∂&˜&FW"◊&FóW3£gÉ∑FFñÊs£WÇÉ∂7W'6˜#ßˆñÁFW"#„«7‚FF÷6˜í÷∆&V√Ê6˜ì¬˜7„„¬ˆ'WGFˆ„‡–¢«&RFF÷6÷B◊FWáB7Gñ∆S“&÷&vñ„£∂˜fW&f∆˜r◊É¶WFÛ∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£"„WÉ∂∆ñÊR÷ÜVñváC£„s∂6ˆ∆˜#ßf"Ç“÷7&V“í#‰$4S“Bá6VB÷‚sr‚ÚÊ∆VÊ6ÜW&7F¬ˆVÊGˆñÁBê–•DÙ¥T„“BÜ6B‚ÚÊ∆VÊ6ÜW&7F¬˜Fˆ∂V‚ê–¶Wá˜'BıT‰ïÙ$4UıU$√“"D$4R˜c –¶Wá˜'BıT‰ïÙïÙ¥Uì“"EDÙ¥T‚#¬˜&S‡–¢¬ˆFóc‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷Fñ“ì∂fˆÁB◊6ó¶S£2„WÉ∂∆ñÊR÷ÜVñváC£„c∂÷Ç◊vñGFÉ£cCÉ∂÷&vñ„£GÇ#‰FVfV«B&ñÊB÷ˆFRó2«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#Ê∆ˆ6∆Ü˜7C¬˜7„‚É«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#„#r„„„¬˜7„‚í‚ƒ‚÷ˆFRó2˜B÷ñ„≤G&VBFÜRFˆ∂V‚2ÊWGv˜&≤6V7&WBvÜV‚VÊ&∆VB‚ÊÚ4ı%2ÜVFW'2&RV÷óGFVB(	B'&˜w6W"6∆ñVÁG26‚wB6∆¬FÜRíFó&V7F«í„¬˜‡–¢¬ˆFóc‡–†–¢∆FóbFF◊7íñC“&W◊&FV∆ñ÷óG2"7Gñ∆S“'67&ˆ∆¬÷÷&vñ‚◊F˜£cGÉ∂÷&vñ‚◊F˜£CÇ#‡–¢∆É27Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊vVñváC£c∂fˆÁB◊6ó¶S£#É∂÷&vñ„£É∂6ˆ∆˜#ßf"Ç“÷7&V“í#Â&FR∆ñ÷óG3¬ˆÉ3‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂fˆÁB◊6ó¶S£R„WÉ∂∆ñÊR÷ÜVñváC£„s∂÷Ç◊vñGFÉ£cCÉ∂÷&vñ„£GÇ#‰WfW'í&˜WFRó2&FR÷∆ñ÷óFVBW"&ˆ∆∆ñÊrc◊6V6ˆÊBvñÊF˜r¬W"&˜WFR‚WÜ6VVFñÊr∆ñ÷óB&WGW&Á2«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‰ÖEEC#ì¬˜7„‚‚∆"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷7&V“í#‰ÊÚ«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚí#Â&WG'í‘gFW#¬˜7„‚˜"«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚí#Â&FT∆ñ÷óB“£¬˜7„‚ÜVFW'2&R6VÁC¬ˆ#‚(	B&6≤ˆfbñ‚ñ˜W"6∆ñVÁBÜ6Ü˜'B6∆VWÊB&WG'íívÜV‚ñ˜R6VRC#í„¬˜‡–¢∆Fób7Gñ∆S“&˜fW&f∆˜r◊É¶WFÛ∂÷Ç◊vñGFÉ£ccÇ#„«F&∆R7Gñ∆S“&&˜&FW"÷6ˆ∆∆6S¶6ˆ∆∆6S∑vñGFÉ£S∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£7Ç#„«F&ˆGì‡–¢«G#„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#Â&VG2á7FGW2¬÷ˆFV«2¬&W6˜W&6W2¬Ê˜Fñfñ6FñˆÁ2ì¬˜FC„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∑FWáB÷∆ñv„ß&ñváC∂6ˆ∆˜#ßf"Ç“÷7&V“í#„#Ú÷ñ„¬˜FC„¬˜G#‡–¢«G#„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#‰vVÊW&Fñˆ‚f◊≤vVÁBÜ6ÜB¬&W7ˆÁ6W2¬V÷&VFFñÊw2¬WÜV7WFRì¬˜FC„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∑FWáB÷∆ñv„ß&ñváC∂6ˆ∆˜#ßf"Ç“÷7&V“í#„cÚ÷ñ„¬˜FC„¬˜G#‡–¢«G#„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#‰∆VÊ6É¬˜FC„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∑FWáB÷∆ñv„ß&ñváC∂6ˆ∆˜#ßf"Ç“÷7&V“í#„3Ú÷ñ„¬˜FC„¬˜G#‡–¢«G#„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#‰÷ˆFV¬∆ˆBÚF˜vÊ∆ˆBÚñ◊˜'C¬˜FC„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∑FWáB÷∆ñv„ß&ñváC∂6ˆ∆˜#ßf"Ç“÷7&V“í#„#Ú÷ñ„¬˜FC„¬˜G#‡–¢«G#„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#‰∆ófRWfVÁB7G&V“Ü˜VÁ2ì¬˜FC„«FB7Gñ∆S“'FFñÊs£áÇ'É∂&˜&FW"÷&˜GFˆ”£Ç6ˆ∆ñBf"Ç“÷∆ñÊS"ì∑FWáB÷∆ñv„ß&ñváC∂6ˆ∆˜#ßf"Ç“÷7&V“í#„"Ú÷ñ„¬˜FC„¬˜G#‡–¢«G#„«FB7Gñ∆S“'FFñÊs£áÇ'É∂6ˆ∆˜#ßf"Ç“÷◊WFRí#‰FW7G'V7FófRÜ&W7F'B¬Fˆ∂V‚&˜FFRì¬˜FC„«FB7Gñ∆S“'FFñÊs£áÇ'É∑FWáB÷∆ñv„ß&ñváC∂6ˆ∆˜#ßf"Ç“÷7&V“í#„RÚ÷ñ„¬˜FC„¬˜G#‡–¢¬˜F&ˆGì„¬˜F&∆S„¬ˆFóc‡–¢¬ˆFóc‡–†–¢∆FóbFF◊7íñC“&W÷W'&˜'2"7Gñ∆S“'67&ˆ∆¬÷÷&vñ‚◊F˜£cGÉ∂÷&vñ‚◊F˜£CÇ#‡–¢∆É27Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊vVñváC£c∂fˆÁB◊6ó¶S£#É∂÷&vñ„£É∂6ˆ∆˜#ßf"Ç“÷7&V“í#‰W'&˜'2f◊≤7FGW3¬ˆÉ3‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂fˆÁB◊6ó¶S£R„WÉ∂∆ñÊR÷ÜVñváC£„s∂÷Ç◊vñGFÉ£cCÉ∂÷&vñ„£GÇ#‰W'&˜'2W6RFÜR˜V‰íW'&˜"VÁfV∆˜R¬vóFÇ7G&ñÊr«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#Ê6ˆFS¬˜7„‚ñ˜R6‚7vóF6Çˆ‚‚6ˆ÷÷ˆ‚6ˆFW3¢«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#Ê&E˜&WVW7C¬˜7„‚ÉCí¬«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#Ê÷ˆFV≈ˆÊ˜Eˆf˜VÊC¬˜7„‚ÉCBí¬«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#ÁVÁ7W˜'FVEˆVFñıˆ˜WGWC¬˜7„‚ÉSí‚÷ó76ñÊr˜"w&ˆÊr&V&W"Fˆ∂V‚&WGW&Á2C„¬˜‡–¢∆FóbFF÷6÷B7Gñ∆S“'˜6óFñˆ„ß&V∆FófS∂&6∂w&˜VÊCßf"Ç“◊ÊV∆ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷∆ñÊRì∂&˜&FW"◊&FóW3£É∑FFñÊs£WÉ∂÷Ç◊vñGFÉ£ccÇ#‡–¢∆'WGFˆ‚FF÷6˜í7Gñ∆S“'˜6óFñˆ„¶'6ˆ«WFS∑F˜£óÉ∑&ñváC£óÉ∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£É∑FWáB◊G&Á6f˜&”ßWW&66S∂6ˆ∆˜#ßf"Ç“÷vˆ∆Bì∂&6∂w&˜VÊCßf"Ç“◊ÊV∆ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷v∆ñÊRì∂&˜&FW"◊&FóW3£gÉ∑FFñÊs£WÇÉ∂7W'6˜#ßˆñÁFW"#„«7‚FF÷6˜í÷∆&V√Ê6˜ì¬˜7„„¬ˆ'WGFˆ„‡–¢«&RFF÷6÷B◊FWáB7Gñ∆S“&÷&vñ„£∂˜fW&f∆˜r◊É¶WFÛ∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£"„WÉ∂∆ñÊR÷ÜVñváC£„s∂6ˆ∆˜#ßf"Ç“÷7&V“í#Á∞–¢&W'&˜"#¢∞–¢'GóR#¢&ñÁf∆ñE˜&WVW7EˆW'&˜""¿–¢&6ˆFR#¢&÷ˆFV≈ˆÊ˜Eˆf˜VÊB"¿–¢&÷W76vR#¢%VÊ∂Ê˜v‚Dí÷ˆFV√¢‘ÙDT≈ÙîB –¢––ß”¬˜&S‡–¢¬ˆFóc‡–¢¬ˆFóc‡–†–¢∆FóbFF◊7íñC“&W◊7G&V÷ñÊr"7Gñ∆S“'67&ˆ∆¬÷÷&vñ‚◊F˜£cGÉ∂÷&vñ‚◊F˜£CÇ#‡–¢∆É27Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊vVñváC£c∂fˆÁB◊6ó¶S£#É∂÷&vñ„£É∂6ˆ∆˜#ßf"Ç“÷7&V“í#Â7G&V÷ñÊs¬ˆÉ3‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂fˆÁB◊6ó¶S£R„WÉ∂∆ñÊR÷ÜVñváC£„s∂÷Ç◊vñGFÉ£cCÉ∂÷&vñ„£áÇ#ÂFÜR˜V‰í&˜WFW2É«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‚˜cˆ6ÜBˆ6ˆ◊∆WFñˆÁ3¬˜7„‚¬«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‚˜c˜&W7ˆÁ6W3¬˜7„‚í7G&V“2∆"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷7&V“í#Â6W'fW"’6VÁBWfVÁG3¬ˆ#‚vÜV‚ñ˜R6VÊB«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‚'7G&V“#¢G'VS¬˜7„‚¬FW&÷ñÊFVB'í«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷◊WFRí#ÊFF¢¥DÙ‰U”¬˜7„‚∆ñÊR‚FÜRˆ∆∆÷&˜WFW2É«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‚ˆíˆ6ÜC¬˜7„‚¬«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‚ˆíˆvVÊW&FS¬˜7„‚í7G&V“∆"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷7&V“í#ÊÊWv∆ñÊR÷FV∆ñ÷óFVB•4Ù„¬ˆ#‚'íFVfV«B‚FÜR∆VÊ6ÜW"WfVÁBfVVB«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#‚˜cˆWfVÁG2˜7G&V”¬˜7„‚ó2∆ˆÊr÷∆ófVB54R6ˆÊÊV7Fñˆ‚(	B˜V‚ˆÊR7G&V“&FÜW"FÜ‚ˆ∆∆ñÊr„¬˜‡–¢¬ˆFóc‡–†–¢∆FóbFF÷WFWFñ¬7Gñ∆S“&÷&vñ‚◊F˜£CGÉ∂Fó7∆ì¶f∆WÉ∂f∆WÇ÷Fó&V7Fñˆ„¶6ˆ«V÷„∂v£GÇ#„¬ˆFóc‡–¢¬ˆ÷ñ„‡–¢¬ˆFóc‡–¢¬ˆFóc‡–¢¬˜6V7Fñˆ„‡–†–¢¬““””””””””””””””“4UEU+rı5B‘îÂ5Dƒ¬4ÑTƒ¬””””””””””””””““”‡–¢«6V7Fñˆ‚FF◊fñWs“'6WGW"FF◊67&VV‚÷∆&V√“#26ÜV∆¬"7Gñ∆S“&Fó7∆ì¶ÊˆÊR#‡–¢∆Fób7Gñ∆S“&÷Ç◊vñGFÉ£ìCÉ∂÷&vñ„£WFÛ∑FFñÊs£CGÇ#GÇÉ∂&˜&FW"◊F˜£Ç6ˆ∆ñBf"Ç“÷∆ñÊRí#‡–¢∆Fób7Gñ∆S“&Fó7∆ì¶f∆WÉ∂∆ñv‚÷óFV◊3¶6VÁFW#∂v£'É∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£É∂∆WGFW"◊76ñÊs¢„fV”∂6ˆ∆˜#ßf"Ç“÷vˆ∆Bì∂÷&vñ‚÷&˜GFˆ”£áÇ#‰ıDîÙ‰√«7‚7Gñ∆S“&f∆WÉ£∂ÜVñváC£É∂&6∂w&˜VÊCßf"Ç“÷∆ñÊRí#„¬˜7„Âı5B‘îÂ5Dƒ√¬ˆFóc‡–¢∆Fób7Gñ∆S“&&˜&FW#£Ç6ˆ∆ñBf"Ç“÷∆ñÊRì∂&˜&FW"◊&FóW3£GÉ∂&6∂w&˜VÊC¶∆ñÊV"÷w&FñVÁBÉÉFVr«f"Ç“÷vˆ∆B◊6ˆgBí«G&Á7&VÁBSRRí«f"Ç“◊ÊV¬ì∑FFñÊs£#gÇ#gÇ#áÉ∂÷Ç◊vñGFÉ£scÇ#‡–¢∆É"7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊vVñváC£c∂fˆÁB◊6ó¶S£#'É∂÷&vñ„£gÉ∂6ˆ∆˜#ßf"Ç“÷7&V“í#‰ˆÊR6ˆ÷÷ÊBf˜"FÜR6ÜV∆¬FÜV÷S¬ˆÉ#‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂fˆÁB◊6ó¶S£WÉ∂∆ñÊR÷ÜVñváC£„c∂÷&vñ„£gÉ∂÷Ç◊vñGFÉ£c#Ç#‰ˆÊ6Rñ˜Rw&RÜˆ÷R¬&V7&VFRFÜR˜ñÊñˆÊFVBv˜&∑76Rg&ˆ“FÜRfñFVÚ(	B«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#Êfó6Ç+rˆÇ÷◊í◊˜6Ç+rF◊WÇ+r¶˜ÜñFR+rW¶¬˜7„‚«W2FÜR÷FW&ñ¬F◊WÇFÜV÷RÊBFÜR˜FñˆÊ¬6ÜóßV∑R«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#Ê'F˜¬˜7„‚w&W"‚FW&÷ñÊ¬÷FW&ñ¬6ˆ∆˜'2&R«&VGíˆ‚'íFVfV«B¬6ÚFÜRFÜV÷Rñ6∑2Wñ˜W"v∆«W"ñ÷÷VFñFV«í„¬˜‡–¢∆FóbFF÷6÷B7Gñ∆S“'˜6óFñˆ„ß&V∆FófS∂&6∂w&˜VÊCßf"Ç“÷ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷∆ñÊRì∂&˜&FW"◊&FóW3£É∑FFñÊs£gÇ#‡–¢∆'WGFˆ‚FF÷6˜í7Gñ∆S“'˜6óFñˆ„¶'6ˆ«WFS∑F˜£É∑&ñváC£É∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£É∂∆WGFW"◊76ñÊs¢„V”∑FWáB◊G&Á6f˜&”ßWW&66S∂6ˆ∆˜#ßf"Ç“÷vˆ∆Bì∂&6∂w&˜VÊCßf"Ç“÷ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷v∆ñÊRì∂&˜&FW"◊&FóW3£gÉ∑FFñÊs£WÇÉ∂7W'6˜#ßˆñÁFW"#„«7‚FF÷6˜í÷∆&V√Ê6˜ì¬˜7„„¬ˆ'WGFˆ„‡–¢«&RFF÷6÷B◊FWáB7Gñ∆S“&÷&vñ„£∂˜fW&f∆˜r◊É¶WFÛ∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£7É∂∆ñÊR÷ÜVñváC£„s∂6ˆ∆˜#ßf"Ç“÷7&V“í#Ê7W&¬÷g54¬áGG3¢Ú˜&rÊvóFáV'W6W&6ˆÁFVÁBÊ6ˆ“ıñ6∂∆TÜñ≥2˜FW&◊WÇ÷∆VÊ6ÜW"ˆ÷ñ‚ˆFˆ72ˆV‚ˆWÜ◊∆W2˜6WGW◊F◊WÇ÷'F˜÷Ú‚˜6WGW◊6ÜV∆¬¿–¢bb6Ü÷ˆBs‚˜6WGW◊6ÜV∆¬bb‚˜6WGW◊6ÜV∆√¬˜&S‡–¢¬ˆFóc‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£"„WÉ∂6ˆ∆˜#ßf"Ç“÷Fñ“ì∂÷&vñ„£GÇ#ÂFÜR67&óB6∑2vÜWFÜW"FÚñÁ7F∆¬WfW'óFÜñÊr¬F◊WÇˆÊ«í¬˜"'F˜ˆÊ«í‚vÁBFÚ∂Ê˜rWÜ7F«ívÜBóB6ÜÊvW2¬«W2Ü˜rfó6Ç¬ˆÇ÷◊í◊˜6Ç¬¶˜ÜñFRÊBW¶fóBFˆvWFÜW#Ú(i"∆FF÷Êc“'vñ∂í"á&Vc“"7vñ∂í"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷7ñ‚ì∑FWáB÷FV6˜&Fñˆ„¶ÊˆÊS∂7W'6˜#ßˆñÁFW"#Á&VBFÜR6ÜV∆¬f◊≤F◊WÇFˆ73¬ˆ„¬˜‡–¢¬ˆFóc‡–†–¢¬““F◊WÇ∂Wñ&ñÊG2ÜñvÜ∆ñváB“”‡–¢∆Fób7Gñ∆S“&÷&vñ‚◊F˜£#'É∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷∆ñÊRì∂&˜&FW"◊&FóW3£GÉ∂&6∂w&˜VÊCßf"Ç“◊ÊV¬ì∑FFñÊs£#GÇ#gÉ∂÷Ç◊vñGFÉ£scÇ#‡–¢∆É27Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊vVñváC£c∂fˆÁB◊6ó¶S£áÉ∂÷&vñ„£gÉ∂6ˆ∆˜#ßf"Ç“÷7&V“í#ÁF◊WÇ∂Wñ&ñÊG3¬ˆÉ3‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂6ˆ∆˜#ßf"Ç“÷◊WFRì∂fˆÁB◊6ó¶S£B„WÉ∂∆ñÊR÷ÜVñváC£„c∂÷&vñ„£gÉ∂÷Ç◊vñGFÉ£c#Ç#ÂFÜR'VÊF∆VB«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂6ˆ∆˜#ßf"Ç“÷7&V“í#ÁFW&◊WÇ÷∆VÊ6ÜW"◊F◊WÉ¬˜7„‚«Vvñ‚6Üó2ÊG&ˆñB÷g&ñVÊF«í∂Wñ&ñÊG2‚f˜&vWBˆÊSÚFÜW&Rw2˜WFÜB∆ó7G2WfW'í7W'&VÁB&ñÊFñÊs£¬˜‡–¢∆Fób7Gñ∆S“&Fó7∆ì¶f∆WÉ∂∆ñv‚÷óFV◊3¶6VÁFW#∂v£GÉ∂&6∂w&˜VÊCßf"Ç“◊ÊV∆ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷v∆ñÊRì∂&˜&FW"◊&FóW3£É∑FFñÊs£GÇgÉ∂÷&vñ‚÷&˜GFˆ”£gÇ#‡–¢∆∂&B7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£GÉ∂fˆÁB◊vVñváC£c∂6ˆ∆˜#ßf"Ç“÷vˆ∆Bì∂&6∂w&˜VÊCßf"Ç“÷ñÊ≤ì∂&˜&FW#£Ç6ˆ∆ñBf"Ç“÷v∆ñÊRì∂&˜&FW"◊&FóW3£wÉ∑FFñÊs£wÇ'É∑vÜóFR◊76S¶Ê˜w&#‰«B≤S¬ˆ∂&C‡–¢«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“◊6Á2ì∂fˆÁB◊6ó¶S£B„WÉ∂6ˆ∆˜#ßf"Ç“÷7&V“í#Â6Ü˜rFÜR∂Wñ&ñÊB&VfW&VÊ6R˜W¬˜7„‡–¢¬ˆFóc‡–¢∆Fób7Gñ∆S“&Fó7∆ì¶w&ñC∂w&ñB◊FV◊∆FR÷6ˆ«V÷Á3ß&WVBÜWFÚ÷fóB∆÷ñÊ÷ÇÉÉÇ√g"íì∂v£áÇ#É∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£"„WÉ∂6ˆ∆˜#ßf"Ç“÷◊WFRí#‡–¢∆Fóc„«7‚7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷vˆ∆Bí#‰7G&¬≤76S¬˜7„‚+r&VfóÇÉ«7‚7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷Fñ“í#‰7G&¬≤#¬˜7„‚f∆∆&6≤ì¬ˆFóc‡–¢∆Fóc„«7‚7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷vˆ∆Bí#‰«B≤(
+cì¬˜7„‚+rßV◊FÚvñÊF˜s¬ˆFóc‡–¢∆Fóc„«7‚7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷vˆ∆Bí#‰«B≤(iÚ(i#¬˜7„‚+r&WbÚÊWáBvñÊF˜s¬ˆFóc‡–¢∆Fóc„«7‚7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷vˆ∆Bí#‰«B≤(iÚ(i3¬˜7„‚+r&WbÚÊWáB6W76ñˆ„¬ˆFóc‡–¢∆Fóc„«7‚7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷vˆ∆Bí#‰7G&¬¥«B≤'&˜w3¬˜7„‚+r÷˜fR&WGvVV‚ÊW3¬ˆFóc‡–¢∆Fóc„«7‚7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷vˆ∆Bí#‰c#¬˜7„‚+r&V∆ˆBFW&◊WÇ6WGFñÊw3¬ˆFóc‡–¢¬ˆFóc‡–¢«7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£"„WÉ∂6ˆ∆˜#ßf"Ç“÷Fñ“ì∂÷&vñ„£gÇ#‰gV∆¬∂Wñ&ñÊBF&∆W2¬FÜV÷W2ÊB÷∆VÊ6Ç6Ü˜'F7WG2(i"∆FF÷Êc“'vñ∂í"á&Vc“"7vñ∂í"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷7ñ‚ì∑FWáB÷FV6˜&Fñˆ„¶ÊˆÊS∂7W'6˜#ßˆñÁFW"#Á6ÜV∆¬f◊≤F◊WÇFˆ73¬ˆ„¬˜‡–¢¬ˆFóc‡–¢¬ˆFóc‡–¢¬˜6V7Fñˆ„‡–†–¢¬““fˆ˜FW"“”‡–¢∆fˆ˜FW"7Gñ∆S“&&˜&FW"◊F˜£Ç6ˆ∆ñBf"Ç“÷∆ñÊRì∂&6∂w&˜VÊCßf"Ç“◊ÊV∆ñÊ≤í#‡–¢∆Fób7Gñ∆S“&÷Ç◊vñGFÉ£#É∂÷&vñ„£WFÛ∑FFñÊs£#áÇ#'É∂Fó7∆ì¶f∆WÉ∂f∆WÇ◊w&ßw&∂v£gÉ∂∆ñv‚÷óFV◊3¶6VÁFW#∂ßW7Fñgí÷6ˆÁFVÁCß76R÷&WGvVV‚#‡–¢∆Fób7Gñ∆S“&Fó7∆ì¶f∆WÉ∂∆ñv‚÷óFV◊3¶6VÁFW#∂v£Ç#‡–¢∆ñ÷r7&3“&76WG2ˆñ6ˆÁ2˜FW&◊WÇ÷∆VÊ6ÜW"ÁÊr"«C“""vñGFÉ“##""ÜVñváC“##""7Gñ∆S“'vñGFÉ£#'É∂ÜVñváC£#'É∂&˜&FW"◊&FóW3£gÇ#‡–¢«7‚7Gñ∆S“&fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£"„WÉ∂6ˆ∆˜#ßf"Ç“÷Fñ“í#ÁFW&◊WÇ÷∆VÊ6ÜW"+rFÜR6ÜV∆¬ó2FÜR∆VÊ6ÜW#¬˜7„‡–¢¬ˆFóc‡–¢∆Fób7Gñ∆S“&Fó7∆ì¶f∆WÉ∂v£gÉ∂fˆÁB÷f÷ñ«ìßf"Ç“÷÷ˆÊÚì∂fˆÁB◊6ó¶S£"„WÇ#‡–¢∆FF÷Êc“'6WGW"á&Vc“"76WGW"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷◊WFRì∑FWáB÷FV6˜&Fñˆ„¶ÊˆÊS∂7W'6˜#ßˆñÁFW"#‰˜fW'fñWs¬ˆ‡–¢∆FF÷Êc“'vñ∂í"á&Vc“"7vñ∂í"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷◊WFRì∑FWáB÷FV6˜&Fñˆ„¶ÊˆÊS∂7W'6˜#ßˆñÁFW"#‰Fˆ73¬ˆ‡–¢∆FF÷Êc“&í"á&Vc“"6í"7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷◊WFRì∑FWáB÷FV6˜&Fñˆ„¶ÊˆÊS∂7W'6˜#ßˆñÁFW"#ÂFW&◊WÇì¬ˆ‡–¢∆á&Vc“&áGG3¢ÚˆvóFáV"Ê6ˆ“ıñ6∂∆TÜñ≥2˜FW&◊WÇ÷∆VÊ6ÜW""F&vWC“%ˆ&∆Ê≤"&V√“&Êˆ˜VÊW""7Gñ∆S“&6ˆ∆˜#ßf"Ç“÷7ñ‚ì∑FWáB÷FV6˜&Fñˆ„¶ÊˆÊR#‰vóDáV"(is¬ˆ‡–¢¬ˆFóc‡–¢¬ˆFóc‡–¢¬ˆfˆ˜FW#‡–†–£¬ˆFóc‡–£¬ˆFóc‡–£«67&óB7&3“&Êß3˜c”##cs#”R"FVfW#„¬˜67&óC‡£¬ˆ&ˆGì‡–£¬ˆáF÷√‡–†

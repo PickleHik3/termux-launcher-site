@@ -6,6 +6,10 @@ class TermuxLauncherSite {
     this.spyMap = null;
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
+    this.staticWikiFiles = [
+      "overview", "install", "tour", "surface", "keys", "shell",
+      "tmux", "launcherctl", "shizuku", "tai", "agent", "trouble"
+    ];
     this.endpointGroups = [
       {
         name: "OpenAI-compatible",
@@ -76,592 +80,5 @@ class TermuxLauncherSite {
         ]
       }
     ];
-    this.methodColors = {
-      GET: "var(--green)",
-      POST: "var(--blue)",
-      DELETE: "var(--red)"
-    };
-  }
-
-  mount() {
-    this.buildEndpointReference();
-    this.decorateWikiContent();
-    this.buildSearchIndex();
-    this.wireSearch();
-    this.observer = "IntersectionObserver" in window
-      ? new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && this.spyMap) {
-              const link = this.spyMap[entry.target.id];
-              if (link) this.highlightSpy(link);
-            }
-          });
-        }, { rootMargin: "-64px 0px -68% 0px", threshold: 0 })
-      : null;
-
-    document.addEventListener("click", (event) => this.handleClick(event));
-    document.addEventListener("keydown", (event) => this.handleKey(event));
-    window.addEventListener("hashchange", () => this.routeFromHash());
-    window.addEventListener("popstate", () => this.routeFromHash());
-
-    this.statTimer = window.setInterval(() => this.tickStats(), 2200);
-    const initial = this.parseHash() || { view: "setup", subview: null };
-    this.setView(initial.view, initial.subview, false);
-  }
-
-  parseHash() {
-    const hash = window.location.hash.replace(/^#/, "");
-    if (!hash) return null;
-    const [view, subview = null] = hash.split("/");
-    return this.views.includes(view) ? { view, subview } : null;
-  }
-
-  routeFromHash() {
-    const route = this.parseHash();
-    if (route) this.setView(route.view, route.subview, false);
-  }
-
-  handleKey(event) {
-    if (event.target && /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)) return;
-    if (event.metaKey || event.ctrlKey || event.altKey) return;
-    if (event.key === "/") {
-      event.preventDefault();
-      this.openSearch();
-      return;
-    }
-    const viewNumber = Number.parseInt(event.key, 10);
-    if (viewNumber >= 1 && viewNumber <= this.views.length) {
-      this.setView(this.views[viewNumber - 1], null, true);
-    }
-  }
-
-  setView(view, subview, pushHistory) {
-    if (!this.views.includes(view)) view = "setup";
-    document.querySelectorAll("#tl [data-view]").forEach((element) => {
-      element.style.display = element.dataset.view === view ? "block" : "none";
-    });
-
-    document.querySelectorAll("#tl .nav-tabs [data-nav]").forEach((element) => {
-      const active = element.dataset.nav === view;
-      element.style.background = active ? "var(--blue-soft)" : "transparent";
-      element.style.color = active ? "var(--blue)" : "var(--mute)";
-      element.style.fontWeight = "400";
-      if (active) element.setAttribute("aria-current", "page");
-      else element.removeAttribute("aria-current");
-    });
-
-    const hash = `#${view}${subview ? `/${subview}` : ""}`;
-    if (pushHistory) {
-      if (window.location.hash !== hash) window.history.pushState(null, "", hash);
-    } else {
-      window.history.replaceState(null, "", hash);
-    }
-
-    if (this.observer) this.observer.disconnect();
-    this.spyMap = null;
-    if (view === "wiki") this.showArticle(subview);
-    if (view === "ai") this.buildSpy(document.querySelector('#tl [data-view="ai"]'));
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
-
-  showArticle(name) {
-    const articles = [...document.querySelectorAll("#tl [data-article-body]")];
-    const toc = document.querySelector("#tl [data-wiki-toc]");
-    if (!articles.length) {
-      if (toc) toc.replaceChildren();
-      if (window.location.hash !== "#wiki") window.history.replaceState(null, "", "#wiki");
-      return;
-    }
-    if (!articles.some((article) => article.dataset.articleBody === name)) {
-      name = articles[0].dataset.articleBody;
-    }
-
-    articles.forEach((article) => {
-      article.style.display = article.dataset.articleBody === name ? "block" : "none";
-    });
-    document.querySelectorAll("#tl [data-article]").forEach((button) => {
-      const active = button.dataset.article === name;
-      button.style.background = active ? "var(--gold-soft)" : "transparent";
-      button.style.borderLeftColor = active ? "var(--gold)" : "transparent";
-      button.style.color = active ? "var(--gold)" : "var(--mute)";
-      button.style.fontWeight = active ? "600" : "400";
-      button.setAttribute("aria-pressed", String(active));
-    });
-
-    this.buildSpy(
-      document.querySelector(`#tl [data-article-body="${name}"]`),
-      toc
-    );
-    const hash = `#wiki/${name}`;
-    if (window.location.hash !== hash) window.history.replaceState(null, "", hash);
-  }
-
-  buildSpy(scope, toc) {
-    if (!scope) return;
-    if (this.observer) this.observer.disconnect();
-    this.spyMap = {};
-    if (toc) toc.replaceChildren();
-
-    scope.querySelectorAll("[data-spy], .wiki-prose h2, .wiki-prose h3").forEach((heading) => {
-      if (toc) {
-        const link = document.createElement("a");
-        link.textContent = heading.textContent;
-        link.href = `#${heading.id}`;
-        link.dataset.anchor = heading.id;
-        link.style.cssText = `font-family:var(--sans);font-size:13px;line-height:1.4;text-decoration:none;color:var(--dim);cursor:pointer;padding-left:${heading.tagName === "H1" ? "0" : "10px"};transition:color .15s`;
-        toc.appendChild(link);
-        this.spyMap[heading.id] = link;
-      }
-      if (this.observer) this.observer.observe(heading);
-    });
-  }
-
-  highlightSpy(activeLink) {
-    Object.values(this.spyMap || {}).forEach((link) => {
-      const active = link === activeLink;
-      link.style.color = active ? "var(--gold)" : "var(--dim)";
-      link.style.fontWeight = active ? "600" : "400";
-    });
-  }
-
-  decorateWikiContent() {
-    document.querySelectorAll("#tl [data-article-body]").forEach((article) => {
-      const articleKey = article.dataset.articleBody;
-      const usedIds = new Set();
-
-      article.querySelectorAll(".wiki-prose h2, .wiki-prose h3").forEach((heading) => {
-        const base = heading.textContent
-          .toLowerCase()
-          .normalize("NFKD")
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "") || "section";
-        let id = `w-${articleKey}-${base}`;
-        let suffix = 2;
-        while (usedIds.has(id) || document.getElementById(id)) id = `w-${articleKey}-${base}-${suffix++}`;
-        usedIds.add(id);
-        heading.id = id;
-      });
-
-      article.querySelectorAll(".wiki-prose pre").forEach((pre) => {
-        if (pre.dataset.cmd !== undefined) return;
-        pre.dataset.cmd = "";
-        const code = pre.querySelector("code") || pre;
-        code.dataset.cmdText = "";
-        const button = document.createElement("button");
-        button.type = "button";
-        button.dataset.copy = "";
-        button.className = "wiki-copy";
-        button.innerHTML = "<span data-copy-label>copy</span>";
-        button.setAttribute("aria-label", "Copy code");
-        pre.appendChild(button);
-      });
-
-      article.querySelectorAll('.wiki-prose a[href^="http"]').forEach((link) => {
-        link.target = "_blank";
-        link.rel = "noopener";
-      });
-    });
-  }
-
-  buildSearchIndex() {
-    const index = [];
-    // Wiki articles (Docs)
-    document.querySelectorAll("#tl [data-article-body]").forEach((article) => {
-      const key = article.dataset.articleBody;
-      const button = document.querySelector(`#tl [data-article="${key}"]`);
-      const title = (button ? button.textContent : article.querySelector("h1")?.textContent || key).trim();
-      index.push({
-        title,
-        tag: "Docs",
-        view: "wiki",
-        sub: key,
-        text: (article.textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
-      });
-    });
-    // Static destinations
-    const statics = [
-      { title: "Download & install", tag: "About", view: "setup", id: "setup-downloads", kw: "apk build com.termux io.vaj.tl companion install release" },
-      { title: "Model catalog", tag: "Termux AI", view: "ai", id: "ai-catalog", kw: "gemma qwen deepseek embedding litert mnn model ram download" },
-      { title: "Add & import your own models", tag: "Termux AI", view: "ai", id: "ai-import", kw: "hugging face token import repo url litert mnn gguf" },
-      { title: "Chat from the terminal with AIChat", tag: "Termux AI", view: "ai", id: "ai-aichat", kw: "aichat openai compatible client endpoint token config" },
-      { title: "tai commands", tag: "Termux AI", view: "ai", id: "ai-commands", kw: "tai status models load runtime keep-warm doctor cli" },
-      { title: "API reference", tag: "Termux AI", view: "ai", id: "ep-intro", kw: "openai ollama endpoints v1 chat completions responses embeddings launcherctl rate limit 429 errors streaming sse agent tools" }
-    ];
-    statics.forEach((s) => index.push({
-      title: s.title, tag: s.tag, view: s.view, id: s.id,
-      text: (s.title + " " + s.kw).toLowerCase()
-    }));
-    this.searchIndex = index;
-    this.searchItems = [];
-    this.searchActive = -1;
-  }
-
-  wireSearch() {
-    this.searchRoot = document.querySelector("[data-search]");
-    this.searchToggle = document.querySelector("[data-search-toggle]");
-    this.searchInput = document.querySelector("[data-search-input]");
-    this.searchResults = document.querySelector("[data-search-results]");
-    if (!this.searchRoot || !this.searchInput || !this.searchResults) return;
-
-    this.searchToggle.addEventListener("click", () => this.openSearch());
-    this.searchInput.addEventListener("input", () => this.runSearch(this.searchInput.value));
-    this.searchInput.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") { this.closeSearch(true); return; }
-      if (event.key === "ArrowDown") { event.preventDefault(); this.moveActive(1); return; }
-      if (event.key === "ArrowUp") { event.preventDefault(); this.moveActive(-1); return; }
-      if (event.key === "Enter") {
-        event.preventDefault();
-        const pick = this.searchItems[this.searchActive] || this.searchItems[0];
-        if (pick) this.goToResult(pick);
-      }
-    });
-    this.searchResults.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-result]");
-      if (!button) return;
-      const item = this.searchItems[Number.parseInt(button.dataset.result, 10)];
-      if (item) this.goToResult(item);
-    });
-    document.addEventListener("click", (event) => {
-      if (!this.searchRoot.contains(event.target) && !this.searchResults.contains(event.target)) {
-        this.closeSearch(false);
-      }
-    });
-  }
-
-  openSearch() {
-    if (!this.searchRoot) return;
-    this.searchRoot.classList.add("open");
-    this.searchToggle.setAttribute("aria-expanded", "true");
-    this.searchInput.focus();
-    this.searchInput.select();
-    if (this.searchInput.value.trim()) this.runSearch(this.searchInput.value);
-  }
-
-  closeSearch(clear) {
-    if (!this.searchRoot) return;
-    this.searchRoot.classList.remove("open");
-    this.searchToggle.setAttribute("aria-expanded", "false");
-    this.searchResults.hidden = true;
-    this.searchResults.replaceChildren();
-    this.searchItems = [];
-    this.searchActive = -1;
-    if (clear) this.searchInput.value = "";
-  }
-
-  runSearch(query) {
-    const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    if (!terms.length) {
-      this.searchResults.hidden = true;
-      this.searchResults.replaceChildren();
-      this.searchItems = [];
-      return;
-    }
-    const scored = [];
-    for (const entry of this.searchIndex) {
-      const title = entry.title.toLowerCase();
-      let score = 0;
-      let matchesAll = true;
-      for (const term of terms) {
-        const inTitle = title.includes(term);
-        const inText = entry.text.includes(term);
-        if (!inTitle && !inText) { matchesAll = false; break; }
-        score += inTitle ? 3 : 1;
-      }
-      if (matchesAll) scored.push({ entry, score });
-    }
-    scored.sort((a, b) => b.score - a.score);
-    this.searchItems = scored.slice(0, 8).map((s) => s.entry);
-    this.searchActive = this.searchItems.length ? 0 : -1;
-    this.renderResults(terms);
-  }
-
-  renderResults(terms) {
-    this.searchResults.replaceChildren();
-    if (!this.searchItems.length) {
-      const empty = document.createElement("div");
-      empty.className = "search-empty";
-      empty.textContent = "No matches. Try another term.";
-      this.searchResults.appendChild(empty);
-      this.searchResults.hidden = false;
-      return;
-    }
-    this.searchItems.forEach((item, i) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.dataset.result = String(i);
-      button.className = "search-result" + (i === this.searchActive ? " active" : "");
-
-      const head = document.createElement("div");
-      const title = document.createElement("span");
-      title.className = "sr-title";
-      title.textContent = item.title;
-      const tag = document.createElement("span");
-      tag.className = "sr-tag";
-      tag.textContent = item.tag;
-      head.append(title, tag);
-      button.appendChild(head);
-
-      const snippet = this.snippetFor(item, terms);
-      if (snippet) {
-        const snip = document.createElement("div");
-        snip.className = "sr-snippet";
-        snip.textContent = snippet;
-        button.appendChild(snip);
-      }
-      this.searchResults.appendChild(button);
-    });
-    this.searchResults.hidden = false;
-  }
-
-  snippetFor(item, terms) {
-    const text = item.text;
-    if (!text) return "";
-    let at = -1;
-    for (const term of terms) {
-      const found = text.indexOf(term);
-      if (found >= 0 && (at < 0 || found < at)) at = found;
-    }
-    if (at < 0) return "";
-    const start = Math.max(0, at - 32);
-    let slice = text.slice(start, start + 120).trim();
-    if (start > 0) slice = "â€¦ " + slice;
-    if (start + 120 < text.length) slice += " â€¦";
-    return slice;
-  }
-
-  moveActive(delta) {
-    if (!this.searchItems.length) return;
-    this.searchActive = (this.searchActive + delta + this.searchItems.length) % this.searchItems.length;
-    this.searchResults.querySelectorAll("[data-result]").forEach((el, i) => {
-      el.classList.toggle("active", i === this.searchActive);
-      if (i === this.searchActive) el.scrollIntoView({ block: "nearest" });
-    });
-  }
-
-  goToResult(item) {
-    this.setView(item.view, item.sub || null, true);
-    if (item.id) window.setTimeout(() => this.scrollToId(item.id), 90);
-    this.closeSearch(true);
-  }
-
-  buildEndpointReference() {
-    const list = document.querySelector("#tl [data-eplist]");
-    const details = document.querySelector("#tl [data-epdetail]");
-    if (!list || !details) return;
-
-    this.endpointGroups.forEach((group, groupIndex) => {
-      const groupLabel = document.createElement("div");
-      groupLabel.textContent = group.name;
-      groupLabel.style.cssText = "font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:12px 0 4px";
-      list.appendChild(groupLabel);
-
-      const groupDetails = document.createElement("section");
-      groupDetails.dataset.spy = "";
-      groupDetails.id = `epg-${groupIndex}`;
-      groupDetails.style.cssText = "scroll-margin-top:64px;margin-top:8px;display:flex;flex-direction:column;gap:14px";
-      const title = document.createElement("h3");
-      title.textContent = group.name;
-      title.style.cssText = "font-family:var(--mono);font-weight:600;font-size:19px;margin:0 0 12px;color:var(--cream)";
-      groupDetails.appendChild(title);
-
-      group.items.forEach((endpoint) => {
-        list.appendChild(this.createEndpointLink(endpoint, groupIndex));
-        groupDetails.appendChild(this.createEndpointCard(endpoint));
-      });
-      details.appendChild(groupDetails);
-    });
-  }
-
-  createEndpointLink(endpoint, groupIndex) {
-    const button = document.createElement("button");
-    button.dataset.scrollto = `epg-${groupIndex}`;
-    button.style.cssText = "display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:transparent;border:none;padding:5px 0;cursor:pointer";
-
-    const method = document.createElement("span");
-    method.textContent = endpoint.method;
-    method.style.cssText = `font-family:var(--mono);font-size:9px;font-weight:700;color:${this.methodColors[endpoint.method] || "var(--mute)"};min-width:30px`;
-    const path = document.createElement("span");
-    path.textContent = endpoint.path.replace(/^.*\//, "/");
-    path.style.cssText = "font-family:var(--mono);font-size:12.5px;color:var(--mute)";
-    button.append(method, path);
-    return button;
-  }
-
-  createEndpointCard(endpoint) {
-    const card = document.createElement("article");
-    card.style.cssText = "background:var(--panelink);border:1px solid var(--line);border-radius:11px;padding:16px 18px";
-
-    const heading = document.createElement("div");
-    heading.style.cssText = "display:flex;align-items:center;gap:10px;flex-wrap:wrap";
-    const method = document.createElement("span");
-    method.textContent = endpoint.method;
-    method.style.cssText = `font-family:var(--mono);font-size:11px;font-weight:700;color:#0d1012;background:${this.methodColors[endpoint.method] || "var(--mute)"};border-radius:5px;padding:2px 8px`;
-    const path = document.createElement("code");
-    path.textContent = endpoint.path;
-    path.style.cssText = "font-family:var(--mono);font-size:14px;color:var(--cream)";
-    heading.append(method, path);
-
-    const description = document.createElement("p");
-    description.textContent = endpoint.description;
-    description.style.cssText = "font-family:var(--sans);font-size:14px;color:var(--mute);line-height:1.55;margin:11px 0 0";
-    card.append(heading, description);
-
-    if (endpoint.params) {
-      const params = document.createElement("p");
-      params.innerHTML = endpoint.params;
-      params.style.cssText = "font-family:var(--sans);font-size:13px;color:var(--dim);line-height:1.6;margin:9px 0 0";
-      card.appendChild(params);
-    }
-
-    if (endpoint.note) {
-      const note = document.createElement("div");
-      note.innerHTML = endpoint.note;
-      note.style.cssText = "display:flex;gap:8px;margin-top:11px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.28);border-radius:7px;padding:8px 11px;font-family:var(--mono);font-size:11.5px;color:#e6c4b4;line-height:1.5";
-      card.appendChild(note);
-    }
-
-    card.appendChild(this.createEndpointBlock(endpoint.example, "Request"));
-    card.appendChild(this.createEndpointBlock(endpoint.response, "Response", true));
-    return card;
-  }
-
-  createEndpointBlock(text, label, readOnly) {
-    if (!text) return document.createDocumentFragment();
-    const wrap = document.createElement("div");
-    wrap.style.cssText = "margin-top:12px";
-    if (label) {
-      const tag = document.createElement("div");
-      tag.textContent = label;
-      tag.style.cssText = "font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:5px";
-      wrap.appendChild(tag);
-    }
-    const command = document.createElement("div");
-    command.dataset.cmd = "";
-    command.style.cssText = "position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:13px";
-    if (!readOnly) {
-      const copy = document.createElement("button");
-      copy.dataset.copy = "";
-      copy.innerHTML = "<span data-copy-label>copy</span>";
-      copy.style.cssText = "position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer";
-      command.appendChild(copy);
-    }
-    const pre = document.createElement("pre");
-    pre.dataset.cmdText = "";
-    pre.textContent = text;
-    pre.style.cssText = `margin:0;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:${readOnly ? "var(--mute)" : "var(--cream)"}`;
-    command.appendChild(pre);
-    wrap.appendChild(command);
-    return wrap;
-  }
-
-  handleClick(event) {
-    const copyButton = event.target.closest("[data-copy]");
-    if (copyButton) {
-      const text = copyButton.closest("[data-cmd]")?.querySelector("[data-cmd-text]")?.textContent;
-      if (text) this.copyText(text.replace(/^\s*\$\s/, "").trim(), copyButton);
-      return;
-    }
-
-    const navigation = event.target.closest("[data-nav]");
-    if (navigation) {
-      event.preventDefault();
-      const scrollTarget = navigation.dataset.scrollto;
-      this.setView(navigation.dataset.nav, null, true);
-      if (scrollTarget) window.setTimeout(() => this.scrollToId(scrollTarget), 80);
-      return;
-    }
-
-    const article = event.target.closest("[data-article]");
-    if (article) {
-      this.showArticle(article.dataset.article);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    const anchor = event.target.closest("[data-anchor]");
-    if (anchor) {
-      event.preventDefault();
-      this.scrollToId(anchor.dataset.anchor);
-      return;
-    }
-
-    const wikiLink = event.target.closest('.wiki-prose a[href^="#"]');
-    if (wikiLink) {
-      const target = wikiLink.getAttribute("href").slice(1);
-      if (this.views.includes(target)) {
-        event.preventDefault();
-        this.setView(target, null, true);
-        return;
-      }
-      if (document.getElementById(target)) {
-        event.preventDefault();
-        this.scrollToId(target);
-        return;
-      }
-    }
-
-    const scrollTarget = event.target.closest("[data-scrollto]");
-    if (scrollTarget) {
-      event.preventDefault();
-      this.scrollToId(scrollTarget.dataset.scrollto);
-    }
-  }
-
-  scrollToId(id) {
-    const element = document.getElementById(id);
-    if (!element) return;
-    const top = element.getBoundingClientRect().top + window.scrollY - 58;
-    window.scrollTo({ top, behavior: "smooth" });
-  }
-
-  async copyText(text, button) {
-    try {
-      if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(text);
-      else this.legacyCopy(text);
-    } catch {
-      this.legacyCopy(text);
-    }
-
-    const label = button.querySelector("[data-copy-label]") || button;
-    const original = label.textContent;
-    label.textContent = "copied";
-    button.style.color = "var(--green)";
-    button.style.borderColor = "var(--green)";
-    window.clearTimeout(button.resetTimer);
-    button.resetTimer = window.setTimeout(() => {
-      label.textContent = original;
-      button.style.color = "var(--gold)";
-      button.style.borderColor = "var(--gline)";
-    }, 1300);
-  }
-
-  legacyCopy(text) {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.style.cssText = "position:fixed;opacity:0";
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    textarea.remove();
-  }
-
-  tickStats() {
-    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-    const step = (amount) => Math.round((Math.random() * 2 - 1) * amount);
-    this.stats.cpu = clamp(this.stats.cpu + step(9), 6, 57);
-    this.stats.ram = clamp(this.stats.ram + step(4), 55, 72);
-    if (Math.random() < 0.28) this.stats.temp = clamp(this.stats.temp + step(1), 39, 43);
-
-    const setValue = (key, value) => {
-      const element = document.querySelector(`#tl [data-wval="${key}"]`);
-      if (element) element.textContent = value;
-    };
-    setValue("cpu", `${this.stats.cpu}%`);
-    setValue("ram", `${this.stats.ram}%`);
-    setValue("temp", `${this.stats.temp}Â°`);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  new TermuxLauncherSite().mount();
-});
+    this.ë~u¶‰žËkºwµçeM•±•Ñ½È ‰m‘…Ñ„µÍ•…É µÑ½±•tˆ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µÍ•…É µ¥¹ÁÕÑtˆ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µÍ•…É µÉ•ÍÕ±ÑÍtˆ¤ì4(€€€¥˜€ …Ñ¡¥Ì¹Í•…É¡I½½Ðñð€…Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐñð€…Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¤É•ÑÕÉ¸ì4(4(€€€Ñ¡¥Ì¹Í•…É¡Q½±”¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€ ¤€ôøÑ¡¥Ì¹½Á•¹M•…É  ¤¤ì4(€€€Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰¥¹ÁÕÐˆ°€ ¤€ôøÑ¡¥Ì¹ÉÕ¹M•…É ¡Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹Ù…±Õ”¤¤ì4(€€€Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰­•å‘½Ý¸ˆ°€¡•Ù•¹Ð¤€ôøì4(€€€€€¥˜€¡•Ù•¹Ð¹­•ä€ôôô€‰Í…Á”ˆ¤ìÑ¡¥Ì¹±½Í•M•…É ¡ÑÉÕ”¤ìÉ•ÑÕÉ¸ìô4(€€€€€¥˜€¡•Ù•¹Ð¹­•ä€ôôô€‰ÉÉ½Ý½Ý¸ˆ¤ì•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ìÑ¡¥Ì¹µ½Ù•Ñ¥Ù” Ä¤ìÉ•ÑÕÉ¸ìô4(€€€€€¥˜€¡•Ù•¹Ð¹­•ä€ôôô€‰ÉÉ½ÝUÀˆ¤ì•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ìÑ¡¥Ì¹µ½Ù•Ñ¥Ù” ´Ä¤ìÉ•ÑÕÉ¸ìô4(€€€€€¥˜€¡•Ù•¹Ð¹­•ä€ôôô€‰¹Ñ•Èˆ¤ì4(€€€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì4(€€€€€€€½¹ÍÐÁ¥¬€ôÑ¡¥Ì¹Í•…É¡%Ñ•µÍmÑ¡¥Ì¹Í•…É¡Ñ¥Ù•tñðÑ¡¥Ì¹Í•…É¡%Ñ•µÍlÁtì4(€€€€€€€¥˜€¡Á¥¬¤Ñ¡¥Ì¹½Q½I•ÍÕ±Ð¡Á¥¬¤ì4(€€€€€ô4(€€€ô¤ì4(€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€¡•Ù•¹Ð¤€ôøì4(€€€€€½¹ÍÐ‰ÕÑÑ½¸€ô•Ù•¹Ð¹Ñ…É•Ð¹±½Í•ÍÐ ‰m‘…Ñ„µÉ•ÍÕ±Ñtˆ¤ì4(€€€€€¥˜€ …‰ÕÑÑ½¸¤É•ÑÕÉ¸ì4(€€€€€½¹ÍÐ¥Ñ•´€ôÑ¡¥Ì¹Í•…É¡%Ñ•µÍm9Õµ‰•È¹Á…ÉÍ•%¹Ð¡‰ÕÑÑ½¸¹‘…Ñ…Í•Ð¹É•ÍÕ±Ð°€ÄÀ¥tì4(€€€€€¥˜€¡¥Ñ•´¤Ñ¡¥Ì¹½Q½I•ÍÕ±Ð¡¥Ñ•´¤ì4(€€€ô¤ì4(€€€‘½Õµ•¹Ð¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰±¥¬ˆ°€¡•Ù•¹Ð¤€ôøì4(€€€€€¥˜€ …Ñ¡¥Ì¹Í•…É¡I½½Ð¹½¹Ñ…¥¹Ì¡•Ù•¹Ð¹Ñ…É•Ð¤€˜˜€…Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹½¹Ñ…¥¹Ì¡•Ù•¹Ð¹Ñ…É•Ð¤¤ì4(€€€€€€€Ñ¡¥Ì¹±½Í•M•…É ¡™…±Í”¤ì4(€€€€€ô4(€€€ô¤ì4(€ô4(4(€½Á•¹M•…É  ¤ì4(€€€¥˜€ …Ñ¡¥Ì¹Í•…É¡I½½Ð¤É•ÑÕÉ¸ì4(€€€Ñ¡¥Ì¹Í•…É¡I½½Ð¹±…ÍÍ1¥ÍÐ¹…‘ ‰½Á•¸ˆ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡Q½±”¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ•áÁ…¹‘•ˆ°€‰ÑÉÕ”ˆ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹™½ÕÌ ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹Í•±•Ð ¤ì4(€€€¥˜€¡Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹Ù…±Õ”¹ÑÉ¥´ ¤¤Ñ¡¥Ì¹ÉÕ¹M•…É ¡Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹Ù…±Õ”¤ì4(€ô4(4(€±½Í•M•…É ¡±•…È¤ì4(€€€¥˜€ …Ñ¡¥Ì¹Í•…É¡I½½Ð¤É•ÑÕÉ¸ì4(€€€Ñ¡¥Ì¹Í•…É¡I½½Ð¹±…ÍÍ1¥ÍÐ¹É•µ½Ù” ‰½Á•¸ˆ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡Q½±”¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ•áÁ…¹‘•ˆ°€‰™…±Í”ˆ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹¡¥‘‘•¸€ôÑÉÕ”ì4(€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹É•Á±…•¡¥±‘É•¸ ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ€ômtì4(€€€Ñ¡¥Ì¹Í•…É¡Ñ¥Ù”€ô€´Äì4(€€€¥˜€¡±•…È¤Ñ¡¥Ì¹Í•…É¡%¹ÁÕÐ¹Ù…±Õ”€ô€ˆˆì4(€ô4(4(€ÉÕ¹M•…É ¡ÅÕ•Éä¤ì4(€€€½¹ÍÐÑ•ÉµÌ€ôÅÕ•Éä¹ÑÉ¥´ ¤¹Ñ½1½Ý•É…Í” ¤¹ÍÁ±¥Ð ½qÌ¬¼¤¹™¥±Ñ•È¡	½½±•…¸¤ì4(€€€¥˜€ …Ñ•ÉµÌ¹±•¹Ñ ¤ì4(€€€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹¡¥‘‘•¸€ôÑÉÕ”ì4(€€€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹É•Á±…•¡¥±‘É•¸ ¤ì4(€€€€€Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ€ômtì4(€€€€€É•ÑÕÉ¸ì4(€€€ô4(€€€½¹ÍÐÍ½É•€ômtì4(€€€™½È€¡½¹ÍÐ•¹ÑÉä½˜Ñ¡¥Ì¹Í•…É¡%¹‘•à¤ì4(€€€€€½¹ÍÐÑ¥Ñ±”€ô•¹ÑÉä¹Ñ¥Ñ±”¹Ñ½1½Ý•É…Í” ¤ì4(€€€€€±•ÐÍ½É”€ô€Àì4(€€€€€±•Ðµ…Ñ¡•Í±°€ôÑÉÕ”ì4(€€€€€™½È€¡½¹ÍÐÑ•É´½˜Ñ•ÉµÌ¤ì4(€€€€€€€½¹ÍÐ¥¹Q¥Ñ±”€ôÑ¥Ñ±”¹¥¹±Õ‘•Ì¡Ñ•É´¤ì4(€€€€€€€½¹ÍÐ¥¹Q•áÐ€ô•¹ÑÉä¹Ñ•áÐ¹¥¹±Õ‘•Ì¡Ñ•É´¤ì4(€€€€€€€¥˜€ …¥¹Q¥Ñ±”€˜˜€…¥¹Q•áÐ¤ìµ…Ñ¡•Í±°€ô™…±Í”ì‰É•…¬ìô4(€€€€€€€Í½É”€¬ô¥¹Q¥Ñ±”€ü€Ì€è€Äì4(€€€€€ô4(€€€€€¥˜€¡µ…Ñ¡•Í±°¤Í½É•¹ÁÕÍ ¡ì•¹ÑÉä°Í½É”ô¤ì4(€€€ô4(€€€Í½É•¹Í½ÉÐ ¡„°ˆ¤€ôøˆ¹Í½É”€´„¹Í½É”¤ì4(€€€Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ€ôÍ½É•¹Í±¥” À°€à¤¹µ…À ¡Ì¤€ôøÌ¹•¹ÑÉä¤ì4(€€€Ñ¡¥Ì¹Í•…É¡Ñ¥Ù”€ôÑ¡¥Ì¹Í•…É¡%Ñ•µÌ¹±•¹Ñ €ü€À€è€´Äì4(€€€Ñ¡¥Ì¹É•¹‘•ÉI•ÍÕ±ÑÌ¡Ñ•ÉµÌ¤ì4(€ô4(4(€É•¹‘•ÉI•ÍÕ±ÑÌ¡Ñ•ÉµÌ¤ì4(€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹É•Á±…•¡¥±‘É•¸ ¤ì4(€€€¥˜€ …Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ¹±•¹Ñ ¤ì4(€€€€€½¹ÍÐ•µÁÑä€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€€€•µÁÑä¹±…ÍÍ9…µ”€ô€‰Í•…É µ•µÁÑäˆì4(€€€€€•µÁÑä¹Ñ•áÑ½¹Ñ•¹Ð€ô€‰9¼µ…Ñ¡•Ì¸QÉä…¹½Ñ¡•ÈÑ•É´¸ˆì4(€€€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹…ÁÁ•¹‘¡¥±¡•µÁÑä¤ì4(€€€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹¡¥‘‘•¸€ô™…±Í”ì4(€€€€€É•ÑÕÉ¸ì4(€€€ô4(€€€Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ¹™½É…  ¡¥Ñ•´°¤¤€ôøì4(€€€€€½¹ÍÐ‰ÕÑÑ½¸€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‰ÕÑÑ½¸ˆ¤ì4(€€€€€‰ÕÑÑ½¸¹ÑåÁ”€ô€‰‰ÕÑÑ½¸ˆì4(€€€€€‰ÕÑÑ½¸¹‘…Ñ…Í•Ð¹É•ÍÕ±Ð€ôMÑÉ¥¹œ¡¤¤ì4(€€€€€‰ÕÑÑ½¸¹±…ÍÍ9…µ”€ô€‰Í•…É µÉ•ÍÕ±Ðˆ€¬€¡¤€ôôôÑ¡¥Ì¹Í•…É¡Ñ¥Ù”€ü€ˆ…Ñ¥Ù”ˆ€è€ˆˆ¤ì4(4(€€€€€½¹ÍÐ¡•…€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€€€½¹ÍÐÑ¥Ñ±”€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ÍÁ…¸ˆ¤ì4(€€€€€Ñ¥Ñ±”¹±…ÍÍ9…µ”€ô€‰ÍÈµÑ¥Ñ±”ˆì4(€€€€€Ñ¥Ñ±”¹Ñ•áÑ½¹Ñ•¹Ð€ô¥Ñ•´¹Ñ¥Ñ±”ì4(€€€€€½¹ÍÐÑ…œ€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ÍÁ…¸ˆ¤ì4(€€€€€Ñ…œ¹±…ÍÍ9…µ”€ô€‰ÍÈµÑ…œˆì4(€€€€€Ñ…œ¹Ñ•áÑ½¹Ñ•¹Ð€ô¥Ñ•´¹Ñ…œì4(€€€€€¡•…¹…ÁÁ•¹¡Ñ¥Ñ±”°Ñ…œ¤ì4(€€€€€‰ÕÑÑ½¸¹…ÁÁ•¹‘¡¥±¡¡•…¤ì4(4(€€€€€½¹ÍÐÍ¹¥ÁÁ•Ð€ôÑ¡¥Ì¹Í¹¥ÁÁ•Ñ½È¡¥Ñ•´°Ñ•ÉµÌ¤ì4(€€€€€¥˜€¡Í¹¥ÁÁ•Ð¤ì4(€€€€€€€½¹ÍÐÍ¹¥À€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€€€€€Í¹¥À¹±…ÍÍ9…µ”€ô€‰ÍÈµÍ¹¥ÁÁ•Ðˆì4(€€€€€€€Í¹¥À¹Ñ•áÑ½¹Ñ•¹Ð€ôÍ¹¥ÁÁ•Ðì4(€€€€€€€‰ÕÑÑ½¸¹…ÁÁ•¹‘¡¥±¡Í¹¥À¤ì4(€€€€€ô4(€€€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹…ÁÁ•¹‘¡¥±¡‰ÕÑÑ½¸¤ì4(€€€ô¤ì4(€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹¡¥‘‘•¸€ô™…±Í”ì4(€ô4(4(€Í¹¥ÁÁ•Ñ½È¡¥Ñ•´°Ñ•ÉµÌ¤ì4(€€€½¹ÍÐÑ•áÐ€ô¥Ñ•´¹Ñ•áÐì4(€€€¥˜€ …Ñ•áÐ¤É•ÑÕÉ¸€ˆˆì4(€€€±•Ð…Ð€ô€´Äì4(€€€™½È€¡½¹ÍÐÑ•É´½˜Ñ•ÉµÌ¤ì4(€€€€€½¹ÍÐ™½Õ¹€ôÑ•áÐ¹¥¹‘•á=˜¡Ñ•É´¤ì4(€€€€€¥˜€¡™½Õ¹€øô€À€˜˜€¡…Ð€ð€Àñð™½Õ¹€ð…Ð¤¤…Ð€ô™½Õ¹ì4(€€€ô4(€€€¥˜€¡…Ð€ð€À¤É•ÑÕÉ¸€ˆˆì4(€€€½¹ÍÐÍÑ…ÉÐ€ô5…Ñ ¹µ…à À°…Ð€´€ÌÈ¤ì4(€€€±•ÐÍ±¥”€ôÑ•áÐ¹Í±¥”¡ÍÑ…ÉÐ°ÍÑ…ÉÐ€¬€ÄÈÀ¤¹ÑÉ¥´ ¤ì4(€€€¥˜€¡ÍÑ…ÉÐ€ø€À¤Í±¥”€ô€‹Š˜€ˆ€¬Í±¥”ì4(€€€¥˜€¡ÍÑ…ÉÐ€¬€ÄÈÀ€ðÑ•áÐ¹±•¹Ñ ¤Í±¥”€¬ô€ˆƒŠ˜ˆì4(€€€É•ÑÕÉ¸Í±¥”ì4(€ô4(4(€µ½Ù•Ñ¥Ù”¡‘•±Ñ„¤ì4(€€€¥˜€ …Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ¹±•¹Ñ ¤É•ÑÕÉ¸ì4(€€€Ñ¡¥Ì¹Í•…É¡Ñ¥Ù”€ô€¡Ñ¡¥Ì¹Í•…É¡Ñ¥Ù”€¬‘•±Ñ„€¬Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ¹±•¹Ñ ¤€”Ñ¡¥Ì¹Í•…É¡%Ñ•µÌ¹±•¹Ñ ì4(€€€Ñ¡¥Ì¹Í•…É¡I•ÍÕ±ÑÌ¹ÅÕ•ÉåM•±•Ñ½É±° ‰m‘…Ñ„µÉ•ÍÕ±Ñtˆ¤¹™½É…  ¡•°°¤¤€ôøì4(€€€€€•°¹±…ÍÍ1¥ÍÐ¹Ñ½±” ‰…Ñ¥Ù”ˆ°¤€ôôôÑ¡¥Ì¹Í•…É¡Ñ¥Ù”¤ì4(€€€€€¥˜€¡¤€ôôôÑ¡¥Ì¹Í•…É¡Ñ¥Ù”¤•°¹ÍÉ½±±%¹Ñ½Y¥•Ü¡ì‰±½¬è€‰¹•…É•ÍÐˆô¤ì4(€€€ô¤ì4(€ô4(4(€½Q½I•ÍÕ±Ð¡¥Ñ•´¤ì4(€€€Ñ¡¥Ì¹Í•ÑY¥•Ü¡¥Ñ•´¹Ù¥•Ü°¥Ñ•´¹ÍÕˆñð¹Õ±°°ÑÉÕ”¤ì4(€€€¥˜€¡¥Ñ•´¹¥¤Ý¥¹‘½Ü¹Í•ÑQ¥µ•½ÕÐ  ¤€ôøÑ¡¥Ì¹ÍÉ½±±Q½%¡¥Ñ•´¹¥¤°€äÀ¤ì4(€€€Ñ¡¥Ì¹±½Í•M•…É ¡ÑÉÕ”¤ì4(€ô4(4(€‰Õ¥±‘¹‘Á½¥¹ÑI•™•É•¹” ¤ì4(€€€½¹ÍÐ±¥ÍÐ€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È ˆÑ°m‘…Ñ„µ•Á±¥ÍÑtˆ¤ì4(€€€½¹ÍÐ‘•Ñ…¥±Ì€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È ˆÑ°m‘…Ñ„µ•Á‘•Ñ…¥±tˆ¤ì4(€€€¥˜€ …±¥ÍÐñð€…‘•Ñ…¥±Ì¤É•ÑÕÉ¸ì4(4(€€€Ñ¡¥Ì¹•¹‘Á½¥¹ÑÉ½ÕÁÌ¹™½É…  ¡É½ÕÀ°É½ÕÁ%¹‘•à¤€ôøì4(€€€€€½¹ÍÐÉ½ÕÁ1…‰•°€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€€€É½ÕÁ1…‰•°¹Ñ•áÑ½¹Ñ•¹Ð€ôÉ½ÕÀ¹¹…µ”ì4(€€€€€É½ÕÁ1…‰•°¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÀ¸ÕÁàí±•ÑÑ•ÈµÍÁ…¥¹œè¸Å•´íÑ•áÐµÑÉ…¹Í™½É´éÕÁÁ•É…Í”í½±½ÈéÙ…È ´µ‘¥´¤íµ…É¥¸èÄÉÁà€À€ÑÁàˆì4(€€€€€±¥ÍÐ¹…ÁÁ•¹‘¡¥±¡É½ÕÁ1…‰•°¤ì4(4(€€€€€½¹ÍÐÉ½ÕÁ•Ñ…¥±Ì€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰Í•Ñ¥½¸ˆ¤ì4(€€€€€É½ÕÁ•Ñ…¥±Ì¹‘…Ñ…Í•Ð¹ÍÁä€ô€ˆˆì4(€€€€€É½ÕÁ•Ñ…¥±Ì¹¥€ô•Áœ´‘íÉ½ÕÁ%¹‘•áõ€ì4(€€€€€É½ÕÁ•Ñ…¥±Ì¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰ÍÉ½±°µµ…É¥¸µÑ½ÀèØÑÁàíµ…É¥¸µÑ½ÀèáÁàí‘¥ÍÁ±…äé™±•àí™±•àµ‘¥É•Ñ¥½¸é½±Õµ¸í…ÀèÄÑÁàˆì4(€€€€€½¹ÍÐÑ¥Ñ±”€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ Ìˆ¤ì4(€€€€€Ñ¥Ñ±”¹Ñ•áÑ½¹Ñ•¹Ð€ôÉ½ÕÀ¹¹…µ”ì4(€€€€€Ñ¥Ñ±”¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÝ•¥¡ÐèØÀÀí™½¹ÐµÍ¥é”èÄåÁàíµ…É¥¸èÀ€À€ÄÉÁàí½±½ÈéÙ…È ´µÉ•…´¤ˆì4(€€€€€É½ÕÁ•Ñ…¥±Ì¹…ÁÁ•¹‘¡¥±¡Ñ¥Ñ±”¤ì4(4(€€€€€É½ÕÀ¹¥Ñ•µÌ¹™½É…  ¡•¹‘Á½¥¹Ð¤€ôøì4(€€€€€€€±¥ÍÐ¹…ÁÁ•¹‘¡¥±¡Ñ¡¥Ì¹É•…Ñ•¹‘Á½¥¹Ñ1¥¹¬¡•¹‘Á½¥¹Ð°É½ÕÁ%¹‘•à¤¤ì4(€€€€€€€É½ÕÁ•Ñ…¥±Ì¹…ÁÁ•¹‘¡¥±¡Ñ¡¥Ì¹É•…Ñ•¹‘Á½¥¹Ñ…É¡•¹‘Á½¥¹Ð¤¤ì4(€€€€€ô¤ì4(€€€€€‘•Ñ…¥±Ì¹…ÁÁ•¹‘¡¥±¡É½ÕÁ•Ñ…¥±Ì¤ì4(€€€ô¤ì4(€ô4(4(€É•…Ñ•¹‘Á½¥¹Ñ1¥¹¬¡•¹‘Á½¥¹Ð°É½ÕÁ%¹‘•à¤ì4(€€€½¹ÍÐ‰ÕÑÑ½¸€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‰ÕÑÑ½¸ˆ¤ì4(€€€‰ÕÑÑ½¸¹‘…Ñ…Í•Ð¹ÍÉ½±±Ñ¼€ô•Áœ´‘íÉ½ÕÁ%¹‘•áõ€ì4(€€€‰ÕÑÑ½¸¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰‘¥ÍÁ±…äé™±•àí…±¥¸µ¥Ñ•µÌé•¹Ñ•Èí…ÀèáÁàíÝ¥‘Ñ èÄÀÀ”íÑ•áÐµ…±¥¸é±•™Ðí‰…­É½Õ¹éÑÉ…¹ÍÁ…É•¹Ðí‰½É‘•Èé¹½¹”íÁ…‘‘¥¹œèÕÁà€ÀíÕÉÍ½ÈéÁ½¥¹Ñ•Èˆì4(4(€€€½¹ÍÐµ•Ñ¡½€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ÍÁ…¸ˆ¤ì4(€€€µ•Ñ¡½¹Ñ•áÑ½¹Ñ•¹Ð€ô•¹‘Á½¥¹Ð¹µ•Ñ¡½ì4(€€€µ•Ñ¡½¹ÍÑå±”¹ÍÍQ•áÐ€ô™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èåÁàí™½¹ÐµÝ•¥¡ÐèÜÀÀí½±½Èè‘íÑ¡¥Ì¹µ•Ñ¡½‘½±½ÉÍm•¹‘Á½¥¹Ð¹µ•Ñ¡½‘tñð€‰Ù…È ´µµÕÑ”¤‰ôíµ¥¸µÝ¥‘Ñ èÌÁÁá€ì4(€€€½¹ÍÐÁ…Ñ €ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ÍÁ…¸ˆ¤ì4(€€€Á…Ñ ¹Ñ•áÑ½¹Ñ•¹Ð€ô•¹‘Á½¥¹Ð¹Á…Ñ ¹É•Á±…” ½x¸©p¼¼°€ˆ¼ˆ¤ì4(€€€Á…Ñ ¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÈ¸ÕÁàí½±½ÈéÙ…È ´µµÕÑ”¤ˆì4(€€€‰ÕÑÑ½¸¹…ÁÁ•¹¡µ•Ñ¡½°Á…Ñ ¤ì4(€€€É•ÑÕÉ¸‰ÕÑÑ½¸ì4(€ô4(4(€É•…Ñ•¹‘Á½¥¹Ñ…É¡•¹‘Á½¥¹Ð¤ì4(€€€½¹ÍÐ…É€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰…ÉÑ¥±”ˆ¤ì4(€€€…É¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰‰…­É½Õ¹éÙ…È ´µÁ…¹•±¥¹¬¤í‰½É‘•ÈèÅÁàÍ½±¥Ù…È ´µ±¥¹”¤í‰½É‘•ÈµÉ…‘¥ÕÌèÄÅÁàíÁ…‘‘¥¹œèÄÙÁà€ÄáÁàˆì4(4(€€€½¹ÍÐ¡•…‘¥¹œ€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€¡•…‘¥¹œ¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰‘¥ÍÁ±…äé™±•àí…±¥¸µ¥Ñ•µÌé•¹Ñ•Èí…ÀèÄÁÁàí™±•àµÝÉ…ÀéÝÉ…Àˆì4(€€€½¹ÍÐµ•Ñ¡½€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ÍÁ…¸ˆ¤ì4(€€€µ•Ñ¡½¹Ñ•áÑ½¹Ñ•¹Ð€ô•¹‘Á½¥¹Ð¹µ•Ñ¡½ì4(€€€µ•Ñ¡½¹ÍÑå±”¹ÍÍQ•áÐ€ô™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÅÁàí™½¹ÐµÝ•¥¡ÐèÜÀÀí½±½ÈèŒÁÄÀÄÈí‰…­É½Õ¹è‘íÑ¡¥Ì¹µ•Ñ¡½‘½±½ÉÍm•¹‘Á½¥¹Ð¹µ•Ñ¡½‘tñð€‰Ù…È ´µµÕÑ”¤‰ôí‰½É‘•ÈµÉ…‘¥ÕÌèÕÁàíÁ…‘‘¥¹œèÉÁà€áÁá€ì4(€€€½¹ÍÐÁ…Ñ €ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰½‘”ˆ¤ì4(€€€Á…Ñ ¹Ñ•áÑ½¹Ñ•¹Ð€ô•¹‘Á½¥¹Ð¹Á…Ñ ì4(€€€Á…Ñ ¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÑÁàí½±½ÈéÙ…È ´µÉ•…´¤ˆì4(€€€¡•…‘¥¹œ¹…ÁÁ•¹¡µ•Ñ¡½°Á…Ñ ¤ì4(4(€€€½¹ÍÐ‘•ÍÉ¥ÁÑ¥½¸€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰Àˆ¤ì4(€€€‘•ÍÉ¥ÁÑ¥½¸¹Ñ•áÑ½¹Ñ•¹Ð€ô•¹‘Á½¥¹Ð¹‘•ÍÉ¥ÁÑ¥½¸ì4(€€€‘•ÍÉ¥ÁÑ¥½¸¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰™½¹Ðµ™…µ¥±äéÙ…È ´µÍ…¹Ì¤í™½¹ÐµÍ¥é”èÄÑÁàí½±½ÈéÙ…È ´µµÕÑ”¤í±¥¹”µ¡•¥¡ÐèÄ¸ÔÔíµ…É¥¸èÄÅÁà€À€Àˆì4(€€€…É¹…ÁÁ•¹¡¡•…‘¥¹œ°‘•ÍÉ¥ÁÑ¥½¸¤ì4(4(€€€¥˜€¡•¹‘Á½¥¹Ð¹Á…É…µÌ¤ì4(€€€€€½¹ÍÐÁ…É…µÌ€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰Àˆ¤ì4(€€€€€Á…É…µÌ¹¥¹¹•É!Q50€ô•¹‘Á½¥¹Ð¹Á…É…µÌì4(€€€€€Á…É…µÌ¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰™½¹Ðµ™…µ¥±äéÙ…È ´µÍ…¹Ì¤í™½¹ÐµÍ¥é”èÄÍÁàí½±½ÈéÙ…È ´µ‘¥´¤í±¥¹”µ¡•¥¡ÐèÄ¸Øíµ…É¥¸èåÁà€À€Àˆì4(€€€€€…É¹…ÁÁ•¹‘¡¥±¡Á…É…µÌ¤ì4(€€€ô4(4(€€€¥˜€¡•¹‘Á½¥¹Ð¹¹½Ñ”¤ì4(€€€€€½¹ÍÐ¹½Ñ”€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€€€¹½Ñ”¹¥¹¹•É!Q50€ô•¹‘Á½¥¹Ð¹¹½Ñ”ì4(€€€€€¹½Ñ”¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰‘¥ÍÁ±…äé™±•àí…ÀèáÁàíµ…É¥¸µÑ½ÀèÄÅÁàí‰…­É½Õ¹éÉ‰„ ÈÄÜ°ÄÌä°ÄÀØ°¸Àä¤í‰½É‘•ÈèÅÁàÍ½±¥É‰„ ÈÄÜ°ÄÌä°ÄÀØ°¸Èà¤í‰½É‘•ÈµÉ…‘¥ÕÌèÝÁàíÁ…‘‘¥¹œèáÁà€ÄÅÁàí™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÄ¸ÕÁàí½±½Èè”ÙŒÑˆÐí±¥¹”µ¡•¥¡ÐèÄ¸Ôˆì4(€€€€€…É¹…ÁÁ•¹‘¡¥±¡¹½Ñ”¤ì4(€€€ô4(4(€€€…É¹…ÁÁ•¹‘¡¥±¡Ñ¡¥Ì¹É•…Ñ•¹‘Á½¥¹Ñ	±½¬¡•¹‘Á½¥¹Ð¹•á…µÁ±”°€‰I•ÅÕ•ÍÐˆ¤¤ì4(€€€…É¹…ÁÁ•¹‘¡¥±¡Ñ¡¥Ì¹É•…Ñ•¹‘Á½¥¹Ñ	±½¬¡•¹‘Á½¥¹Ð¹É•ÍÁ½¹Í”°€‰I•ÍÁ½¹Í”ˆ°ÑÉÕ”¤¤ì4(€€€É•ÑÕÉ¸…Éì4(€ô4(4(€É•…Ñ•¹‘Á½¥¹Ñ	±½¬¡Ñ•áÐ°±…‰•°°É•…‘=¹±ä¤ì4(€€€¥˜€ …Ñ•áÐ¤É•ÑÕÉ¸‘½Õµ•¹Ð¹É•…Ñ•½Õµ•¹ÑÉ…µ•¹Ð ¤ì4(€€€½¹ÍÐÝÉ…À€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€ÝÉ…À¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰µ…É¥¸µÑ½ÀèÄÉÁàˆì4(€€€¥˜€¡±…‰•°¤ì4(€€€€€½¹ÍÐÑ…œ€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€€€Ñ…œ¹Ñ•áÑ½¹Ñ•¹Ð€ô±…‰•°ì4(€€€€€Ñ…œ¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÁÁàí±•ÑÑ•ÈµÍÁ…¥¹œè¸ÄÉ•´íÑ•áÐµÑÉ…¹Í™½É´éÕÁÁ•É…Í”í½±½ÈéÙ…È ´µ‘¥´¤íµ…É¥¸µ‰½ÑÑ½´èÕÁàˆì4(€€€€€ÝÉ…À¹…ÁÁ•¹‘¡¥±¡Ñ…œ¤ì4(€€€ô4(€€€½¹ÍÐ½µµ…¹€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‘¥Øˆ¤ì4(€€€½µµ…¹¹‘…Ñ…Í•Ð¹µ€ô€ˆˆì4(€€€½µµ…¹¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰Á½Í¥Ñ¥½¸éÉ•±…Ñ¥Ù”í‰…­É½Õ¹éÙ…È ´µ¥¹¬¤í‰½É‘•ÈèÅÁàÍ½±¥Ù…È ´µ±¥¹”¤í‰½É‘•ÈµÉ…‘¥ÕÌèáÁàíÁ…‘‘¥¹œèÄÍÁàˆì4(€€€¥˜€ …É•…‘=¹±ä¤ì4(€€€€€½¹ÍÐ½Áä€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰‰ÕÑÑ½¸ˆ¤ì4(€€€€€½Áä¹‘…Ñ…Í•Ð¹½Áä€ô€ˆˆì4(€€€€€½Áä¹¥¹¹•É!Q50€ô€ˆñÍÁ…¸‘…Ñ„µ½Áäµ±…‰•°ù½Áäð½ÍÁ…¸øˆì4(€€€€€½Áä¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰Á½Í¥Ñ¥½¸é…‰Í½±ÕÑ”íÑ½ÀèáÁàíÉ¥¡ÐèáÁàí™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÀ¸ÕÁàíÑ•áÐµÑÉ…¹Í™½É´éÕÁÁ•É…Í”í½±½ÈéÙ…È ´µ½±¤í‰…­É½Õ¹éÙ…È ´µ¥¹¬¤í‰½É‘•ÈèÅÁàÍ½±¥Ù…È ´µ±¥¹”¤í‰½É‘•ÈµÉ…‘¥ÕÌèÙÁàíÁ…‘‘¥¹œèÑÁà€åÁàíÕÉÍ½ÈéÁ½¥¹Ñ•Èˆì4(€€€€€½µµ…¹¹…ÁÁ•¹‘¡¥±¡½Áä¤ì4(€€€ô4(€€€½¹ÍÐÁÉ”€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰ÁÉ”ˆ¤ì4(€€€ÁÉ”¹‘…Ñ…Í•Ð¹µ‘Q•áÐ€ô€ˆˆì4(€€€ÁÉ”¹Ñ•áÑ½¹Ñ•¹Ð€ôÑ•áÐì4(€€€ÁÉ”¹ÍÑå±”¹ÍÍQ•áÐ€ôµ…É¥¸èÀí½Ù•É™±½Üµàé…ÕÑ¼í™½¹Ðµ™…µ¥±äéÙ…È ´µµ½¹¼¤í™½¹ÐµÍ¥é”èÄÉÁàí±¥¹”µ¡•¥¡ÐèÄ¸Øí½±½Èè‘íÉ•…‘=¹±ä€ü€‰Ù…È ´µµÕÑ”¤ˆ€è€‰Ù…È ´µÉ•…´¤‰õ€ì4(€€€½µµ…¹¹…ÁÁ•¹‘¡¥±¡ÁÉ”¤ì4(€€€ÝÉ…À¹…ÁÁ•¹‘¡¥±¡½µµ…¹¤ì4(€€€É•ÑÕÉ¸ÝÉ…Àì4(€ô4(4(€¡…¹‘±•±¥¬¡•Ù•¹Ð¤ì4(€€€½¹ÍÐ½Áå	ÕÑÑ½¸€ô•Ù•¹Ð¹Ñ…É•Ð¹±½Í•ÍÐ ‰m‘…Ñ„µ½Áåtˆ¤ì4(€€€¥˜€¡½Áå	ÕÑÑ½¸¤ì4(€€€€€½¹ÍÐÑ•áÐ€ô½Áå	ÕÑÑ½¸¹±½Í•ÍÐ ‰m‘…Ñ„µµ‘tˆ¤ü¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µµµÑ•áÑtˆ¤ü¹Ñ•áÑ½¹Ñ•¹Ðì4(€€€€€¥˜€¡Ñ•áÐ¤Ñ¡¥Ì¹½ÁåQ•áÐ¡Ñ•áÐ¹É•Á±…” ½yqÌ©p‘qÌ¼°€ˆˆ¤¹ÑÉ¥´ ¤°½Áå	ÕÑÑ½¸¤ì4(€€€€€É•ÑÕÉ¸ì4(€€€ô4(4(€€€½¹ÍÐ¹…Ù¥…Ñ¥½¸€ô•Ù•¹Ð¹Ñ…É•Ð¹±½Í•ÍÐ ‰m‘…Ñ„µ¹…Ùtˆ¤ì4(€€€¥˜€¡¹…Ù¥…Ñ¥½¸¤ì4(€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì4(€€€€€½¹ÍÐÍÉ½±±Q…É•Ð€ô¹…Ù¥…Ñ¥½¸¹‘…Ñ…Í•Ð¹ÍÉ½±±Ñ¼ì4(€€€€€Ñ¡¥Ì¹Í•ÑY¥•Ü¡¹…Ù¥…Ñ¥½¸¹‘…Ñ…Í•Ð¹¹…Ø°¹Õ±°°ÑÉÕ”¤ì4(€€€€€¥˜€¡ÍÉ½±±Q…É•Ð¤Ý¥¹‘½Ü¹Í•ÑQ¥µ•½ÕÐ  ¤€ôøÑ¡¥Ì¹ÍÉ½±±Q½%¡ÍÉ½±±Q…É•Ð¤°€àÀ¤ì4(€€€€€É•ÑÕÉ¸ì4(€€€ô4(4(€€€½¹ÍÐ…ÉÑ¥±”€ô•Ù•¹Ð¹Ñ…É•Ð¹±½Í•ÍÐ ‰m‘…Ñ„µ…ÉÑ¥±•tˆ¤ì4(€€€¥˜€¡…ÉÑ¥±”¤ì4(€€€€€Ñ¡¥Ì¹Í¡½ÝÉÑ¥±”¡…ÉÑ¥±”¹‘…Ñ…Í•Ð¹…ÉÑ¥±”¤ì4(€€€€€Ý¥¹‘½Ü¹ÍÉ½±±Q¼¡ìÑ½Àè€À°‰•¡…Ù¥½Èè€‰Íµ½½Ñ ˆô¤ì4(€€€€€É•ÑÕÉ¸ì4(€€€ô4(4(€€€½¹ÍÐ…¹¡½È€ô•Ù•¹Ð¹Ñ…É•Ð¹±½Í•ÍÐ ‰m‘…Ñ„µ…¹¡½Étˆ¤ì4(€€€¥˜€¡…¹¡½È¤ì4(€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì4(€€€€€Ñ¡¥Ì¹ÍÉ½±±Q½%¡…¹¡½È¹‘…Ñ…Í•Ð¹…¹¡½È¤ì4(€€€€€É•ÑÕÉ¸ì4(€€€ô4(4(€€€½¹ÍÐÝ¥­¥1¥¹¬€ô•Ù•¹Ð¹Ñ…É•Ð¹±½Í•ÍÐ œ¹Ý¥­¤µÁÉ½Í”…m¡É•™xôˆŒ‰tœ¤ì4(€€€¥˜€¡Ý¥­¥1¥¹¬¤ì4(€€€€€½¹ÍÐÑ…É•Ð€ôÝ¥­¥1¥¹¬¹•ÑÑÑÉ¥‰ÕÑ” ‰¡É•˜ˆ¤¹Í±¥” Ä¤ì4(€€€€€¥˜€¡Ñ¡¥Ì¹Ù¥•ÝÌ¹¥¹±Õ‘•Ì¡Ñ…É•Ð¤¤ì4(€€€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì4(€€€€€€€Ñ¡¥Ì¹Í•ÑY¥•Ü¡Ñ…É•Ð°¹Õ±°°ÑÉÕ”¤ì4(€€€€€€€É•ÑÕÉ¸ì4(€€€€€ô4(€€€€€¥˜€¡‘½Õµ•¹Ð¹•Ñ±•µ•¹Ñ	å%¡Ñ…É•Ð¤¤ì4(€€€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì4(€€€€€€€Ñ¡¥Ì¹ÍÉ½±±Q½%¡Ñ…É•Ð¤ì4(€€€€€€€É•ÑÕÉ¸ì4(€€€€€ô4(€€€ô4(4(€€€½¹ÍÐÍÉ½±±Q…É•Ð€ô•Ù•¹Ð¹Ñ…É•Ð¹±½Í•ÍÐ ‰m‘…Ñ„µÍÉ½±±Ñ½tˆ¤ì4(€€€¥˜€¡ÍÉ½±±Q…É•Ð¤ì4(€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì4(€€€€€Ñ¡¥Ì¹ÍÉ½±±Q½%¡ÍÉ½±±Q…É•Ð¹‘…Ñ…Í•Ð¹ÍÉ½±±Ñ¼¤ì4(€€€ô4(€ô4(4(€ÍÉ½±±Q½%¡¥¤ì4(€€€½¹ÍÐ•±•µ•¹Ð€ô‘½Õµ•¹Ð¹•Ñ±•µ•¹Ñ	å%¡¥¤ì4(€€€¥˜€ …•±•µ•¹Ð¤É•ÑÕÉ¸ì4(€€€½¹ÍÐÑ½À€ô•±•µ•¹Ð¹•Ñ	½Õ¹‘¥¹±¥•¹ÑI•Ð ¤¹Ñ½À€¬Ý¥¹‘½Ü¹ÍÉ½±±d€´€Ôàì4(€€€Ý¥¹‘½Ü¹ÍÉ½±±Q¼¡ìÑ½À°‰•¡…Ù¥½Èè€‰Íµ½½Ñ ˆô¤ì4(€ô4(4(€…Íå¹Œ½ÁåQ•áÐ¡Ñ•áÐ°‰ÕÑÑ½¸¤ì4(€€€ÑÉäì4(€€€€€¥˜€¡¹…Ù¥…Ñ½È¹±¥Á‰½…Éü¹ÝÉ¥Ñ•Q•áÐ¤…Ý…¥Ð¹…Ù¥…Ñ½È¹±¥Á‰½…É¹ÝÉ¥Ñ•Q•áÐ¡Ñ•áÐ¤ì4(€€€€€•±Í”Ñ¡¥Ì¹±•…å½Áä¡Ñ•áÐ¤ì4(€€€ô…Ñ ì4(€€€€€Ñ¡¥Ì¹±•…å½Áä¡Ñ•áÐ¤ì4(€€€ô4(4(€€€½¹ÍÐ±…‰•°€ô‰ÕÑÑ½¸¹ÅÕ•ÉåM•±•Ñ½È ‰m‘…Ñ„µ½Áäµ±…‰•±tˆ¤ñð‰ÕÑÑ½¸ì4(€€€½¹ÍÐ½É¥¥¹…°€ô±…‰•°¹Ñ•áÑ½¹Ñ•¹Ðì4(€€€±…‰•°¹Ñ•áÑ½¹Ñ•¹Ð€ô€‰½Á¥•ˆì4(€€€‰ÕÑÑ½¸¹ÍÑå±”¹½±½È€ô€‰Ù…È ´µÉ••¸¤ˆì4(€€€‰ÕÑÑ½¸¹ÍÑå±”¹‰½É‘•É½±½È€ô€‰Ù…È ´µÉ••¸¤ˆì4(€€€Ý¥¹‘½Ü¹±•…ÉQ¥µ•½ÕÐ¡‰ÕÑÑ½¸¹É•Í•ÑQ¥µ•È¤ì4(€€€‰ÕÑÑ½¸¹É•Í•ÑQ¥µ•È€ôÝ¥¹‘½Ü¹Í•ÑQ¥µ•½ÕÐ  ¤€ôøì4(€€€€€±…‰•°¹Ñ•áÑ½¹Ñ•¹Ð€ô½É¥¥¹…°ì4(€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹½±½È€ô€‰Ù…È ´µ½±¤ˆì4(€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹‰½É‘•É½±½È€ô€‰Ù…È ´µ±¥¹”¤ˆì4(€€€ô°€ÄÌÀÀ¤ì4(€ô4(4(€±•…å½Áä¡Ñ•áÐ¤ì4(€€€½¹ÍÐÑ•áÑ…É•„€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰Ñ•áÑ…É•„ˆ¤ì4(€€€Ñ•áÑ…É•„¹Ù…±Õ”€ôÑ•áÐì4(€€€Ñ•áÑ…É•„¹ÍÑå±”¹ÍÍQ•áÐ€ô€‰Á½Í¥Ñ¥½¸é™¥á•í½Á…¥ÑäèÀˆì4(€€€‘½Õµ•¹Ð¹‰½‘ä¹…ÁÁ•¹‘¡¥±¡Ñ•áÑ…É•„¤ì4(€€€Ñ•áÑ…É•„¹Í•±•Ð ¤ì4(€€€‘½Õµ•¹Ð¹•á•½µµ…¹ ‰½Áäˆ¤ì4(€€€Ñ•áÑ…É•„¹É•µ½Ù” ¤ì4(€ô4(4(€Ñ¥­MÑ…ÑÌ ¤ì4(€€€½¹ÍÐ±…µÀ€ô€¡Ù…±Õ”°µ¥¸°µ…à¤€ôø5…Ñ ¹µ…à¡µ¥¸°5…Ñ ¹µ¥¸¡µ…à°Ù…±Õ”¤¤ì4(€€€½¹ÍÐÍÑ•À€ô€¡…µ½Õ¹Ð¤€ôø5…Ñ ¹É½Õ¹ ¡5…Ñ ¹É…¹‘½´ ¤€¨€È€´€Ä¤€¨…µ½Õ¹Ð¤ì4(€€€Ñ¡¥Ì¹ÍÑ…ÑÌ¹ÁÔ€ô±…µÀ¡Ñ¡¥Ì¹ÍÑ…ÑÌ¹ÁÔ€¬ÍÑ•À ä¤°€Ø°€ÔÜ¤ì4(€€€Ñ¡¥Ì¹ÍÑ…ÑÌ¹É…´€ô±…µÀ¡Ñ¡¥Ì¹ÍÑ…ÑÌ¹É…´€¬ÍÑ•À Ð¤°€ÔÔ°€ÜÈ¤ì4(€€€¥˜€¡5…Ñ ¹É…¹‘½´ ¤€ð€À¸Èà¤Ñ¡¥Ì¹ÍÑ…ÑÌ¹Ñ•µÀ€ô±…µÀ¡Ñ¡¥Ì¹ÍÑ…ÑÌ¹Ñ•µÀ€¬ÍÑ•À Ä¤°€Ìä°€ÐÌ¤ì4(4(€€€½¹ÍÐÍ•ÑY…±Õ”€ô€¡­•ä°Ù…±Õ”¤€ôøì4(€€€€€½¹ÍÐ•±•µ•¹Ð€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È¡€Ñ°m‘…Ñ„µÝÙ…°ôˆ‘í­•åô‰u€¤ì4(€€€€€¥˜€¡•±•µ•¹Ð¤•±•µ•¹Ð¹Ñ•áÑ½¹Ñ•¹Ð€ôÙ…±Õ”ì4(€€€ôì4(€€€Í•ÑY…±Õ” ‰ÁÔˆ°€‘íÑ¡¥Ì¹ÍÑ…ÑÌ¹ÁÕô•€¤ì4(€€€Í•ÑY…±Õ” ‰É…´ˆ°€‘íÑ¡¥Ì¹ÍÑ…ÑÌ¹É…µô•€¤ì4(€€€Í•ÑY…±Õ” ‰Ñ•µÀˆ°€‘íÑ¡¥Ì¹ÍÑ…ÑÌ¹Ñ•µÁ÷
+Á€¤ì4(€ô4)ô4(4)‘½Õµ•¹Ð¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ‰=5½¹Ñ•¹Ñ1½…‘•ˆ°€ ¤€ôøì(€¹•ÜQ•ÉµÕá1…Õ¹¡•ÉM¥Ñ” ¤¹µ½Õ¹Ð ¤¹…Ñ  ¡•ÉÉ½È¤€ôøì(€€€½¹Í½±”¹•ÉÉ½È ‰U¹…‰±”Ñ¼¥¹¥Ñ¥…±¥é”Ñ¡”Í¥Ñ”ˆ°•ÉÉ½È¤ì(€ô¤ì)ô¤ì(
