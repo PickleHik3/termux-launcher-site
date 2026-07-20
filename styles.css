@@ -674,6 +674,7 @@ a:focus-visible {
 .phone-frame video {
   display: block;
   width: 272px;
+  height: auto;
   max-width: calc(100vw - 72px);
   aspect-ratio: 9 / 19.3;
   border-radius: 32px;
