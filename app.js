@@ -141,11 +141,11 @@ class TermuxLauncherSite {
       element.style.display = element.dataset.view === view ? "block" : "none";
     });
 
-    document.querySelectorAll("#tl [data-nav]").forEach((element) => {
+    document.querySelectorAll("#tl .nav-tabs [data-nav]").forEach((element) => {
       const active = element.dataset.nav === view;
-      element.style.background = active ? "var(--gold)" : "transparent";
-      element.style.color = active ? "#0d1012" : "var(--mute)";
-      element.style.fontWeight = active ? "700" : "400";
+      element.style.background = active ? "var(--blue-soft)" : "transparent";
+      element.style.color = active ? "var(--blue)" : "var(--mute)";
+      element.style.fontWeight = "400";
       if (active) element.setAttribute("aria-current", "page");
       else element.removeAttribute("aria-current");
     });

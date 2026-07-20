@@ -1,29 +1,52 @@
 ---
-title: Overview
+title: Start here
 order: 10
 ---
 
-Termux Launcher replaces your Android home screen with a live Termux session. Everything you would tap for on a normal launcher — opening apps, searching, media, and system status — happens in and around the prompt. It is built on Termux + Termux:Monet and inspired by TEL.
+Termux Launcher turns a real Termux session into your Android home screen. You keep the terminal, packages, files, and sessions you expect from Termux, then gain a touch-friendly app dock, fast search, wallpaper-aware styling, an optional built-in keyboard, and an authenticated shell bridge to Android.
 
-These docs cover launcher-specific usage: the launcher surface, shell commands, terminal integrations, the optional Shizuku backend, and troubleshooting. For the on-device model host, see the [Termux AI](#ai) page.
+![Termux Launcher home screen with tmux status, live terminal, app dock, A–Z row, and built-in keyboard](assets/onboarding/screenshots/01-home-terminal.webp)
 
-## Requirements
+## The shortest path to a working launcher
 
-- A modern Android device compatible with Termux (Android 8.0+).
-- The `com.termux` build cannot coexist with the regular Termux app because they share a package identity. Uninstall stock Termux first, or use the side-by-side `io.vaj.tl` build.
-- Recommended companion: [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard), which this launcher is tuned for — especially for terminal and tmux use.
+1. Read **Install & first run** and choose the correct edition.
+2. Open the app once and let the Termux bootstrap finish.
+3. Walk through the in-app Quick start tour.
+4. Try the dock and `%` app search before changing anything.
+5. Set it as your Home app only when the terminal and your must-have apps work.
 
-## Companion forks
+The core launcher does **not** require Shizuku, notification access, tmux, local AI, or a custom shell. Add those one at a time later.
 
-Add-ons must be signed to match the launcher. Mixing differently signed Termux add-ons causes shared-UID errors. Always install the matching forks from the same build family:
+## A first launch that explains itself
 
-- [Termux:API](https://github.com/PickleHik3/termux-api/releases)
-- [Termux:Styling](https://github.com/PickleHik3/termux-styling/releases)
+New installations open a seven-step, scrollable tour after the Termux bootstrap is ready. It introduces the terminal Home, app search, Material styling, the optional fish/tmux workspace, LauncherCtl, and the optional Shizuku and TAI layers before Android asks you to make any long-term choices.
 
-Grab all three APKs (Main + API + Styling) from one pack in the [downloads section](#setup).
+![First page of the live seven-step onboarding tour](assets/onboarding/screenshots/06-onboarding-welcome.webp)
 
-## Where to go next
+Existing installations are not interrupted after an upgrade. Replay the tour at any time from **Settings → Quick start tour**.
 
-- New here? Start with **Install & first run**.
-- Learn **The launcher surface** and the **launcherctl bridge**.
-- Recreate the workspace: **tmux & shell setup** and **tmux keybinds**.
+## What you can grow into
+
+| Level | Start with | Add when useful |
+| --- | --- | --- |
+| New to Termux | Terminal, app dock, A–Z row, `%` search | Built-in keyboard, appearance controls |
+| Comfortable in a shell | fish, tmux, Oh My Posh, eza, zoxide | LauncherCtl commands and tmux app bindings |
+| Automating Android | LauncherCtl resources, media, notifications, events | Agent tools, MCP, Shizuku-backed helpers |
+| Running models locally | TAI catalog and runtime | OpenAI/Ollama clients, embeddings, local agents |
+
+## Required, recommended, optional
+
+- **Required:** one Termux Launcher main APK.
+- **Recommended:** the matching Termux:API and Termux:Styling forks if you use those add-ons.
+- **Helpful:** Unexpected Keyboard if you prefer a mature external terminal keyboard.
+- **Optional:** tmux workspace, Shizuku, notification access, TAI models, MCP clients.
+
+## Choose your next page
+
+- **Feature tour** shows the complete surface with current screenshots.
+- **The launcher surface** teaches the gestures and icon actions.
+- **Recreate the shell workspace** explains the live fish/tmux setup without copying private aliases or keys.
+- **launcherctl bridge** is the beginner entry to shell-to-Android automation.
+- **Troubleshooting** starts with safe checks and escalates only when needed.
+
+> Tip: the Quick start tour is always available again under **Settings → Quick start tour**.

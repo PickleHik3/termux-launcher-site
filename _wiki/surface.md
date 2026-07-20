@@ -3,36 +3,75 @@ title: The launcher surface
 order: 20
 ---
 
-The terminal is the home screen. Launcher controls live around the Termux session.
+The terminal is Home. Launcher controls sit around it and disappear back into the same Material surface instead of replacing your shell with a separate app drawer.
+
+![Home surface showing tmux, prompt, dock, A–Z row, navigation keys, and keyboard](assets/onboarding/screenshots/01-home-terminal.webp)
+
+## Read the screen from top to bottom
+
+1. **Status and terminal:** your Termux or tmux session.
+2. **Apps row:** pinned, ranked, or filtered launch targets.
+3. **A–Z row:** direct catalog filtering and launch gestures.
+4. **Navigation/Extra Keys row:** configurable terminal and tmux controls.
+5. **Keyboard:** Android IME or the optional built-in keyboard.
 
 ## Apps row
 
-Long-press an app icon to pin, move, or drop it in a folder. Long-press empty space in the apps row for list-based management.
+Tap an icon to launch it. Swipe between dock pages when more icons are available.
+
+Long-press an icon for the actions Android and the current item support:
+
+- pin or unpin;
+- move within the dock;
+- move into or out of a folder;
+- launch an app shortcut;
+- change or reset its icon;
+- open app info;
+- uninstall.
+
+Long-press empty dock space to open list-based pin and folder management. Your explicit pins stay under your control even when usage ranking is enabled.
 
 ## A–Z row
 
-Swipe across the row to filter installed apps by letter. Swipe upward from a letter to launch an app in that group.
+- Drag horizontally to filter by initial letter.
+- Keep dragging to preview the focused result.
+- Swipe upward from a letter to launch the highlighted app.
+- Double-tap the row to lock only after choosing a lock method under Apps & Access.
 
-## Terminal search
+The lock method can be off, accessibility-backed, or Shizuku-backed depending on your setup. Normal launcher use does not need either privileged option.
 
-Type the input split character before a query to search apps from terminal input. The default is `%`, so `%whatsapp` finds WhatsApp.
+## Search from terminal input
 
-## Lock screen
+The default split character is `%`. Type it before an app name without pressing Enter:
 
-Double-tap the alphabet row to lock the phone, once a lock method is configured in Apps Bar settings.
+```text
+%maps
+```
+
+![Live percent search filtering the dock](assets/onboarding/screenshots/02-terminal-app-search.webp)
+
+Backspace clears the query. Change the split character under **Settings → Apps & Access** if `%` conflicts with your shell habits.
+
+## Notifications and media
+
+With notification-listener access, the launcher can show notification dots, controlled notification popups/replies, current media, and the corresponding LauncherCtl data. Without that permission, the dock and app launching still work normally.
+
+Never grant notification access just because a setup guide mentions it; grant it only if you want those features.
 
 ## Settings map
 
-Most settings live under:
+Open Settings by long-pressing the terminal and choosing **More → Settings**.
 
-```text
-Long press Terminal -> More
-```
-
-| Section | What's there |
+| Section | What it controls |
 | --- | --- |
-| **Appearance** | Terminal opacity, blur, dock size, compact dock spacing, monochrome icons, Terminal Material colors |
-| **Apps Bar** | Input split character, app-ranking reset, Home launcher shortcut, lock-screen behavior |
-| **TAI / Termux AI** | Local model downloads, imports, runtime settings, API port, API token |
+| **Quick start tour** | Replay the beginner walkthrough |
+| **TAI · Termux AI** | Model catalog/imports, roles, runtime, API and MCP integration |
+| **Shizuku** | Backend status, permission, privileged helpers |
+| **Termux** | Core terminal I/O, view, and debugging preferences |
+| **Appearance** | Theme, wallpaper, terminal, dock, icons, sessions menu |
+| **Apps & Access** | Launcher rows, search, ranking, Home selection, Android access |
+| **Keyboard** | Built-in keyboard themes, sizing, color editor, feedback, keys |
 
-> Live wallpapers can disable dock blur. If you use two rows of Extra Keys, turn on **compact dock spacing** so the terminal has more room.
+![Current launcher settings map](assets/onboarding/screenshots/03-settings-hub.webp)
+
+> Live wallpapers can prevent reliable blur capture. Set blur to zero for clear glass, or use a static/launcher-managed wallpaper when tuning the frosted dock.

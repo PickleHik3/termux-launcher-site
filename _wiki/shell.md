@@ -1,64 +1,101 @@
 ---
-title: tmux & shell setup
+title: Recreate the shell workspace
 order: 40
 ---
 
-The [About page](#setup) gives you one command to recreate the workspace from the video. This page explains what that command actually installs, and how the pieces fit together.
+The launcher works with the default Termux shell. This page recreates the optional fish/tmux workspace seen in the screenshots using secret-free repo examples derived from the live device.
 
-## The one command
+## What the guarded installer changes
 
-```shell
-curl -fsSL https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples/setup-tmux-btop -o ~/setup-shell \
-  && chmod 700 ~/setup-shell && ~/setup-shell
-```
+| Item | Behavior |
+| --- | --- |
+| Missing packages | Installs only the packages needed by your selection |
+| `~/.config/fish/config.fish` | Installs the example only when the file does not already exist |
+| Oh My Posh theme | Installs only when the destination does not already exist |
+| `~/.tmux.conf` | Keeps the file and appends only missing TPM/plugin lines |
+| TPM and launcher plugin | Clones when absent; fast-forwards a clean existing launcher plugin |
+| Locally edited plugin checkout | Stops and asks you to clean or back it up |
+| Shizuku `btop` | Runs only for the All or btop choice and requires working `rish` |
 
-The script asks what to install:
+It does not copy the developer phone’s private aliases, personal paths, or API keys.
 
-- **All** — tmux theme plus the optional Shizuku `btop` helper.
-- **tmux only** — theme and status helpers only.
-- **btop only** — only the Shizuku `btop` helper.
+## Run it
 
-It can install the [termux-launcher-tmux](https://github.com/PickleHik3/termux-launcher-tmux) theme/plugin and the optional `btop` wrapper that runs through Shizuku `rish`. See [tmux keybinds & theme](#wiki/tmux) and [Shizuku, rish & btop](#wiki/shizuku).
-
-## What the workspace is made of
-
-The setup is a small stack of tools that each do one job well:
-
-| Tool | Role | How it works |
-| --- | --- | --- |
-| **fish** | The shell | Friendly interactive shell with autosuggestions and syntax highlighting out of the box — less config than bash/zsh. |
-| **oh-my-posh** | The prompt | A cross-shell prompt engine. The bundled `termux-launcher` theme renders git status, path, and exit codes. |
-| **tmux** | Terminal multiplexer | Persistent sessions, windows, and panes so your workspace survives closing the terminal. Drives the status bar too. |
-| **eza** | `ls` replacement | Modern `ls` with colors, icons, git awareness, and a `--tree` view. The fish config aliases it in when present. |
-| **zoxide** | Smarter `cd` | Learns your most-used directories; `z proj` jumps to the best match instead of typing the full path. |
-
-The bundled `config.fish` keeps a single `fish_auto_tmux` toggle, loads the `termux-launcher` oh-my-posh theme, and switches to `eza` and `zoxide` automatically when they are installed.
-
-## Prefer to do it by hand?
-
-Install the packages:
+Download the script so you can inspect it before execution:
 
 ```shell
-pkg i -y tmux curl jq git fish oh-my-posh eza zoxide termux-api
+curl -fsSL https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples/setup-tmux-btop -o ~/setup-shell
+chmod 700 ~/setup-shell
+sed -n '1,220p' ~/setup-shell
+~/setup-shell
 ```
 
-Then pull the matching defaults:
+Choose:
 
-```shell
-mkdir -p ~/.config/fish ~/.config/ohmyposh ~/.tmux
-BASE=https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples
-curl -fsSL "$BASE/config.fish"              -o ~/.config/fish/config.fish
-curl -fsSL "$BASE/termux-launcher.omp.json" -o ~/.config/ohmyposh/termux-launcher.omp.json
-curl -fsSL "$BASE/tmux.conf"                -o ~/.tmux.conf
-curl -fsSL "$BASE/material-theme.tmux"      -o ~/.tmux/material-theme.tmux
+1. **All:** fish + Oh My Posh, tmux plugin, and optional Shizuku `btop` helper.
+2. **tmux only:** TPM and the Termux Launcher tmux plugin.
+3. **btop only:** the rish-backed helper; use this only after Shizuku setup.
+4. **Exit:** make no setup choice.
+
+New users should choose **tmux only** first, or leave the default shell unchanged until the launcher feels familiar.
+
+## How the pieces fit
+
+| Tool | Job |
+| --- | --- |
+| **fish** | Friendly interactive shell with syntax highlighting and abbreviations |
+| **Oh My Posh** | Prompt segments for path, git state, and exit status |
+| **tmux** | Persistent sessions, windows, panes, keybinds, and status bar |
+| **Termux Launcher tmux plugin** | Material themes, Android-friendly bindings, resource/weather/media widgets |
+| **eza** | Colored, icon-aware file listings and tree views |
+| **zoxide** | Learns frequently used directories for fast jumps |
+| **launcherctl** | Supplies launcher/system data and launches Android apps |
+
+The live phone keeps tmux auto-start disabled in fish until explicitly enabled. The public config follows the same conservative default:
+
+```fish
+set -g fish_auto_tmux 0
 ```
+
+Change it to `1` only after `tmux` starts and detaches cleanly on your device.
 
 ## Material colors
 
-Current builds ship with **Terminal Material colors on by default**, so the terminal and the tmux theme follow your wallpaper with no extra step. If you ever want to change it:
+Keep **Settings → Appearance → Material colors** enabled. The launcher exports its palette, and the shell/plugin reads the exported values with built-in fallback colors.
 
-> Long press Terminal → More → Appearance → **Terminal Material colors**
+![Appearance controls used by the terminal, dock, keyboard, and tmux palette](assets/onboarding/screenshots/04-appearance-controls.webp)
 
-The launcher exports the palette to `~/.termux/material-colors.sh` and `~/.termux/material-colors.properties`, which the tmux theme reads.
+## Add app-launch keybinds safely
 
-> After an APK update, refresh only the repo-owned helpers with `launcherctl update-scripts`; your `~/.tmux.conf` stays intact.
+List the labels LauncherCtl knows:
+
+```shell
+launcherctl apps
+```
+
+Then add only the bindings you want to `~/.tmux.conf`:
+
+```tmux
+bind -n M-m run-shell 'launcherctl launch maps >/dev/null 2>&1 || tmux display-message "Launch failed: Maps"'
+```
+
+In tmux syntax, `M-m` means Alt+m. Avoid copying a large personal binding list: start with one app, test it, then add more.
+
+## Refresh after an app update
+
+```shell
+launcherctl update-scripts
+tmux source-file ~/.tmux.conf
+```
+
+The first command refreshes repo-owned scripts with backups; it leaves `~/.tmux.conf` unchanged. The second reloads your tmux config.
+
+## Manual alternative
+
+If you prefer full control, open the public examples before copying them:
+
+- [fish config](https://github.com/PickleHik3/termux-launcher/blob/main/docs/en/examples/config.fish)
+- [Oh My Posh theme](https://github.com/PickleHik3/termux-launcher/blob/main/docs/en/examples/termux-launcher.omp.json)
+- [tmux config](https://github.com/PickleHik3/termux-launcher/blob/main/docs/en/examples/tmux.conf)
+
+Back up any destination you already maintain and merge the pieces you understand instead of overwriting the whole file.

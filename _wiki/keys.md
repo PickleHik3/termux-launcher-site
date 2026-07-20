@@ -1,13 +1,45 @@
 ---
-title: Extra Keys
+title: Keyboards & Extra Keys
 order: 60
 ---
 
-Termux Launcher includes the regular Termux Extra Keys plus a convenient paste popup. Edit `~/.termux/termux.properties`, then run `termux-reload-settings`.
+Termux Launcher supports three layers that are easy to confuse:
+
+1. an Android keyboard such as Unexpected Keyboard;
+2. the launcher’s optional built-in keyboard;
+3. Termux Extra Keys, the configurable row above either keyboard.
+
+Use whichever combination feels reliable. None is required for the app dock.
+
+## Built-in keyboard
+
+Open **Settings → Keyboard** to enable it and choose theme, per-key colors, dock matching, size and shape, font, haptics, sound, and optional keys.
+
+![Current built-in keyboard settings](assets/onboarding/screenshots/05-keyboard-settings.webp)
+
+The built-in keyboard stays available when returning from other apps. Use the size-and-shape editor if it consumes too much terminal space, especially in landscape.
+
+## External keyboard
+
+[Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) remains a good terminal-oriented choice. Disable the built-in keyboard first if you want Android to use your selected IME.
+
+## Extra Keys file
+
+Termux Extra Keys live in:
+
+```text
+~/.termux/termux.properties
+```
+
+After every edit:
+
+```shell
+termux-reload-settings
+```
 
 ## Compact tmux row
 
-The easiest default. Assumes the [tmux setup](#wiki/tmux) with `CTRL b` as the prefix.
+Start with one row. It assumes `Ctrl+b` is available as a tmux prefix:
 
 ```properties
 extra-keys = [[ \
@@ -22,9 +54,11 @@ extra-keys = [[ \
 ]]
 ```
 
-## Two-row layout
+The keyboard key toggles the IME; its popup pastes. The tmux plugin can use `F12` to reload Termux settings.
 
-Dedicated modifier keys and more tmux controls. Turn on **compact dock spacing** first (Appearance settings).
+## Two rows
+
+Two rows give dedicated modifiers and more pane controls, but cost terminal height. Enable compact dock spacing and test portrait plus landscape before keeping them.
 
 ```properties
 extra-keys = [[ \
@@ -48,4 +82,4 @@ extra-keys = [[ \
 ]]
 ```
 
-> After editing `termux.properties`, always run `termux-reload-settings` to apply it.
+If a macro behaves differently from typing the same keys, first confirm the tmux prefix in `~/.tmux.conf`, then run `tmux source-file ~/.tmux.conf` and `termux-reload-settings`.
