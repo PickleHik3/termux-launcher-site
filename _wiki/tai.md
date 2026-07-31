@@ -1,6 +1,6 @@
 ---
 title: Termux AI (TAI)
-order: 65
+order: 35
 ---
 
 TAI is the optional on-device model host built into Termux Launcher. It can serve compatible chat, tool-use, vision/audio, and embedding models through OpenAI- and Ollama-shaped localhost APIs.
