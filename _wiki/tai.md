@@ -1,7 +1,10 @@
 ---
-title: Termux AI (TAI)
+title: LLM backends
 order: 35
 ---
+for claude: remove the ai fluff, like what is the point in a wiki having the mention "You do not need TAI to use the launcher or launcherctl launch", change the focus from "TAI" to on device LLM backends. 
+
+----
 
 TAI is the optional on-device model host built into Termux Launcher. It can serve compatible chat, tool-use, vision/audio, and embedding models through OpenAI- and Ollama-shaped localhost APIs.
 
