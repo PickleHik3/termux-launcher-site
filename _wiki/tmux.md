@@ -1,5 +1,5 @@
 ---
 title: configs
-order: 40
+order: 45
 ---
 write about bidnings, configs, font configs etc
