@@ -11,4 +11,6 @@ multiplexor
 scratch
 floating
 layouts
-worksapces etc
+worksapces 
+status bar 
+etc
