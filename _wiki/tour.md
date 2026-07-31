@@ -1,5 +1,5 @@
 ---
 title: Command Palette
-order: 18
+order: 20
 ---
 {placeholder}
