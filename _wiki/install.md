@@ -1,6 +1,6 @@
 ---
 title: Home Launcher
-order: 15
+order: 10
 ---
 #  Launcher Features
 
