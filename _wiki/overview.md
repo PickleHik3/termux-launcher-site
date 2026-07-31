@@ -1,6 +1,6 @@
 ---
 title: Quick Start
-order: 10
+order: 5
 ---
 Termux Launcher is an Android home app built around the solid foundation of Termux - Android terminal emulator.
 
