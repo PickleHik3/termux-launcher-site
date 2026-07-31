@@ -35,7 +35,7 @@ These are in addition to official termux;
 | **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. timely package updates but **cannot be installed along side official Termux.**   |
 | **Standalone edition**           | `io.vaj.tl`     | My own packages, limited updates but **can be installed alongside official Termux.** *Only available for arm64-v8a* |
 
-1. Download the Main APK from the project’s [Releases](<>).
+1. Download the Main APK from the project’s [Releases](https://github.com/PickleHik3/termux-launcher/releases).
 2. Matching Termux:API or Termux:Styling from;
 
    * Termux edition:  [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1)
@@ -45,13 +45,13 @@ Do not mix official add-ons, old forks, or APKs signed with a different key. And
 
 You only need the Main APK to try the launcher.
 
-## Features
+## Docs
 
-* [Install & first run](#wiki/install) - pick an edition, install, set it as home.
-* [Feature tour](#wiki/tour) - the same tour the app shows on first run.
-* [The launcher surface](#wiki/surface) - dock, status bar, panes, command palette, and the surface editor.
-* [Keyboards & Extra Keys](#wiki/keys) - the built-in keyboard and how to switch input methods.
-* [tmux keys & status](#wiki/tmux) and [the shell workspace](#wiki/shell) - the optional tmux setup from the demo video.
-* [launcherctl](#wiki/launcherctl) - launch Android apps from the shell.
-* [Termux AI](#wiki/tai) - local models over an OpenAI/Ollama-compatible API.
-* [Shizuku](#wiki/shizuku) and [Troubleshooting](#wiki/trouble) when something needs fixing.
+* [Home Launcher](#wiki/install) - dock, quick reply, app launching gestures, lock screen.
+* [Command Palette](#wiki/tour) - every launcher action, searchable from the keyboard or a gesture.
+* [Terminal](#wiki/surface) - graphics protocols, the multiplexer, floating panes, workspaces and the status bar.
+* [Permissions](#wiki/launcherctl) - what the app asks for and why.
+* [in-app keyboard](#wiki/shell) - the built-in Unexpected Keyboard port and custom layouts.
+* [LLM backends](#wiki/tai) - local models over an OpenAI/Ollama-compatible API.
+* [Shell goodies](#wiki/shell-goodies) - the optional setup script and the CLI tools it installs.
+* [configs](#wiki/tmux) - keybindings, fonts and properties.

@@ -2,65 +2,69 @@
 title: LLM backends
 order: 35
 ---
-for claude: remove the ai fluff, like what is the point in a wiki having the mention "You do not need TAI to use the launcher or launcherctl launch", change the focus from "TAI" to on device LLM backends. 
+# On-device LLM backends
 
-----
+The launcher can run language models entirely on your phone - no cloud, nothing leaves the device. Two runtimes are built in:
 
-TAI is the optional on-device model host built into Termux Launcher. It can serve compatible chat, tool-use, vision/audio, and embedding models through OpenAI- and Ollama-shaped localhost APIs.
+| | LiteRT-LM (Google) | MNN-LLM (Alibaba) |
+| --- | --- | --- |
+| Model format | `.litertlm` / `.task` packages | MNN-converted models (`config.json`) |
+| Chat, vision, audio input | ✓ | ✓ |
+| Tool calling | native | prompt-based |
+| Thinking / reasoning traces | ✓ | - |
+| Embeddings | ✓ (`.tflite`) | ✓ |
+| Runs on | CPU or GPU | CPU or GPU |
 
-You do not need TAI to use the launcher or `launcherctl launch`.
+Loaded models are served over **OpenAI-compatible and Ollama-compatible APIs on localhost**, so existing clients, SDKs and CLIs work against your phone the same way they'd talk to the real thing. This whole subsystem is called TAI (Termux AI) in the settings.
 
-## Check the device first
+## Getting a model
 
-Model downloads are large and runtime memory use can be significant. Open:
+Open **Settings → Services & permissions → TAI · Termux AI → Browse Catalog**. The catalog lists ready-to-use models (Gemma, Qwen, DeepSeek distills and more), each with its download size, RAM requirement and license. Models download from Hugging Face; gated ones (like Gemma) ask for a Hugging Face token first, and every download shows the provider's license to accept.
 
-```text
-Settings → TAI · Termux AI
-```
+A few things to know before downloading:
 
-Read the device profile, compatible accelerators, minimum memory, model size, and license before downloading. Start with the smallest compatible model that satisfies your use case.
+* **Start small.** Downloads run from ~300 MB to several GB, and the RAM tier listed per model is real - a preflight check runs before every load and refuses if the device doesn't have the memory.
+* You can also **import your own**: a local `.litertlm` / `.task` / `.tflite` file, or a Hugging Face URL (for MNN, a link to the model's `config.json`). GGUF, safetensors and other raw-weight formats are not supported.
+* The TAI settings screen blocks screenshots on purpose - it shows your API token.
 
-TAI protects the sensitive settings window with Android screenshot security. A black screenshot is expected; do not disable the protection to capture endpoints or tokens.
+> 🖼️ *Screenshot placeholder: the model catalog with backend filter chips and a model's size/RAM/license row visible.*
 
-## Beginner flow
+## Managing it from the shell
 
-1. Open **Browse Catalog**.
-2. Filter by the capability you need: chat, tools, vision/audio, or embeddings.
-3. Read license/terms and hardware requirements.
-4. Download or import one model.
-5. Load it with the recommended/automatic accelerator.
-6. Check status from the shell.
-
-```shell
-tai status
-tai models
-tai runtime
-```
-
-`tai` manages the host and models; it is not an interactive chat client.
-
-## Connect a client safely
-
-Read the endpoint and token at runtime from `~/.launcherctl/`. Never commit the token or paste it into screenshots.
+The `tai` command manages the host - it's not a chat client:
 
 ```shell
-export OPENAI_BASE_URL="$(sed -n '1p' ~/.launcherctl/endpoint)/v1"
+tai status      # what's running, current settings
+tai models      # installed models and their capabilities
+tai load        # load the default model (or: tai load MODEL_ID --gpu)
+tai unload      # release all model memory
+tai keep-warm   # keep the model resident (--minutes N)
+tai preflight   # check a model would load, without loading it
+tai doctor      # runtime + server health in one shot
+```
+
+`tai download`, `tai import`, `tai downloads` and `tai cancel` cover the rest. Add `--json` to any command for machine-readable output.
+
+## Connecting a client
+
+The server writes its address and token to disk, so clients can pick them up without hardcoding anything:
+
+```shell
+export OPENAI_BASE_URL="$(cat ~/.launcherctl/endpoint)/v1"
 export OPENAI_API_KEY="$(cat ~/.launcherctl/token)"
 ```
 
-Compatible clients can then use chat completions, responses, embeddings, or Ollama-shaped chat/generate endpoints according to model capability.
+* OpenAI-shaped: `/v1/chat/completions`, `/v1/responses`, `/v1/completions`, `/v1/embeddings`, with streaming.
+* Ollama-shaped (same port, no `/v1`): `/api/chat`, `/api/generate`, `/api/embed`, `/api/tags`.
 
-## Runtime habits
+The server listens on localhost only by default; a LAN option exists in settings and always requires the token. Full endpoint reference with request/response examples is on the **Termux AI** page in the site navigation.
 
-- Keep only one generation model resident.
-- Use preflight before loading an unfamiliar model.
-- Prefer auto acceleration until you have a reason to force CPU or GPU.
-- Unload when finished to release memory.
-- Cancel a stuck load/generation before restarting the whole launcher.
+## How memory is handled
 
-```shell
-tai doctor
-tai runtime
-```
+Phones don't have RAM to waste, so the runtime is strict about it:
 
-For role assignment, import metadata, exact endpoints, streaming, rate limits, and error bodies, open the full **Termux AI** API page from the site navigation.
+* **One generation model is resident at a time.** Loading another (even on the other backend) unloads the current one first.
+* Multimodal LiteRT models are split into separate `-text` / `-vision` / `-audio` model ids by default, so asking for text doesn't pay the RAM cost of the vision and audio encoders. A "combined" mode is available in Advanced settings.
+* Embedding models don't occupy the slot at all - they're served on demand alongside the chat model.
+* Idle models unload themselves after 10 minutes by default (configurable); `tai keep-warm` extends that when you know you'll be back.
+* Models run in a separate process, so a native crash can't take the launcher (your home screen) down with it.

@@ -7,8 +7,8 @@ class TermuxLauncherSite {
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
-      "overview", "install", "tour", "surface", "keys", "shell",
-      "tmux", "launcherctl", "shizuku", "tai", "trouble"
+      "overview", "install", "tour", "surface", "launcherctl", "shell",
+      "tai", "shell-goodies", "tmux"
     ];
     this.endpointGroups = [
       {
