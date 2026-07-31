@@ -28,7 +28,24 @@ These are in addition to official termux;
 9. Shizuku integration.
 10. local LLM backends for Google LiteRT and Alibaba MNN.
 
-## Where to go next
+## Download & Installation
+
+| Editions                         | Android package | Notes                                                                                                               |
+| -------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. timely package updates but **cannot be installed along side official Termux.**   |
+| **Standalone edition**           | `io.vaj.tl`     | My own packages, limited updates but **can be installed alongside official Termux.** *Only available for arm64-v8a* |
+
+1. Download the Main APK from the project’s [Releases](<>).
+2. Matching Termux:API or Termux:Styling from;
+
+   * Termux edition:  [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1)
+   * Standalone edition: [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0-vaj) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1-vaj)
+
+Do not mix official add-ons, old forks, or APKs signed with a different key. Android will reject shared-UID/signature mismatches.
+
+You only need the Main APK to try the launcher.
+
+## Features
 
 * [Install & first run](#wiki/install) - pick an edition, install, set it as home.
 * [Feature tour](#wiki/tour) - the same tour the app shows on first run.
