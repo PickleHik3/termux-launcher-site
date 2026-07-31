@@ -28,4 +28,6 @@ order: 10
 
    * Launch apps
    * Shell controls 
-   * Read about command palette in more details here - {claude make the page}
+   * Read about the command palette in more detail on the [Command Palette](#wiki/tour) page.
+
+> 📹 *Screen recording placeholder: slide across the alphabets row, up into the app icons, and release to launch - then a second clip of swiping up on a docked app icon to quick-reply to a notification.*
