@@ -32,7 +32,7 @@ The tour covers:
 - touch and terminal app search;
 - appearance and built-in keyboard controls;
 - the optional fish/tmux workspace;
-- LauncherCtl, Shizuku, and TAI;
+- launch-only `launcherctl`, Shizuku, and TAI;
 - where to choose the default Home app.
 
 Tap **Skip** if you already know the launcher. Replay it later from **Settings → Quick start tour**.
@@ -42,11 +42,10 @@ Tap **Skip** if you already know the launcher. Replay it later from **Settings �
 At the prompt, run:
 
 ```shell
-launcherctl status
-launcherctl apps
+launcherctl launch com.android.settings
 ```
 
-Then check these touch paths:
+Return to the launcher, then check these touch paths:
 
 1. Tap one pinned app and return Home.
 2. Type `%settings` without pressing Enter; confirm the dock filters.
@@ -71,8 +70,8 @@ If you plan to switch the Termux package manager from `pkg`/`apt` to `pacman`, d
 
 - Leave Material colors and the default dock enabled.
 - Learn `%` search and the A–Z row.
-- Decide whether to use the built-in keyboard or an external one.
-- Grant notification access only if you want dots, inline notification views, media, or LauncherCtl notification commands.
+- Fresh installs use the built-in keyboard. Change **Settings → Keyboard → Input method** only if you want the Android keyboard or no on-screen keyboard.
+- Grant notification access only if you want dots, inline notification views, replies, or media in the launcher.
 - Skip Shizuku and TAI until the core launcher feels stable.
 
 ## Updating later
@@ -83,7 +82,6 @@ After an update:
 
 ```shell
 termux-reload-settings
-launcherctl update-scripts
 ```
 
-`launcherctl update-scripts` refreshes repo-owned helpers with timestamped backups. It does not overwrite `~/.tmux.conf`.
+If you installed the optional tmux workspace, rerun `~/setup-shell` to update a clean Termux Launcher tmux plugin checkout. The guarded installer stops when that checkout has local changes and leaves existing fish, Oh My Posh, and tmux configuration files in place.

@@ -3,7 +3,7 @@ title: tmux keys & status
 order: 45
 ---
 
-tmux is optional, but it is the easiest way to keep a terminal workspace alive as Android apps open over it. The Termux Launcher plugin adds Material themes, Android-friendly bindings, and status widgets backed by LauncherCtl.
+tmux is optional, but it is the easiest way to keep a terminal workspace alive as Android apps open over it. The Termux Launcher plugin adds Material themes, Android-friendly bindings, and status widgets.
 
 Install it through **Recreate the shell workspace**, then start:
 
@@ -43,7 +43,7 @@ The live configuration uses a compact top bar for sessions/windows plus CPU, mem
 - `rounded`, `sleek`, and `purem3` visual themes;
 - top or bottom status position.
 
-Enable only the widgets you read. LauncherCtl-backed resource snapshots avoid aggressive shell polling.
+Enable only the widgets you read. Resource widgets use the plugin's current helpers.
 
 ```tmux
 set -g @termux-launcher-tmux-system-widgets on
@@ -55,17 +55,13 @@ set -g @termux-launcher-tmux-status-position top
 
 ## Launch Android apps
 
-Ask LauncherCtl for exact labels, then add deliberate bindings:
-
-```shell
-launcherctl apps
-```
+Add deliberate bindings:
 
 ```tmux
 bind -n M-m run-shell 'launcherctl launch maps >/dev/null 2>&1 || tmux display-message "Launch failed: Maps"'
 ```
 
-Do not copy the developer phone’s full personal binding list; conflicts depend on your apps and keyboard.
+Use a package or activity when a label matches several apps. Do not copy the developer phone’s full personal binding list; conflicts depend on your apps and keyboard.
 
 ## Reload and recover
 

@@ -2,9 +2,9 @@
 title: Quick Start
 order: 10
 ---
-Termux Launcher is an android home app which is built around the the solid foundation of Termux - Android terminal emulator. 
+Termux Launcher is an Android home app built around the solid foundation of Termux - Android terminal emulator.
 
-Through its lifetime, termux launcher has diverged pretty far away from upstream termux, although the core shell components are based on upstream termux, termux-launcher has many things added on top of it that i can be considered its own now. 
+Through its lifetime, termux launcher has diverged pretty far away from upstream termux. The core shell components are still based on upstream, but termux-launcher has many things added on top that can be considered its own now.
 
 ![Termux Launcher home screen with tmux status, live terminal, app dock, A–Z row, and built-in keyboard](assets/onboarding/screenshots/01-home-terminal.webp)
 
@@ -17,15 +17,24 @@ These are in addition to official termux;
    * Sixel and Kitty protocols for images and gif support.
    * Kitty's fonts, symbols and shaping.
    * Animated cursor.
-   * touch handling is different from official termux, while inside TUI's two fingers to scroll and otherwise - touches registered as mouse clicks. 
-2. App native multiplexer (sessions, windows, panes and layouts).
+   * touch handling is different from official termux, while inside TUI's two fingers to scroll and otherwise - touches registered as mouse clicks.
+2. App native multiplexer (sessions, windows, panes and layouts, including floating panes).
 3. In-app status bar.
 4. Command Palette.
-5. In-app keyboard port of [Unexpected Keyboard](<>) by Julow.
+5. In-app keyboard port of [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) by Julow.
 6. Quick respond to notifications.
 7. Android app drawer.
 8. Material color themes.
 9. Shizuku integration.
 10. local LLM backends for Google LiteRT and Alibaba MNN.
 
-## \-- WIP --
+## Where to go next
+
+* [Install & first run](#wiki/install) - pick an edition, install, set it as home.
+* [Feature tour](#wiki/tour) - the same tour the app shows on first run.
+* [The launcher surface](#wiki/surface) - dock, status bar, panes, command palette, and the surface editor.
+* [Keyboards & Extra Keys](#wiki/keys) - the built-in keyboard and how to switch input methods.
+* [tmux keys & status](#wiki/tmux) and [the shell workspace](#wiki/shell) - the optional tmux setup from the demo video.
+* [launcherctl](#wiki/launcherctl) - launch Android apps from the shell.
+* [Termux AI](#wiki/tai) - local models over an OpenAI/Ollama-compatible API.
+* [Shizuku](#wiki/shizuku) and [Troubleshooting](#wiki/trouble) when something needs fixing.

@@ -8,7 +8,7 @@ class TermuxLauncherSite {
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
       "overview", "install", "tour", "surface", "keys", "shell",
-      "tmux", "launcherctl", "shizuku", "tai", "agent", "trouble"
+      "tmux", "launcherctl", "shizuku", "tai", "trouble"
     ];
     this.endpointGroups = [
       {
@@ -32,7 +32,7 @@ class TermuxLauncherSite {
           { method: "POST", path: "/api/generate", description: "Prompt-style generation, Ollama shape.", example: "curl \"$BASE/api/generate\" -d '{\n  \"model\": \"MODEL_ID\",\n  \"prompt\": \"Why is the sky blue?\"\n}'", note: "60 requests / minute." },
           { method: "POST", path: "/api/show", description: "Show one model's details and capabilities.", params: "Body: <b>model</b>." },
           { method: "POST", path: "/api/embed", description: "Create embeddings for text_embeddings models, Ollama shape.", params: "Body: <b>model</b>, <b>input</b> (string or string[]).", response: "{\n  \"model\": \"embeddinggemma-300m\",\n  \"embeddings\": [ [-0.0251, 0.0404, 0.0088, \"...768 floats\"] ]\n}", note: "60 requests / minute. Served on demand — no runtime/load needed." },
-          { method: "POST", path: "/api/pull", description: "Pull a model by name. Long-running; streams progress as NDJSON." }
+          { method: "POST", path: "/api/pull", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" }
         ]
       },
       {
@@ -55,27 +55,9 @@ class TermuxLauncherSite {
         ]
       },
       {
-        name: "Launcher & agent",
+        name: "Launcher",
         items: [
-          { method: "GET", path: "/v1/status", description: "Bridge status: privileged backend (Shizuku), notification-listener connectivity, and policy.", response: "{\n  \"ok\": true,\n  \"apiVersion\": \"v1\",\n  \"backendType\": \"SHIZUKU\",\n  \"backendState\": \"READY\",\n  \"notificationListenerConnected\": true\n}" },
-          { method: "GET", path: "/v1/launcher/capabilities", description: "Device profile, integration flags (OpenAI/MCP), memory, SoC, and availability warnings.", response: "{\n  \"ok\": true,\n  \"integrations\": { \"openAiCompatible\": true, \"mcpStdio\": true },\n  \"device\": {\n    \"socModel\": \"SM8475\",\n    \"supportedAbis\": [\"arm64-v8a\"],\n    \"memoryGiB\": 14.9\n  }\n}" },
-          { method: "GET", path: "/v1/apps", description: "The launcher's launchable activity catalog (label, package, activity, stableId).", response: "{\n  \"ok\": true,\n  \"count\": 113,\n  \"apps\": [\n    {\n      \"label\": \"Maps\",\n      \"packageName\": \"com.example.maps\",\n      \"activityName\": \"com.example.maps.MainActivity\",\n      \"stableId\": \"com.example.maps/...MainActivity\",\n      \"launchable\": true\n    }\n  ]\n}" },
-          { method: "POST", path: "/v1/apps/launch", description: "Launch an app by fuzzy query, resolved against the app catalog.", params: "Body: <b>query</b> (app name or package fragment).", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"query\":\"maps\"}' \\\n  \"$BASE/v1/apps/launch\"", note: "30 requests / minute." },
-          { method: "POST", path: "/v1/app/restart", description: "Restart the launcher activity.", note: "5 requests / minute." },
-          { method: "GET", path: "/v1/system/resources", description: "CPU, memory, battery, network, thermal, and storage snapshot.", response: "{\n  \"ok\": true,\n  \"cpuCores\": 8,\n  \"cpuPercent\": 19.7,\n  \"memTotalBytes\": 11807469568,\n  \"memAvailableBytes\": 5217705984\n}" },
-          { method: "GET", path: "/v1/notifications", description: "Current cached notification list. Needs notification-listener access granted to the launcher.", note: "Requires notification-listener access." },
-          { method: "POST", path: "/v1/notifications/recent", description: "Most recent notification events from the persisted log.", params: "Body: optional <b>limit</b>." },
-          { method: "POST", path: "/v1/notifications/search", description: "Search the notification-event log by text query.", params: "Body: <b>query</b>, optional <b>limit</b>." },
-          { method: "POST", path: "/v1/notifications/since", description: "Notification events after a timestamp (epoch ms).", params: "Body: <b>since</b> (epoch ms, required), optional <b>limit</b>." },
-          { method: "POST", path: "/v1/notifications/stats", description: "Aggregate counts by package over the retained event log.", response: "{\n  \"total\": 10000,\n  \"posted\": 9111,\n  \"removed\": 889,\n  \"packages\": [ { \"packageName\": \"com.example.app\", \"count\": 4032 } ]\n}" },
-          { method: "GET", path: "/v1/media/now-playing", description: "Currently playing media session, when a listener is connected.", response: "{ \"listenerConnected\": true, \"nowPlaying\": null, \"ok\": true }" },
-          { method: "GET", path: "/v1/media/art", description: "Album art for the active media session (binary image)." },
-          { method: "GET", path: "/v1/events", description: "Recent bridge/agent events from the ring buffer (most recent last)." },
-          { method: "GET", path: "/v1/events/stream", description: "Live event stream as Server-Sent Events. Keep the connection open and read events as they arrive.", note: "12 concurrent opens / minute — one long-lived stream, not a poll loop." },
-          { method: "POST", path: "/v1/events/tail", description: "Fetch events since a timestamp without holding a stream open.", params: "Body: optional <b>since</b> (epoch ms), <b>limit</b>." },
-          { method: "GET", path: "/v1/agent/tools", description: "List the callable agent tools and their JSON schemas (for tool-using clients and MCP).", response: "{\n  \"ok\": true,\n  \"count\": 15,\n  \"tools\": [\n    {\n      \"name\": \"apps.search\",\n      \"openAiName\": \"apps_search\",\n      \"risk\": \"low\",\n      \"requiresConfirmation\": false\n    }\n  ]\n}" },
-          { method: "POST", path: "/v1/agent/route", description: "Route a natural-language request to the right agent tool and run it.", params: "Body: <b>request</b> (natural-language string).", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"request\":\"show recent notifications\"}' \\\n  \"$BASE/v1/agent/route\"" },
-          { method: "POST", path: "/v1/agent/execute", description: "Execute a named tool directly. Risky tools are confirmation-gated — pass confirm: true.", params: "Body: <b>tool</b>, <b>arguments</b> (object), optional <b>confirm</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"tool\":\"system.resources\",\"arguments\":{},\"confirm\":true}' \\\n  \"$BASE/v1/agent/execute\"" },
+          { method: "POST", path: "/v1/apps/launch", description: "Launch an app by fuzzy query, resolved against the app catalog. Exact package or activity matches rank before labels; ties return 409 with a candidates array. This is what launcherctl launch calls.", params: "Body: <b>query</b> (app name, package, or activity).", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"query\":\"maps\"}' \\\n  \"$BASE/v1/apps/launch\"", note: "30 requests / minute." },
           { method: "POST", path: "/v1/auth/rotate", description: "Rotate the API token and rewrite ~/.launcherctl/token and ~/.launcherctl/endpoint. All existing clients must re-read the new token.", note: "5 requests / minute. Invalidates the current token immediately." }
         ]
       }
@@ -550,7 +532,7 @@ class TermuxLauncherSite {
       { title: "Add & import your own models", tag: "Termux AI", view: "ai", id: "ai-import", kw: "hugging face token import repo url litert mnn gguf" },
       { title: "Chat from the terminal with AIChat", tag: "Termux AI", view: "ai", id: "ai-aichat", kw: "aichat openai compatible client endpoint token config" },
       { title: "tai commands", tag: "Termux AI", view: "ai", id: "ai-commands", kw: "tai status models load runtime keep-warm doctor cli" },
-      { title: "API reference", tag: "Termux AI", view: "ai", id: "ep-intro", kw: "openai ollama endpoints v1 chat completions responses embeddings launcherctl rate limit 429 errors streaming sse agent tools" }
+      { title: "API reference", tag: "Termux AI", view: "ai", id: "ep-intro", kw: "openai ollama endpoints v1 chat completions responses embeddings launcherctl app launch rate limit 429 errors streaming sse" }
     ];
     statics.forEach((s) => index.push({
       title: s.title, tag: s.tag, view: s.view, id: s.id,

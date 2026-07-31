@@ -18,6 +18,12 @@ Your active terminal is the wallpaper, workspace, and control surface. Normal Te
 
 ![Live terminal Home with tmux status widgets, dock, A–Z navigation, and keyboard](assets/onboarding/screenshots/01-home-terminal.webp)
 
+The native terminal workspace supports sessions, windows, tiled panes, and floating panes. Choose **Float / dock pane** in the command palette or press `Ctrl+Alt+F`. Move a floating pane with its slim top handle and resize it from the bottom-right grip. Long-press and drag inside the terminal still sends mouse drag reporting to the running program. Toggle the action again to return the pane to the tiled tree. One pane must remain tiled in each window.
+
+Floating positions and sizes survive activity recreation and workspace save and restore. Session working directories inside the Termux home display as `~` or `~/subdirectory`. The session-switch chip counts launcher sessions and appears only when you switch sessions, not when you create another pane or window in the current one.
+
+The command palette uses one glass rectangle with the search row at the top. Its result count and breadcrumb sit at the right of that row, with six frequent-action keycaps below. Its corners follow the dock capsule.
+
 ## Open and organize Android apps
 
 - Tap pinned icons for one-touch launch.
@@ -44,9 +50,13 @@ Wallpaper-derived Material colors can flow through the terminal, ANSI palette, c
 
 ![Appearance screen with Material colors, terminal opacity, and live dock glass controls](assets/onboarding/screenshots/04-appearance-controls.webp)
 
+The edit-surface popup reopens the Dock, Keyboard, Status, or Other section used last.
+
 ## Pick your keyboard
 
-Use any Android keyboard, or enable the launcher’s built-in terminal keyboard. The built-in path supports system/custom themes, per-key color-scheme editing, dock matching, drag-to-resize sizing, typography, haptics, key sounds, optional extra keys, and custom layout files.
+Fresh installs use the launcher’s built-in terminal keyboard and keep the Android keyboard hidden. Existing installs keep their selected input method. **Settings → Keyboard → Input method** switches between the built-in keyboard, Android keyboard, and no on-screen keyboard.
+
+The built-in path supports system/custom themes, per-key color-scheme editing, dock matching, drag-to-resize sizing, typography, haptics, key sounds, optional extra keys, and custom layout files.
 
 ![Built-in keyboard settings showing theme, color scheme, dock matching, sizing, and feedback](assets/onboarding/screenshots/05-keyboard-settings.webp)
 
@@ -65,16 +75,14 @@ Private aliases and API keys are intentionally not copied. See **Recreate the sh
 
 ## Bridge the shell and Android
 
-`launcherctl` exposes a localhost, bearer-token-authenticated API and friendly shell commands. It can launch apps, read resource snapshots, expose media and notification state after access is granted, stream events, restart its bridge, generate client configs, and route confirmation-gated agent tools.
+`launcherctl` has one command. It sends an authenticated request to the local app catalog and launches the unique best match:
 
 ```shell
-launcherctl status
-launcherctl resources
 launcherctl launch maps
-launcherctl client-config codex
+launcherctl launch com.example.maps
 ```
 
-Bind safe calls to tmux keys or use the MCP stdio bridge with a compatible client.
+No match returns 404. Tied best matches return 409 with candidate app records, so scripts can retry with a package or activity. The route allows 30 requests per minute. Status, resources, notifications, media, events, restart, agent, MCP, and client-config commands are not present. Local AI uses `tai`.
 
 ![LauncherCtl page in the replayable onboarding tour](assets/onboarding/screenshots/07-onboarding-launcherctl.webp)
 
@@ -84,7 +92,6 @@ Bind safe calls to tmux keys or use the MCP stdio bridge with a compatible clien
 
 - **Shizuku:** optional lock-screen backend, privileged shell, richer system helpers, and `btop` integration.
 - **TAI / Termux AI:** on-device LiteRT-LM and MNN model hosting, catalog downloads/imports, language and embedding roles, and OpenAI/Ollama-compatible localhost APIs.
-- **Agent & MCP:** shared LauncherCtl tool registry with explicit risk levels and confirmation gates.
 - **Termux add-ons:** matching API and Styling forks extend normal Termux workflows.
 
 TAI marks its sensitive settings window secure, so Android screenshots of endpoint/token details are intentionally blocked. The docs never ask you to disable that protection.
@@ -97,11 +104,10 @@ TAI marks its sensitive settings window secure, so Android screenshots of endpoi
 | --- | --- | --- |
 | Terminal Home, sessions, dock, A–Z, `%` search | Yes | None |
 | Folders, pins, ranking, icon packs, shortcuts | Yes | Configure to taste |
-| Built-in keyboard and color editor | Yes | Enable in Keyboard settings |
+| Built-in keyboard and color editor | Yes, built-in keyboard selected | Change Input method only if wanted |
 | Material terminal/dock palette | Yes by default | Wallpaper and appearance choices |
-| LauncherCtl apps/resources | Yes | None |
-| Notification dots, replies, media, notification commands | No | Notification-listener access |
+| `launcherctl launch` | Yes | None |
+| Notification dots, replies, and media | No | Notification-listener access |
 | tmux/fish/Oh My Posh workspace | No | Run the guarded shell setup |
 | Shizuku lock, shell, `btop` | No | Shizuku + rish permission |
 | TAI models and local clients | No | Model download/import and enough RAM |
-| Agent tools and MCP | Bridge included | Python/client configuration; confirmations for risky tools |

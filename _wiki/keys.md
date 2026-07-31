@@ -6,14 +6,16 @@ order: 60
 Termux Launcher supports three layers that are easy to confuse:
 
 1. an Android keyboard such as Unexpected Keyboard;
-2. the launcher’s optional built-in keyboard;
+2. the launcher’s built-in keyboard;
 3. Termux Extra Keys, the configurable row above either keyboard.
 
 Use whichever combination feels reliable. None is required for the app dock.
 
 ## Built-in keyboard
 
-Open **Settings → Keyboard** to enable it and choose theme, per-key colors, dock matching, size and shape, font, haptics, sound, and optional keys.
+The built-in keyboard is the fresh-install default. Existing installs keep their current input method. Open **Settings → Keyboard → Input method** to choose **Built-in terminal keyboard**, **Android keyboard**, or **None**.
+
+The rest of the Keyboard page controls theme, per-key colors, dock matching, size and shape, font, haptics, sound, and optional keys.
 
 ![Current built-in keyboard settings](assets/onboarding/screenshots/05-keyboard-settings.webp)
 
@@ -21,7 +23,7 @@ The built-in keyboard stays available when returning from other apps. Use the si
 
 ## External keyboard
 
-[Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) remains a good terminal-oriented choice. Disable the built-in keyboard first if you want Android to use your selected IME.
+[Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) remains a terminal-oriented choice. Select **Android keyboard** under **Settings → Keyboard → Input method** to use it or another installed IME.
 
 ## Extra Keys file
 

@@ -5,7 +5,7 @@ order: 65
 
 TAI is the optional on-device model host built into Termux Launcher. It can serve compatible chat, tool-use, vision/audio, and embedding models through OpenAI- and Ollama-shaped localhost APIs.
 
-You do not need TAI to use the launcher or LauncherCtl.
+You do not need TAI to use the launcher or `launcherctl launch`.
 
 ## Check the device first
 
@@ -38,15 +38,7 @@ tai runtime
 
 ## Connect a client safely
 
-Generate a config when supported:
-
-```shell
-launcherctl client-config codex
-launcherctl client-config opencode
-launcherctl client-config ollama
-```
-
-Or read the endpoint/token at runtime from `~/.launcherctl/`. Never commit the token or paste it into screenshots.
+Read the endpoint and token at runtime from `~/.launcherctl/`. Never commit the token or paste it into screenshots.
 
 ```shell
 export OPENAI_BASE_URL="$(sed -n '1p' ~/.launcherctl/endpoint)/v1"

@@ -3,7 +3,7 @@ title: Shizuku, rish & btop
 order: 50
 ---
 
-Shizuku is optional. Skip this page unless you want a privileged lock method, a `rish` shell, or the Shizuku-backed `btop` helpers. App launch, search, styling, keyboards, normal tmux, and basic LauncherCtl do not need it.
+Shizuku is optional. Skip this page unless you want a privileged lock method, a `rish` shell, or the Shizuku-backed `btop` helpers. App launch, search, styling, keyboards, normal tmux, and `launcherctl launch` do not need it.
 
 ## Before you start
 
@@ -46,7 +46,6 @@ Approve the Shizuku prompt only for the launcher edition you installed.
 ## Verify before adding btop
 
 ```shell
-launcherctl tty-doctor
 rish -c 'id'
 ```
 

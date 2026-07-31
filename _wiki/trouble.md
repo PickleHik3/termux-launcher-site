@@ -9,20 +9,12 @@ Start with the smallest safe check. Do not clear app data, uninstall, or delete 
 
 ```shell
 termux-reload-settings
-launcherctl status
 ```
 
 If only tmux looks wrong:
 
 ```shell
 tmux source-file ~/.tmux.conf
-```
-
-If the bridge does not respond:
-
-```shell
-launcherctl restart
-launcherctl status
 ```
 
 ## Symptom map
@@ -33,9 +25,9 @@ launcherctl status
 | No dock/apps row | Apps & Access → apps row enabled | Reopen Home after changing the toggle |
 | Keyboard covers too much space | Keyboard → Size & shape | Test landscape; disable built-in keyboard to use Android IME |
 | Blur is flat/black | Check live wallpaper and blur value | Use clear glass (0 blur) or a static/managed wallpaper |
-| `launcherctl` missing | Reopen the launcher | Run `launcherctl update-scripts` after the command returns |
+| `launcherctl` missing | Reopen the launcher | Confirm `$PREFIX/bin/launcherctl` exists after startup |
 | 401 Unauthorized | Client has stale token | Reread token or rotate deliberately, then update every client |
-| Connection refused | Launcher/bridge not running | Reopen launcher, then `launcherctl restart` |
+| `launcherctl launch` cannot connect | Launcher API is not running | Reopen the launcher and check `~/.launcherctl/endpoint` |
 | Notifications/media empty | Notification-listener access | Confirm the source app currently has media/notifications |
 | Shizuku says OFF/DENIED | Shizuku service and app grant | Verify the edition package in `rish` |
 | tmux plugin update refuses | Local plugin changes | Back up/commit those changes; installer intentionally stops |
@@ -52,7 +44,7 @@ tai runtime
 - **Out of memory:** unload, choose a smaller model/context, close other heavy apps, and avoid repeated immediate load attempts.
 - **Secure settings screenshot is black:** expected behavior, not a rendering failure.
 - **Client 401:** reread the current LauncherCtl token.
-- **Endpoint unavailable:** reopen launcher and check `launcherctl status` before touching model files.
+- **Endpoint unavailable:** reopen the launcher, check `~/.launcherctl/endpoint`, and run `tai status` before touching model files.
 
 ## Shell setup
 
