@@ -15,7 +15,9 @@ Three graphics protocols are supported out of the box - nothing to enable:
 
 Tested clients: `timg -pk`, `chafa -f kitty`, and **yazi**'s image previews all work. One caveat: `kitten icat` itself isn't usable - kitty's `kitten` binary isn't packaged for Android and crashes before reaching the terminal. Use `timg` or `chafa` instead.
 
-> 🖼️ *Screenshot placeholder: yazi previewing a photo in a pane, or `timg` showing a GIF mid-animation.*
+>
+
+![](/termux-launcher-site/assets/uploads/fetch.gif)
 
 ## Fonts and text rendering
 
