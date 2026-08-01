@@ -26,20 +26,20 @@ The script is interactive and asks what you want:
 
 It never silently overwrites anything - every file it replaces gets a timestamped `.bak` copy next to it. It also offers to make fish your default shell at the end.
 
-> 🖼️ *Screenshot placeholder: terminal after setup - fish prompt with the Material oh-my-posh theme, an `ll` listing with icons, wallpaper colors visible.*
+> ![](/termux-launcher-site/assets/uploads/whatsapp-image-2026-08-02-at-12.40.06-am.jpeg)
 
 ## What it installs
 
-| Tool | What you get |
-| --- | --- |
-| [fish](https://fishshell.com) | Friendly shell - autosuggestions and completions out of the box. |
-| [oh-my-posh](https://ohmyposh.dev) | Prompt with path, git status and command time - themed from your wallpaper colors. |
-| [eza](https://github.com/eza-community/eza) | Modern `ls` with icons and git info. `ls`, `ll`, `la`, `lt` (tree) are set up as wrappers. |
+| Tool                                            | What you get                                                                                                                           |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [fish](https://fishshell.com)                   | Friendly shell - autosuggestions and completions out of the box.                                                                       |
+| [oh-my-posh](https://ohmyposh.dev)              | Prompt with path, git status and command time - themed from your wallpaper colors.                                                     |
+| [eza](https://github.com/eza-community/eza)     | Modern `ls` with icons and git info. `ls`, `ll`, `la`, `lt` (tree) are set up as wrappers.                                             |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | Smart `cd` that remembers where you've been - `cd proj` jumps to your most used matching directory. `cd` also runs `ls` after landing. |
-| [fzf](https://github.com/junegunn/fzf) | Fuzzy finder for history and files. |
-| [yazi](https://github.com/sxyazi/yazi) | Terminal file manager. Type `y` to open it - quitting drops you in the directory you navigated to. |
-| [neovim](https://neovim.io) | Set as `$EDITOR`. |
-| git, curl, unzip | Plumbing for the prompt's git segment and the script itself. |
+| [fzf](https://github.com/junegunn/fzf)          | Fuzzy finder for history and files.                                                                                                    |
+| [yazi](https://github.com/sxyazi/yazi)          | Terminal file manager. Type `y` to open it - quitting drops you in the directory you navigated to.                                     |
+| [neovim](https://neovim.io)                     | Set as `$EDITOR`.                                                                                                                      |
+| git, curl, unzip                                | Plumbing for the prompt's git segment and the script itself.                                                                           |
 
 ## Wallpaper colors in the shell
 
