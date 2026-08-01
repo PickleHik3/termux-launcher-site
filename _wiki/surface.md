@@ -15,9 +15,7 @@ Three graphics protocols are supported out of the box - nothing to enable:
 
 Tested clients: `timg -pk`, `chafa -f kitty`, and **yazi**'s image previews all work. One caveat: `kitten icat` itself isn't usable - kitty's `kitten` binary isn't packaged for Android and crashes before reaching the terminal. Use `timg` or `chafa` instead.
 
->
-
-![](/termux-launcher-site/assets/uploads/fetch.gif)
+> ![](/termux-launcher-site/assets/uploads/fetch.gif)
 
 ## Fonts and text rendering
 
@@ -41,7 +39,7 @@ Touch is tuned for TUIs rather than plain shells:
 
 No tmux needed - the app is one natively. The hierarchy is **sessions → windows → panes**, and everything below is reachable from the [Command Palette](#wiki/tour), keybinds, extra keys, or the space-bar swipes on the built-in keyboard.
 
-> 📹 *Screen recording placeholder: split a pane, drag the divider, float it, then toggle the scratchpad over it.*
+> ![](/termux-launcher-site/assets/uploads/multiplexer.gif)
 
 * **Splits** - vertical/horizontal, arrow-key focus movement, keyboard resize, drag the dividers.
 * **Layouts** - six presets (grid, tall, fat, horizontal, vertical, stack); *Next pane layout* (`Ctrl+Alt+L`) cycles them and the window keeps re-tiling new panes to match until you hand-shape it.
@@ -62,7 +60,7 @@ The glass strip at the top is two tiers:
 
 Everything is toggleable in **Settings → Terminal Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. CPU stats need [Shizuku](#wiki/launcherctl); weather needs location.
 
-> 🖼️ *Screenshot placeholder: expanded status bar with the flip clock and a pinned notification, plus the CPU detail card open.*
+> ![](/termux-launcher-site/assets/uploads/status-bar.gif)
 
 ## Small but nice
 
