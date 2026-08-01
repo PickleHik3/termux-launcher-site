@@ -6,7 +6,7 @@ order: 15
 
 Every action the launcher knows - splits, sessions, windows, appearance, clipboard, even launching Android apps - lives in one searchable list. Keybinds, keyboard gestures and the palette all run the same actions, so anything you can bind to a key you can also just type.
 
-> 📹 *Screen recording placeholder: open the palette with a swipe up from the space bar, type "split", run it, then reopen and press ↓ to browse the full list.*
+> ![](/termux-launcher-site/assets/uploads/command-palette-optimized.gif)
 
 ## Opening it
 
@@ -46,15 +46,15 @@ Some rows want more from you:
 
 A few worth remembering (the full set, and how to change them, is on the [configs](#wiki/tmux) page):
 
-| Keys | Action |
-| --- | --- |
-| Ctrl + Alt + V / H | Split pane vertically / horizontally |
-| Ctrl + Alt + arrows | Move pane focus |
-| Ctrl + Alt + F | Float / dock the pane |
-| Ctrl + Alt + ` | Toggle scratchpad |
-| Ctrl + Alt + K | Toggle the keyboard |
-| Ctrl + Alt + S | Search scrollback |
-| Ctrl + Alt + 1…9 | Jump to session by number |
+| Keys                | Action                               |     |
+| ------------------- | ------------------------------------ | --- |
+| Ctrl + Alt + V / H  | Split pane vertically / horizontally |     |
+| Ctrl + Alt + arrows | Move pane focus                      |     |
+| Ctrl + Alt + F      | Float / dock the pane                |     |
+| Ctrl + Alt + `      | Toggle scratchpad                    |     |
+| Ctrl + Alt + K      | Toggle the keyboard                  |     |
+| Ctrl + Alt + S      | Search scrollback                    |     |
+| Ctrl + Alt + 1…9    | Jump to session by number            |     |
 
 Tip: hold **Ctrl + Alt** on the in-app keyboard and the bound keys light up with a legend of what they do.
 
