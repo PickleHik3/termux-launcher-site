@@ -6,14 +6,14 @@ order: 35
 
 The launcher can run language models entirely on your phone - no cloud, nothing leaves the device. Two runtimes are built in:
 
-| | LiteRT-LM (Google) | MNN-LLM (Alibaba) |
-| --- | --- | --- |
-| Model format | `.litertlm` / `.task` packages | MNN-converted models (`config.json`) |
-| Chat, vision, audio input | ✓ | ✓ |
-| Tool calling | native | prompt-based |
-| Thinking / reasoning traces | ✓ | - |
-| Embeddings | ✓ (`.tflite`) | ✓ |
-| Runs on | CPU or GPU | CPU or GPU |
+|                             | LiteRT-LM (Google)             | MNN-LLM (Alibaba)                    |
+| --------------------------- | ------------------------------ | ------------------------------------ |
+| Model format                | `.litertlm` / `.task` packages | MNN-converted models (`config.json`) |
+| Chat, vision, audio input   | ✓                              | ✓                                    |
+| Tool calling                | native                         | prompt-based                         |
+| Thinking / reasoning traces | ✓                              | \-                                   |
+| Embeddings                  | ✓ (`.tflite`)                  | ✓                                    |
+| Runs on                     | CPU or GPU                     | CPU or GPU                           |
 
 Loaded models are served over **OpenAI-compatible and Ollama-compatible APIs on localhost**, so existing clients, SDKs and CLIs work against your phone the same way they'd talk to the real thing. This whole subsystem is called TAI (Termux AI) in the settings.
 
@@ -25,9 +25,6 @@ A few things to know before downloading:
 
 * **Start small.** Downloads run from ~300 MB to several GB, and the RAM tier listed per model is real - a preflight check runs before every load and refuses if the device doesn't have the memory.
 * You can also **import your own**: a local `.litertlm` / `.task` / `.tflite` file, or a Hugging Face URL (for MNN, a link to the model's `config.json`). GGUF, safetensors and other raw-weight formats are not supported.
-* The TAI settings screen blocks screenshots on purpose - it shows your API token.
-
-> 🖼️ *Screenshot placeholder: the model catalog with backend filter chips and a model's size/RAM/license row visible.*
 
 ## Managing it from the shell
 
