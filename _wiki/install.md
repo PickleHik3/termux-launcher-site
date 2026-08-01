@@ -7,7 +7,7 @@ order: 10
 * **Pin Apps to Dock:** Long press on the empty space in the dock to pin your favorite apps.
 * **Quick reply to notifications:** for pinned apps which has an unread notification, you can swipe up on the app icon to respond to the message. It works using the "reply" field available on the app's notification. 
 
-![](/termux-launcher-site/assets/uploads/quick-response.gif)
+> ![](/termux-launcher-site/assets/uploads/quick-response.gif)
 
 * **Most used apps page:** enables an additional page at the end of pinned app pages showing your most frequent non-pinned apps. Toggle it from Setting > Launcher & Apps
 * **Double tap the Alphabets Row to Lock screen:** You have 2 options;
@@ -27,7 +27,7 @@ order: 10
      * use arrow keys to navigate between search results, enter opens app. 
      * if you don't launch an app, it the search will be invalidated after a short time.
 
-![](/termux-launcher-site/assets/uploads/app-launching.gif)
+> ![](/termux-launcher-site/assets/uploads/app-launching.gif)
 
 1. **Command Palette:** The app features a command palette triggered by either "Ctrl + Shift + Alt + P" or swipe up from the space bar key of in-app keyboard. 
 
