@@ -8,7 +8,14 @@ class TermuxLauncherSite {
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
       "overview", "install", "tour", "surface", "launcherctl", "shell",
-      "tai", "shell-goodies", "tmux"
+      "tai", "shell-goodies", "tmux", "keybindings", "action-reference",
+      "keyboard-layout", "extra-keys"
+    ];
+    this.terminalLines = [
+      "launcherctl launch signal",
+      "tai load gemma-4-e2b-it",
+      "kew --sixel",
+      "tai status"
     ];
     this.endpointGroups = [
       {
@@ -71,6 +78,7 @@ class TermuxLauncherSite {
 
   async mount() {
     void this.hydrateGitHubData();
+    this.startHeroTerminal();
     await this.hydrateStaticWiki();
     this.buildEndpointReference();
     this.decorateWikiContent();
@@ -97,9 +105,38 @@ class TermuxLauncherSite {
     this.setView(initial.view, initial.subview, false);
   }
 
+  startHeroTerminal() {
+    const output = document.querySelector("[data-terminal-line]");
+    if (!output) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      output.textContent = this.terminalLines[0];
+      return;
+    }
+
+    let lineIndex = 0;
+    let characterIndex = 0;
+    let deleting = false;
+    const tick = () => {
+      const line = this.terminalLines[lineIndex];
+      characterIndex += deleting ? -1 : 1;
+      output.textContent = line.slice(0, Math.max(0, characterIndex));
+      let delay = deleting ? 24 : 54;
+      if (!deleting && characterIndex >= line.length) {
+        deleting = true;
+        delay = 1450;
+      } else if (deleting && characterIndex <= 0) {
+        deleting = false;
+        lineIndex = (lineIndex + 1) % this.terminalLines.length;
+        delay = 320;
+      }
+      window.setTimeout(tick, delay);
+    };
+    window.setTimeout(tick, 280);
+  }
+
   async hydrateGitHubData() {
     const repositories = [
-      { name: "PickleHik3/termux-launcher", includeStars: true },
+      { name: "PickleHik3/termux-launcher", includeStars: false },
       { name: "PickleHik3/termux-api", includeStars: false },
       { name: "PickleHik3/termux-styling", includeStars: false }
     ];
@@ -207,11 +244,15 @@ class TermuxLauncherSite {
       heading.id = `w-${doc.key}`;
       heading.textContent = doc.title;
 
+      const meta = document.createElement("div");
+      meta.className = "wiki-article-meta";
+      meta.innerHTML = '<span data-article-meta></span><i></i>';
+
       const prose = document.createElement("div");
       prose.className = "wiki-prose";
       prose.innerHTML = this.markdownToHtml(doc.body);
 
-      article.append(kicker, heading, prose);
+      article.append(kicker, heading, meta, prose);
       main.appendChild(article);
     });
   }
@@ -449,13 +490,16 @@ class TermuxLauncherSite {
     this.spyMap = {};
     if (toc) toc.replaceChildren();
 
-    scope.querySelectorAll("[data-spy], .wiki-prose h2, .wiki-prose h3").forEach((heading) => {
+    const headings = toc
+      ? scope.querySelectorAll(".wiki-prose h2, .wiki-prose h3")
+      : scope.querySelectorAll("[data-spy]");
+    headings.forEach((heading) => {
       if (toc) {
         const link = document.createElement("a");
         link.textContent = heading.textContent;
         link.href = `#${heading.id}`;
         link.dataset.anchor = heading.id;
-        link.style.cssText = `font-family:var(--sans);font-size:13px;line-height:1.4;text-decoration:none;color:var(--dim);cursor:pointer;padding-left:${heading.tagName === "H1" ? "0" : "10px"};transition:color .15s`;
+        link.className = heading.tagName === "H3" ? "wiki-toc-h3" : "wiki-toc-h2";
         toc.appendChild(link);
         this.spyMap[heading.id] = link;
       }
@@ -507,6 +551,12 @@ class TermuxLauncherSite {
         link.target = "_blank";
         link.rel = "noopener";
       });
+
+      const prose = article.querySelector(".wiki-prose");
+      const words = (prose?.textContent || "").trim().split(/\s+/).filter(Boolean).length;
+      const sections = article.querySelectorAll(".wiki-prose h2, .wiki-prose h3").length;
+      const meta = article.querySelector("[data-article-meta]");
+      if (meta) meta.textContent = `${sections} sections · ~${Math.max(1, Math.round(words / 210))} min read`;
     });
   }
 
@@ -820,8 +870,7 @@ class TermuxLauncherSite {
 
     const article = event.target.closest("[data-article]");
     if (article) {
-      this.showArticle(article.dataset.article);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      this.setView("wiki", article.dataset.article, true);
       return;
     }
 
