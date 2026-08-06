@@ -52,3 +52,19 @@ The font option installs [Maple Mono](https://github.com/subframe7536/maple-font
 ## Extras in the repo
 
 The same [examples folder](https://github.com/PickleHik3/termux-launcher/tree/main/docs/en/examples) has more you can grab by hand: a tmux config with a matching Material theme, a system monitor and weather widget for status bars, and a fastfetch config.
+
+## Things worth installing
+
+Two from the wider terminal world that lean on the graphics and font work - both in the repo:
+
+```clip
+name: kew
+title: kew
+caption: kew - music in the terminal, cover art drawn through the kitty graphics protocol.
+```
+
+```clip
+name: sigye
+title: sigye
+caption: sigye - the clock in box-drawing glyphs, which join because the launcher computes them as geometry.
+```

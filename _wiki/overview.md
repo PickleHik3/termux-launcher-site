@@ -6,7 +6,12 @@ Termux Launcher is an Android home app built around the solid foundation of Term
 
 Through its lifetime, termux launcher has diverged pretty far away from upstream termux. The core shell components are still based on upstream, but termux-launcher has many things added on top that can be considered its own now.
 
-> ![Termux Launcher home screen with tmux status, live terminal, app dock, A–Z row, and built-in keyboard](/termux-launcher-site/assets/uploads/hero.gif)
+```clip
+src: assets/showcase/raw/hero
+title: Home screen tour
+formats: mp4
+caption: The home screen - tmux status strip, live terminal, app dock, A-Z row and the built-in keyboard.
+```
 
 ## Features
 

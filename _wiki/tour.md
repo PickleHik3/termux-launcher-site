@@ -6,7 +6,11 @@ order: 15
 
 Every action the launcher knows - splits, sessions, windows, appearance, clipboard, even launching Android apps - lives in one searchable list. Keybinds, keyboard gestures and the palette all run the same actions, so anything you can bind to a key you can also just type.
 
-> ![](/termux-launcher-site/assets/uploads/command-palette-optimized.gif)
+```clip
+name: command-palette
+title: Command palette
+caption: Swipe up from the space bar, type "split", run it - the keycap strip shows the chord for what matched.
+```
 
 ## Opening it
 

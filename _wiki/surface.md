@@ -15,7 +15,12 @@ Three graphics protocols are supported out of the box - nothing to enable:
 
 Tested clients: `timg -pk`, `chafa -f kitty`, and **yazi**'s image previews all work. One caveat: `kitten icat` itself isn't usable - kitty's `kitten` binary isn't packaged for Android and crashes before reaching the terminal. Use `timg` or `chafa` instead.
 
-> ![](/termux-launcher-site/assets/uploads/fetch.gif)
+```clip
+src: assets/showcase/raw/fetch
+title: Graphics in a pane
+formats: mp4
+caption: fastfetch drawing its logo through the kitty graphics protocol, over a wallpaper-themed prompt.
+```
 
 ## Fonts and text rendering
 
@@ -39,7 +44,11 @@ Touch is tuned for TUIs rather than plain shells:
 
 No tmux needed - the app is one natively. The hierarchy is **sessions → windows → panes**, and everything below is reachable from the [Command Palette](#wiki/tour), keybinds, extra keys, or the space-bar swipes on the built-in keyboard.
 
-> ![](/termux-launcher-site/assets/uploads/multiplexer.gif)
+```clip
+name: window-splitting
+title: Window splitting
+caption: One pane split in two, focus moved, then reshaped - no tmux running.
+```
 
 * **Splits** - vertical/horizontal, arrow-key focus movement, keyboard resize, drag the dividers.
 * **Layouts** - six presets (grid, tall, fat, horizontal, vertical, stack); *Next pane layout* (`Ctrl+Alt+L`) cycles them and the window keeps re-tiling new panes to match until you hand-shape it.
@@ -60,7 +69,11 @@ The glass strip at the top is two tiers:
 
 Everything is toggleable in **Settings → Terminal Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. CPU stats need [Shizuku](#wiki/launcherctl); weather needs location.
 
-> ![](/termux-launcher-site/assets/uploads/status-bar.gif)
+```clip
+name: statusbar-modes
+title: Status bar modes
+caption: The widget area moving through clock, media and pinned-notification modes, then the CPU detail card.
+```
 
 ## Small but nice
 

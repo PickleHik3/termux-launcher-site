@@ -101,8 +101,28 @@ class TermuxLauncherSite {
     window.addEventListener("popstate", () => this.routeFromHash());
 
     this.statTimer = window.setInterval(() => this.tickStats(), 2200);
+    this.wireShowcaseClips();
     const initial = this.parseHash() || { view: "setup", subview: null };
     this.setView(initial.view, initial.subview, false);
+  }
+
+  // Wiki clips carry preload="none" and only play while on screen, so opening
+  // a docs page does not start every recording in it at once.
+  wireShowcaseClips() {
+    const clips = [...document.querySelectorAll("#tl video[data-autoplay]")];
+    if (!clips.length) return;
+    if (!("IntersectionObserver" in window)) {
+      clips.forEach((video) => video.play().catch(() => {}));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else if (!video.paused) video.pause();
+      });
+    }, { rootMargin: "160px 0px", threshold: 0 });
+    clips.forEach((video) => observer.observe(video));
   }
 
   startHeroTerminal() {
@@ -515,10 +535,104 @@ class TermuxLauncherSite {
     });
   }
 
+  // Wiki pages embed recordings with a fenced ```clip block so the markdown
+  // stays plain text for the content manager. Two render paths produce two
+  // shapes: the local markdownToHtml fallback emits <pre><code
+  // class="language-clip">, while kramdown + rouge wraps it in
+  // <div class="language-clip highlighter-rouge">. Handle both.
+  //
+  // Fields: name (a clip in assets/showcase/features, framed as a product
+  // card and cropped to the bezel) or src (a path prefix for anything else,
+  // shown at its own aspect ratio), plus optional title, caption and formats.
+  upgradeWikiClips(article) {
+    const blocks = [
+      ...article.querySelectorAll(".wiki-prose pre > code.language-clip"),
+      ...article.querySelectorAll(".wiki-prose .language-clip pre > code")
+    ];
+
+    blocks.forEach((code) => {
+      const pre = code.closest(".highlighter-rouge") || code.closest("pre");
+      if (!pre) return;
+      const fields = {};
+      (code.textContent || "").split("\n").forEach((line) => {
+        const separator = line.indexOf(":");
+        if (separator < 0) return;
+        fields[line.slice(0, separator).trim().toLowerCase()] = line.slice(separator + 1).trim();
+      });
+
+      const name = fields.name || "";
+      const source = fields.src || "";
+      let base;
+      let card;
+      if (name) {
+        if (!/^[a-z0-9][a-z0-9-]*$/.test(name)) return;
+        base = `assets/showcase/features/${name}`;
+        card = true;
+      } else if (source) {
+        if (!/^assets\/[a-z0-9][a-z0-9/-]*$/.test(source) || source.includes("..")) return;
+        base = source;
+        card = false;
+      } else {
+        return;
+      }
+
+      const label = fields.title || name || base.split("/").pop();
+      const formats = (fields.formats || "webm,mp4")
+        .split(",")
+        .map((format) => format.trim().toLowerCase())
+        .filter((format) => format === "webm" || format === "mp4");
+      if (!formats.length) return;
+
+      const figure = document.createElement("figure");
+      figure.className = "wiki-clip";
+
+      const frame = document.createElement("div");
+      frame.className = card ? "wiki-clip-frame" : "wiki-clip-frame wiki-clip-frame--raw";
+
+      const video = document.createElement("video");
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = "none";
+      video.dataset.autoplay = "";
+      video.setAttribute("aria-label", `${label} screen recording`);
+      video.poster = `${base}-poster.webp`;
+      formats.forEach((format) => {
+        const element = document.createElement("source");
+        element.src = `${base}.${format}`;
+        element.type = format === "webm" ? "video/webm" : "video/mp4";
+        video.appendChild(element);
+      });
+
+      frame.appendChild(video);
+      figure.appendChild(frame);
+
+      if (fields.caption) {
+        const caption = document.createElement("figcaption");
+        caption.textContent = fields.caption;
+        figure.appendChild(caption);
+      }
+
+      // Consecutive clips sit side by side instead of stacking down the page.
+      const previous = pre.previousElementSibling;
+      if (previous?.classList.contains("wiki-clip-row")) {
+        previous.appendChild(figure);
+        pre.remove();
+        return;
+      }
+      const row = document.createElement("div");
+      row.className = "wiki-clip-row";
+      row.appendChild(figure);
+      pre.replaceWith(row);
+    });
+  }
+
   decorateWikiContent() {
     document.querySelectorAll("#tl [data-article-body]").forEach((article) => {
       const articleKey = article.dataset.articleBody;
       const usedIds = new Set();
+
+      this.upgradeWikiClips(article);
 
       article.querySelectorAll(".wiki-prose h2, .wiki-prose h3").forEach((heading) => {
         const base = heading.textContent

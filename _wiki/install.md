@@ -5,6 +5,13 @@ order: 10
 # Launcher Features
 
 * **Pin Apps to Dock:** Long press on the empty space in the dock to pin your favorite apps.
+* **App actions on hold:** long press any app icon - in the dock or in the filtered row - for its Android shortcuts plus *App info*, *Uninstall*, *Change app icon*, *Change dock icon* and *Unpin*.
+
+```clip
+name: app-icon-menu
+title: App actions
+caption: Long-pressing a docked icon for its shortcuts, app info and icon options.
+```
 * **Quick reply to notifications:** for pinned apps which has an unread notification, you can swipe up on the app icon to respond to the message. It works using the "reply" field available on the app's notification. 
 
 > ![](/termux-launcher-site/assets/uploads/quick-response.gif)
@@ -27,7 +34,17 @@ order: 10
      * use arrow keys to navigate between search results, enter opens app. 
      * if you don't launch an app, it the search will be invalidated after a short time.
 
-> ![](/termux-launcher-site/assets/uploads/app-launching.gif)
+```clip
+name: app-row-scrub
+title: A-Z app row
+caption: Sliding across the alphabet row - the icons above filter as you go, and letting go over one launches it.
+```
+
+```clip
+name: app-launching
+title: Launch from the prompt
+caption: Typing "%" and a query at the prompt searches installed apps; Enter opens the first result.
+```
 
 1. **Command Palette:** The app features a command palette triggered by either "Ctrl + Shift + Alt + P" or swipe up from the space bar key of in-app keyboard. 
 
