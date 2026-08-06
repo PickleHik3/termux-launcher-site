@@ -14,7 +14,8 @@ termux-reload-settings
 | --- | --- |
 | `~/.termux/termux.properties` | Classic Termux properties + the extra-keys row |
 | `~/.termux/termux-launcher-bindings.conf` | Custom keybindings |
-| `~/.termux/fonts.conf` | Fonts, nerd-font symbols, ligatures |
+| `~/.termux/fonts.conf` | Fonts, nerd-font symbols, ligatures, box drawing |
+| `~/.termux/fonts.d/` | Drop-in font config fragments, including the app-managed `10-launcher.conf` |
 | `~/.termux/colors.properties` | Terminal colors (only when wallpaper colors are off) |
 | `~/.termux/keyboard/layout.xml` | In-app keyboard layout - see [in-app keyboard](#wiki/shell) |
 
@@ -76,7 +77,9 @@ disable_ligatures cursor
 font_features regular +zero
 ```
 
-Also available: `bold_font`, `bold_italic_font`, `family="…"` to use an installed family instead of a file, and `modify_font` to nudge cell width/height, baseline and underline metrics. The example file documents every directive. The [setup script](#wiki/shell-goodies) writes a ready-made Maple Mono version of this.
+Also available: `bold_font`, `bold_italic_font`, `family="…"` to use an installed family instead of a file, `modify_font` to nudge cell width/height, baseline and underline metrics, `fallback_font` for an ordered chain of gap-filling faces, `symbol_map name=…` for per-map shaping, and `box_drawing` / `box_drawing_scale` / `powerline_symbols` to control the terminal's gap-free geometry rendering.
+
+Precedence: `~/.termux/fonts.d/*.conf` is read first in filename order, your `fonts.conf` last, so your file wins - and both beat `font.ttf` / Termux:Styling. The app's font picker writes `fonts.d/10-launcher.conf`, never your `fonts.conf`. The example file documents every directive, the [setup script](#wiki/shell-goodies) writes a ready-made Maple Mono version of this, and [Fonts](#wiki/fonts) is the full story.
 
 ## Colors
 

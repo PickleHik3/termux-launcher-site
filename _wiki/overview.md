@@ -15,7 +15,7 @@ These are in addition to official termux;
 1. Terminal Features
 
    * Sixel and Kitty protocols for images and gif support.
-   * Kitty's fonts, symbols and shaping.
+   * Kitty's fonts, symbols and shaping, plus a one-tap in-app font picker and gap-free box drawing - see [Fonts](#wiki/fonts).
    * Animated cursor.
    * touch handling is different from official termux, while inside TUI's two fingers to scroll and otherwise - touches registered as mouse clicks.
 2. App native multiplexer (sessions, windows, panes and layouts, including floating panes).
@@ -50,6 +50,7 @@ You only need the Main APK to try the launcher.
 * [Home Launcher](#wiki/install) - dock, quick reply, app launching gestures, lock screen.
 * [Command Palette](#wiki/tour) - every launcher action, searchable from the keyboard or a gesture.
 * [Terminal](#wiki/surface) - graphics protocols, the multiplexer, floating panes, workspaces and the status bar.
+* [Fonts](#wiki/fonts) - the in-app font picker, `fonts.conf`, seamless box drawing and symbol maps.
 * [Permissions](#wiki/launcherctl) - what the app asks for and why.
 * [in-app keyboard](#wiki/shell) - the built-in Unexpected Keyboard port and custom layouts.
 * [LLM backends](#wiki/tai) - local models over an OpenAI/Ollama-compatible API.
