@@ -254,6 +254,45 @@ a:focus-visible {
   width: 100%;
 }
 
+/* Fills the frame so a blocked clip can be started anywhere on the phone. The
+   badge only shows while paused; once playing the button stays but goes
+   invisible, so it can still be used to pause. */
+.wiki-clip-toggle {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: rgba(6, 11, 13, 0.34);
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.wiki-clip-toggle::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 13px 0 13px 21px;
+  border-color: transparent transparent transparent var(--cream);
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.8));
+  transition: opacity 0.2s ease;
+}
+
+.wiki-clip-frame[data-playing] .wiki-clip-toggle {
+  background: transparent;
+}
+
+.wiki-clip-frame[data-playing] .wiki-clip-toggle::before {
+  opacity: 0;
+}
+
+.wiki-clip-toggle:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -4px;
+}
+
 .wiki-clip figcaption {
   margin-top: 10px;
   color: var(--dim);

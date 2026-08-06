@@ -590,10 +590,20 @@ class TermuxLauncherSite {
       frame.className = card ? "wiki-clip-frame" : "wiki-clip-frame wiki-clip-frame--raw";
 
       const video = document.createElement("video");
+      // These have to be real attributes, not just properties: WebKit only
+      // grants inline autoplay to an element carrying muted/playsinline in
+      // markup, and without the autoplay attribute nothing plays unless the
+      // observer below manages to call play(). Native controls are no use here
+      // because the card crop pushes the control bar outside the frame, so the
+      // fallback is the tap-to-play overlay added below.
+      video.setAttribute("muted", "");
+      video.setAttribute("autoplay", "");
+      video.setAttribute("loop", "");
+      video.setAttribute("playsinline", "");
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
-      video.preload = "none";
+      video.preload = "metadata";
       video.dataset.autoplay = "";
       video.setAttribute("aria-label", `${label} screen recording`);
       video.poster = `${base}-poster.webp`;
@@ -605,6 +615,28 @@ class TermuxLauncherSite {
       });
 
       frame.appendChild(video);
+
+      // A GIF could not be refused; an autoplaying video can be, by a battery
+      // or data saver. This keeps the clip startable by hand in that case, and
+      // lets anyone pause one they have finished with.
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "wiki-clip-toggle";
+      toggle.setAttribute("aria-label", `Play ${label}`);
+      toggle.addEventListener("click", () => {
+        if (video.paused) video.play().catch(() => {});
+        else video.pause();
+      });
+      video.addEventListener("play", () => {
+        frame.dataset.playing = "";
+        toggle.setAttribute("aria-label", `Pause ${label}`);
+      });
+      video.addEventListener("pause", () => {
+        delete frame.dataset.playing;
+        toggle.setAttribute("aria-label", `Play ${label}`);
+      });
+      frame.appendChild(toggle);
+
       figure.appendChild(frame);
 
       if (fields.caption) {
