@@ -19,12 +19,14 @@ chmod 700 ~/setup-launcher
 
 The script is interactive and asks what you want:
 
-1. Everything
-2. Packages + fish/prompt configs only
-3. Terminal configs (`~/.termux`) only
-4. Maple Mono fonts only
+1. Everything below
+2. Packages + fish/Oh My Posh shell configs
+3. Terminal configs (`~/.termux`: properties, keyboard layout)
+4. Maple Mono fonts (ligatures + Nerd Font icons)
 
 It never silently overwrites anything - every file it replaces gets a timestamped `.bak` copy next to it. It also offers to make fish your default shell at the end.
+
+tmux, btop and the Shizuku btop wrapper are no longer part of this script - the launcher's own [windows, panes, workspaces and status bar](#wiki/surface) replaced what they were doing. The old installer is still in the repo as `setup-tmux-btop` for people already running that setup, but its fish config template is frozen at the tmux-era version.
 
 > 🖼️ *Screenshot placeholder: terminal after setup - fish prompt with the Material oh-my-posh theme, an `ll` listing with icons, wallpaper colors visible.*
 
@@ -49,6 +51,24 @@ The launcher writes your current Material palette to `~/.termux/material-colors.
 
 The font option installs [Maple Mono](https://github.com/subframe7536/maple-font) - the variable-weight family for regular text plus its Nerd Font build mapped in only for icon glyphs, so icons work without changing character widths. It wires everything up in `~/.termux/fonts.conf`; see [configs](#wiki/tmux) for how that file works.
 
+You no longer need a shell for this. **Settings → Appearance → Terminal fonts** does the same job in one tap, and pairs Maple Mono with the app's own bundled Nerd symbols face instead of the 20 MB patched build - see [Fonts](#wiki/fonts). One catch if you use both: the script writes `~/.termux/fonts.conf`, which is read *after* anything the picker writes, so a `fonts.conf` left behind by the script will keep overriding your picker choices until you move it aside.
+
 ## Extras in the repo
 
 The same [examples folder](https://github.com/PickleHik3/termux-launcher/tree/main/docs/en/examples) has more you can grab by hand: a tmux config with a matching Material theme, a system monitor and weather widget for status bars, and a fastfetch config.
+
+## Things worth installing
+
+Two from the wider terminal world that show off the graphics and font work - both from the repo:
+
+```clip
+name: kew
+title: kew
+caption: kew - music in the terminal, cover art drawn through the kitty graphics protocol.
+```
+
+```clip
+name: sigye
+title: sigye
+caption: sigye - the clock, drawn in box-drawing glyphs that join because the launcher computes them as geometry.
+```

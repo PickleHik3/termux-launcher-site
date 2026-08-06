@@ -7,7 +7,7 @@ class TermuxLauncherSite {
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
-      "overview", "install", "tour", "surface", "launcherctl", "shell",
+      "overview", "install", "tour", "surface", "fonts", "launcherctl", "shell",
       "tai", "shell-goodies", "tmux"
     ];
     this.endpointGroups = [
@@ -93,8 +93,26 @@ class TermuxLauncherSite {
     window.addEventListener("popstate", () => this.routeFromHash());
 
     this.statTimer = window.setInterval(() => this.tickStats(), 2200);
+    this.wireShowcaseClips();
     const initial = this.parseHash() || { view: "setup", subview: null };
     this.setView(initial.view, initial.subview, false);
+  }
+
+  wireShowcaseClips() {
+    const clips = [...document.querySelectorAll("#tl video[data-autoplay]")];
+    if (!clips.length) return;
+    if (!("IntersectionObserver" in window)) {
+      clips.forEach((video) => video.play().catch(() => {}));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else if (!video.paused) video.pause();
+      });
+    }, { rootMargin: "160px 0px", threshold: 0 });
+    clips.forEach((video) => observer.observe(video));
   }
 
   async hydrateGitHubData() {
@@ -471,10 +489,82 @@ class TermuxLauncherSite {
     });
   }
 
+  // Wiki pages embed recordings with a fenced ```clip block so the markdown
+  // stays plain text for the content manager. Two render paths produce two
+  // shapes: the local markdownToHtml fallback emits <pre><code
+  // class="language-clip">, while kramdown + rouge wraps it in
+  // <div class="language-clip highlighter-rouge">. Handle both.
+  upgradeWikiClips(article) {
+    const blocks = [
+      ...article.querySelectorAll(".wiki-prose pre > code.language-clip"),
+      ...article.querySelectorAll(".wiki-prose .language-clip pre > code")
+    ];
+
+    blocks.forEach((code) => {
+      const pre = code.closest(".highlighter-rouge") || code.closest("pre");
+      if (!pre) return;
+      const fields = {};
+      (code.textContent || "").split("\n").forEach((line) => {
+        const separator = line.indexOf(":");
+        if (separator < 0) return;
+        fields[line.slice(0, separator).trim().toLowerCase()] = line.slice(separator + 1).trim();
+      });
+
+      const name = fields.name || "";
+      if (!/^[a-z0-9][a-z0-9-]*$/.test(name)) return;
+
+      const figure = document.createElement("figure");
+      figure.className = "wiki-clip";
+
+      const frame = document.createElement("div");
+      frame.className = "wiki-clip-frame";
+
+      const video = document.createElement("video");
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = "none";
+      video.width = 1080;
+      video.height = 1920;
+      video.dataset.autoplay = "";
+      video.setAttribute("aria-label", `${fields.title || name} screen recording`);
+      video.poster = `assets/showcase/features/${name}-poster.webp`;
+      [["webm", "video/webm"], ["mp4", "video/mp4"]].forEach(([extension, type]) => {
+        const source = document.createElement("source");
+        source.src = `assets/showcase/features/${name}.${extension}`;
+        source.type = type;
+        video.appendChild(source);
+      });
+
+      frame.appendChild(video);
+      figure.appendChild(frame);
+
+      if (fields.caption) {
+        const caption = document.createElement("figcaption");
+        caption.textContent = fields.caption;
+        figure.appendChild(caption);
+      }
+
+      // Consecutive clips sit side by side instead of stacking down the page.
+      const previous = pre.previousElementSibling;
+      if (previous?.classList.contains("wiki-clip-row")) {
+        previous.appendChild(figure);
+        pre.remove();
+        return;
+      }
+      const row = document.createElement("div");
+      row.className = "wiki-clip-row";
+      row.appendChild(figure);
+      pre.replaceWith(row);
+    });
+  }
+
   decorateWikiContent() {
     document.querySelectorAll("#tl [data-article-body]").forEach((article) => {
       const articleKey = article.dataset.articleBody;
       const usedIds = new Set();
+
+      this.upgradeWikiClips(article);
 
       article.querySelectorAll(".wiki-prose h2, .wiki-prose h3").forEach((heading) => {
         const base = heading.textContent
@@ -528,6 +618,8 @@ class TermuxLauncherSite {
     // Static destinations
     const statics = [
       { title: "Download & install", tag: "About", view: "setup", id: "setup-downloads", kw: "apk build com.termux io.vaj.tl companion install release" },
+      { title: "Editions compared", tag: "About", view: "setup", id: "editions", kw: "edition termux vaj package name repository architectures side by side" },
+      { title: "See it move — screen recordings", tag: "About", view: "setup", id: "clips", kw: "video clips recording window splitting app launching palette keybind kew sigye status bar" },
       { title: "Model catalog", tag: "Termux AI", view: "ai", id: "ai-catalog", kw: "gemma qwen deepseek embedding litert mnn model ram download" },
       { title: "Add & import your own models", tag: "Termux AI", view: "ai", id: "ai-import", kw: "hugging face token import repo url litert mnn gguf" },
       { title: "Chat from the terminal with AIChat", tag: "Termux AI", view: "ai", id: "ai-aichat", kw: "aichat openai compatible client endpoint token config" },

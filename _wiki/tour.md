@@ -6,7 +6,11 @@ order: 15
 
 Every action the launcher knows - splits, sessions, windows, appearance, clipboard, even launching Android apps - lives in one searchable list. Keybinds, keyboard gestures and the palette all run the same actions, so anything you can bind to a key you can also just type.
 
-> 📹 *Screen recording placeholder: open the palette with a swipe up from the space bar, type "split", run it, then reopen and press ↓ to browse the full list.*
+```clip
+name: command-palette
+title: Command palette
+caption: Swipe up from the space bar, type "split", run it - the keycap strip below shows the chords for what matched.
+```
 
 ## Opening it
 
@@ -50,11 +54,16 @@ A few worth remembering (the full set, and how to change them, is on the [config
 | --- | --- |
 | Ctrl + Alt + V / H | Split pane vertically / horizontally |
 | Ctrl + Alt + arrows | Move pane focus |
-| Ctrl + Alt + F | Float / dock the pane |
+| Ctrl + Alt + F | Float / dock pane |
 | Ctrl + Alt + ` | Toggle scratchpad |
+| Ctrl + Alt + [ / ] | Previous / next window |
+| Ctrl + Alt + N / P | Next / previous session |
+| Ctrl + Alt + Shift + S | Sessions panel |
 | Ctrl + Alt + K | Toggle the keyboard |
 | Ctrl + Alt + S | Search scrollback |
 | Ctrl + Alt + 1…9 | Jump to session by number |
+
+The pane and window bindings above only apply while split panes are on. In **Settings → Terminal IO → Single-pane compatibility mode** the same keys are reused for other things: `Ctrl+Alt+V` pastes, `Ctrl+Alt+Left` / `Right` open and close the app drawer, and `Ctrl+Alt+Up` / `Down` switch sessions.
 
 Tip: hold **Ctrl + Alt** on the in-app keyboard and the bound keys light up with a legend of what they do.
 

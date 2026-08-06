@@ -42,4 +42,11 @@ collections:
       - label: Content
         name: body
         widget: markdown
-        hint: Start sections at Heading 2; the page title is generated automatically.
+        hint: >-
+          Start sections at Heading 2; the page title is generated automatically.
+          To embed a showcase recording, add a code block with the language "clip"
+          containing "name: <clip-name>" plus optional "title:" and "caption:" lines -
+          name matches a file in assets/showcase/features (command-palette,
+          window-splitting, statusbar-modes, app-launching, app-row-scrub,
+          app-icon-menu, keybind-discovery, kew, sigye). Two clips in a row sit
+          side by side.

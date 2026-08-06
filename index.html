@@ -5,26 +5,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0a0d10">
-<meta name="description" content="Termux Launcher turns Android into a fast, keyboard-first home screen where apps, media, messages, tmux, and your shell stay together at the prompt.">
+<meta name="theme-color" content="#0e1211">
+<meta name="description" content="A Termux fork that runs as the Android home launcher — native multiplexer, kitty graphics and sixel, a real font engine, and your apps one keystroke from the prompt.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Termux Launcher">
-<meta property="og:description" content="Your home screen is a terminal.">
+<meta property="og:description" content="Android home launcher, powered by Termux.">
 <meta property="og:url" content="https://picklehik3.github.io/termux-launcher-site/">
-<meta property="og:image" content="https://picklehik3.github.io/termux-launcher-site/assets/social-preview-command.webp">
+<meta property="og:image" content="https://picklehik3.github.io/termux-launcher-site/assets/showcase/termux-monet-hero-poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<title>Termux Launcher — Your home screen is a terminal</title>
+<title>Termux Launcher — Android home launcher, powered by Termux</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
 <link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
-<link rel="stylesheet" href="styles.css?v=20260720-9">
+<link rel="stylesheet" href="styles.css?v=20260806-1">
 </head>
 <body>
 <div id="site-shell">
 
-<div id="tl" style="--bg:#0a0d10;--bg2:#0d1217;--panel:#131a21;--panelink:#0a0e12;--ink:#0a0e12;--line:#1e262e;--line2:#161d24;--blue:#7aa2f7;--blue-b:#a9c4ff;--blue-soft:rgba(122,162,247,.1);--bline:rgba(122,162,247,.3);--text:#e2e7ef;--cream:var(--text);--mute:#98a2af;--dim:#5a6470;--green:#7fd18c;--cyan:#63c2d4;--orange:#e0a072;--red:#e07070;--gold:var(--blue);--gold-b:var(--blue-b);--gold-soft:var(--blue-soft);--gline:var(--bline);--mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;background:radial-gradient(110% 70% at 88% -10%,rgba(122,162,247,.09),transparent 55%),radial-gradient(80% 60% at 4% 108%,rgba(99,194,212,.05),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden">
+<div id="tl" style="--bg:#0e1211;--bg2:#111614;--panel:#171c1a;--panelink:#0f1413;--ink:#0f1413;--line:#2a3230;--line2:#1e2422;--blue:#8fc7a3;--blue-b:#b9dfc6;--blue-soft:rgba(143,199,163,.11);--bline:rgba(143,199,163,.32);--text:#e4eae7;--cream:var(--text);--mute:#a1aca8;--dim:#7c8783;--green:#8fc7a3;--cyan:#86c5cf;--orange:#d9a06a;--red:#e07070;--gold:var(--blue);--gold-b:var(--blue-b);--gold-soft:var(--blue-soft);--gline:var(--bline);--mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;background:radial-gradient(110% 70% at 88% -10%,rgba(143,199,163,.07),transparent 55%),radial-gradient(80% 60% at 4% 108%,rgba(134,197,207,.04),transparent 60%),var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden">
 
   <!-- ===================== NAV ===================== -->
   <nav class="site-nav">
@@ -39,6 +39,11 @@
         <button data-nav="ai">Termux&nbsp;AI</button>
       </div>
       <div class="nav-actions">
+        <div class="nav-search" data-search>
+          <button class="search-btn" data-search-toggle aria-expanded="false" aria-label="Search the site"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.7-3.7"></path></svg></button>
+          <div class="search-field"><input class="search-input" data-search-input type="search" placeholder="Search docs, models, API…" autocomplete="off"></div>
+          <div class="search-results" data-search-results hidden></div>
+        </div>
         <a data-hide-sm href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
         <button class="download-button" data-nav="setup" data-scrollto="tl-install">Install</button>
       </div>
@@ -52,21 +57,35 @@
     <section class="hero-section">
       <div class="hero-grid">
         <div class="hero-copy">
-          <div class="hero-kicker">OPEN SOURCE · ANDROID 8+ · AGSL BLUR ON 13+</div>
-          <h1>A home screen<br><span>you can command.</span></h1>
-          <p>Termux Launcher turns Android into a fast, keyboard-first workspace. Your apps, music, messages and shell stay together at the prompt.</p>
+          <div class="hero-kicker">TERMUX FORK · <span data-release-tag="PickleHik3/termux-launcher:main">v0.2.29</span></div>
+          <h1>Android home launcher, powered by <span>Termux.</span></h1>
+          <p>A Termux fork that runs as the Android home launcher. Native multiplexer — recursively split panes and windows, workspaces, kitty graphics and sixel, a real font engine with geometric box drawing — so the lovely TUIs render the way they do on your desktop.</p>
           <div class="hero-actions">
-            <a class="primary-button" data-scrollto="tl-install" href="#setup">Install Termux Launcher</a>
-            <a class="secondary-button" data-scrollto="tour" href="#setup">Watch the tour ↓</a>
+            <a class="primary-button" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener">↓ com.termux APK</a>
+            <a class="secondary-button" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:vaj" target="_blank" rel="noopener">io.vaj.tl APK</a>
           </div>
-          <p class="hero-note"><span data-release-tag="PickleHik3/termux-launcher:main">v0.2.29</span> <span>·</span> GPL-3.0-only <span>·</span> built on Termux + Termux:Monet</p>
+          <p class="hero-note">GPL-3.0-only <span>·</span> arm64 · v7a · x86_64 <span>·</span> built on Termux + Termux:Monet</p>
         </div>
 
         <figure class="hero-media" id="tour">
-          <div class="phone-frame">
-            <video src="assets/screen-20260720-171651.mp4" poster="assets/screen-recording-poster.jpg" controls loop muted autoplay playsinline preload="metadata" width="1080" height="2412" aria-label="Termux Launcher workflow screen recording"></video>
+          <div class="hero-video">
+            <video poster="assets/showcase/termux-monet-hero-poster.jpg" muted loop playsinline autoplay preload="metadata" width="1600" height="900" data-autoplay aria-label="Termux Launcher home screen tour">
+              <source src="assets/showcase/termux-monet-hero.webm" type="video/webm">
+              <source src="assets/showcase/termux-monet-hero.mp4" type="video/mp4">
+            </video>
           </div>
-          <figcaption>45-second tour</figcaption>
+          <div class="hero-strip">
+            <div class="hero-thumb">
+              <video poster="assets/showcase/termux-monet-feature-story-poster.jpg" muted loop playsinline preload="none" width="1080" height="1920" data-autoplay aria-label="Feature story capture">
+                <source src="assets/showcase/termux-monet-feature-story.webm" type="video/webm">
+                <source src="assets/showcase/termux-monet-feature-story.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="hero-strip-copy">
+              <div class="hero-strip-kicker">THE TOUR</div>
+              <p>Home screen, panes, the app row and the palette — one take, one device, no desktop involved. Nine more captures below.</p>
+            </div>
+          </div>
         </figure>
       </div>
     </section>
@@ -78,53 +97,115 @@
       <div><strong>Android 8+</strong><span>AGSL blur on Android 13+</span></div>
     </section>
 
-    <section class="stories-section" id="product">
-      <header class="stories-intro">
-        <div class="section-rule">BUILT FOR HOW YOU ACTUALLY USE ANDROID<span></span></div>
-        <h2>Less hunting.<br>More doing.</h2>
-        <p>The terminal stays the center of gravity, while the parts of Android you need remain one gesture away.</p>
-      </header>
+    <!-- ===== TERMINAL FEATURE CARDS ===== -->
+    <section class="tl-cards" id="terminal">
+      <article class="tl-card">
+        <div class="tl-card-kicker">panes</div>
+        <h3>Split anything</h3>
+        <p>Recursive splits, windows, floating panes and saved layouts — the multiplexer is native, not a package.</p>
+      </article>
+      <article class="tl-card">
+        <div class="tl-card-kicker">graphics</div>
+        <h3>Kitty &amp; sixel</h3>
+        <p>Kitty graphics protocol, sixel, and terminal-driven GIF animation, rendered inside panes.</p>
+      </article>
+      <article class="tl-card">
+        <div class="tl-card-kicker">fonts</div>
+        <h3>Pick a font, no shell</h3>
+        <p>Four-face families, variable axes, ordered fallback — and box drawing as geometry, so TUI frames actually join.</p>
+      </article>
+      <article class="tl-card">
+        <div class="tl-card-kicker">workspaces</div>
+        <h3>Come back to it</h3>
+        <p>Layout and working-directory restore that survives process death.</p>
+      </article>
+    </section>
 
-      <div class="story-list">
-        <article class="story-row">
-          <div class="story-copy">
-            <div class="story-number">01 · LAUNCH</div>
-            <h3>Reach anything without opening a drawer.</h3>
-            <p>Use the app dock or search installed apps from the terminal. Android-exposed cloned and work-profile launch targets appear alongside your regular apps.</p>
-            <ul><li>App dock</li><li>Terminal app search</li><li>Clone and work-profile discovery</li></ul>
+    <!-- ===== STATUS BAR ===== -->
+    <section class="sb-section" id="statusbar">
+      <div class="sb-panel">
+        <div class="sb-copy">
+          <div class="tl-card-kicker">status bar</div>
+          <h2>Native, not a shell script</h2>
+          <p>The top slot ranks pinned notifications over the media widget over the clock, compressing the clock through its grid forms instead of changing height. Below it, the session chip and one pill per window — each labelled with its Nerd Font process glyph and directory basename. The rim breathes while a shell works and lights up when one rings the bell. Then the new-window button and CPU / RAM / weather in three Material roles. No tmux involved.</p>
+          <div class="sb-chips">
+            <span>clock</span><span>media</span><span>notifications</span><span>cpu / ram</span><span>weather</span><span>sessions</span>
           </div>
-          <figure class="story-visual">
-            <img src="assets/shots/home.jpeg" alt="Termux Launcher home screen with the A–Z app rail and keyboard" loading="lazy">
-            <figcaption>Everything is reachable from home.</figcaption>
-          </figure>
-        </article>
-
-        <article class="story-row story-row-reverse">
-          <div class="story-copy">
-            <div class="story-number">02 · STAY</div>
-            <h3>Your shell never disappears behind the experience.</h3>
-            <p>Android Material colors flow through launcher surfaces and the shell. Sixel artwork renders in the terminal, while the optional tmux plugin adds CPU, RAM, weather and extra keys.</p>
-            <ul><li>Material theme integration</li><li>Sixel image drawing</li><li>Optional tmux workspace</li></ul>
-          </div>
-          <figure class="story-visual">
-            <img src="assets/shots/kew.jpeg" alt="Music playing in kew with sixel album artwork" loading="lazy">
-            <figcaption>Album art, spectrum and controls at the prompt.</figcaption>
-          </figure>
-        </article>
-
-        <article class="story-row">
-          <div class="story-copy">
-            <div class="story-number">03 · ACT</div>
-            <h3>Do the small things without leaving home.</h3>
-            <p>Reply to notifications from the terminal, bind <code>launcherctl launch</code> to tmux keys, and run local models on the LiteRT and MNN backends. Optional Shizuku helpers unlock privileged tools like btop sensors.</p>
-            <ul><li>Notification replies at the prompt</li><li>launcherctl app launch + Shizuku helpers</li><li>Local LiteRT + MNN AI</li></ul>
-          </div>
-          <figure class="story-visual">
-            <img src="assets/shots/notify.jpeg" alt="Replying to a notification directly from Termux Launcher" loading="lazy">
-            <figcaption>Reply without breaking context.</figcaption>
-          </figure>
-        </article>
+        </div>
+        <figure class="sb-visual">
+          <a href="#wiki/surface" aria-label="Status bar modes — open the Terminal doc">
+            <img src="assets/showcase/features/tiles/statusbar-modes.webp" width="420" height="882" alt="Status bar showing the grid clock, media strip and a pinned notification" loading="lazy" decoding="async">
+          </a>
+          <figcaption>Clock, media and notification modes — <a href="#wiki/surface">watch the recording in the docs</a>.</figcaption>
+        </figure>
       </div>
+    </section>
+
+    <!-- ===== POSTER DECK ===== -->
+    <section class="clips-section" id="clips">
+      <header class="clips-head">
+        <h2>See it move</h2>
+        <div class="clips-meta">9 captures · one device, one theme</div>
+      </header>
+      <div class="deck" data-deck>
+        <a class="deck-card" style="--i:-4;--s:-1" href="#wiki/install">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/app-icon-menu.webp" width="420" height="882" alt="Long-press menu open on an app icon, showing its shortcuts" loading="lazy" decoding="async"></span>
+          <span class="deck-label">App actions</span>
+        </a>
+        <a class="deck-card" style="--i:-3;--s:-1" href="#wiki/install">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/app-row-scrub.webp" width="420" height="882" alt="Scrubbing the A–Z row while the dock filters" loading="lazy" decoding="async"></span>
+          <span class="deck-label">A–Z row</span>
+        </a>
+        <a class="deck-card" style="--i:-2;--s:-1" href="#wiki/install">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/app-launching.webp" width="420" height="882" alt="Typing an app name at the prompt to launch it" loading="lazy" decoding="async"></span>
+          <span class="deck-label">Prompt launch</span>
+        </a>
+        <a class="deck-card" style="--i:-1;--s:-1" href="#wiki/surface">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/window-splitting.webp" width="420" height="882" alt="A pane split in two, one side focused" loading="lazy" decoding="async"></span>
+          <span class="deck-label">Split panes</span>
+        </a>
+        <a class="deck-card" style="--i:0;--s:0" href="#wiki/tour">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/command-palette.webp" width="420" height="882" alt="Command palette open with a fuzzy search for split" loading="lazy" decoding="async"></span>
+          <span class="deck-label">Palette</span>
+        </a>
+        <a class="deck-card" style="--i:1;--s:1" href="#wiki/shell">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/keybind-discovery.webp" width="420" height="882" alt="Keybind map on screen with the keyboard lit to match" loading="lazy" decoding="async"></span>
+          <span class="deck-label">Keybinds</span>
+        </a>
+        <a class="deck-card" style="--i:2;--s:1" href="#wiki/surface">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/statusbar-modes.webp" width="420" height="882" alt="Expanded status bar with CPU and memory detail" loading="lazy" decoding="async"></span>
+          <span class="deck-label">Status bar</span>
+        </a>
+        <a class="deck-card" style="--i:3;--s:1" href="#wiki/shell-goodies">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/sigye.webp" width="420" height="882" alt="sigye drawing the time in large box glyphs" loading="lazy" decoding="async"></span>
+          <span class="deck-label">sigye</span>
+        </a>
+        <a class="deck-card" style="--i:4;--s:1" href="#wiki/shell-goodies">
+          <span class="deck-frame"><img src="assets/showcase/features/tiles/kew.webp" width="420" height="882" alt="kew playing music with sixel cover art in a pane" loading="lazy" decoding="async"></span>
+          <span class="deck-label">kew</span>
+        </a>
+      </div>
+      <p class="deck-note">Every capture is a real recording on one device. Open a card and the clip plays next to the feature it explains.</p>
+    </section>
+
+
+    <!-- ===== PILLARS ===== -->
+    <section class="pillar-grid">
+      <article class="tl-card">
+        <div class="tl-card-kicker">keys</div>
+        <h3>Everything has a chord</h3>
+        <p>A searchable command palette, your own bindings in <code>termux-launcher-bindings.conf</code>, keybind hints, and a terminal keyboard that lights up the keys you bound.</p>
+      </article>
+      <article class="tl-card">
+        <div class="tl-card-kicker">android</div>
+        <h3>Launch apps from the shell</h3>
+        <p><code>launcherctl launch</code>, an app dock with terminal-grade search, and any app bindable to a key.</p>
+      </article>
+      <article class="tl-card">
+        <div class="tl-card-kicker">theme</div>
+        <h3>Takes your Material palette</h3>
+        <p>Built on termux-app and Termux:Monet, so the launcher, status bar and terminal colors follow the system wallpaper.</p>
+      </article>
     </section>
 
     <!-- ===== INSTALL FLOW (downloads nested inside) ===== -->
@@ -149,7 +230,24 @@
           </div>
           <div style="padding-bottom:34px;min-width:0">
             <h2 style="font-family:var(--mono);font-weight:600;font-size:21px;margin:6px 0 6px;color:var(--cream)">Pick an edition and install the Main APK</h2>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.6;margin:0 0 20px;max-width:620px">API and Styling are optional. If you use either companion, choose the matching fork and edition because all installed add-ons must share the launcher's package family and signing key.</p>
+            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.6;margin:0 0 20px;max-width:620px">Two editions, one choice — they can't share a package name. API and Styling companions are optional, but must match the launcher's package family and signing key.</p>
+
+            <!-- editions comparison -->
+            <div id="editions" class="editions-table" style="scroll-margin-top:58px">
+              <table>
+                <thead><tr>
+                  <th></th>
+                  <th>Termux edition <span class="editions-rec">RECOMMENDED</span></th>
+                  <th>VAJ edition</th>
+                </tr></thead>
+                <tbody>
+                  <tr><td>Package name</td><td><code>com.termux</code></td><td><code>io.vaj.tl</code></td></tr>
+                  <tr><td>Alongside official Termux</td><td>No — replaces it</td><td>Yes — side by side</td></tr>
+                  <tr><td>Package repository</td><td>Official Termux repos</td><td><code>repo.pathayam.xyz</code></td></tr>
+                  <tr><td>Architectures</td><td>arm64-v8a, v7a, x86_64, x86</td><td>arm64-v8a only</td></tr>
+                </tbody>
+              </table>
+            </div>
 
             <!-- inline downloads -->
             <div id="setup-downloads" style="scroll-margin-top:58px">
@@ -523,33 +621,33 @@ export OPENAI_API_KEY="$TOKEN"</pre>
     <div style="max-width:940px;margin:0 auto;padding:44px 24px 110px;border-top:1px solid var(--line)">
       <div style="display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gold);margin-bottom:18px">OPTIONAL<span style="flex:1;height:1px;background:var(--line)"></span>POST-INSTALL</div>
       <div style="border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--gold-soft),transparent 55%),var(--panel);padding:26px 26px 28px;max-width:760px">
-        <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">One command for the shell theme</h2>
-        <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.6;margin:0 0 16px;max-width:620px">Once you're home, recreate the opinionated workspace from the video — <span style="font-family:var(--mono);color:var(--cream)">fish · oh-my-posh · tmux · zoxide · eza</span> plus the Material tmux theme and the optional Shizuku <span style="font-family:var(--mono);color:var(--cream)">btop</span> wrapper. Terminal Material colors are already on by default, so the theme picks up your wallpaper immediately.</p>
+        <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">One command for the whole shell setup</h2>
+        <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.6;margin:0 0 16px;max-width:620px">Once you're home, recreate the opinionated workspace from the video — <span style="font-family:var(--mono);color:var(--cream)">fish · oh-my-posh · zoxide · eza · fzf · yazi</span> plus the Material prompt theme, the <span style="font-family:var(--mono);color:var(--cream)">~/.termux</span> configs and Maple Mono. Terminal Material colors are already on by default, so the prompt picks up your wallpaper immediately.</p>
         <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px">
           <button data-copy style="position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-          <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--cream)">curl -fsSL https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples/setup-tmux-btop -o ~/setup-shell \
-  && chmod 700 ~/setup-shell && ~/setup-shell</pre>
+          <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--cream)">curl -fsSLo ~/setup-launcher "https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples/setup-launcher" \
+  && chmod 700 ~/setup-launcher && ~/setup-launcher</pre>
         </div>
-        <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:14px 0 0">The script asks whether to install everything, tmux only, or btop only. Want to know exactly what it changes, plus how fish, oh-my-posh, zoxide and eza fit together? → <a data-nav="wiki" href="#wiki" style="color:var(--cyan);text-decoration:none;cursor:pointer">read the shell &amp; tmux docs</a></p>
+        <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:14px 0 0">The script is interactive and offers four choices: everything, packages + fish/Oh My Posh shell configs, terminal configs (<span style="color:var(--mute)">~/.termux</span>), or Maple Mono fonts. Every file it replaces gets a timestamped <span style="color:var(--mute)">.bak</span> first. Want to know exactly what it changes, plus how fish, oh-my-posh, zoxide and eza fit together? → <a data-nav="wiki" href="#wiki" style="color:var(--cyan);text-decoration:none;cursor:pointer">read the shell &amp; tmux docs</a></p>
       </div>
 
-      <!-- tmux keybinds highlight -->
+      <!-- multiplexer keybinds highlight -->
       <div style="margin-top:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:24px 26px;max-width:760px">
-        <h3 style="font-family:var(--mono);font-weight:600;font-size:18px;margin:0 0 6px;color:var(--cream)">tmux keybinds</h3>
-        <p style="font-family:var(--sans);color:var(--mute);font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:620px">The bundled <span style="font-family:var(--mono);color:var(--cream)">termux-launcher-tmux</span> plugin ships Android-friendly keybinds. Forget one? There's a popup that lists every current binding:</p>
+        <h3 style="font-family:var(--mono);font-weight:600;font-size:18px;margin:0 0 6px;color:var(--cream)">Multiplexer keybinds</h3>
+        <p style="font-family:var(--sans);color:var(--mute);font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:620px">The launcher is its own multiplexer — sessions, windows and panes, with no prefix key and no <span style="font-family:var(--mono);color:var(--cream)">tmux</span> to install. Forget a binding? You don't have to look it up:</p>
         <div style="display:flex;align-items:center;gap:14px;background:var(--panelink);border:1px solid var(--gline);border-radius:10px;padding:14px 16px;margin-bottom:16px">
-          <kbd style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:7px;padding:7px 12px;white-space:nowrap">Alt + e</kbd>
-          <span style="font-family:var(--sans);font-size:14.5px;color:var(--cream)">Show the keybind reference popup</span>
+          <kbd style="font-family:var(--mono);font-size:14px;font-weight:600;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:7px;padding:7px 12px;white-space:nowrap">Ctrl + Alt</kbd>
+          <span style="font-family:var(--sans);font-size:14.5px;color:var(--cream)">Hold it on the in-app keyboard - every bound key lights up with a legend</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 20px;font-family:var(--mono);font-size:12.5px;color:var(--mute)">
-          <div><span style="color:var(--gold)">Ctrl + Space</span> · prefix (<span style="color:var(--dim)">Ctrl + b</span> fallback)</div>
-          <div><span style="color:var(--gold)">Alt + 1…9</span> · jump to window</div>
-          <div><span style="color:var(--gold)">Alt + ← / →</span> · prev / next window</div>
-          <div><span style="color:var(--gold)">Alt + ↑ / ↓</span> · prev / next session</div>
-          <div><span style="color:var(--gold)">Ctrl+Alt + arrows</span> · move between panes</div>
-          <div><span style="color:var(--gold)">F12</span> · reload Termux settings</div>
+          <div><span style="color:var(--gold)">Ctrl+Alt + V / H</span> · split pane vert / horiz</div>
+          <div><span style="color:var(--gold)">Ctrl+Alt + arrows</span> · move pane focus</div>
+          <div><span style="color:var(--gold)">Ctrl+Alt + [ / ]</span> · prev / next window</div>
+          <div><span style="color:var(--gold)">Ctrl+Alt + N / P</span> · next / prev session</div>
+          <div><span style="color:var(--gold)">Ctrl+Alt + F</span> · float or dock a pane</div>
+          <div><span style="color:var(--gold)">Ctrl+Alt + `</span> · toggle the scratchpad</div>
         </div>
-        <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:16px 0 0">Full keybind tables, themes and app-launch shortcuts → <a data-nav="wiki" href="#wiki" style="color:var(--cyan);text-decoration:none;cursor:pointer">shell &amp; tmux docs</a></p>
+        <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:16px 0 0">Every one is remappable, and any palette action can be bound to a key. Already on the bundled <span style="color:var(--mute)">termux-launcher-tmux</span> plugin? It still works, it is just no longer what the script installs. → <a data-nav="wiki" href="#wiki" style="color:var(--cyan);text-decoration:none;cursor:pointer">keybinding &amp; multiplexer docs</a></p>
       </div>
     </div>
   </section>
@@ -559,7 +657,7 @@ export OPENAI_API_KEY="$TOKEN"</pre>
     <div style="max-width:1200px;margin:0 auto;padding:28px 22px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
       <div style="display:flex;align-items:center;gap:10px">
         <img src="assets/icons/termux-launcher.png" alt="" width="22" height="22" style="width:22px;height:22px;border-radius:6px">
-        <span style="font-family:var(--mono);font-size:12.5px;color:var(--dim)">termux-launcher · the shell is the launcher</span>
+        <span style="font-family:var(--mono);font-size:12.5px;color:var(--dim)">termux-launcher · built on termux-app and Termux:Monet · not affiliated with the official Termux project</span>
       </div>
       <div style="display:flex;gap:16px;font-family:var(--mono);font-size:12.5px">
         <a data-nav="setup" href="#setup" style="color:var(--mute);text-decoration:none;cursor:pointer">Overview</a>
@@ -572,6 +670,6 @@ export OPENAI_API_KEY="$TOKEN"</pre>
 
 </div>
 </div>
-<script src="app.js?v=20260720-5" defer></script>
+<script src="app.js?v=20260806-1" defer></script>
 </body>
 </html>

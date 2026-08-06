@@ -19,7 +19,9 @@ Tested clients: `timg -pk`, `chafa -f kitty`, and **yazi**'s image previews all 
 
 ## Fonts and text rendering
 
-Font handling is ported from kitty: per-style fonts (regular/bold/italic/bold italic), **nerd-font symbol mapping** that never breaks cell widths, ligature control, variable-font axes and cell-metric tweaks - all via `~/.termux/fonts.conf` ([configs](#wiki/tmux)). The old `~/.termux/font.ttf` and Termux:Styling still work if you never touch it.
+Font handling is ported from kitty: per-style fonts (regular/bold/italic/bold italic), **nerd-font symbol mapping** that never breaks cell widths, an ordered fallback chain, ligature control, variable-font axes and cell-metric tweaks. There is an in-app picker for all of it (**Settings → Appearance → Terminal fonts**) and a `~/.termux/fonts.conf` for hand-editing - the whole system is documented in [Fonts](#wiki/fonts). The old `~/.termux/font.ttf` and Termux:Styling still work if you never touch either.
+
+Box drawing doesn't come from the font at all: box-drawing, block, shade, braille and sextant glyphs are computed as geometry snapped to the integer pixel edges neighbouring cells share, so TUI frames, block ramps and braille graphs join with no hairline gaps at any font size. On by default, and `box_drawing font` hands the glyphs back to your font.
 
 Text shaping is real: ZWJ emoji, flags, Arabic, Indic conjuncts and programming ligatures render correctly, and selection/copy/resize don't mangle them.
 
@@ -39,14 +41,18 @@ Touch is tuned for TUIs rather than plain shells:
 
 No tmux needed - the app is one natively. The hierarchy is **sessions → windows → panes**, and everything below is reachable from the [Command Palette](#wiki/tour), keybinds, extra keys, or the space-bar swipes on the built-in keyboard.
 
-> 📹 *Screen recording placeholder: split a pane, drag the divider, float it, then toggle the scratchpad over it.*
+```clip
+name: window-splitting
+title: Window splitting
+caption: One pane split in two, focus moved, then reshaped - no tmux running.
+```
 
 * **Splits** - vertical/horizontal, arrow-key focus movement, keyboard resize, drag the dividers.
 * **Layouts** - six presets (grid, tall, fat, horizontal, vertical, stack); *Next pane layout* (`Ctrl+Alt+L`) cycles them and the window keeps re-tiling new panes to match until you hand-shape it.
 * **Floating panes** - pop any pane out with `Ctrl+Alt+F`. Drag the top handle to move, the corner grip to resize; tap its pill for close/dock buttons. Positions survive app restarts.
 * **Scratchpad** - `Ctrl+Alt+` ` (backtick) summons a dedicated floating shell above whatever you're doing; toggle again and it hides, **but the shell keeps running** and follows you across windows and sessions. Perfect for a music player or a quick calculation.
 * **Windows** - like tmux windows: `Ctrl+Alt+C` new, `Ctrl+Alt+[` / `]` to switch, pills in the status row to tap. Pills label themselves after the file open in your editor, or the running process.
-* **Sessions** - fully separate workspaces of windows. Tap the chip at the left of the status row for the sessions panel, or open the **Session browser** for a searchable tree of every session, window and pane (it searches working directories and running programs too).
+* **Sessions** - fully separate workspaces of windows. `Ctrl+Alt+N` / `P` step through them, `Ctrl+Alt+Shift+S` (or a tap on the chip at the left of the status row) opens the sessions panel, and the **Session browser** gives you a searchable tree of every session, window and pane (it searches working directories and running programs too).
 * **Workspaces** - save the whole arrangement (windows, panes, floats, working directories) to a named file and load it later or after a reboot. *Save workspace* / *Load workspace* in the palette; files live in `~/.termux/workspaces/` as JSON. Layout comes back with fresh shells in the right directories - running programs are not resurrected.
 
 If you want none of this, **Settings → Terminal IO → Single-pane compatibility mode** returns the terminal to plain Termux behaviour.
@@ -60,7 +66,11 @@ The glass strip at the top is two tiers:
 
 Everything is toggleable in **Settings → Terminal Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. CPU stats need [Shizuku](#wiki/launcherctl); weather needs location.
 
-> 🖼️ *Screenshot placeholder: expanded status bar with the flip clock and a pinned notification, plus the CPU detail card open.*
+```clip
+name: statusbar-modes
+title: Status bar modes
+caption: The widget area cycling through clock, media and pinned-notification modes, then the CPU detail card.
+```
 
 ## Small but nice
 

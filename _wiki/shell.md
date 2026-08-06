@@ -20,6 +20,12 @@ The port is baked into the app as a view - no separate keyboard to install, no A
 * **Extra keys picker** - add optional keys (Copy, Paste, Select all, Undo, F11/F12, dead keys and more) from **Settings → Keyboard & input → Extra keys**.
 * **Keybind hints** - hold Ctrl + Alt and the keys with bindings light up with a legend.
 
+```clip
+name: keybind-discovery
+title: Keybind hints
+caption: Holding Ctrl + Alt lights the bound keys and prints the chord map above them.
+```
+
 ## Looks
 
 The keyboard follows your wallpaper's Material colors, and everything about it is adjustable: height, key spacing, corner radius, keys opacity, glass blur, a custom label font, and full color-scheme editing with live preview (including importing Base16/Base24 themes). Start from **Settings → Keyboard & input → Customize keyboard surface** - it drops you into the surface editor on your real home screen so you tweak against the real background.
