@@ -24,7 +24,7 @@ caption: fastfetch drawing its logo through the kitty graphics protocol, over a 
 
 ## Fonts and text rendering
 
-Font handling is ported from kitty: per-style fonts (regular/bold/italic/bold italic), **nerd-font symbol mapping** that never breaks cell widths, ligature control, variable-font axes and cell-metric tweaks - all via `~/.termux/fonts.conf` ([configs](#wiki/tmux)). The old `~/.termux/font.ttf` and Termux:Styling still work if you never touch it.
+Font handling is ported from kitty: per-style fonts (regular/bold/italic/bold italic), **nerd-font symbol mapping** that never breaks cell widths, ligature control, variable-font axes and cell-metric tweaks. There is an in-app picker for all of it and a `~/.termux/fonts.conf` for hand-editing - the whole system, including gap-free box drawing, is on the [Terminal fonts](#wiki/fonts) page. The old `~/.termux/font.ttf` and Termux:Styling still work if you never touch either.
 
 Text shaping is real: ZWJ emoji, flags, Arabic, Indic conjuncts and programming ligatures render correctly, and selection/copy/resize don't mangle them.
 
@@ -64,7 +64,7 @@ If you want none of this, **Settings → Terminal IO → Single-pane compatibili
 
 The glass strip at the top is two tiers:
 
-* The **widget area**: a clock (six styles - flip, LCD, LED and more), up to three **pinned notifications**, and a **media / now-playing widget** with controls. Swipe right on it to expand, left to collapse.
+* The **widget area**: a clock (six styles - flip, LCD, LED and more), up to three **pinned notifications** (which ones is up to you - see [Essential notifications](#wiki/notifications)), and a **media / now-playing widget** with controls. Swipe right on it to expand, left to collapse.
 * The **status row**: the session chip, window pills, then **CPU**, **RAM** and **weather** widgets - tap any of them for a detail card (per-core load and top processes, or the hourly/weekly forecast).
 
 Everything is toggleable in **Settings → Terminal Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. CPU stats need [Shizuku](#wiki/launcherctl); weather needs location.

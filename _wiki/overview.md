@@ -55,6 +55,8 @@ You only need the Main APK to try the launcher.
 * [Home Launcher](#wiki/install) - dock, quick reply, app launching gestures, lock screen.
 * [Command Palette](#wiki/tour) - every launcher action, searchable from the keyboard or a gesture.
 * [Terminal](#wiki/surface) - graphics protocols, the multiplexer, floating panes, workspaces and the status bar.
+* [Terminal fonts](#wiki/fonts) - the in-app picker, `fonts.conf`, gap-free box drawing and symbol maps.
+* [Essential notifications](#wiki/notifications) - rules that pin the notifications you wait for above the prompt.
 * [Permissions](#wiki/launcherctl) - what the app asks for and why.
 * [in-app keyboard](#wiki/shell) - the built-in Unexpected Keyboard port and custom layouts.
 * [LLM backends](#wiki/tai) - local models over an OpenAI/Ollama-compatible API.

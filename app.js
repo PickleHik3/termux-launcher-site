@@ -7,9 +7,9 @@ class TermuxLauncherSite {
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
-      "overview", "install", "tour", "surface", "launcherctl", "shell",
-      "tai", "shell-goodies", "tmux", "keybindings", "action-reference",
-      "keyboard-layout", "extra-keys"
+      "overview", "install", "tour", "surface", "fonts", "notifications",
+      "launcherctl", "shell", "tai", "shell-goodies", "tmux", "keybindings",
+      "action-reference", "keyboard-layout", "extra-keys"
     ];
     this.terminalLines = [
       "launcherctl launch signal",

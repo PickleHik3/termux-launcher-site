@@ -14,7 +14,8 @@ termux-reload-settings
 | --- | --- |
 | `~/.termux/termux.properties` | Classic Termux properties + the extra-keys row |
 | `~/.termux/termux-launcher-bindings.conf` | Custom keybindings |
-| `~/.termux/fonts.conf` | Fonts, nerd-font symbols, ligatures |
+| `~/.termux/fonts.conf` | Fonts, nerd-font symbols, ligatures, box drawing - see [Terminal fonts](#wiki/fonts) |
+| `~/.termux/fonts.d/` | Drop-in font fragments, including the app-managed `10-launcher.conf` |
 | `~/.termux/colors.properties` | Terminal colors (only when wallpaper colors are off) |
 | `~/.termux/keyboard/layout.xml` | In-app keyboard layout - see [in-app keyboard](#wiki/shell) |
 
