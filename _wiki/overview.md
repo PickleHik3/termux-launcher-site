@@ -38,13 +38,13 @@ These are in addition to official termux;
 | Editions                         | Android package | Notes                                                                                                               |
 | -------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. timely package updates but **cannot be installed along side official Termux.**   |
-| **Standalone edition**           | `io.vaj.tl`     | My own packages, limited updates but **can be installed alongside official Termux.** *Only available for arm64-v8a* |
+| **Demo edition**                 | `io.vaj.tl`     | A try-it-first demo that **can be installed alongside official Termux.** Small hand-maintained package repo, limited updates. *Only available for arm64-v8a* — switch to the Termux edition for daily use. |
 
 1. Download the Main APK from the project’s [Releases](https://github.com/PickleHik3/termux-launcher/releases).
 2. Matching Termux:API or Termux:Styling from;
 
    * Termux edition:  [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1)
-   * Standalone edition: [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0-vaj) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1-vaj)
+   * Demo edition: [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0-vaj) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1-vaj)
 
 Do not mix official add-ons, old forks, or APKs signed with a different key. Android will reject shared-UID/signature mismatches.
 

@@ -33,7 +33,7 @@ A home screen that is also a terminal ends up asking for a few permissions that 
 | Run at boot | Boot scripts (Termux:Boot style) |
 | Install packages | So APKs opened from the terminal can be handed to the system installer |
 
-One custom permission is *defined* by the app: `com.termux.permission.RUN_COMMAND` (or `io.vaj.tl.permission.RUN_COMMAND` on the standalone edition). Other apps must hold it - and you must approve them - before they can run commands in your shell. That protects you; the launcher doesn't ask you for it.
+One custom permission is *defined* by the app: `com.termux.permission.RUN_COMMAND` (or `io.vaj.tl.permission.RUN_COMMAND` on the demo edition). Other apps must hold it - and you must approve them - before they can run commands in your shell. That protects you; the launcher doesn't ask you for it.
 
 ## Inherited from upstream
 
