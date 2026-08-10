@@ -176,8 +176,13 @@ class TermuxLauncherSite {
       const published = Array.isArray(releases)
         ? releases.filter((release) => !release.draft && !release.prerelease && typeof release.tag_name === "string")
         : [];
-      this.applyReleaseData(`${name}:main`, published.find((release) => !/-vaj$/i.test(release.tag_name)));
+      this.applyReleaseData(`${name}:main`, published.find((release) => !/-(vaj|nix)$/i.test(release.tag_name)));
       this.applyReleaseData(`${name}:vaj`, published.find((release) => /-vaj$/i.test(release.tag_name)));
+      // The Nix edition publishes as prereleases, so it gets its own pool.
+      const includingPrereleases = Array.isArray(releases)
+        ? releases.filter((release) => !release.draft && typeof release.tag_name === "string")
+        : [];
+      this.applyReleaseData(`${name}:nix`, includingPrereleases.find((release) => /-nix$/i.test(release.tag_name)));
     }));
   }
 

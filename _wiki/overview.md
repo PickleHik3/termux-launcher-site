@@ -38,12 +38,14 @@ These are in addition to official termux;
 | Editions                         | Android package | Notes                                                                                                               |
 | -------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. timely package updates but **cannot be installed along side official Termux.**   |
+| **Nix edition** | `com.termux.launcher.nix` | The full `nixpkgs` collection with declarative configs and rollbacks, and it **can be installed alongside official Termux.** Releases tagged `vX.Y.Z-nix` (marked pre-release). *arm64-v8a and x86_64.* |
 | **Demo edition** [Deprecated](migrate-vaj.html) | `io.vaj.tl` | A try-it-first demo that **can be installed alongside official Termux.** Final feature release `v0.2.34-vaj`; [migrate to the Nix edition](migrate-vaj.html). *Only available for arm64-v8a.* |
 
 1. Download the Main APK from the project’s [Releases](https://github.com/PickleHik3/termux-launcher/releases).
 2. Matching Termux:API or Termux:Styling from;
 
    * Termux edition:  [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1)
+   * Nix edition: [TLNix:API](https://github.com/PickleHik3/termux-api/releases/tag/nix-v0.53.1) & [TLNix:Styling](https://github.com/PickleHik3/termux-styling/releases/tag/nix-v0.32.2)
    * Demo edition: [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0-vaj) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1-vaj)
 
 Do not mix official add-ons, old forks, or APKs signed with a different key. Android will reject shared-UID/signature mismatches.
