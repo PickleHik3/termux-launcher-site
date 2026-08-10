@@ -38,7 +38,7 @@ These are in addition to official termux;
 | Editions                         | Android package | Notes                                                                                                               |
 | -------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. timely package updates but **cannot be installed along side official Termux.**   |
-| **Demo edition**                 | `io.vaj.tl`     | A try-it-first demo that **can be installed alongside official Termux.** Small hand-maintained package repo, limited updates. *Only available for arm64-v8a* — switch to the Termux edition for daily use. |
+| **Demo edition** [Deprecated](migrate-vaj.html) | `io.vaj.tl` | A try-it-first demo that **can be installed alongside official Termux.** Final feature release `v0.2.34-vaj`; [migrate to the Nix edition](migrate-vaj.html). *Only available for arm64-v8a.* |
 
 1. Download the Main APK from the project’s [Releases](https://github.com/PickleHik3/termux-launcher/releases).
 2. Matching Termux:API or Termux:Styling from;
