@@ -327,6 +327,20 @@ a:focus-visible {
   color: var(--text);
 }
 
+.wiki-prose td:first-child > a[href$="migrate-vaj.html"] {
+  display: inline-block;
+  margin-left: .45em;
+  padding: .12em .5em;
+  border: 1px solid var(--accent-line);
+  border-radius: 4px;
+  background: var(--accent-soft);
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: .72em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
 @media (max-width: 1080px) {
   .wiki-layout {
     grid-template-columns: 220px minmax(0, 1fr) !important;
@@ -2231,6 +2245,122 @@ a:focus-visible {
   .wiki-sidebar {
     margin-inline: -18px;
     padding-inline: 18px;
+  }
+}
+
+/* ---- VAJ to Nix migration guide ---- */
+
+.migration-page {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: clamp(52px, 7vw, 88px) 22px 110px;
+}
+
+.migration-hero,
+.migration-content {
+  max-width: 760px;
+}
+
+.migration-hero {
+  padding-bottom: clamp(38px, 5vw, 58px);
+  border-bottom: 1px solid var(--line);
+}
+
+.migration-hero h1 {
+  max-width: 720px;
+  margin: 10px 0 20px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: clamp(42px, 6vw, 68px);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.migration-hero > p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--mute);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.migration-hero code,
+.migration-coexist code {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+
+.migration-coexist {
+  margin-top: 26px;
+  padding: 14px 16px;
+  border: 1px solid var(--accent-line);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent-b);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.migration-content {
+  padding-top: 4px;
+}
+
+.migration-content > h2:first-child {
+  font-size: 26px;
+}
+
+.migration-timeline {
+  display: grid;
+  margin-bottom: 24px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.migration-timeline > div {
+  display: grid;
+  padding: 13px 15px;
+  grid-template-columns: minmax(170px, .75fr) minmax(220px, 1.25fr);
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.migration-timeline > div:last-child {
+  border-bottom: 0;
+}
+
+.migration-timeline strong {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.migration-timeline span {
+  color: var(--text);
+}
+
+.nav-actions > a.download-button {
+  color: #08131f;
+}
+
+@media (max-width: 560px) {
+  .migration-page {
+    padding-inline: 18px;
+  }
+
+  .migration-hero h1 {
+    font-size: clamp(38px, 12vw, 52px);
+  }
+
+  .migration-timeline > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 }
 

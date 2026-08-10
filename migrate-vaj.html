@@ -1,0 +1,86 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b0d">
+<meta name="description" content="Migrate your Termux Launcher VAJ edition home directory to the Nix edition.">
+<title>VAJ to Nix migration — Termux Launcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
+<link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
+<link rel="stylesheet" href="styles.css?v=20260810-1">
+</head>
+<body>
+<div id="tl" style="--bg:#080b0d;--bg2:#0b1012;--panel:#0f1518;--panelink:#090d0f;--ink:#0a0e12;--line:#20292d;--line2:#151c1f;--accent:#72d8cd;--accent-b:#a5eee7;--accent-soft:rgba(114,216,205,.09);--accent-line:rgba(114,216,205,.34);--blue:var(--accent);--blue-b:var(--accent-b);--blue-soft:var(--accent-soft);--bline:var(--accent-line);--text:#e2e7ef;--cream:var(--text);--mute:#98a2af;--dim:#5a6470;--green:#7fd18c;--cyan:#63c2d4;--orange:#e0a072;--red:#e07070;--gold:var(--accent);--gold-b:var(--accent-b);--gold-soft:var(--accent-soft);--gline:var(--accent-line);--mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;background:radial-gradient(900px 700px at 82% 4%,rgba(58,127,119,.18),transparent 62%),radial-gradient(800px 720px at 12% 34%,rgba(83,57,120,.1),transparent 68%),linear-gradient(180deg,#081214 0%,#080c0e 34%,#091012 100%);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden">
+
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <a class="brand-button" href="./" aria-label="Termux Launcher home">
+        <img src="assets/icons/termux-launcher.png" alt="" width="30" height="30">
+        <span>Termux Launcher</span>
+      </a>
+      <div class="nav-tabs"></div>
+      <div class="nav-actions">
+        <a href="./">Back to site</a>
+        <a class="download-button" href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">Get Nix APK ↗</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="migration-page">
+    <header class="migration-hero">
+      <div class="wiki-kicker">MIGRATION GUIDE · VAJ → NIX</div>
+      <h1>Move from VAJ to the Nix edition.</h1>
+      <p>The VAJ edition is deprecated after <code>v0.2.34-vaj</code>. Back up its home directory, install the Nix edition, then restore your files into the new app.</p>
+      <div class="migration-coexist">Both apps can stay installed at the same time, so you can verify the Nix setup before removing VAJ.</div>
+    </header>
+
+    <article class="wiki-prose migration-content">
+      <h2>Why migrate</h2>
+      <p>Active maintenance of the VAJ apt repository at <a href="https://repo.pathayam.xyz" target="_blank" rel="noopener">repo.pathayam.xyz</a> is ending. The Nix edition replaces that repository with Nix packages and a Nix binary cache, providing a maintained package path without continuing the separate VAJ apt ecosystem.</p>
+
+      <h2>Timeline</h2>
+      <div class="migration-timeline">
+        <div><strong>Final feature release</strong><span><code>v0.2.34-vaj</code></span></div>
+        <div><strong>VAJ apt repository</strong><span><code>repo.pathayam.xyz</code>, online read-only for at least 6 months</span></div>
+        <div><strong>Successor</strong><span><code>com.termux.launcher.nix</code></span></div>
+      </div>
+
+      <h2>1. Back up your VAJ home</h2>
+      <p>In the VAJ terminal, allow storage access if needed, then create an archive on shared storage:</p>
+      <pre><code>tar -czf /sdcard/vaj-backup.tar.gz -C /data/data/io.vaj.tl/files home</code></pre>
+      <p>Keep this archive until you have checked that the migration is complete.</p>
+
+      <h2>2. Install the Nix edition</h2>
+      <p>Open <a href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">Termux Launcher releases</a>, choose a release whose tag ends in <code>-nix</code> (for example, <code>vX.Y.Z-nix</code>), and install its Nix edition APK. Its Android package is <code>com.termux.launcher.nix</code>.</p>
+      <blockquote><p>The first boot downloads the Nix-on-Droid bootstrap. Let it finish before restoring your home directory.</p></blockquote>
+
+      <h2>3. Restore your home</h2>
+      <p>In the Nix edition terminal, restore the archive into the new app data directory:</p>
+      <pre><code>tar -xzf /sdcard/vaj-backup.tar.gz -C /data/data/com.termux.launcher.nix/files</code></pre>
+      <blockquote><p>Restore <strong>home only</strong>, not <code>usr</code>. Packages now come from Nix, and copying VAJ's apt-managed <code>usr</code> tree would mix incompatible environments.</p></blockquote>
+
+      <h2>4. Reinstall packages with Nix</h2>
+      <p>Where VAJ used <code>pkg install X</code>, add the package to <code>environment.packages</code> in <code>~/.config/nixpkgs/nix-on-droid.nix</code>:</p>
+      <pre><code>{ pkgs, ... }:
+{
+  environment.packages = with pkgs; [
+    X
+  ];
+}</code></pre>
+      <p>Apply the configuration:</p>
+      <pre><code>nix-on-droid switch</code></pre>
+      <p>Replace <code>X</code> with the corresponding Nix package attribute. Repeat the switch after changing the package list.</p>
+
+      <h2>5. Verify before removing VAJ</h2>
+      <p>Open your restored files, rebuild the packages you need, and confirm your shell configuration works. Because <code>io.vaj.tl</code> and <code>com.termux.launcher.nix</code> are different Android packages, both apps can coexist throughout the migration.</p>
+    </article>
+  </main>
+</div>
+</body>
+</html>
