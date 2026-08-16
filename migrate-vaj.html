@@ -75,6 +75,11 @@ tar -czf ~/storage/shared/vaj-home.tar.gz -C /data/data/io.vaj.tl/files home</co
       <h2>4. Set up the environment</h2>
       <pre><code>setup-launcher</code></pre>
       <p>One command. It fetches the launcher's configuration, builds it, and switches to it. Another few minutes, foreground again.</p>
+      <blockquote><p>If that says <code>command not found</code>, your build predates it. These four lines do the same thing:</p>
+      <pre><code>cd ~/.config/nix-on-droid
+rm flake.nix nix-on-droid.nix
+nix flake init -t github:PickleHik3/nix-on-droid/launcher-nix#launcher
+nix-on-droid switch --flake ~/.config/nix-on-droid</code></pre></blockquote>
       <p>When it finishes, <strong>open a new session</strong> — the shell only changes for sessions started after a switch. You now have fish, the themed prompt, <code>eza</code>, <code>zoxide</code>, <code>yazi</code>, Neovim, and fastfetch.</p>
       <p>Two optional follow-ups it will mention: <code>setup-toolkits</code> chooses what is installed (Node, Go and Python are off by default), and <code>setup-nvim</code> sets up Neovim.</p>
 
