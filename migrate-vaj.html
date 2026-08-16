@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#080b0d">
-<meta name="description" content="Migrate your Termux Launcher VAJ edition home directory to the Nix edition.">
+<meta name="description" content="Move from the deprecated Termux Launcher VAJ edition to the Nix edition, step by step.">
 <title>VAJ to Nix migration — Termux Launcher</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,13 +36,18 @@
     <header class="migration-hero">
       <div class="wiki-kicker">MIGRATION GUIDE · VAJ → NIX</div>
       <h1>Move from VAJ to the Nix edition.</h1>
-      <p>The VAJ edition is deprecated after <code>v0.2.34-vaj</code>. Back up its home directory, install the Nix edition, then restore your files into the new app.</p>
-      <div class="migration-coexist">Both apps can stay installed at the same time, so you can verify the Nix setup before removing VAJ.</div>
+      <p>VAJ stopped getting new features after <code>v0.2.34-vaj</code>. The Nix edition is its replacement: the same idea — a launcher that installs alongside official Termux — with a package set that is actively maintained.</p>
+      <div class="migration-coexist">Nothing is removed for you. <code>io.vaj.tl</code>, <code>com.termux.launcher.nix</code> and official <code>com.termux</code> are three different Android packages, so all three can sit on the phone while you try the new one.</div>
     </header>
 
     <article class="wiki-prose migration-content">
-      <h2>Why migrate</h2>
-      <p>Active maintenance of the VAJ apt repository at <a href="https://repo.pathayam.xyz" target="_blank" rel="noopener">repo.pathayam.xyz</a> is ending. The Nix edition replaces that repository with Nix packages and a Nix binary cache, providing a maintained package path without continuing the separate VAJ apt ecosystem.</p>
+      <h2>What actually changes</h2>
+      <ul>
+        <li><strong>Packages come from nixpkgs</strong> — around 100,000 of them, prebuilt and downloaded from an official cache — instead of the hand-maintained repository at <code>repo.pathayam.xyz</code>.</li>
+        <li><strong>Your installed packages do not come across.</strong> You reinstall them by name, which is usually one command. Files you made are a plain copy.</li>
+        <li><strong>Your setup becomes a file.</strong> You list what you want and run one command to make the system match it, instead of remembering what you installed months ago.</li>
+        <li><strong>Programs run under proot.</strong> The code is native <code>aarch64</code> and runs on the CPU directly, but long shell loops and big compiles pay a small overhead. Your Android files stay visible at <code>/android</code>.</li>
+      </ul>
 
       <h2>Timeline</h2>
       <div class="migration-timeline">
@@ -52,33 +57,57 @@
       </div>
 
       <h2>1. Back up your VAJ home</h2>
-      <p>In the VAJ terminal, allow storage access if needed, then create an archive on shared storage:</p>
-      <pre><code>tar -czf /sdcard/vaj-backup.tar.gz -C /data/data/io.vaj.tl/files home</code></pre>
-      <p>Keep this archive until you have checked that the migration is complete.</p>
+      <p>In the <strong>VAJ</strong> terminal:</p>
+      <pre><code>termux-setup-storage
+tar -czf ~/storage/shared/vaj-home.tar.gz -C /data/data/io.vaj.tl/files home</code></pre>
+      <p>That writes one archive to your phone's shared storage, where the new app can read it. Keep it until you are sure the move is finished.</p>
 
       <h2>2. Install the Nix edition</h2>
-      <p>Open <a href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">Termux Launcher releases</a>, choose a release whose tag ends in <code>-nix</code> (for example, <code>vX.Y.Z-nix</code>), and install its Nix edition APK. Its Android package is <code>com.termux.launcher.nix</code>.</p>
-      <blockquote><p>The first boot downloads the Nix-on-Droid bootstrap. Let it finish before restoring your home directory.</p></blockquote>
+      <p>On the <a href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">releases page</a>, pick a release whose tag ends in <code>-nix</code> and install its APK. Its Android package is <code>com.termux.launcher.nix</code>, so it installs next to VAJ rather than over it.</p>
 
-      <h2>3. Restore your home</h2>
-      <p>In the Nix edition terminal, restore the archive into the new app data directory:</p>
-      <pre><code>tar -xzf /sdcard/vaj-backup.tar.gz -C /data/data/com.termux.launcher.nix/files</code></pre>
-      <blockquote><p>Restore <strong>home only</strong>, not <code>usr</code>. Packages now come from Nix, and copying VAJ's apt-managed <code>usr</code> tree would mix incompatible environments.</p></blockquote>
+      <h2>3. First launch</h2>
+      <p>Open the app and let it download its bootstrap. Then it asks one question:</p>
+      <pre><code>Do you want to set it up with flakes? (y/N)</code></pre>
+      <p>Answer <code>y</code>. The build that follows takes a few minutes on a recent phone and up to about half an hour on an old one, and it prints nothing for long stretches — that is normal.</p>
+      <blockquote><p><strong>Keep the app in the foreground.</strong> Android cuts network to background apps, which stalls the download.</p></blockquote>
+      <p>You end up at a plain <code>bash-5.3$</code> prompt. That is expected — the real environment is the next step.</p>
 
-      <h2>4. Reinstall packages with Nix</h2>
-      <p>Where VAJ used <code>pkg install X</code>, add the package to <code>environment.packages</code> in <code>~/.config/nixpkgs/nix-on-droid.nix</code>:</p>
-      <pre><code>{ pkgs, ... }:
-{
-  environment.packages = with pkgs; [
-    X
-  ];
-}</code></pre>
-      <p>Apply the configuration:</p>
-      <pre><code>nix-on-droid switch</code></pre>
-      <p>Replace <code>X</code> with the corresponding Nix package attribute. Repeat the switch after changing the package list.</p>
+      <h2>4. Set up the environment</h2>
+      <pre><code>setup-launcher</code></pre>
+      <p>One command. It fetches the launcher's configuration, builds it, and switches to it. Another few minutes, foreground again.</p>
+      <p>When it finishes, <strong>open a new session</strong> — the shell only changes for sessions started after a switch. You now have fish, the themed prompt, <code>eza</code>, <code>zoxide</code>, <code>yazi</code>, Neovim, and fastfetch.</p>
+      <p>Two optional follow-ups it will mention: <code>setup-toolkits</code> chooses what is installed (Node, Go and Python are off by default), and <code>setup-nvim</code> sets up Neovim.</p>
 
-      <h2>5. Verify before removing VAJ</h2>
-      <p>Open your restored files, rebuild the packages you need, and confirm your shell configuration works. Because <code>io.vaj.tl</code> and <code>com.termux.launcher.nix</code> are different Android packages, both apps can coexist throughout the migration.</p>
+      <h2>5. Bring your files across</h2>
+      <p>In the <strong>Nix</strong> terminal, unpack the archive into a folder of its own:</p>
+      <pre><code>termux-setup-storage
+mkdir -p ~/vaj-home
+tar -xzf ~/storage/shared/vaj-home.tar.gz -C ~/vaj-home --strip-components=1</code></pre>
+      <p>If <code>tar</code> is not found — you turned the build toolkit off in <code>setup-toolkits</code> — <code>nix shell nixpkgs#gnutar</code> gives it to you for that session.</p>
+      <p>Then copy out what you want, for example:</p>
+      <pre><code>cp -r ~/vaj-home/projects ~/
+cp -r ~/vaj-home/.ssh ~/ &amp;&amp; chmod 700 ~/.ssh</code></pre>
+      <blockquote><p><strong>Do not unpack it over your home directory.</strong> The Nix setup owns some dotfiles — <code>~/.config/fish/config.fish</code> among them — as read-only links. An ordinary file in their place makes the next update fail. Copy the files you want instead, and leave the rest in <code>~/vaj-home</code>.</p></blockquote>
+      <p>Do not copy VAJ's <code>usr</code> directory either. Those programs were built for Termux and cannot run here.</p>
+
+      <h2>6. Get your packages back</h2>
+      <p>Three ways, in the order you will want them:</p>
+      <pre><code>setup-toolkits                       # groups: editor, build tools, node, go, python
+nix search nixpkgs ripgrep           # find one thing
+nix profile install nixpkgs#ripgrep  # install it now</code></pre>
+      <p>For anything you would be annoyed to lose, add it to the <code>extraPackages</code> list near the top of <code>~/.config/nix-on-droid/home.nix</code> and apply it:</p>
+      <pre><code>nix-on-droid switch --flake ~/.config/nix-on-droid</code></pre>
+      <p>Names are usually what you expect; when they are not, search <a href="https://search.nixos.org/packages" target="_blank" rel="noopener">search.nixos.org</a>. A name that does not exist fails the update by name and leaves your working environment alone.</p>
+
+      <h2>7. Remove VAJ when you are ready</h2>
+      <p>Use the new app for a few days first. When you are happy with it, uninstall <strong>Termux Launcher (VAJ)</strong> from Android's app settings, and keep <code>vaj-home.tar.gz</code> a while longer.</p>
+
+      <h2>If something goes wrong</h2>
+      <ul>
+        <li>A failed update changes nothing — the environment you are in keeps working, and the error names the file it tripped on.</li>
+        <li><code>nix-on-droid rollback</code> returns to the previous working environment.</li>
+        <li>The full beginner's guide is <a href="https://github.com/PickleHik3/termux-launcher/blob/nix-edition/docs/en/Nix_Getting_Started.md" target="_blank" rel="noopener">Nix edition: a beginner's guide</a>.</li>
+      </ul>
     </article>
   </main>
 </div>
