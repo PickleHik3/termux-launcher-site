@@ -2092,12 +2092,12 @@ a:focus-visible {
 
 .wiki-layout {
   display: grid;
-  max-width: 1180px !important;
+  max-width: 1320px !important;
   margin: 0 auto;
   padding: 34px 24px 120px !important;
-  grid-template-columns: minmax(230px, 290px) minmax(0, 1fr) !important;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) 190px !important;
   align-items: start;
-  gap: clamp(28px, 4vw, 52px) !important;
+  gap: clamp(26px, 3vw, 44px) !important;
 }
 
 .wiki-sidebar {
@@ -2459,5 +2459,50 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .hero-terminal-line i {
     animation: none;
+  }
+}
+
+/* ---- On-this-page column, right of the article ---- */
+.wiki-toc-col {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 108px);
+  overflow-y: auto;
+  padding-top: 6px;
+}
+
+.wiki-toc-title {
+  margin-bottom: 8px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.wiki-toc-col .wiki-inline-toc {
+  margin: 0;
+  padding-left: 12px;
+}
+
+/* Nothing to list (page has no h2/h3): hide the whole column quietly. */
+.wiki-toc-col:has(.wiki-inline-toc:empty) {
+  visibility: hidden;
+}
+
+/* Not enough room for three columns: drop the toc, keep two. */
+@media (max-width: 1240px) and (min-width: 821px) {
+  .wiki-layout {
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) !important;
+  }
+
+  .wiki-toc-col {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .wiki-toc-col {
+    display: none;
   }
 }
