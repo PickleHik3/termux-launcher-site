@@ -19,6 +19,12 @@ So a hand-written `fonts.conf` beats the picker, and the picker beats Termux:Sty
 
 **Settings → Appearance → Terminal fonts** is a font store: it downloads from the upstream release, checks it against a SHA-256 pinned in the app, installs it under `~/.termux/fonts/`, and writes the managed drop-in for you. Nothing needs a shell, and the catalog ships inside the APK so the list works offline.
 
+```clip
+image: assets/screenshots/terminal-fonts-picker.webp
+title: Terminal font picker
+caption: The managed Maple Mono setup, rendering controls and installed family cards.
+```
+
 * **Recommended setup** - one tap installs Maple Mono (a 373 KB download) with its ligatures on and icon glyphs routed to the bundled Symbols Nerd Font Mono. Same result as the [Shell goodies](#wiki/shell-goodies) script's font step, without the 20 MB Nerd Font build.
 * **Families** - fourteen curated families. Each row shows the download size, face count, whether it is variable and whether it ligates, plus a **License** button with the full notice and upstream link before anything is fetched.
 * **Nerd Font icons** - routes `U+E000-U+F8FF` and `U+F0000-U+FFFFD` to the bundled symbols face, so powerline, devicon, codicon and Material Design glyphs work with any family. The symbols face is in the APK, not downloaded.
@@ -48,8 +54,6 @@ Most are SIL Open Font License 1.1. The exceptions: Hack is MIT plus the Bitstre
 Installing also mirrors the regular and italic faces to `~/.termux/font.ttf` and `font-italic.ttf`, so plain Termux tooling and other forks see a sane font even though they know nothing about `fonts.d`.
 
 The same screen is reachable without leaving the terminal: `fonts.pick` opens the picker and `fonts.install` installs a family by id, both from the [Command Palette](#wiki/tour), a keybind or an extra key.
-
-> 🖼️ *Screenshot placeholder: the Terminal fonts screen with the Recommended setup card and two family rows, one Active and one mid-download.*
 
 The box drawing below is the same machinery the `sigye` clock leans on - see [Shell goodies](#wiki/shell-goodies).
 
@@ -90,6 +94,25 @@ Worth knowing:
 * Bad lines are skipped and counted in a toast, with the full text in logcat - the rest of the file keeps working.
 * Limits per file: 64 KiB, 512 lines, 4096 characters per line.
 
+### Keep selected symbols narrow
+
+Kitty-compatible symbol expansion lets an icon use blank cells after it, which makes Nerd Font glyphs match the text height around them. Use `narrow_symbols` when a range must stay within a fixed number of cells:
+
+```text
+narrow_symbols U+E0A0-U+E0A3,U+E0C0-U+E0C7
+narrow_symbols U+F0000-U+FFFFD 3
+```
+
+The optional trailing cell ceiling defaults to `1` and may be `1` through `5`. When several lines match a code point, the last one wins. Synthesized Powerline separators do not need a rule; setting `powerline_symbols font` hands them back to the font and makes them subject to `narrow_symbols`.
+
+```clip
+image: assets/screenshots/narrow-symbols-comparison.webp
+title: Symbol width comparison
+caption: Default symbol expansion on the left; the same Material symbols constrained to one cell on the right.
+shape: wide
+layout: full
+```
+
 The `~/.termux/fonts.d/` directory is the drop-in half of the same config. Anything valid in `fonts.conf` is valid in a `*.conf` file there, the files are concatenated in ascending filename order, and the app's own `10-launcher.conf` is just one of them. The `10-` prefix leaves room on both sides, so a `05-` file lands before it and a `20-` file after. Drop-ins are capped at 32 files and 256 KiB in total; that budget never squeezes out your `fonts.conf`, which keeps its own allowance. Symlinks pointing out of `fonts.d` are ignored.
 
 ## Seamless box drawing
@@ -97,6 +120,14 @@ The `~/.termux/fonts.d/` directory is the drop-in half of the same config. Anyth
 Fonts disagree about box drawing. A face designed for prose leaves a background-colored seam between two adjacent `─`, puts the crossbar of `┼` off the centerline of `│`, and usually covers none of the block, braille or legacy-computing ranges at all - so a TUI drawn with it looks perforated. Every glyph in those ranges is a handful of rectangles, so the terminal computes them from the cell instead of asking the font for a glyph, snapped to the integer pixel edges that adjacent cells already share.
 
 The result: TUI frames, block ramps and braille graphs join cleanly at any font size, after a pinch-zoom, and after `modify_font` changes the cell. This is on by default.
+
+```clip
+image: assets/screenshots/box-drawing-comparison.webp
+title: Box drawing comparison
+caption: Synthesized, seamless cell joins on the left; font glyph seams and misalignment on the right.
+shape: wide
+layout: full
+```
 
 ```text
 box_drawing        synthesize
@@ -122,8 +153,6 @@ Synthesized ranges:
 | `U+E0B0-U+E0B7`, `U+E0BA-U+E0BD` | Powerline separators - unless `powerline_symbols font` |
 
 Not synthesized - these still come from your font or your `symbol_map`, by design, so they are not a bug: the rest of Geometric Shapes (`U+25A0-U+25E1` and `U+25E6-U+25FF`), the Legacy Computing wedges and diagonals (`U+1FB3C-U+1FB6F`), the inverse shades, pattern fills, arrows and segmented digits (`U+1FB90-U+1FBFF`), and the diagonal Powerline separators (`U+E0B8-U+E0B9` and `U+E0BE-U+E0BF`) even in synthesize mode.
-
-> 🖼️ *Screenshot placeholder: a close crop of a TUI frame with `box_drawing synthesize` beside the same frame with `box_drawing font`, showing the hairline gaps.*
 
 ## Many fonts at once
 

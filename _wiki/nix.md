@@ -2,8 +2,6 @@
 title: Nix edition
 order: 12
 ---
-# The Nix edition
-
 The Nix edition (`com.termux.launcher.nix`) pairs the launcher with Nix-on-Droid: the full `nixpkgs` collection, declarative configs, generations and rollback - and it coexists with a stock Termux install. First bootstrap is bigger and slower than the standard edition; keep the app in the foreground and use decent wifi.
 
 Grab it from [Releases](https://github.com/PickleHik3/termux-launcher/releases) - the `vX.Y.Z-nix` prerelease. Companions are the `nix-v*` tagged [TLNix:API](https://github.com/PickleHik3/termux-api/releases) and [TLNix:Styling](https://github.com/PickleHik3/termux-styling/releases).

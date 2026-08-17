@@ -2,8 +2,6 @@
 title: Shell goodies
 order: 40
 ---
-# Shell goodies
-
 The launcher works with whatever shell setup you already have. But if you want the setup from the demo videos - fish shell, a Material-themed prompt that follows your wallpaper, nice `ls`, smart `cd` - there is an optional script that sets it all up in one go.
 
 ## setup-launcher
@@ -19,13 +17,14 @@ chmod 700 ~/setup-launcher
 
 The script is interactive and asks what you want:
 
-1. Everything
-2. Packages + fish/prompt configs only
-3. Terminal configs (`~/.termux`) only
+1. **All** — fish, Oh My Posh, zoxide, eza, Neovim + AstroNvim, sigye, fastfetch with the animated logo, and kitten.
+2. **Shell essentials** — fish, Oh My Posh, zoxide, and eza.
+3. **Pick items one at a time.**
+4. **Quit.**
 
-It never silently overwrites anything - every file it replaces gets a timestamped `.bak` copy next to it. It also offers to make fish your default shell at the end.
+It never silently overwrites anything - every file it replaces gets a timestamped `.bak` copy next to it. The current script does not write launcher-owned files under `~/.termux`; the app seeds those defaults itself.
 
-Fonts are not part of the script: the in-app font picker (**Settings › Terminal › Font**) downloads and wires up curated families, Nerd Font builds included.
+Fonts are not part of the script: the in-app font picker (**Settings › Appearance › Terminal fonts**) downloads and wires up curated families, Nerd Font builds included.
 
 ```clip
 image: assets/uploads/whatsapp-image-2026-08-02-at-12.40.06-am.jpeg
@@ -41,9 +40,11 @@ caption: The shell after setup-launcher - fish, wallpaper-Material prompt, eza l
 | [oh-my-posh](https://ohmyposh.dev)              | Prompt with path, git status and command time - themed from your wallpaper colors.                                                     |
 | [eza](https://github.com/eza-community/eza)     | Modern `ls` with icons and git info. `ls`, `ll`, `la`, `lt` (tree) are set up as wrappers.                                             |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | Smart `cd` that remembers where you've been - `cd proj` jumps to your most used matching directory. `cd` also runs `ls` after landing. |
-| [yazi](https://github.com/sxyazi/yazi)          | Terminal file manager. Type `y` to open it - quitting drops you in the directory you navigated to.                                     |
-| [neovim](https://neovim.io)                     | Set as `$EDITOR`.                                                                                                                      |
-| git, curl                                       | Plumbing for the prompt's git segment and the script itself.                                                                           |
+| [neovim](https://neovim.io)                     | Optional Neovim + AstroNvim setup with the wallpaper-Material theme; the installed shell config sets it as `$EDITOR`.                  |
+| sigye                                           | Optional terminal clock used in the showcase.                                                                                           |
+| fastfetch                                       | Optional pinned build plus the animated Termux Launcher logo configuration.                                                             |
+| kitten                                          | Optional kitty client binary for tools that use the kitty graphics protocol.                                                            |
+| git, curl                                       | Plumbing for the prompt's git segment and the script itself.                                                                            |
 
 ## Wallpaper colors in the shell
 
@@ -51,7 +52,7 @@ The launcher writes your current Material palette to `~/.termux/material-colors.
 
 ## Fonts
 
-Fonts moved into the app: the font picker (**Settings › Terminal › Font**) downloads curated families - Nerd Font builds included - and wires them up for you. For manual control, `~/.termux/fonts.conf` still works; see [configs](#wiki/tmux) for how that file works.
+Fonts moved into the app: the font picker (**Settings › Appearance › Terminal fonts**) downloads curated families - Nerd Font builds included - and wires them up for you. For manual control, `~/.termux/fonts.conf` still works; see [Terminal fonts](#wiki/fonts).
 
 ## Extras in the repo
 

@@ -2,8 +2,6 @@
 title: Backup & recovery
 order: 70
 ---
-# Updates, backup & recovery
-
 Updating is just installing the new APK over the old one - same edition, same source. Android refusing a mismatched signature is protection, not a bug; **never uninstall to "fix" an update** without backing up first - uninstalling deletes your entire Termux home.
 
 ## What to back up
@@ -25,7 +23,7 @@ Recovering on a fresh install: get a working shell first, restore projects and k
 
 **Home button opens another launcher.** Android Settings > Apps > Default apps > Home app. If the choice keeps resetting, clear defaults on the old launcher.
 
-**CPU card shows stale or basic data.** Shizuku isn't connected - start its service and reconnect from Settings > Services & permissions > Shizuku. Needed after every reboot with wireless-debugging starts. See [Permissions](#wiki/launcherctl).
+**CPU card shows stale or basic data.** The unprivileged `/proc` fallback is unavailable or Shizuku is not connected. Start its service and reconnect from Settings > Services & permissions > Shizuku for detailed per-core and process data. Wireless-debugging starts need reconnecting after every reboot. See [Permissions](#wiki/launcherctl).
 
 **A workspace didn't bring my program back.** Workspaces replay commands, they don't resume processes - unsaved buffers and remote logins are gone. Save durable state in files.
 

@@ -2,8 +2,6 @@
 title: Keybindings & multiplexer
 order: 50
 ---
-# Keybindings and the in-app multiplexer
-
 Termux Launcher routes panes, windows, sessions, terminal controls, and app shortcuts through one action registry. The command palette, physical keyboard, embedded in-app keyboard, and Termux Extra Keys can therefore reach the same actions, but each surface has a different configuration syntax.
 
 This page covers `~/.termux/termux-launcher-bindings.conf`: the full keybinding layer used by the in-app multiplexer. See [Action reference](#wiki/action-reference) for action IDs and arguments, [Keyboard layout schema](#wiki/keyboard-layout) for embedded keyboard swipe slots, and [Extra Keys recipes](#wiki/extra-keys) for `termux.properties`.

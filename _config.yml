@@ -12,6 +12,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - MEDIA_TODO.md
   - node_modules
   - oauth-worker
   - vendor

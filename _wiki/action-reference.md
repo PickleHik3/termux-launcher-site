@@ -2,8 +2,6 @@
 title: Action reference
 order: 55
 ---
-# Launcher action reference
-
 These are the current action IDs accepted by `~/.termux/termux-launcher-bindings.conf`, the command palette, `tool:` keys in the embedded keyboard, and `tool:` entries in Termux Extra Keys.
 
 ## Which surfaces accept arguments?
@@ -38,6 +36,8 @@ Pane and window actions require split panes to be enabled.
 | `pane.move_to_edge` | `edge`: `left`, `right`, `up`, or `down` (required) | Move the focused pane to an outer edge |
 | `pane.next_layout` | none | Cycle `grid` → `tall` → `fat` → `horizontal` → `vertical` → `stack` |
 | `pane.toggle_float` | none | Float the focused pane or dock it again |
+| `pane.rename` | `name` (required; empty restores the default) | Rename the focused pane's shell |
+| `pane.rename_prompt` | none | Open the interactive rename editor for the focused pane |
 
 Examples:
 
@@ -59,7 +59,7 @@ A window is a multiplexer workspace inside the current launcher session and may 
 | `window.next` | none | Switch to the next window |
 | `window.previous` | none | Switch to the previous window |
 | `window.select` | `index`: `0` … `64` (required, zero-based) | Select a window by index |
-| `window.rename` | `name` (required; display is capped at five characters) | Rename the current multiplexer window label |
+| `window.rename` | `name` (required; display is capped at 14 characters) | Rename the current multiplexer window label |
 | `window.rename_prompt` | none | Open the interactive rename dialog |
 
 ### Sessions and workspaces
@@ -74,7 +74,8 @@ A window is a multiplexer workspace inside the current launcher session and may 
 | `session.previous` | none | Activate the previous session |
 | `session.close_current` | none | Close the current session and its windows/panes |
 | `session.activate_by_index` | `index`: `0` … `64` (required, zero-based) | Activate a session by drawer position |
-| `session.rename` | `name` (required; empty restores the default) | Rename the focused shell session |
+| `session.rename` | `name` (required; capped at 8 characters; empty clears it) | Rename the current session's drawer label |
+| `session.rename_at_index` | `index`: `0` … `64`, `name` (both required; name capped at 8 characters) | Rename a session by its zero-based drawer index |
 | `session.rename_prompt` | none | Open the interactive session rename dialog |
 | `workspace.picker` | none | Open the saved-workspace picker |
 | `workspace.save_prompt` | none | Prompt for a name and save the live topology |
@@ -104,6 +105,7 @@ Workspace names are at most 64 Unicode code points. They must begin with a lette
 | `terminal.jump_next_prompt` | none | Jump to the next OSC 133 prompt marker |
 | `terminal.action_sheet` | none | Open the curated terminal action sheet |
 | `terminal.state` | `resetPerformance` (optional, `false`) | Return terminal hierarchy/performance state; mainly useful to internal callers |
+| `extrakeys.edit` | none | Open the visual Extra Keys editor |
 | `clipboard.paste` | none | Paste clipboard contents into the focused shell |
 | `clipboard.copy_selected` | none | Copy the current terminal selection |
 
@@ -117,6 +119,8 @@ Selection actions are available only while text is selected. Prompt jumping need
 | `appearance.toggle_wallpaper` | none | Enable or disable terminal wallpaper mode |
 | `appearance.toggle_cursor_trail` | none | Enable or disable the animated cursor trail |
 | `appearance.glass_lab` | none | Enter dock and surface tuning mode |
+| `fonts.pick` | none | Open the terminal font picker |
+| `fonts.install` | `id` (required), `nerd_icons` (optional, `true`), `ligatures`: `never`, `cursor`, or `always` (optional, `cursor`), `weight`: `0` … `1000` (optional, `0`) | Download, verify and activate a catalog font family |
 
 ### Launcher and apps
 

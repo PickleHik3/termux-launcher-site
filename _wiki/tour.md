@@ -2,8 +2,6 @@
 title: Command Palette
 order: 15
 ---
-# Command Palette
-
 Every action the launcher knows - splits, sessions, windows, appearance, clipboard, even launching Android apps - lives in one searchable list. Keybinds, keyboard gestures and the palette all run the same actions, so anything you can bind to a key you can also just type.
 
 ```clip
@@ -23,7 +21,7 @@ Any of these:
 
 ## Using it
 
-* The palette opens with just a search box and a strip of six keycaps - your most used actions end up there over time.
+* The palette opens with just a search box and a strip of four keycaps - your most used actions end up there over time.
 * **Type to filter.** Matching is forgiving: titles, word starts, fuzzy letters, action ids ("split pane" finds *Split pane vertically*) and even keybinds (typing `ctrl+alt+v` finds whatever is bound to it) all work.
 * **Press ↓** with nothing typed to browse the whole catalogue, grouped by category.
 * **Enter** runs the focused action, **Esc** or a tap outside closes.

@@ -56,12 +56,12 @@
         <p>Termux Launcher is an Android home launcher powered by the amazing Termux terminal emulator — the closest you can get to controlling your Android from a terminal. It brings its own multiplexer, keyboard, command palette and app drawer, and your apps stay a keystroke away.</p>
         <div class="about-actions">
           <a class="about-primary" data-scrollto="tl-install" href="#setup">Get the APK</a>
-          <button class="about-secondary" data-article="install">Install guide</button>
+          <button class="about-secondary" data-article="overview">Install guide</button>
           <a class="about-github" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
         <div class="hero-terminal" aria-label="Example Termux Launcher command">
           <div class="hero-terminal-line"><span>HOME</span><code><b>❯ </b><span data-terminal-line></span><i aria-hidden="true"></i></code></div>
-          <div class="hero-meta"><span data-release-tag="PickleHik3/termux-launcher:main">v0.2.29</span><span>GPL-3.0-only</span><span>Android 8+</span><span>AGSL blur on 13+</span></div>
+          <div class="hero-meta"><span data-release-tag="PickleHik3/termux-launcher:main">latest release</span><span>GPL-3.0-only</span><span>Android 8+</span><span>AGSL blur on 13+</span></div>
         </div>
       </div>
 
@@ -98,7 +98,7 @@
           <article><em>06</em><p><strong>Quick reply</strong><span>Answer a notification without opening the app</span></p></article>
           <article><em>07</em><p><strong>App drawer + dock</strong><span>Pin what you use, search the rest, clones and work profiles included</span></p></article>
           <article><em>08</em><p><strong>Material themes</strong><span>Wallpaper colours across launcher surfaces and the shell</span></p></article>
-          <article><em>09</em><p><strong>Shizuku integration</strong><span>Optional - real CPU/RAM stats, process labels, power-button lock</span></p></article>
+          <article><em>09</em><p><strong>Shizuku integration</strong><span>Optional - detailed system stats, process labels, power-button lock</span></p></article>
           <article><em>10</em><p><strong>Local LLM backends</strong><span>Google LiteRT and Alibaba MNN, over an OpenAI/Ollama-compatible API</span></p></article>
         </div>
       </div>
@@ -114,7 +114,7 @@
           <div class="edition-package">com.termux</div>
           <h3>Termux edition</h3>
           <p>Official Termux package ecosystem and timely updates. All four Android ABIs. Cannot be installed alongside official Termux.</p>
-          <a href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:main">v0.2.29</span> ↗</a>
+          <a href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:main">latest</span> ↗</a>
         </article>
         <article class="edition-card">
           <div class="edition-package alt">com.termux.launcher.nix</div>
@@ -131,8 +131,8 @@
       </div>
       <div class="install-next-grid">
         <div><small>THEN, ONCE</small><p>Open it, let the bootstrap download finish and you land in the shell.<br>Settings <i>→</i> Launcher &amp; Apps <i>→</i> <strong>Set as default launcher</strong></p></div>
-        <div><small>OPTIONAL · QUICK START</small><p>One interactive script installs the shell from the demo videos — fish + a Material prompt that follows your wallpaper, eza, zoxide, yazi. Every replaced config gets a <b>.bak</b> first. On the Nix edition the same setup is <b>setup-toolkits</b>.</p><button data-article="shell-goodies">Shell setup script →</button> <button data-article="nix">Nix: setup-toolkits →</button></div>
-        <div><p>Companions, ABIs, signing keys and the full walkthrough live in the docs.</p><button data-article="install">Full install guide →</button></div>
+        <div><small>OPTIONAL · QUICK START</small><p>One interactive script installs the shell from the demo videos — fish + a Material prompt that follows your wallpaper, eza, zoxide, Neovim and optional showcase tools. Every replaced config gets a <b>.bak</b> first. On the Nix edition the same setup is <b>setup-toolkits</b>.</p><button data-article="shell-goodies">Shell setup script →</button> <button data-article="nix">Nix: setup-toolkits →</button></div>
+        <div><p>Companions, ABIs, signing keys and the full walkthrough live in the docs.</p><button data-article="overview">Full install guide →</button></div>
       </div>
     </section>
 
@@ -351,7 +351,7 @@
     api_base: http://127.0.0.1:54298/v1   # your endpoint
     api_key: YOUR_TOKEN                    # your bearer token
     models:
-      - name: gemma-4-e2b-it               # any installed model id</pre>
+      - name: gemma-4-e2b-it-litert-lm     # any installed model id</pre>
       </div>
       <div style="display:flex;gap:10px;margin-top:18px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.3);border-left:3px solid var(--orange);border-radius:8px;padding:12px 15px;font-family:var(--sans);font-size:13px;color:#e6c4b4;line-height:1.6;max-width:700px">
         <span style="font-family:var(--mono)">⚠</span><span>Chat and coding models work well over AIChat. The <b style="color:#f0d0c0">embedding models are untested</b> with AIChat's RAG features for now — treat them as experimental.</span>
@@ -395,7 +395,7 @@
           <div data-spy id="ep-intro" style="scroll-margin-top:64px">
             <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.06em;margin-bottom:6px">API REFERENCE</div>
             <h2 style="font-family:var(--mono);font-weight:700;font-size:30px;margin:0 0 14px;color:var(--cream)">Introduction</h2>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;max-width:640px;margin:0 0 8px">Use TAI's local API to run and interact with models. The same server also powers <span style="font-family:var(--mono);color:var(--cream)">launcherctl</span>. Every route requires the bearer token.</p>
+            <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;max-width:640px;margin:0 0 8px">Use TAI's local API to run and interact with models. The same server also powers <span style="font-family:var(--mono);color:var(--cream)">launcherctl</span>. API routes accept the bearer token or <span style="font-family:var(--mono);color:var(--cream)">X-Api-Key</span> when authentication is enabled; CORS preflight and the root health route are exempt.</p>
           </div>
 
           <div data-spy id="ep-base" style="scroll-margin-top:64px;margin-top:40px">
@@ -413,12 +413,14 @@ export OPENAI_API_KEY="$TOKEN"</pre>
 
           <div data-spy id="ep-ratelimits" style="scroll-margin-top:64px;margin-top:40px">
             <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Rate limits</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Every route is rate-limited per a rolling 60-second window, per route. Exceeding a limit returns <span style="font-family:var(--mono);color:var(--cream)">HTTP 429</span>. <b style="color:var(--cream)">No <span style="font-family:var(--mono)">Retry-After</span> or <span style="font-family:var(--mono)">RateLimit-*</span> headers are sent</b> — back off in your client (a short sleep and retry) when you see a 429.</p>
+            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Operational routes use per-route rolling 60-second windows. Exceeding a configured limit returns <span style="font-family:var(--mono);color:var(--cream)">HTTP 429</span> with <span style="font-family:var(--mono);color:var(--cream)">Retry-After</span>, <span style="font-family:var(--mono);color:var(--cream)">RateLimit-Limit</span>, <span style="font-family:var(--mono);color:var(--cream)">RateLimit-Remaining</span> and <span style="font-family:var(--mono);color:var(--cream)">RateLimit-Reset</span> headers. Wait for the advertised interval before retrying.</p>
             <div style="overflow-x:auto;max-width:660px"><table style="border-collapse:collapse;width:100%;font-family:var(--mono);font-size:13px"><tbody>
               <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Reads (status, runtime, models)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">120 / min</td></tr>
               <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Generation (chat, responses, completions, embeddings)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">60 / min</td></tr>
               <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">App launch</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">30 / min</td></tr>
               <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Model load / download / import</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">20 / min</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Model delete / cancel download</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">30 / min</td></tr>
+              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Unload / preflight / keep-warm / runtime cancel</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">60 / min</td></tr>
               <tr><td style="padding:8px 12px;color:var(--mute)">Token rotate</td><td style="padding:8px 12px;text-align:right;color:var(--cream)">5 / min</td></tr>
             </tbody></table></div>
           </div>

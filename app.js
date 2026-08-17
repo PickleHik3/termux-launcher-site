@@ -13,7 +13,7 @@ class TermuxLauncherSite {
     ];
     this.terminalLines = [
       "launcherctl launch signal",
-      "tai load gemma-4-e2b-it",
+      "tai load gemma-4-e2b-it-litert-lm",
       "kew --sixel",
       "tai status"
     ];
@@ -21,7 +21,8 @@ class TermuxLauncherSite {
       {
         name: "OpenAI-compatible",
         items: [
-          { method: "GET", path: "/v1/models", description: "List installed, loadable models and their capabilities. Multimodal LiteRT-LM models also appear as separate -vision and -audio model IDs.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  \"$OPENAI_BASE_URL/models\" | jq .", response: "{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"gemma-4-e2b-it-litert-lm\",\n      \"object\": \"model\",\n      \"owned_by\": \"termux-launcher\",\n      \"_backend\": \"litert-lm\",\n      \"_capabilities\": [\"text_chat\", \"tool_use\", \"vision\"]\n    }\n  ]\n}" },
+          { method: "GET", path: "/v1/models", description: "List installed, loadable models and their capabilities. Multimodal LiteRT-LM models also appear as separate -vision and -audio model IDs.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  \"$OPENAI_BASE_URL/models\" | jq .", response: "{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"gemma-4-e2b-it-litert-lm\",\n      \"object\": \"model\",\n      \"owned_by\": \"termux-launcher\",\n      \"_backend\": \"litert-lm\",\n      \"_capabilities\": [\"text_chat\", \"tool_use\", \"image_input\", \"audio_input\"]\n    }\n  ]\n}" },
+          { method: "GET", path: "/v1/models/{id}", description: "Return the OpenAI-compatible model object for one installed model ID." },
           { method: "POST", path: "/v1/chat/completions", description: "Chat Completions — text, image/audio input, and tools. Set \"stream\": true for token-by-token Server-Sent Events.", params: "Body: <b>model</b>, <b>messages</b>[], optional <b>stream</b>, <b>tools</b>, <b>temperature</b>, <b>max_tokens</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' \\\n  \"$OPENAI_BASE_URL/chat/completions\"", note: "60 requests / minute. Requires a chat model loaded (tai load MODEL_ID)." },
           { method: "POST", path: "/v1/responses", description: "OpenAI Responses API — the newer input/output shape used by Codex and recent clients. Accepts a string or structured input and supports tools and streaming.", params: "Body: <b>model</b>, <b>input</b> (string or content array), optional <b>stream</b>, <b>tools</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"input\":\"Say hi in one word.\"}' \\\n  \"$OPENAI_BASE_URL/responses\"", note: "60 requests / minute." },
           { method: "POST", path: "/v1/completions", description: "Legacy text completions (prompt in, text out). Prefer chat/completions or responses for new work.", note: "60 requests / minute." },
@@ -39,7 +40,12 @@ class TermuxLauncherSite {
           { method: "POST", path: "/api/generate", description: "Prompt-style generation, Ollama shape.", example: "curl \"$BASE/api/generate\" -d '{\n  \"model\": \"MODEL_ID\",\n  \"prompt\": \"Why is the sky blue?\"\n}'", note: "60 requests / minute." },
           { method: "POST", path: "/api/show", description: "Show one model's details and capabilities.", params: "Body: <b>model</b>." },
           { method: "POST", path: "/api/embed", description: "Create embeddings for text_embeddings models, Ollama shape.", params: "Body: <b>model</b>, <b>input</b> (string or string[]).", response: "{\n  \"model\": \"embeddinggemma-300m\",\n  \"embeddings\": [ [-0.0251, 0.0404, 0.0088, \"...768 floats\"] ]\n}", note: "60 requests / minute. Served on demand — no runtime/load needed." },
-          { method: "POST", path: "/api/pull", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" }
+          { method: "POST", path: "/api/embeddings", description: "Legacy Ollama embeddings alias.", params: "Body: <b>model</b>, <b>prompt</b>.", response: "{ \"embedding\": [0.012, -0.034, \"...floats\"] }" },
+          { method: "POST", path: "/api/pull", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
+          { method: "POST", path: "/api/create", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
+          { method: "POST", path: "/api/push", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
+          { method: "POST", path: "/api/copy", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
+          { method: "POST", path: "/api/delete", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" }
         ]
       },
       {
@@ -58,6 +64,8 @@ class TermuxLauncherSite {
           { method: "POST", path: "/v1/ai/models/download-catalog", description: "Download a built-in catalog entry by its catalog ID.", params: "Body: <b>modelId</b> (or <b>model</b>)." },
           { method: "POST", path: "/v1/ai/models/import", description: "Register a model from a Hugging Face repo URL or a local package path, with per-capability flags.", params: "Body: <b>model</b>/<b>modelId</b>, <b>url</b> or <b>path</b>, optional <b>displayName</b>, <b>roleHint</b>, <b>license</b>, <b>backend</b>, <b>autoLoad</b>." },
           { method: "POST", path: "/v1/ai/models/delete", description: "Delete a downloaded or imported model and its files.", params: "Body: <b>model</b> (or <b>modelId</b>).", note: "Destructive — removes model files from disk." },
+          { method: "POST", path: "/v1/ai/models/load", description: "Alias for /v1/ai/runtime/load: load a generation model into the registry slot.", params: "Body: <b>model</b> (or <b>modelId</b>), optional <b>accelerator</b>: auto | cpu | gpu." },
+          { method: "POST", path: "/v1/ai/models/unload", description: "Alias for /v1/ai/runtime/unload: unload the active generation model." },
           { method: "POST", path: "/v1/ai/models/downloads/cancel", description: "Cancel an in-progress model download.", params: "Body: <b>modelId</b> (or download <b>id</b>)." }
         ]
       },
@@ -571,6 +579,7 @@ class TermuxLauncherSite {
 
       const figure = document.createElement("figure");
       figure.className = "wiki-clip";
+      if (fields.shape === "wide") figure.classList.add("wiki-clip--wide");
       let frame;
 
       if (fields.todo) {

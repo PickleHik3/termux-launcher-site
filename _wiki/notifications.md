@@ -14,9 +14,9 @@ Nothing is pinned by default. You choose what qualifies by writing rules, and wi
 2. **Essential notification rules** - the rule list, and where you add one.
 
 ```clip
-todo: Screenshot - the Essential notification rules screen with the add-rule dialog open (package + keywords fields visible).
-title: rule editor
-caption: Adding a rule - app package, keywords, and the clear-on-dismiss checkbox.
+image: assets/screenshots/essential-notification-rule.webp
+title: Essential notification rule
+caption: Match an app package, keywords or both, with optional source-notification clearing.
 ```
 
 ## What a rule is

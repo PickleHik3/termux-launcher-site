@@ -2,8 +2,6 @@
 title: in-app keyboard
 order: 30
 ---
-# in-app keyboard
-
 The launcher ships a built-in port of [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) by Jules Aguillon - a brilliant little keyboard originally designed for programmers using Termux. Its trick: every key has up to eight extra characters on its corners, typed by swiping the key towards them. That puts Esc, Tab, Ctrl, arrows and all of shell punctuation on a normal-sized keyboard without cramming in extra rows. If you like it, check out (and support) the upstream project - it's also a standalone keyboard app on [Google Play](https://play.google.com/store/apps/details?id=juloo.keyboard2) and [F-Droid](https://f-droid.org/packages/juloo.keyboard2/).
 
 The port is baked into the app as a view - no separate keyboard to install, no Android input-method setup, and it doesn't touch your system keyboard for other apps. It shows when you tap the terminal; toggle it with the Keyboard button, the palette, or **Ctrl + Alt + K**. Prefer your regular keyboard? **Settings → Keyboard & input → On-screen keyboard** switches between *Built-in terminal keyboard*, *Android keyboard* and *None*.

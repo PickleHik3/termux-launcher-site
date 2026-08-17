@@ -2,8 +2,6 @@
 title: Home Launcher
 order: 10
 ---
-# Launcher Features
-
 * **Pin Apps to Dock:** Long press on the empty space in the dock to pin your favorite apps.
 * **App actions on hold:** long press any app icon - in the dock or in the filtered row - for its Android shortcuts plus *App info*, *Uninstall*, *Change app icon*, *Change dock icon* and *Unpin*.
 
@@ -65,18 +63,28 @@ Swipe down on the app icons row for a traditional app drawer. Three layouts, in 
 * Categories
 
 ```clip
-todo: Screen recording - swiping down on the app icons row into the drawer, then cycling the three layouts (vertical, paginated, categories).
-title: drawer layouts
-caption: The app drawer's three layouts.
+src: assets/showcase/features/app-drawer-layouts
+title: App drawer layouts
+caption: Switching among the vertical, horizontal-paged and category drawers on the current dev build.
+```
+
+In landscape, the dock becomes a vertical rail on the side selected in settings and the drawer uses a denser grid. Insets keep both surfaces clear of display cutouts and the system navigation bar.
+
+```clip
+src: assets/showcase/features/landscape-launcher
+title: Landscape launcher
+caption: The side dock rail, terminal and dense app drawer adapting to the wider display.
+shape: wide
+layout: full
 ```
 
 **About categories:** established launchers sort apps using server-side configs they tune on the fly. Termux Launcher has no such server, so you have 2 options under *Drawer layout > Sort apps into categories*;
 
+```clip
+image: assets/screenshots/drawer-category-sorting.webp
+title: Category sorting choices
+caption: Run Gemma on-device, or copy a prompt to an AI chat and paste the result back.
+```
+
 * **On this device** - on devices that can run the gemma4-e2b or e4b local LLMs (models downloaded via [TAI](#wiki/tai)), it uses them to sort your apps into categories.
 * **Copy prompt for ai chat** - if your device can't, or you just don't want a language model on your phone: copies a prompt with your installed app list to the clipboard. Paste it into any free AI chat online, then paste the response back into the app (or the persistent notification) for the same result.
-
-```clip
-todo: Screenshot - the "Sort apps into categories" choice in Settings with both options visible, or the paste-back step after an AI chat round trip.
-title: category sorting
-caption: Sorting the drawer into categories - on-device model or the copy-prompt round trip.
-```

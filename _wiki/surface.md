@@ -2,8 +2,6 @@
 title: Terminal
 order: 20
 ---
-# Terminal
-
 The terminal core is upstream Termux, with a lot built on top. This page covers what's different.
 
 ## Images, GIFs and graphics
@@ -70,22 +68,21 @@ The glass strip at the top is two tiers:
 And it stacks downward with gestures:
 
 * **Slide down on the status bar** to reveal the clock.
-* **Slide down further / swipe down again** to get to the **widgets page** - add your ordinary Android widgets here.
-* **Swipe up** closes each one in turn.
+* **Swipe up** closes the expanded clock again.
 
 ```clip
-image: assets/shots/clock.jpeg
-title: In-app clock
-caption: The clock revealed by sliding down on the status bar.
+image: assets/screenshots/clock-status-pane.webp
+title: Expanded clock and status pane
+caption: The current clock surface above the session, CPU, RAM and weather row.
 ```
+
+Everything is toggleable in **Settings → Terminal & Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. RAM works without elevated access; CPU uses a best-effort direct fallback, while detailed CPU/memory and process data need [Shizuku](#wiki/launcherctl). Weather needs location.
 
 ```clip
-todo: Screenshot - the widgets page below the clock, with a couple of Android widgets added.
-title: widgets page
-caption: The Android widgets page, one more slide down.
+src: assets/showcase/features/surface-editor
+title: Surface editor
+caption: Previewing clock styles and switching among the live dock, keyboard, status and terminal surfaces.
 ```
-
-Everything is toggleable in **Settings → Terminal & Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. CPU stats need [Shizuku](#wiki/launcherctl); weather needs location.
 
 ```clip
 name: statusbar-modes

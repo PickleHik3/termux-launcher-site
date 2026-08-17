@@ -2,9 +2,19 @@
 title: Extra Keys recipes
 order: 65
 ---
-# Termux Extra Keys and launcher actions
-
 Termux Extra Keys are the configurable rows in the terminal dock. They are separate from the full embedded keyboard defined by `~/.termux/keyboard/layout.xml`.
+
+## Visual editor
+
+Open **Settings → Keyboard → Edit extra keys**, or run the `extrakeys.edit` launcher action. The visual editor supports multiple pages, tap-to-edit keys, hold-and-drag reordering, macros, swipe-up actions and a glyph picker. It writes the same Extra Keys configuration described below, so you can start visually and keep hand-editing later.
+
+```clip
+src: assets/showcase/features/extra-keys-editor
+title: Extra keys editor
+caption: Editing tap and swipe-up actions, choosing a glyph, then adding another page and row.
+```
+
+## Edit the file directly
 
 Configure the rows in `~/.termux/termux.properties`, then apply changes with:
 

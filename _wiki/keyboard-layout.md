@@ -2,8 +2,6 @@
 title: Keyboard layout schema
 order: 60
 ---
-# In-app keyboard layout schema
-
 The embedded keyboard is a Termux-focused port of Unexpected Keyboard. A custom file at `~/.termux/keyboard/layout.xml` replaces the complete bundled layout, including every center key and swipe slot.
 
 Start by copying the exact layout shipped with your installed build:

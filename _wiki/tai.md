@@ -2,8 +2,6 @@
 title: LLM backends
 order: 35
 ---
-# On-device LLM backends
-
 The launcher can run language models entirely on your phone - no cloud, nothing leaves the device. Two runtimes are built in:
 
 |                             | LiteRT-LM (Google)             | MNN-LLM (Alibaba)                    |
