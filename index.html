@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#080b0d">
-<meta name="description" content="Termux Launcher turns Android into a fast, keyboard-first home screen where apps, media, messages, tmux, and your shell stay together at the prompt.">
+<meta name="description" content="Termux Launcher is an Android home launcher built on the Termux terminal emulator — the closest you can get to controlling your Android from a terminal.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Termux Launcher">
 <meta property="og:description" content="Your home screen is a terminal.">
@@ -52,8 +52,8 @@
     <section class="about-hero">
       <div class="about-hero-copy">
         <div class="about-kicker"><span></span>AN ANDROID HOME APP BUILT ON TERMUX</div>
-        <h1>Android that opens<br>to <span>a prompt.</span></h1>
-        <p>Press home and you land in a real terminal — one that brought its own multiplexer, keyboard, command palette and app drawer. Your apps are still a keystroke away. The shell just stopped being a separate app.</p>
+        <h1>Your home screen<br>is <span>a terminal.</span></h1>
+        <p>Termux Launcher is an Android home launcher powered by the amazing Termux terminal emulator — the closest you can get to controlling your Android from a terminal. It brings its own multiplexer, keyboard, command palette and app drawer, and your apps stay a keystroke away.</p>
         <div class="about-actions">
           <a class="about-primary" data-scrollto="tl-install" href="#setup">Get the APK</a>
           <button class="about-secondary" data-article="install">Install guide</button>
@@ -77,9 +77,9 @@
       <div>
         <h2>What it actually is</h2>
         <div class="about-explainer-grid">
-          <p>Termux Launcher starts from <strong>Termux</strong>, the Android terminal emulator, and makes it the thing your home button opens. The shell underneath is still upstream Termux — <code>pkg</code>, the repositories and everything you already know keep working.</p>
-          <p>Everything above the shell is its own now. Sessions, windows, panes and floating layouts are native to the app rather than tmux. Sixel and Kitty protocols render images and gifs inline. A command palette holds every action the launcher knows, so nothing needs memorising.</p>
-          <p>And it stays a launcher: an app dock and Android drawer, replies to notifications without leaving home, Material colours drawn from your wallpaper, optional Shizuku privileges, and local models served over an OpenAI-compatible API.</p>
+          <p>Termux Launcher starts from <strong>Termux</strong> and makes it the thing your home button opens. The shell underneath is still upstream Termux — <code>pkg</code>, the repos and everything you already know keep working.</p>
+          <p>On top of that: an in-app multiplexer — like tmux but with clear advantages, such as pinch zoom per pane — plus Sixel and Kitty graphics for images and gifs in the terminal, and a command palette that reaches every launcher feature, so nothing needs memorizing.</p>
+          <p>And it stays a launcher: app dock and drawer, quick replies to notifications without leaving the terminal, Material colors from your wallpaper, optional Shizuku privileges, and local models served over an OpenAI-compatible API.</p>
         </div>
       </div>
     </section>
@@ -89,16 +89,16 @@
       <div class="addition-columns">
         <div>
           <article><em>01</em><p><strong>Terminal</strong><span>Sixel + Kitty graphics, Kitty fonts and shaping, animated cursor, TUI-aware touch</span></p></article>
-          <article><em>02</em><p><strong>Native multiplexer</strong><span>Sessions, windows, panes, floating panes, saved layouts</span></p></article>
-          <article><em>03</em><p><strong>In-app status bar</strong><span>Sessions, load and battery without a plugin</span></p></article>
-          <article><em>04</em><p><strong>Command palette</strong><span>Every launcher action, searchable from the keyboard or a gesture</span></p></article>
-          <article><em>05</em><p><strong>In-app keyboard</strong><span>A port of Unexpected Keyboard, with custom layouts</span></p></article>
+          <article><em>02</em><p><strong>In-app multiplexer</strong><span>Sessions, windows, panes, floating panes, pinch zoom per pane</span></p></article>
+          <article><em>03</em><p><strong>In-app status bar</strong><span>Sessions, real CPU &amp; RAM, weather, a slide-down clock and widgets page</span></p></article>
+          <article><em>04</em><p><strong>Command palette</strong><span>Every launcher action - swipe up on the space bar and type</span></p></article>
+          <article><em>05</em><p><strong>In-app keyboard</strong><span>Julow's Unexpected Keyboard built in, custom layouts included</span></p></article>
         </div>
         <div>
           <article><em>06</em><p><strong>Quick reply</strong><span>Answer a notification without opening the app</span></p></article>
           <article><em>07</em><p><strong>App drawer + dock</strong><span>Pin what you use, search the rest, clones and work profiles included</span></p></article>
           <article><em>08</em><p><strong>Material themes</strong><span>Wallpaper colours across launcher surfaces and the shell</span></p></article>
-          <article><em>09</em><p><strong>Shizuku integration</strong><span>Optional privileged helpers, like btop sensors</span></p></article>
+          <article><em>09</em><p><strong>Shizuku integration</strong><span>Optional - real CPU/RAM stats, process labels, power-button lock</span></p></article>
           <article><em>10</em><p><strong>Local LLM backends</strong><span>Google LiteRT and Alibaba MNN, over an OpenAI/Ollama-compatible API</span></p></article>
         </div>
       </div>
@@ -107,7 +107,7 @@
     <section class="about-install" id="tl-install">
       <div class="about-rule">INSTALL<span></span>ONE APK</div>
       <h2>Pick an edition, then set it as home.</h2>
-      <p class="about-install-lead">You only need the Main APK to try it. Termux:API and Termux:Styling are optional — if you use either, take the one matching your edition; Android rejects mismatched signatures.</p>
+      <p class="about-install-lead">You only need the Main APK to try it — on first launch it downloads its bootstrap packages. Termux:API and Termux:Styling are optional; if you use either, take the one matching your edition, since Android rejects mismatched signatures. Styling is largely unnecessary anyway — fonts and colors are handled in-app.</p>
       <div class="edition-grid" id="setup-downloads">
         <article class="edition-card recommended">
           <span class="edition-badge">Recommended</span>
@@ -125,12 +125,12 @@
         <article class="edition-card">
           <div class="edition-package alt">io.vaj.tl</div>
           <h3>Demo edition</h3>
-          <p>A try-it-first demo that installs alongside official Termux. Its hand-maintained repository carries only a small slice of the package set, with fewer updates. arm64-v8a only — switch to the Termux edition for daily use.<br><a href="migrate-vaj.html" style="display:inline-block;margin-top:8px;color:var(--accent-b);font-family:var(--mono);font-size:12.5px;text-decoration:none">Deprecated · VAJ → Nix migration guide</a></p>
+          <p>Runs off a manually compiled package repo that is not updated anymore — at most consider it a demo of the launcher, not for daily use. Installs alongside official Termux. arm64-v8a only.<br><a href="migrate-vaj.html" style="display:inline-block;margin-top:8px;color:var(--accent-b);font-family:var(--mono);font-size:12.5px;text-decoration:none">Deprecated · VAJ → Nix migration guide</a></p>
           <a class="edition-alt-link" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:vaj" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:vaj">v0.2.29-vaj</span> ↗</a>
         </article>
       </div>
       <div class="install-next-grid">
-        <div><small>THEN, ONCE</small><p>Open it and wait for the <b>fish ❯</b> prompt.<br>Long press Terminal <i>→</i> More <i>→</i> Apps Bar <i>→</i> <strong>Set as home launcher</strong></p></div>
+        <div><small>THEN, ONCE</small><p>Open it, let the bootstrap download finish and you land in the shell.<br>Settings <i>→</i> Launcher &amp; Apps <i>→</i> <strong>Set as default launcher</strong></p></div>
         <div><small>OPTIONAL · QUICK START</small><p>One interactive script installs the shell from the demo videos — fish + a Material prompt that follows your wallpaper, eza, zoxide, yazi. Every replaced config gets a <b>.bak</b> first. On the Nix edition the same setup is <b>setup-toolkits</b>.</p><button data-article="shell-goodies">Shell setup script →</button> <button data-article="nix">Nix: setup-toolkits →</button></div>
         <div><p>Companions, ABIs, signing keys and the full walkthrough live in the docs.</p><button data-article="install">Full install guide →</button></div>
       </div>
