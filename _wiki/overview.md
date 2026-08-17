@@ -50,7 +50,22 @@ Notes:
 
 ## Set it up
 
-* **Shell configs** — to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, neovim and the showcase tools), run the [setup script](#wiki/shell-goodies) once the bootstrap finishes and you reach the shell. On the Nix edition, run `setup-toolkits` instead — see [Nix edition](#wiki/nix).
+**Shell configs** — to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, neovim and the showcase tools), run your edition's setup script once the bootstrap finishes and you reach the shell.
+
+For the Termux edition (`com.termux`) — details on [Shell goodies](#wiki/shell-goodies):
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples/setup-launcher
+sh setup-launcher
+```
+
+For the Nix edition (`com.termux.launcher.nix`) — run after initializing the launcher flake, see [Nix edition](#wiki/nix):
+
+```sh
+setup-toolkits
+```
+
+Every config either script replaces gets a timestamped `.bak` first.
 * **Make it your Home app** — **Settings → Launcher & Apps → Set as default launcher**. Android shows its Home-app picker; you can switch back anytime from Android Settings.
 * **Shared storage** — run `termux-setup-storage` to reach your internal shared storage from the shell.
 * **Use it as a terminal only** — if you don't want it as your home app, long press the terminal → More → Settings → Launcher & Apps → **Terminal Only**. It disables the launcher features; each can be turned back on individually.
