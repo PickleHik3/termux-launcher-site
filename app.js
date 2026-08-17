@@ -697,11 +697,23 @@ class TermuxLauncherSite {
 
     // A lone figure floats beside the text on wide screens instead of cutting
     // the page in half; merged rows and layout: full rows stay full-width.
+    // A float only looks right when text follows it before the next heading -
+    // otherwise the heading clears it and an empty band opens beside the card.
+    // So: float where text already follows; if the text sits above instead,
+    // move the row in front of it so it wraps; with no text on either side,
+    // center the card.
+    const wrapsText = (el) => !!el && /^(P|UL|OL)$/.test(el.tagName);
     article.querySelectorAll(".wiki-prose .wiki-clip-row").forEach((row) => {
-      row.classList.toggle(
-        "wiki-clip-row--aside",
-        row.children.length === 1 && !("full" in row.dataset)
-      );
+      row.classList.remove("wiki-clip-row--aside", "wiki-clip-row--center");
+      if (row.children.length !== 1 || "full" in row.dataset) return;
+      if (wrapsText(row.nextElementSibling)) {
+        row.classList.add("wiki-clip-row--aside");
+      } else if (wrapsText(row.previousElementSibling)) {
+        row.previousElementSibling.before(row);
+        row.classList.add("wiki-clip-row--aside");
+      } else {
+        row.classList.add("wiki-clip-row--center");
+      }
     });
   }
 

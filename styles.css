@@ -357,7 +357,9 @@ a:focus-visible {
 }
 
 /* A lone figure sits beside the prose instead of splitting it in half.
-   Merged rows (two+ clips) and layout: full rows keep the full width. */
+   Merged rows (two+ clips) and layout: full rows keep the full width.
+   Rows with no adjacent text to wrap get centered instead of floated,
+   so no empty band opens beside the card. */
 @media (min-width: 900px) {
   .wiki-prose .wiki-clip-row--aside {
     float: right;
@@ -375,6 +377,14 @@ a:focus-visible {
   .wiki-prose hr {
     clear: both;
   }
+}
+
+.wiki-clip-row--center {
+  justify-content: center;
+}
+
+.wiki-clip-row--center .wiki-clip {
+  max-width: 260px;
 }
 
 .wiki-prose::after {
