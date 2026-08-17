@@ -13,6 +13,12 @@ Nothing is pinned by default. You choose what qualifies by writing rules, and wi
 1. **Media and pinned notifications** - opens Android's notification-access screen. Without this grant the launcher cannot read notifications at all, so no rule can ever match. The same grant is what powers the media widget.
 2. **Essential notification rules** - the rule list, and where you add one.
 
+```clip
+todo: Screenshot - the Essential notification rules screen with the add-rule dialog open (package + keywords fields visible).
+title: rule editor
+caption: Adding a rule - app package, keywords, and the clear-on-dismiss checkbox.
+```
+
 ## What a rule is
 
 Two fields and a checkbox:

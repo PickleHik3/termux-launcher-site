@@ -27,7 +27,11 @@ It never silently overwrites anything - every file it replaces gets a timestampe
 
 Fonts are not part of the script: the in-app font picker (**Settings › Terminal › Font**) downloads and wires up curated families, Nerd Font builds included.
 
-> ![](/termux-launcher-site/assets/uploads/whatsapp-image-2026-08-02-at-12.40.06-am.jpeg)
+```clip
+image: assets/uploads/whatsapp-image-2026-08-02-at-12.40.06-am.jpeg
+title: setup-launcher result
+caption: The shell after setup-launcher - fish, wallpaper-Material prompt, eza listings.
+```
 
 ## What it installs
 

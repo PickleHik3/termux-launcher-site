@@ -26,6 +26,18 @@ A few things to know before downloading:
 * **Start small.** Downloads run from ~300 MB to several GB, and the RAM tier listed per model is real - a preflight check runs before every load and refuses if the device doesn't have the memory.
 * You can also **import your own**: a local `.litertlm` / `.task` / `.tflite` file, or a Hugging Face URL (for MNN, a link to the model's `config.json`). GGUF, safetensors and other raw-weight formats are not supported.
 
+```clip
+image: assets/screenshots/tai-import.jpeg
+title: Model import
+caption: The import window - paste a Hugging Face repo URL and TAI downloads, verifies and registers it.
+```
+
+```clip
+image: assets/screenshots/tai-endpoint.jpeg
+title: Endpoint & access
+caption: Endpoint & access - the base URL and bearer token any OpenAI/Ollama client needs.
+```
+
 ## Managing it from the shell
 
 The `tai` command manages the host - it's not a chat client:
@@ -63,5 +75,5 @@ Phones don't have RAM to waste, so the runtime is strict about it:
 * **One generation model is resident at a time.** Loading another (even on the other backend) unloads the current one first.
 * Multimodal LiteRT models are split into separate `-text` / `-vision` / `-audio` model ids by default, so asking for text doesn't pay the RAM cost of the vision and audio encoders. A "combined" mode is available in Advanced settings.
 * Embedding models don't occupy the slot at all - they're served on demand alongside the chat model.
-* Idle models unload themselves after 10 minutes by default (configurable); `tai keep-warm` extends that when you know you'll be back.
+* Idle models unload themselves after 10 minutes by default (configurable) - a countdown shows on the status bar while a model is resident; `tai keep-warm` extends it when you know you'll be back.
 * Models run in a separate process, so a native crash can't take the launcher (your home screen) down with it.

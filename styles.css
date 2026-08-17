@@ -301,6 +301,88 @@ a:focus-visible {
   line-height: 1.6;
 }
 
+/* Screenshots and gifs framed like clips, at their own aspect ratio. */
+.wiki-clip-frame--img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border: 0;
+  border-radius: inherit;
+}
+
+/* A capture that has not been recorded yet: a visible, honest gap. */
+.wiki-clip-frame--todo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  aspect-ratio: 9 / 19.5;
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: 22px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 14px,
+    rgba(255, 255, 255, 0.015) 14px 28px
+  ), var(--panelink);
+  box-shadow: none;
+  overflow: visible;
+}
+
+.wiki-clip-frame--todo-wide {
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+}
+
+.wiki-clip-todo-badge {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gline);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.wiki-clip-todo-note {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--dim);
+  text-align: center;
+}
+
+/* A lone figure sits beside the prose instead of splitting it in half.
+   Merged rows (two+ clips) and layout: full rows keep the full width. */
+@media (min-width: 900px) {
+  .wiki-prose .wiki-clip-row--aside {
+    float: right;
+    clear: right;
+    width: 240px;
+    margin: 6px 0 20px 28px;
+  }
+
+  .wiki-prose .wiki-clip-row--aside .wiki-clip {
+    max-width: 240px;
+  }
+
+  /* Headings, rules and code blocks start below any floated media. */
+  .wiki-prose h2,
+  .wiki-prose hr {
+    clear: both;
+  }
+}
+
+.wiki-prose::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .wiki-prose table {
   display: block;
   max-width: 660px;

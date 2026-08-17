@@ -7,9 +7,9 @@ class TermuxLauncherSite {
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
-      "overview", "install", "tour", "surface", "fonts", "notifications",
+      "overview", "install", "nix", "tour", "surface", "fonts", "notifications",
       "launcherctl", "shell", "tai", "shell-goodies", "tmux", "keybindings",
-      "action-reference", "keyboard-layout", "extra-keys"
+      "action-reference", "keyboard-layout", "extra-keys", "backup"
     ];
     this.terminalLines = [
       "launcherctl launch signal",
@@ -547,8 +547,12 @@ class TermuxLauncherSite {
   // <div class="language-clip highlighter-rouge">. Handle both.
   //
   // Fields: name (a clip in assets/showcase/features, framed as a product
-  // card and cropped to the bezel) or src (a path prefix for anything else,
-  // shown at its own aspect ratio), plus optional title, caption and formats.
+  // card and cropped to the bezel), src (a path prefix for any other
+  // recording, shown at its own aspect ratio), image (a single screenshot or
+  // gif file, shown framed), or todo (no asset captured yet - renders a
+  // labelled placeholder frame so the gap is visible instead of silent).
+  // Optional: title, caption, formats, shape: wide (landscape placeholder)
+  // and layout: full (opt out of the text-wrap aside for a lone figure).
   upgradeWikiClips(article) {
     const blocks = [
       ...article.querySelectorAll(".wiki-prose pre > code.language-clip"),
@@ -565,82 +569,108 @@ class TermuxLauncherSite {
         fields[line.slice(0, separator).trim().toLowerCase()] = line.slice(separator + 1).trim();
       });
 
-      const name = fields.name || "";
-      const source = fields.src || "";
-      let base;
-      let card;
-      if (name) {
-        if (!/^[a-z0-9][a-z0-9-]*$/.test(name)) return;
-        base = `assets/showcase/features/${name}`;
-        card = true;
-      } else if (source) {
-        if (!/^assets\/[a-z0-9][a-z0-9/-]*$/.test(source) || source.includes("..")) return;
-        base = source;
-        card = false;
-      } else {
-        return;
-      }
-
-      const label = fields.title || name || base.split("/").pop();
-      const formats = (fields.formats || "webm,mp4")
-        .split(",")
-        .map((format) => format.trim().toLowerCase())
-        .filter((format) => format === "webm" || format === "mp4");
-      if (!formats.length) return;
-
       const figure = document.createElement("figure");
       figure.className = "wiki-clip";
+      let frame;
 
-      const frame = document.createElement("div");
-      frame.className = card ? "wiki-clip-frame" : "wiki-clip-frame wiki-clip-frame--raw";
+      if (fields.todo) {
+        // Placeholder for a capture that has not been recorded yet.
+        frame = document.createElement("div");
+        frame.className = "wiki-clip-frame wiki-clip-frame--todo";
+        if (fields.shape === "wide") frame.classList.add("wiki-clip-frame--todo-wide");
+        const badge = document.createElement("span");
+        badge.className = "wiki-clip-todo-badge";
+        badge.textContent = fields.title || "capture needed";
+        const note = document.createElement("p");
+        note.className = "wiki-clip-todo-note";
+        note.textContent = fields.todo;
+        frame.appendChild(badge);
+        frame.appendChild(note);
+      } else if (fields.image) {
+        const path = fields.image;
+        if (!/^assets\/[a-z0-9][a-z0-9/._-]*$/i.test(path) || path.includes("..")) return;
+        frame = document.createElement("div");
+        frame.className = "wiki-clip-frame wiki-clip-frame--raw wiki-clip-frame--img";
+        const img = document.createElement("img");
+        img.src = path;
+        img.loading = "lazy";
+        img.alt = fields.title || fields.caption || "";
+        frame.appendChild(img);
+      } else {
+        const name = fields.name || "";
+        const source = fields.src || "";
+        let base;
+        let card;
+        if (name) {
+          if (!/^[a-z0-9][a-z0-9-]*$/.test(name)) return;
+          base = `assets/showcase/features/${name}`;
+          card = true;
+        } else if (source) {
+          if (!/^assets\/[a-z0-9][a-z0-9/-]*$/.test(source) || source.includes("..")) return;
+          base = source;
+          card = false;
+        } else {
+          return;
+        }
 
-      const video = document.createElement("video");
-      // These have to be real attributes, not just properties: WebKit only
-      // grants inline autoplay to an element carrying muted/playsinline in
-      // markup, and without the autoplay attribute nothing plays unless the
-      // observer below manages to call play(). Native controls are no use here
-      // because the card crop pushes the control bar outside the frame, so the
-      // fallback is the tap-to-play overlay added below.
-      video.setAttribute("muted", "");
-      video.setAttribute("autoplay", "");
-      video.setAttribute("loop", "");
-      video.setAttribute("playsinline", "");
-      video.muted = true;
-      video.loop = true;
-      video.playsInline = true;
-      video.preload = "metadata";
-      video.dataset.autoplay = "";
-      video.setAttribute("aria-label", `${label} screen recording`);
-      video.poster = `${base}-poster.webp`;
-      formats.forEach((format) => {
-        const element = document.createElement("source");
-        element.src = `${base}.${format}`;
-        element.type = format === "webm" ? "video/webm" : "video/mp4";
-        video.appendChild(element);
-      });
+        const label = fields.title || name || base.split("/").pop();
+        const formats = (fields.formats || "webm,mp4")
+          .split(",")
+          .map((format) => format.trim().toLowerCase())
+          .filter((format) => format === "webm" || format === "mp4");
+        if (!formats.length) return;
 
-      frame.appendChild(video);
+        frame = document.createElement("div");
+        frame.className = card ? "wiki-clip-frame" : "wiki-clip-frame wiki-clip-frame--raw";
 
-      // A GIF could not be refused; an autoplaying video can be, by a battery
-      // or data saver. This keeps the clip startable by hand in that case, and
-      // lets anyone pause one they have finished with.
-      const toggle = document.createElement("button");
-      toggle.type = "button";
-      toggle.className = "wiki-clip-toggle";
-      toggle.setAttribute("aria-label", `Play ${label}`);
-      toggle.addEventListener("click", () => {
-        if (video.paused) video.play().catch(() => {});
-        else video.pause();
-      });
-      video.addEventListener("play", () => {
-        frame.dataset.playing = "";
-        toggle.setAttribute("aria-label", `Pause ${label}`);
-      });
-      video.addEventListener("pause", () => {
-        delete frame.dataset.playing;
+        const video = document.createElement("video");
+        // These have to be real attributes, not just properties: WebKit only
+        // grants inline autoplay to an element carrying muted/playsinline in
+        // markup, and without the autoplay attribute nothing plays unless the
+        // observer below manages to call play(). Native controls are no use here
+        // because the card crop pushes the control bar outside the frame, so the
+        // fallback is the tap-to-play overlay added below.
+        video.setAttribute("muted", "");
+        video.setAttribute("autoplay", "");
+        video.setAttribute("loop", "");
+        video.setAttribute("playsinline", "");
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        video.dataset.autoplay = "";
+        video.setAttribute("aria-label", `${label} screen recording`);
+        video.poster = `${base}-poster.webp`;
+        formats.forEach((format) => {
+          const element = document.createElement("source");
+          element.src = `${base}.${format}`;
+          element.type = format === "webm" ? "video/webm" : "video/mp4";
+          video.appendChild(element);
+        });
+
+        frame.appendChild(video);
+
+        // A GIF could not be refused; an autoplaying video can be, by a battery
+        // or data saver. This keeps the clip startable by hand in that case, and
+        // lets anyone pause one they have finished with.
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "wiki-clip-toggle";
         toggle.setAttribute("aria-label", `Play ${label}`);
-      });
-      frame.appendChild(toggle);
+        toggle.addEventListener("click", () => {
+          if (video.paused) video.play().catch(() => {});
+          else video.pause();
+        });
+        video.addEventListener("play", () => {
+          frame.dataset.playing = "";
+          toggle.setAttribute("aria-label", `Pause ${label}`);
+        });
+        video.addEventListener("pause", () => {
+          delete frame.dataset.playing;
+          toggle.setAttribute("aria-label", `Play ${label}`);
+        });
+        frame.appendChild(toggle);
+      }
 
       figure.appendChild(frame);
 
@@ -653,14 +683,25 @@ class TermuxLauncherSite {
       // Consecutive clips sit side by side instead of stacking down the page.
       const previous = pre.previousElementSibling;
       if (previous?.classList.contains("wiki-clip-row")) {
+        if (fields.layout === "full") previous.dataset.full = "";
         previous.appendChild(figure);
         pre.remove();
         return;
       }
       const row = document.createElement("div");
       row.className = "wiki-clip-row";
+      if (fields.layout === "full") row.dataset.full = "";
       row.appendChild(figure);
       pre.replaceWith(row);
+    });
+
+    // A lone figure floats beside the text on wide screens instead of cutting
+    // the page in half; merged rows and layout: full rows stay full-width.
+    article.querySelectorAll(".wiki-prose .wiki-clip-row").forEach((row) => {
+      row.classList.toggle(
+        "wiki-clip-row--aside",
+        row.children.length === 1 && !("full" in row.dataset)
+      );
     });
   }
 

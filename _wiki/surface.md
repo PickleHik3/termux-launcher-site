@@ -64,10 +64,28 @@ If you want none of this, **Settings → Terminal IO → Single-pane compatibili
 
 The glass strip at the top is two tiers:
 
-* The **widget area**: a clock (six styles - flip, LCD, LED and more), up to three **pinned notifications** (which ones is up to you - see [Essential notifications](#wiki/notifications)), and a **media / now-playing widget** with controls. Swipe right on it to expand, left to collapse.
-* The **status row**: the session chip, window pills, then **CPU**, **RAM** and **weather** widgets - tap any of them for a detail card (per-core load and top processes, or the hourly/weekly forecast).
+* The **status row**: the session chip, window pills, then **CPU**, **RAM** and **weather** widgets - tap any of them for a drop-down detail card (per-core load and top processes, or the hourly/weekly forecast).
+* The **widget area**: a clock (six styles - flip, LCD, LED and more), up to three **pinned notifications** (which ones is up to you - see [Essential notifications](#wiki/notifications)), and a **media / now-playing widget** with controls when something plays in the background.
 
-Everything is toggleable in **Settings → Terminal Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. CPU stats need [Shizuku](#wiki/launcherctl); weather needs location.
+And it stacks downward with gestures:
+
+* **Slide down on the status bar** to reveal the clock.
+* **Slide down further / swipe down again** to get to the **widgets page** - add your ordinary Android widgets here.
+* **Swipe up** closes each one in turn.
+
+```clip
+image: assets/shots/clock.jpeg
+title: In-app clock
+caption: The clock revealed by sliding down on the status bar.
+```
+
+```clip
+todo: Screenshot - the widgets page below the clock, with a couple of Android widgets added.
+title: widgets page
+caption: The Android widgets page, one more slide down.
+```
+
+Everything is toggleable in **Settings → Terminal & Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. CPU stats need [Shizuku](#wiki/launcherctl); weather needs location.
 
 ```clip
 name: statusbar-modes

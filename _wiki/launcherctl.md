@@ -14,7 +14,12 @@ A home screen that is also a terminal ends up asking for a few permissions that 
 
 **Accessibility service.** Used for exactly one thing: locking the screen when you double-tap the alphabets row. The service is declared with screen-reading and gesture abilities *disabled* - it can only send the "lock screen" action. If you'd rather not enable an accessibility service, the Shizuku lock method does the same job.
 
-**Shizuku.** The privileged backend, if you have [Shizuku](https://shizuku.rikka.app/) or Sui set up. It powers the nicer screen-lock method (a real power-button keypress, so the system's screen-off animation plays and secure lock behaves normally), plus the CPU/RAM stats and top-process list in the status bar. Without it those features fall back to a shell method or simply hide.
+**Shizuku.** The privileged backend, if you have [Shizuku](https://shizuku.rikka.app/) or Sui set up. It powers the nicer screen-lock method (a real power-button keypress, so the system's screen-off animation plays and secure lock behaves normally), plus the CPU/RAM stats and top-process list in the status bar, and foreground-process labels on window pills. Without it those features fall back to a shell method or simply hide.
+
+Connecting it: install Shizuku and start its service (Wireless debugging or root, per Shizuku's own guide), then **Settings → Services & permissions → Shizuku → Connect** and approve the dialog. Two things worth knowing;
+
+* The privileged backend only initializes when you connect it from that settings page - the CPU card shows basic data until you do.
+* A Wireless-debugging start does not survive a reboot. Start Shizuku again, then revisit the settings page to reconnect; everything falls back to unprivileged data in the meantime.
 
 **Storage / All files access.** Only for the classic Termux `~/storage` symlinks (`termux-setup-storage`), so the shell can reach your shared storage. The launcher itself doesn't touch your files.
 

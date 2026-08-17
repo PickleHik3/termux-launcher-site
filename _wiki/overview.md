@@ -2,65 +2,70 @@
 title: Quick Start
 order: 5
 ---
-Termux Launcher is an Android home app built around the solid foundation of Termux - Android terminal emulator.
+Termux Launcher is a terminal emulator Android home launcher, powered by the amazing Termux terminal emulator. It is designed to give you the closest experience to controlling your Android using a terminal.
 
-Through its lifetime, termux launcher has diverged pretty far away from upstream termux. The core shell components are still based on upstream, but termux-launcher has many things added on top that can be considered its own now.
+The shell underneath is still upstream Termux — `pkg`, the repositories and everything you already know keep working. Everything above the shell has diverged far enough to be its own thing now. If you're familiar with Termux already, the feature list below plus the linked pages is all you need.
 
 ```clip
 src: assets/showcase/raw/hero
 title: Home screen tour
 formats: mp4
-caption: The home screen - tmux status strip, live terminal, app dock, A-Z row and the built-in keyboard.
+caption: The home screen - status strip, live terminal, app dock, A-Z row and the built-in keyboard.
 ```
 
-## Features
+## What's added on top of Termux
 
-These are in addition to official termux;
+* **Terminal features** — Sixel + Kitty graphics protocols (images and gifs right in the terminal), kitty font handling and shaping, kitty keyboard protocol, styled underlines, animated cursor, TUI-aware touch. Details on [Terminal](#wiki/surface).
+* **In-app multiplexer** — like tmux but with some clear advantages, such as pinch zoom per pane. Sessions, windows, panes, floating panes and a scratchpad. `Ctrl+Alt` is the default chord — hold it and the bound keys light up with a legend. See [Terminal](#wiki/surface) and [Keybindings](#wiki/keybindings).
+* **Command palette** — swipe up on the space bar or `Ctrl+Alt+Shift+P`. Launch Android apps and reach every launcher feature from one search box. See [Command Palette](#wiki/tour).
+* **In-app keyboard** — a built-in port of [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) by Julow. See [in-app keyboard](#wiki/shell).
+* **Status bar** — session chip, window pills, real CPU & RAM stats (needs [Shizuku](#wiki/launcherctl)) and weather; tap a widget for a drop-down with more info. Slide down on it for a clock, slide further for the Android widgets page, swipe up to close each. [Essential notification](#wiki/notifications) rules pin the notifications you wait for above the prompt.
+* **Quick reply** — answer a pinned app's notification without leaving the terminal. See [Home Launcher](#wiki/install).
+* **App drawer + dock** — A-Z row launching, a full drawer with three layouts, folders, custom icons. See [Home Launcher](#wiki/install).
+* **Material color themes** — the whole UI, terminal and keyboard follow your wallpaper.
+* **Local LLM backends** — Google LiteRT and Alibaba MNN, served over OpenAI/Ollama-compatible endpoints. See [LLM backends](#wiki/tai).
 
-1. Terminal Features
+## Editions
 
-   * Sixel and Kitty protocols for images and gif support.
-   * Kitty's fonts, symbols and shaping.
-   * Animated cursor.
-   * touch handling is different from official termux, while inside TUI's two fingers to scroll and otherwise - touches registered as mouse clicks.
-2. App native multiplexer (sessions, windows, panes and layouts, including floating panes).
-3. In-app status bar.
-4. Command Palette.
-5. In-app keyboard port of [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) by Julow.
-6. Quick respond to notifications.
-7. Android app drawer.
-8. Material color themes.
-9. Shizuku integration.
-10. local LLM backends for Google LiteRT and Alibaba MNN.
+There are 2 editions (and a legacy one deprecated) of Termux Launcher available;
 
-## Download & Installation
-
-| Editions                         | Android package | Notes                                                                                                               |
+| Editions | Android package | Notes |
 | -------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. timely package updates but **cannot be installed along side official Termux.**   |
-| **Nix edition** | `com.termux.launcher.nix` | The full `nixpkgs` collection with declarative configs and rollbacks, and it **can be installed alongside official Termux.** Releases tagged `vX.Y.Z-nix` (marked pre-release). *arm64-v8a and x86_64.* |
-| **Demo edition** [Deprecated](migrate-vaj.html) | `io.vaj.tl` | A try-it-first demo that **can be installed alongside official Termux.** Final feature release `v0.2.34-vaj`; [migrate to the Nix edition](migrate-vaj.html). *Only available for arm64-v8a.* |
+| **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. Timely package updates but **cannot be installed alongside official Termux.**   |
+| **Nix edition** | `com.termux.launcher.nix` | The full `nixpkgs` collection with declarative configs and rollbacks, and it **can be installed alongside official Termux.** Releases tagged `vX.Y.Z-nix` (marked pre-release). *arm64-v8a and x86_64.* See [Nix edition](#wiki/nix). |
+| **Demo edition** [Deprecated](migrate-vaj.html) | `io.vaj.tl` | Its manually compiled package repo is not updated anymore — at most consider it a demo, not recommended for daily use. [Migrate to the Nix edition](migrate-vaj.html). *arm64-v8a only.* |
 
-1. Download the Main APK from the project’s [Releases](https://github.com/PickleHik3/termux-launcher/releases).
-2. Matching Termux:API or Termux:Styling from;
+## Download & installation
 
-   * Termux edition:  [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1)
-   * Nix edition: [TLNix:API](https://github.com/PickleHik3/termux-api/releases/tag/nix-v0.53.1) & [TLNix:Styling](https://github.com/PickleHik3/termux-styling/releases/tag/nix-v0.32.2)
-   * Demo edition: [termux-api](https://github.com/PickleHik3/termux-api/releases/tag/v0.53.0-vaj) & [termux-styling](https://github.com/PickleHik3/termux-styling/releases/tag/v0.32.1-vaj)
+1. Download the Main APK from the project's [Releases](https://github.com/PickleHik3/termux-launcher/releases).
+2. Optionally, the matching Termux:API or Termux:Styling (styling is largely unnecessary — fonts and colors are handled in-app):
 
-Do not mix official add-ons, old forks, or APKs signed with a different key. Android will reject shared-UID/signature mismatches.
+   * Termux edition: [Termux:API](https://github.com/PickleHik3/termux-api/releases) & [Termux:Styling](https://github.com/PickleHik3/termux-styling/releases) (plain tags)
+   * Nix edition: [TLNix:API](https://github.com/PickleHik3/termux-api/releases) & [TLNix:Styling](https://github.com/PickleHik3/termux-styling/releases) (`nix-v*` tags)
 
-You only need the Main APK to try the launcher.
+Notes:
+
+* Ensure you're downloading the same set of items — mixing official add-ons, old forks, or APKs signed with a different key breaks the install; Android rejects shared-UID/signature mismatches.
+* On first launch the app downloads bootstrap packages. You only need the Main APK to try the launcher.
+
+## Set it up
+
+* **Shell configs** — to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, neovim and the showcase tools), run the [setup script](#wiki/shell-goodies) once the bootstrap finishes and you reach the shell. On the Nix edition, run `setup-toolkits` instead — see [Nix edition](#wiki/nix).
+* **Make it your Home app** — **Settings → Launcher & Apps → Set as default launcher**. Android shows its Home-app picker; you can switch back anytime from Android Settings.
+* **Shared storage** — run `termux-setup-storage` to reach your internal shared storage from the shell.
+* **Use it as a terminal only** — if you don't want it as your home app, long press the terminal → More → Settings → Launcher & Apps → **Terminal Only**. It disables the launcher features; each can be turned back on individually.
 
 ## Docs
 
-* [Home Launcher](#wiki/install) - dock, quick reply, app launching gestures, lock screen.
+* [Home Launcher](#wiki/install) - dock, app drawer, quick reply, app launching gestures, lock screen.
 * [Command Palette](#wiki/tour) - every launcher action, searchable from the keyboard or a gesture.
 * [Terminal](#wiki/surface) - graphics protocols, the multiplexer, floating panes, workspaces and the status bar.
 * [Terminal fonts](#wiki/fonts) - the in-app picker, `fonts.conf`, gap-free box drawing and symbol maps.
 * [Essential notifications](#wiki/notifications) - rules that pin the notifications you wait for above the prompt.
-* [Permissions](#wiki/launcherctl) - what the app asks for and why.
+* [Permissions](#wiki/launcherctl) - what the app asks for and why, including Shizuku.
 * [in-app keyboard](#wiki/shell) - the built-in Unexpected Keyboard port and custom layouts.
+* [Nix edition](#wiki/nix) - first setup, `setup-toolkits` and daily Nix commands.
 * [LLM backends](#wiki/tai) - local models over an OpenAI/Ollama-compatible API.
 * [Shell goodies](#wiki/shell-goodies) - the optional setup script and the CLI tools it installs.
 * [configs](#wiki/tmux) - keybindings, fonts and properties.
+* [Backup & recovery](#wiki/backup) - updating safely, what to back up, common fixes.

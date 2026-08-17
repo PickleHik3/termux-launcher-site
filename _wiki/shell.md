@@ -8,7 +8,11 @@ The launcher ships a built-in port of [Unexpected Keyboard](https://github.com/J
 
 The port is baked into the app as a view - no separate keyboard to install, no Android input-method setup, and it doesn't touch your system keyboard for other apps. It shows when you tap the terminal; toggle it with the Keyboard button, the palette, or **Ctrl + Alt + K**. Prefer your regular keyboard? **Settings → Keyboard & input → On-screen keyboard** switches between *Built-in terminal keyboard*, *Android keyboard* and *None*.
 
-> ![](/termux-launcher-site/assets/uploads/whatsapp-image-2026-08-02-at-12.36.58-am.jpeg)
+```clip
+image: assets/uploads/whatsapp-image-2026-08-02-at-12.36.58-am.jpeg
+title: Built-in keyboard
+caption: The built-in keyboard - corner symbols on every key, real Ctrl and Alt.
+```
 
 ## What it can do
 
@@ -30,7 +34,11 @@ caption: Holding Ctrl + Alt lights the bound keys and prints the chord map above
 
 The keyboard follows your wallpaper's Material colors, and everything about it is adjustable: height, key spacing, corner radius, keys opacity, glass blur, a custom label font, and full color-scheme editing with live preview (including importing Base16/Base24 themes). Start from **Settings → Keyboard & input → Customize keyboard surface** - it drops you into the surface editor on your real home screen so you tweak against the real background.
 
-> ![](/termux-launcher-site/assets/uploads/whatsapp-image-2026-08-02-at-12.36.17-am-1-.jpeg)
+```clip
+image: assets/uploads/whatsapp-image-2026-08-02-at-12.36.17-am-1-.jpeg
+title: Keyboard surface editor
+caption: Tuning the keyboard's glass, colors and spacing live on the real home screen.
+```
 
 ## Custom layouts
 
