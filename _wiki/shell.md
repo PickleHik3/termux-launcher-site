@@ -32,6 +32,10 @@ caption: Holding Ctrl + Alt lights the bound keys and prints the chord map above
 
 The keyboard follows your wallpaper's Material colors, and everything about it is adjustable: height, key spacing, corner radius, keys opacity, glass blur, a custom label font, and full color-scheme editing with live preview (including importing Base16/Base24 themes). Start from **Settings → Keyboard & input → Customize keyboard surface** - it drops you into the surface editor on your real home screen so you tweak against the real background.
 
+## Custom fonts
+
+The keyboard's key labels can use any font you like. **Settings → Keyboard & input → Typeface** lets you pick any `.ttf` font file - the keys redraw with it immediately. This is separate from the terminal's fonts (those live in **Settings → Appearance → Terminal fonts**, see [Terminal fonts](#wiki/fonts)), so the keyboard and the terminal can each have their own.
+
 ```clip
 image: assets/uploads/whatsapp-image-2026-08-02-at-12.36.17-am-1-.jpeg
 title: Keyboard surface editor

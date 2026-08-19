@@ -50,6 +50,8 @@ Notes:
 
 ## Set it up
 
+**Install a nerd font** — go to **Settings → Appearance → Terminal fonts** and install one from the in-app picker (the recommended setup is one tap). Prompts, TUIs and the setup script below all use nerd-font icons, so do this first. Details on [Terminal fonts](#wiki/fonts).
+
 **Shell configs** — to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, neovim and the showcase tools), run your edition's setup script once the bootstrap finishes and you reach the shell.
 
 For the Termux edition (`com.termux`) — details on [Shell goodies](#wiki/shell-goodies):
