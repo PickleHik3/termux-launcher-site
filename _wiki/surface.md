@@ -78,6 +78,8 @@ caption: The current clock surface above the session, CPU, RAM and weather row.
 
 Everything is toggleable in **Settings → Terminal & Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. RAM works without elevated access; CPU uses a best-effort direct fallback, while detailed CPU/memory and process data need [Shizuku](#wiki/launcherctl). Weather needs location.
 
+The same screen has an experimental **Lazy Mode** for idle battery: the clock stops animating and the CPU/RAM readings sample far less often, which takes the launcher's idle CPU use down to a fraction of what it was. The detail cards still get every sample when open. If testing goes well it will become the default.
+
 ```clip
 src: assets/showcase/features/surface-editor
 title: Surface editor

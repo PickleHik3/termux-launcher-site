@@ -17,14 +17,14 @@ Captured from the current Android dev build on 2026-08-17. Public pages contain 
 | Terminal fonts | `assets/screenshots/box-drawing-comparison.webp` | Compares synthesized box drawing with font-rendered seams. |
 | Terminal fonts | `assets/screenshots/narrow-symbols-comparison.webp` | Compares default symbol expansion with a one-cell rule. |
 
-## Capture after the feature is implemented
+## Ready to capture (feature shipped in v0.2.35)
 
-| Target page | Future asset | Blocker |
+| Target page | Future asset | Status |
 | --- | --- | --- |
-| Terminal | Android-widget pane screenshot | `origin/dev` exposes a Widget pane setting, but the current terminal layout hosts the clock only. The layout source explicitly describes a later widget editor. |
-| Terminal | Android-widget add/move/resize recording | There is no implemented AppWidget picker, grid/page editor, resize flow or long-press widget menu to record yet. Do not substitute the clock/surface editor as proof of this future workflow. |
+| Terminal | Android-widget pane screenshot | UNBLOCKED — the widget pane shipped in v0.2.35 (AppWidget host, pages, bind/configure flows). |
+| Terminal | Android-widget add/move/resize recording | UNBLOCKED — long-press hand-off, snap ghost, per-axis resize handles and the page menu all shipped in v0.2.35. |
 
-When the feature lands, capture a populated page with at least two ordinary Android widgets and a short edit-mode recording that adds, moves, resizes and moves a widget between pages. Provide MP4, WebM and a WebP poster for the recording.
+Capture a populated page with at least two ordinary Android widgets and a short edit-mode recording that adds, moves, resizes and moves a widget between pages. Provide MP4, WebM and a WebP poster for the recording.
 
 ## Capture rules
 
