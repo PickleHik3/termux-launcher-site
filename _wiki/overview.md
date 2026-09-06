@@ -52,13 +52,13 @@ Notes:
 
 **Install a nerd font** — go to **Settings → Appearance → Terminal fonts** and install one from the in-app picker (the recommended setup is one tap). Prompts, TUIs and the setup script below all use nerd-font icons, so do this first. Details on [Terminal fonts](#wiki/fonts).
 
-**Shell configs** — to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, neovim and the showcase tools), run your edition's setup script once the bootstrap finishes and you reach the shell.
+**Shell configs** — to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, the Neovim colour scheme and the showcase tools), use the store that ships inside the launcher once the bootstrap finishes and you reach the shell.
 
-For the Termux edition (`com.termux`) — details on [Shell goodies](#wiki/shell-goodies):
+For the Termux and VAJ editions — details on [Shell goodies](#wiki/shell-goodies):
 
 ```sh
-curl -fsSLO https://raw.githubusercontent.com/PickleHik3/termux-launcher/main/docs/en/examples/setup-launcher
-sh setup-launcher
+tlstore shell      # the fish shell setup in one go
+tlstore install    # pick anything else, Claude Code included
 ```
 
 For the Nix edition (`com.termux.launcher.nix`) — run after initializing the launcher flake, see [Nix edition](#wiki/nix):
@@ -67,7 +67,7 @@ For the Nix edition (`com.termux.launcher.nix`) — run after initializing the l
 setup-toolkits
 ```
 
-Every config either script replaces gets a timestamped `.bak` first.
+A config you already have is never replaced without showing you the change first, and every replaced file gets a timestamped `.bak`.
 * **Make it your Home app** — **Settings → Launcher & Apps → Set as default launcher**. Android shows its Home-app picker; you can switch back anytime from Android Settings.
 * **Shared storage** — run `termux-setup-storage` to reach your internal shared storage from the shell.
 * **Use it as a terminal only** — if you don't want it as your home app, long press the terminal → More → Settings → Launcher & Apps → **Terminal Only**. It disables the launcher features; each can be turned back on individually.
