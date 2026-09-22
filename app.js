@@ -110,8 +110,27 @@ class TermuxLauncherSite {
 
     this.statTimer = window.setInterval(() => this.tickStats(), 2200);
     this.wireShowcaseClips();
+    this.wireHeroModes();
     const initial = this.parseHash() || { view: "setup", subview: null };
     this.setView(initial.view, initial.subview, false);
+  }
+
+  // Keep the hero mode selector's ARIA state in sync with the CSS-only radio state.
+  wireHeroModes() {
+    const radios = [...document.querySelectorAll("#tl [name='hero-mode']")];
+    const labels = [...document.querySelectorAll("#tl .new-hero-modes label")];
+    if (!radios.length || !labels.length) return;
+
+    const update = () => {
+      labels.forEach((label) => {
+        const input = document.getElementById(label.getAttribute("for"));
+        const selected = input?.checked ?? false;
+        label.setAttribute("aria-selected", String(selected));
+      });
+    };
+
+    radios.forEach((radio) => radio.addEventListener("change", update));
+    update();
   }
 
   // Wiki clips carry preload="none" and only play while on screen, so opening

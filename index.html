@@ -13,13 +13,13 @@
 <meta property="og:url" content="https://picklehik3.github.io/termux-launcher-site/">
 <meta property="og:image" content="https://picklehik3.github.io/termux-launcher-site/assets/social-preview-command.webp">
 <meta name="twitter:card" content="summary_large_image">
-<title>Termux Launcher — Your home screen is a terminal</title>
+<title>Termux Launcher — One device. Three modes.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
 <link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
-<link rel="stylesheet" href="styles.css?v=20260817-3">
+<link rel="stylesheet" href="styles.css?v=20260922-1">
 </head>
 <body>
 <div id="site-shell">
@@ -49,28 +49,34 @@
   <!-- ====================  1:SETUP  ===================== -->
   <!-- ==================================================== -->
   <section class="about-view" data-view="setup" data-screen-label="1 About" style="display:block">
-    <section class="about-hero">
-      <div class="about-hero-copy">
-        <div class="about-kicker"><span></span>AN ANDROID HOME APP BUILT ON TERMUX</div>
-        <h1>Your home screen<br>is <span>a terminal.</span></h1>
-        <p>Termux Launcher is an Android home launcher powered by the amazing Termux terminal emulator — the closest you can get to controlling your Android from a terminal. It brings its own multiplexer, keyboard, command palette and app drawer, and your apps stay a keystroke away.</p>
-        <div class="about-actions">
-          <a class="about-primary" data-scrollto="tl-install" href="#setup">Get the APK</a>
-          <button class="about-secondary" data-article="overview">Install guide</button>
-          <a class="about-github" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-        <div class="hero-terminal" aria-label="Example Termux Launcher command">
-          <div class="hero-terminal-line"><span>HOME</span><code><b>❯ </b><span data-terminal-line></span><i aria-hidden="true"></i></code></div>
-          <div class="hero-meta"><span data-release-tag="PickleHik3/termux-launcher:main">latest release</span><span>GPL-3.0-only</span><span>Android 8+</span><span>AGSL blur on 13+</span></div>
+    <section class="new-hero" aria-label="Termux Launcher hero">
+      <div class="new-hero-content">
+        <span class="new-hero-eyebrow">Termux Launcher</span>
+        <h1>One device.<br>Three modes.</h1>
+        <p>Your home screen, terminal, and graphical apps run inside one launcher environment. Switch modes without leaving the workspace.</p>
+        <div class="new-hero-actions">
+          <a class="new-hero-cta" data-scrollto="tl-install" href="#setup">Get the APK</a>
+          <a class="new-hero-secondary" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
       </div>
 
-      <figure class="about-tour" id="tour">
-        <div class="about-phone">
-          <video src="assets/screen-20260803-124853-web.mp4" poster="assets/screen-recording-poster.jpg" controls loop muted autoplay playsinline preload="metadata" width="720" height="1608" aria-label="Termux Launcher workflow screen recording"></video>
+      <div class="new-hero-product">
+        <div class="new-hero-viewport" aria-label="Product preview showing Launcher, Terminal, and Desktop modes">
+          <input type="radio" name="hero-mode" id="hero-mode-launcher" checked aria-label="Launcher mode">
+          <input type="radio" name="hero-mode" id="hero-mode-terminal" aria-label="Terminal mode">
+          <input type="radio" name="hero-mode" id="hero-mode-desktop" aria-label="Desktop mode">
+          <div class="new-hero-media" role="img">
+            <img src="assets/hero/launcher-mode.webp" alt="Launcher mode" class="hero-mode-img hero-mode-img--launcher" loading="eager">
+            <img src="assets/hero/terminal-mode.webp" alt="Terminal mode" class="hero-mode-img hero-mode-img--terminal" loading="lazy">
+            <img src="assets/hero/desktop-mode.webp" alt="Desktop mode showing a graphical application in landscape orientation" class="hero-mode-img hero-mode-img--desktop" loading="lazy">
+          </div>
+          <div class="new-hero-modes" role="tablist" aria-label="Product mode selector">
+            <label for="hero-mode-launcher" role="tab" aria-selected="true"><span>01</span> Launcher</label>
+            <label for="hero-mode-terminal" role="tab" aria-selected="false"><span>02</span> Terminal</label>
+            <label for="hero-mode-desktop" role="tab" aria-selected="false"><span>03</span> Desktop</label>
+          </div>
         </div>
-        <figcaption>74s, unedited, no sound — app search, panes, media at the prompt, a reply sent without opening the app.</figcaption>
-      </figure>
+      </div>
     </section>
 
     <section class="about-explainer">
@@ -471,6 +477,6 @@ export OPENAI_API_KEY="$TOKEN"</pre>
 
 </div>
 </div>
-<script src="app.js?v=20260817-3" defer></script>
+<script src="app.js?v=20260922-1" defer></script>
 </body>
 </html>

@@ -4,3 +4,8 @@ _site/
 Gemfile.lock
 oauth-worker/.wrangler/
 oauth-worker/node_modules/
+
+termux-launcher-website-references/
+.agents/
+vendor/
+.tmp-hero-review/
