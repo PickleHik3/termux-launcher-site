@@ -252,31 +252,32 @@
     <div class="wiki-layout">
       {% assign wiki_articles = site.wiki | sort: "order" %}
 
-      <aside class="wiki-sidebar">
+      <aside class="wiki-sidebar glass">
         <div class="wiki-sidebar-title">Documentation</div>
         <nav class="wiki-article-nav">
           {% for article in wiki_articles %}
             {% assign article_filename = article.path | split: "/" | last %}
             {% assign article_key = article_filename | split: "." | first %}
-            <button data-article="{{ article_key | escape }}" style="text-align:left;font-family:var(--sans);font-size:14px;color:var(--mute);background:transparent;border:none;border-left:2px solid transparent;border-radius:0 7px 7px 0;padding:8px 13px;cursor:pointer">{{ article.title | escape }}</button>
+            <button class="wiki-article-button" data-article="{{ article_key | escape }}">{{ article.title | escape }}</button>
           {% endfor %}
+          <i class="wiki-sidebar-indicator" aria-hidden="true"></i>
         </nav>
         <div class="wiki-sidebar-links">
-          <a data-nav="ai" href="#ai">Termux AI ↗</a>
-          <a href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub repo ↗</a>
+          <a class="link-slide" data-nav="ai" href="#ai">Termux AI ↗</a>
+          <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub repo ↗</a>
         </div>
       </aside>
 
-      <main data-wiki-content style="min-width:0">
+      <main data-wiki-content>
         {% if wiki_articles.size > 0 %}
           {% for article in wiki_articles %}
             {% assign article_filename = article.path | split: "/" | last %}
             {% assign article_key = article_filename | split: "." | first %}
             <article data-article-body="{{ article_key | escape }}" style="display:{% if forloop.first %}block{% else %}none{% endif %}">
-              <div class="wiki-kicker">DOCUMENTATION</div>
-              <h1 data-spy id="w-{{ article_key | escape }}">{{ article.title | escape }}</h1>
-              <div class="wiki-article-meta"><span data-article-meta></span><i></i></div>
-              <div class="wiki-prose">{{ article.content | markdownify }}</div>
+              <div class="wiki-kicker" data-reveal>DOCUMENTATION</div>
+              <h1 data-spy id="w-{{ article_key | escape }}" data-reveal>{{ article.title | escape }}</h1>
+              <div class="wiki-article-meta" data-reveal><span data-article-meta></span><i></i></div>
+              <div class="wiki-prose" data-reveal>{{ article.content | markdownify }}</div>
             </article>
           {% endfor %}
         {% else %}
@@ -288,9 +289,10 @@
         {% endif %}
       </main>
 
-      <aside class="wiki-toc-col">
+      <aside class="wiki-toc-col glass">
         <div class="wiki-toc-title">On this page</div>
         <nav class="wiki-inline-toc" data-wiki-toc aria-label="On this page"></nav>
+        <i class="wiki-toc-indicator" aria-hidden="true"></i>
       </aside>
 
     </div>
@@ -301,144 +303,144 @@
   <!-- ==================================================== -->
   <section data-view="ai" data-screen-label="3 Termux AI" style="display:none">
     <!-- product hero -->
-    <div style="max-width:1000px;margin:0 auto;padding:64px 24px 20px">
-      <div style="font-family:var(--mono);font-size:13px;color:var(--gold);letter-spacing:.06em;margin-bottom:14px">TAI · TERMUX AI</div>
-      <h1 style="font-family:var(--mono);font-weight:700;font-size:clamp(34px,6vw,56px);line-height:1.02;letter-spacing:-.01em;margin:0;color:var(--cream);max-width:720px">Local language models,<br><span style="color:var(--gold)">on your device.</span></h1>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:17px;line-height:1.6;max-width:620px;margin:18px 0 0">TAI hosts models locally and speaks OpenAI- and Ollama-compatible HTTP. Your prompts and output stay on the device unless you deliberately expose the API to your network.</p>
+    <div class="ai-hero">
+      <div class="ai-hero-kicker" data-reveal>TAI &middot; TERMUX AI</div>
+      <h1 class="ai-hero-title" data-reveal="blur">Local language models,<br><span class="ai-hero-accent">on your device.</span></h1>
+      <p class="ai-hero-lead" data-reveal>TAI hosts models locally and speaks OpenAI- and Ollama-compatible HTTP. Your prompts and output stay on the device unless you deliberately expose the API to your network.</p>
     </div>
 
     <!-- feature grid -->
-    <div style="max-width:1000px;margin:0 auto;padding:34px 24px 10px">
-      <div class="feature-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">◆</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">On-device &amp; private</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Localhost bind by default. Bearer-token auth on every request.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">⇄</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">OpenAI + Ollama</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Drop-in for Codex, OpenCode, Crush, AIChat and Ollama clients.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">▤</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Two backends</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">LiteRT-LM (default) and a bundled MNN backend, routed per model.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">⚙</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Isolated runtime</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Native model work runs in its own :tai_runtime process, apart from the launcher.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">◐</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Capability-aware</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">Text, image, audio, tools, embeddings — each model reports what it serves.</div></div>
-        <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px"><div style="font-family:var(--mono);color:var(--gold);font-size:20px;margin-bottom:10px">↥</div><div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--cream);margin-bottom:6px">Import your own</div><div style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.55">LiteRT-LM <span style="font-family:var(--mono)">.litertlm</span>/<span style="font-family:var(--mono)">.task</span> and MNN model directories.</div></div>
+    <div class="ai-section">
+      <div class="ai-grid ai-grid--features" data-reveal-stagger>
+        <div class="ai-card glass"><div class="ai-card-icon">&#9670;</div><div class="ai-card-title">On-device &amp; private</div><div class="ai-card-body">Localhost bind by default. Bearer-token auth on every request.</div></div>
+        <div class="ai-card glass"><div class="ai-card-icon">&#8644;</div><div class="ai-card-title">OpenAI + Ollama</div><div class="ai-card-body">Drop-in for Codex, OpenCode, Crush, AIChat and Ollama clients.</div></div>
+        <div class="ai-card glass"><div class="ai-card-icon">&#9636;</div><div class="ai-card-title">Two backends</div><div class="ai-card-body">LiteRT-LM (default) and a bundled MNN backend, routed per model.</div></div>
+        <div class="ai-card glass"><div class="ai-card-icon">&#9881;</div><div class="ai-card-title">Isolated runtime</div><div class="ai-card-body">Native model work runs in its own :tai_runtime process, apart from the launcher.</div></div>
+        <div class="ai-card glass"><div class="ai-card-icon">&#9680;</div><div class="ai-card-title">Capability-aware</div><div class="ai-card-body">Text, image, audio, tools, embeddings, each model reports what it serves.</div></div>
+        <div class="ai-card glass"><div class="ai-card-icon">&#8613;</div><div class="ai-card-title">Import your own</div><div class="ai-card-body">LiteRT-LM <span class="ai-mono">.litertlm</span>/<span class="ai-mono">.task</span> and MNN model directories.</div></div>
       </div>
     </div>
 
     <!-- model catalog -->
-    <div id="ai-catalog" style="max-width:1000px;margin:0 auto;padding:44px 24px 10px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">Model catalog</h2>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:15px;margin:0 0 6px;max-width:660px">Models aren't bundled in the APK — pull them from the in-app gallery or with <span style="font-family:var(--mono);color:var(--cream)">tai</span> (several GB each). Only one generation model loads at a time, inside the isolated <span style="font-family:var(--mono);color:var(--cream)">:tai_runtime</span> process. This is the full built-in catalog; you can also <a data-scrollto="ai-import" href="#ai" style="color:var(--cyan);text-decoration:none;cursor:pointer">import your own</a>.</p>
-      <p style="font-family:var(--sans);color:var(--dim);font-size:13.5px;margin:0 0 18px;max-width:680px">Two backends — <span style="font-family:var(--mono);color:var(--mute)">LiteRT-LM</span> (Google AI Edge) and <span style="font-family:var(--mono);color:var(--mute)">MNN</span>. <span style="color:var(--green)">rec</span> = recommended default · <span style="color:var(--orange)">gated</span> = accept the provider's Hugging Face terms first · <span style="color:var(--cyan)">import</span> = added via the import flow, not a direct download. Multimodal LiteRT-LM models also appear as separate <span style="font-family:var(--mono);color:var(--mute)">-vision</span> / <span style="font-family:var(--mono);color:var(--mute)">-audio</span> IDs on the API.</p>
-      <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden;overflow-x:auto">
-        <table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px">
-          <thead><tr style="background:var(--panelink)">
-            <th style="text-align:left;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Model</th>
-            <th style="text-align:left;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Backend</th>
-            <th style="text-align:left;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Best for</th>
-            <th style="text-align:right;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">Download</th>
-            <th style="text-align:right;font-family:var(--mono);font-weight:600;color:var(--gold);padding:11px 14px;border-bottom:1px solid var(--line)">RAM</th>
+    <div class="ai-section" id="ai-catalog">
+      <h2 class="ai-section-title" data-reveal>Model catalog</h2>
+      <p class="ai-section-lead" data-reveal>Models aren't bundled in the APK, pull them from the in-app gallery or with <span class="ai-mono">tai</span> (several GB each). Only one generation model loads at a time, inside the isolated <span class="ai-mono">:tai_runtime</span> process. This is the full built-in catalog; you can also <a class="ai-link" data-scrollto="ai-import" href="#ai">import your own</a>.</p>
+      <p class="ai-section-note" data-reveal>Two backends &mdash; <span class="ai-mono ai-mono--mute">LiteRT-LM</span> (Google AI Edge) and <span class="ai-mono ai-mono--mute">MNN</span>. <span class="ai-tag ai-tag--green">rec</span> = recommended default &middot; <span class="ai-tag ai-tag--orange">gated</span> = accept the provider's Hugging Face terms first &middot; <span class="ai-tag ai-tag--cyan">import</span> = added via the import flow, not a direct download. Multimodal LiteRT-LM models also appear as separate <span class="ai-mono ai-mono--mute">-vision</span> / <span class="ai-mono ai-mono--mute">-audio</span> IDs on the API.</p>
+      <div class="ai-table glass--sm" data-reveal>
+        <table>
+          <thead><tr>
+            <th>Model</th>
+            <th>Backend</th>
+            <th>Best for</th>
+            <th class="ai-table-num">Download</th>
+            <th class="ai-table-num">RAM</th>
           </tr></thead>
-          <tbody style="font-family:var(--sans);color:var(--cream)">
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Gemma 4 E2B IT <span style="font-family:var(--mono);font-size:11px;color:var(--green)">· rec</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">General chat · image · audio · tools</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">2.4 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">8 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Gemma 4 E4B IT</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Coding · reasoning · multimodal · tools</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">3.7 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">12 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 1.5B Instruct <span style="font-family:var(--mono);font-size:11px;color:var(--cyan)">· import</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Lightweight text · code · multilingual</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">1.5 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">DeepSeek-R1 Distill 1.5B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Small reasoning tasks</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">1.7 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">FunctionGemma 270M <span style="font-family:var(--mono);font-size:11px;color:var(--orange)">· gated</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Function/tool selection (CPU-only)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">0.3 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">EmbeddingGemma 300M <span style="font-family:var(--mono);font-size:11px;color:var(--orange)">· gated</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">LiteRT-LM</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Embeddings (<span style="font-family:var(--mono)">/v1/embeddings</span>)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">183 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen3 Embedding 0.6B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Embeddings (<span style="font-family:var(--mono)">/v1/embeddings</span>)</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">378 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5-Coder 1.5B <span style="font-family:var(--mono);font-size:11px;color:var(--green)">· rec</span></td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Coding · tools · terminal clients</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">971 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4–6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5-Coder 7B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Higher-quality coding</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4.4 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">10–12 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 0.5B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Tiny general chat</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">557 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">3 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 1.5B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Lightweight multilingual chat</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">879 MB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">4–6 GB+</td></tr>
-            <tr><td style="padding:10px 14px;border-bottom:1px solid var(--line2)">Qwen2.5 3B</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);color:var(--mute)">Balanced multilingual chat</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">2.4 GB</td><td style="padding:10px 14px;border-bottom:1px solid var(--line2);text-align:right;font-family:var(--mono);color:var(--mute)">6–8 GB+</td></tr>
-            <tr><td style="padding:10px 14px">DeepSeek-R1 1.5B Qwen</td><td style="padding:10px 14px;font-family:var(--mono);color:var(--mute)">MNN</td><td style="padding:10px 14px;color:var(--mute)">Small reasoning tasks</td><td style="padding:10px 14px;text-align:right;font-family:var(--mono);color:var(--mute)">1.0 GB</td><td style="padding:10px 14px;text-align:right;font-family:var(--mono);color:var(--mute)">4–6 GB+</td></tr>
+          <tbody>
+            <tr><td>Gemma 4 E2B IT <span class="ai-tag ai-tag--green">&middot; rec</span></td><td class="ai-mono">LiteRT-LM</td><td>General chat &middot; image &middot; audio &middot; tools</td><td class="ai-table-num">2.4 GB</td><td class="ai-table-num">8 GB+</td></tr>
+            <tr><td>Gemma 4 E4B IT</td><td class="ai-mono">LiteRT-LM</td><td>Coding &middot; reasoning &middot; multimodal &middot; tools</td><td class="ai-table-num">3.7 GB</td><td class="ai-table-num">12 GB+</td></tr>
+            <tr><td>Qwen2.5 1.5B Instruct <span class="ai-tag ai-tag--cyan">&middot; import</span></td><td class="ai-mono">LiteRT-LM</td><td>Lightweight text &middot; code &middot; multilingual</td><td class="ai-table-num">1.5 GB</td><td class="ai-table-num">6 GB+</td></tr>
+            <tr><td>DeepSeek-R1 Distill 1.5B</td><td class="ai-mono">LiteRT-LM</td><td>Small reasoning tasks</td><td class="ai-table-num">1.7 GB</td><td class="ai-table-num">6 GB+</td></tr>
+            <tr><td>FunctionGemma 270M <span class="ai-tag ai-tag--orange">&middot; gated</span></td><td class="ai-mono">LiteRT-LM</td><td>Function/tool selection (CPU-only)</td><td class="ai-table-num">0.3 GB</td><td class="ai-table-num">6 GB+</td></tr>
+            <tr><td>EmbeddingGemma 300M <span class="ai-tag ai-tag--orange">&middot; gated</span></td><td class="ai-mono">LiteRT-LM</td><td>Embeddings (<span class="ai-mono">/v1/embeddings</span>)</td><td class="ai-table-num">183 MB</td><td class="ai-table-num">4 GB+</td></tr>
+            <tr><td>Qwen3 Embedding 0.6B</td><td class="ai-mono">MNN</td><td>Embeddings (<span class="ai-mono">/v1/embeddings</span>)</td><td class="ai-table-num">378 MB</td><td class="ai-table-num">4 GB+</td></tr>
+            <tr><td>Qwen2.5-Coder 1.5B <span class="ai-tag ai-tag--green">&middot; rec</span></td><td class="ai-mono">MNN</td><td>Coding &middot; tools &middot; terminal clients</td><td class="ai-table-num">971 MB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
+            <tr><td>Qwen2.5-Coder 7B</td><td class="ai-mono">MNN</td><td>Higher-quality coding</td><td class="ai-table-num">4.4 GB</td><td class="ai-table-num">10&ndash;12 GB+</td></tr>
+            <tr><td>Qwen2.5 0.5B</td><td class="ai-mono">MNN</td><td>Tiny general chat</td><td class="ai-table-num">557 MB</td><td class="ai-table-num">3 GB+</td></tr>
+            <tr><td>Qwen2.5 1.5B</td><td class="ai-mono">MNN</td><td>Lightweight multilingual chat</td><td class="ai-table-num">879 MB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
+            <tr><td>Qwen2.5 3B</td><td class="ai-mono">MNN</td><td>Balanced multilingual chat</td><td class="ai-table-num">2.4 GB</td><td class="ai-table-num">6&ndash;8 GB+</td></tr>
+            <tr><td>DeepSeek-R1 1.5B Qwen</td><td class="ai-mono">MNN</td><td>Small reasoning tasks</td><td class="ai-table-num">1.0 GB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
           </tbody>
         </table>
       </div>
-      <div style="display:flex;gap:10px;margin-top:16px;background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:8px;padding:13px 16px;font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;max-width:820px">
-        <span style="color:var(--gold);font-family:var(--mono)">◐</span><span><b style="color:var(--cream)">About the multimodal LiteRT models.</b> Gemma 4 E2B / E4B are multimodal, but rather than holding text, vision and audio in memory at once, TAI splits each into separate <span style="font-family:var(--mono);color:var(--cream)">-vision</span> and <span style="font-family:var(--mono);color:var(--cream)">-audio</span> model IDs that share one downloaded file. Only the mode you request is loaded at a time — a deliberate trade-off to cut RAM cost and avoid memory pressure on phones. Pick the ID matching the input you intend to send.<br><span style="font-size:12.5px;color:var(--dim)">Learn more about the backends: <a href="https://ai.google.dev/edge/litert" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">LiteRT (Google AI Edge) ↗</a> · <a href="https://github.com/alibaba/MNN" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">MNN ↗</a> (<a href="https://mnn-docs.readthedocs.io/" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">docs</a>)</span></span>
+      <div class="ai-callout ai-callout--orange" data-reveal>
+        <span class="ai-callout-icon">&#9680;</span><span><b class="ai-callout-strong">About the multimodal LiteRT models.</b> Gemma 4 E2B / E4B are multimodal, but rather than holding text, vision and audio in memory at once, TAI splits each into separate <span class="ai-mono">-vision</span> and <span class="ai-mono">-audio</span> model IDs that share one downloaded file. Only the mode you request is loaded at a time, a deliberate trade-off to cut RAM cost and avoid memory pressure on phones. Pick the ID matching the input you intend to send.<br><span class="ai-callout-sub">Learn more about the backends: <a class="ai-link" href="https://ai.google.dev/edge/litert" target="_blank" rel="noopener">LiteRT (Google AI Edge) &#8599;</a> &middot; <a class="ai-link" href="https://github.com/alibaba/MNN" target="_blank" rel="noopener">MNN &#8599;</a> (<a class="ai-link" href="https://mnn-docs.readthedocs.io/" target="_blank" rel="noopener">docs</a>)</span></span>
       </div>
     </div>
 
     <!-- ===== IMPORT & ADD MODELS ===== -->
-    <div id="ai-import" style="max-width:1000px;margin:0 auto;padding:44px 24px 10px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">Add &amp; import your own models</h2>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.6;margin:0 0 16px;max-width:680px">Beyond the built-in catalog, TAI can pull any compatible model straight from Hugging Face. The suggested flow: set a Hugging Face token once, then either download a catalog entry or paste a model's repo URL into the import window. Everything runs through <span style="font-family:var(--mono);color:var(--cream)">Settings → TAI / Termux AI</span>.</p>
-      <div style="display:flex;gap:10px;margin:0 0 26px;background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:8px;padding:13px 16px;font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;max-width:820px">
-        <span style="color:var(--green);font-family:var(--mono)">↧</span><span><b style="color:var(--cream)">Recommended: let the app download for you.</b> Rather than fetching files by hand, just paste the model's Hugging Face URL into the import window — TAI downloads, verifies, and registers it. Browse compatible models here: <a href="https://huggingface.co/litert-community" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">huggingface.co/litert-community</a> (LiteRT) and <a href="https://huggingface.co/taobao-mnn" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">huggingface.co/taobao-mnn</a> (MNN). Copy any model's page URL and paste it into <b style="color:var(--cream)">Add a model</b>.</span>
+    <div class="ai-section" id="ai-import">
+      <h2 class="ai-section-title" data-reveal>Add &amp; import your own models</h2>
+      <p class="ai-section-lead" data-reveal>Beyond the built-in catalog, TAI can pull any compatible model straight from Hugging Face. The suggested flow: set a Hugging Face token once, then either download a catalog entry or paste a model's repo URL into the import window. Everything runs through <span class="ai-mono">Settings &rarr; TAI / Termux AI</span>.</p>
+      <div class="ai-callout ai-callout--green" data-reveal>
+        <span class="ai-callout-icon">&#8615;</span><span><b class="ai-callout-strong">Recommended: let the app download for you.</b> Rather than fetching files by hand, just paste the model's Hugging Face URL into the import window, TAI downloads, verifies, and registers it. Browse compatible models here: <a class="ai-link" href="https://huggingface.co/litert-community" target="_blank" rel="noopener">huggingface.co/litert-community</a> (LiteRT) and <a class="ai-link" href="https://huggingface.co/taobao-mnn" target="_blank" rel="noopener">huggingface.co/taobao-mnn</a> (MNN). Copy any model's page URL and paste it into <b class="ai-callout-strong">Add a model</b>.</span>
       </div>
 
-      <div class="import-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:start">
+      <div class="ai-grid ai-grid--import" data-reveal-stagger>
         <!-- step 1: HF token -->
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--gold);color:#0d1012;font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">1</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Set a Hugging Face token</h3>
+        <div class="ai-step">
+          <div class="ai-step-head">
+            <div class="ai-step-num ai-step-num--filled">1</div>
+            <h3 class="ai-step-title">Set a Hugging Face token</h3>
           </div>
-          <div style="padding:6px;background:#070a0b;border:1px solid var(--line);border-radius:24px;align-self:center;max-width:220px"><img src="assets/screenshots/tai-hf-token.jpeg" alt="Hugging Face token dialog in Termux AI settings" loading="lazy" width="917" height="2048" style="display:block;width:100%;height:auto;border-radius:18px"></div>
-          <p style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;margin:0">A classic <b style="color:var(--cream)">Read</b> token — or a fine-grained token with <span style="font-family:var(--mono);color:var(--cream)">Contents: Read</span> — is enough. It's sent only to Hugging Face download URLs. For a <span style="color:var(--orange)">gated</span> model, also open its huggingface.co page and accept the terms first.</p>
+          <div class="ai-phone-shot"><img src="assets/screenshots/tai-hf-token.jpeg" alt="Hugging Face token dialog in Termux AI settings" loading="lazy" width="917" height="2048"></div>
+          <p class="ai-step-body">A classic <b class="ai-callout-strong">Read</b> token, or a fine-grained token with <span class="ai-mono">Contents: Read</span>, is enough. It's sent only to Hugging Face download URLs. For a <span class="ai-tag ai-tag--orange">gated</span> model, also open its huggingface.co page and accept the terms first.</p>
         </div>
 
         <!-- step 2: import window -->
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">2</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Paste a repo URL to add</h3>
+        <div class="ai-step">
+          <div class="ai-step-head">
+            <div class="ai-step-num">2</div>
+            <h3 class="ai-step-title">Paste a repo URL to add</h3>
           </div>
-          <div style="padding:6px;background:#070a0b;border:1px solid var(--line);border-radius:24px;align-self:center;max-width:220px"><img src="assets/screenshots/tai-import.jpeg" alt="Add a model window: Hugging Face repo URL and capability checkboxes" loading="lazy" width="917" height="2048" style="display:block;width:100%;height:auto;border-radius:18px"></div>
-          <p style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;margin:0">In <b style="color:var(--cream)">Add a model</b>, paste a Hugging Face repo URL (or pick a local LiteRT package). Capabilities are guessed from known LiteRT/MNN model names — tick or untick them, then <span style="font-family:var(--mono);color:var(--cream)">Import &amp; verify</span>. Catalog entries download the same way; just tap one and confirm the provider terms.</p>
+          <div class="ai-phone-shot"><img src="assets/screenshots/tai-import.jpeg" alt="Add a model window: Hugging Face repo URL and capability checkboxes" loading="lazy" width="917" height="2048"></div>
+          <p class="ai-step-body">In <b class="ai-callout-strong">Add a model</b>, paste a Hugging Face repo URL (or pick a local LiteRT package). Capabilities are guessed from known LiteRT/MNN model names, tick or untick them, then <span class="ai-mono">Import &amp; verify</span>. Catalog entries download the same way; just tap one and confirm the provider terms.</p>
         </div>
 
         <!-- step 3: connect clients -->
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">3</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Point your client at it</h3>
+        <div class="ai-step">
+          <div class="ai-step-head">
+            <div class="ai-step-num">3</div>
+            <h3 class="ai-step-title">Point your client at it</h3>
           </div>
-          <div style="padding:6px;background:#070a0b;border:1px solid var(--line);border-radius:24px;align-self:center;max-width:220px"><img src="assets/screenshots/tai-endpoint.jpeg" alt="Endpoint and access dialog showing OpenAI base URL and bearer token" loading="lazy" width="917" height="2048" style="display:block;width:100%;height:auto;border-radius:18px"></div>
-          <p style="font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;margin:0">Once installed, load it (<span style="font-family:var(--mono);color:var(--cream)">tai load MODEL_ID</span>) and connect any OpenAI- or Ollama-compatible client with the local base URL and bearer token from <b style="color:var(--cream)">Endpoint &amp; access</b> — the same values live in <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/</span>.</p>
+          <div class="ai-phone-shot"><img src="assets/screenshots/tai-endpoint.jpeg" alt="Endpoint and access dialog showing OpenAI base URL and bearer token" loading="lazy" width="917" height="2048"></div>
+          <p class="ai-step-body">Once installed, load it (<span class="ai-mono">tai load MODEL_ID</span>) and connect any OpenAI- or Ollama-compatible client with the local base URL and bearer token from <b class="ai-callout-strong">Endpoint &amp; access</b>, the same values live in <span class="ai-mono">~/.launcherctl/</span>.</p>
         </div>
       </div>
 
-      <div style="display:flex;gap:10px;margin-top:26px;background:var(--panelink);border:1px solid var(--line);border-left:3px solid var(--cyan);border-radius:8px;padding:13px 16px;font-family:var(--sans);font-size:13.5px;color:var(--mute);line-height:1.6;max-width:820px">
-        <span style="color:var(--cyan);font-family:var(--mono)">ℹ</span><span><b style="color:var(--cream)">Supported packages:</b> LiteRT-LM <span style="font-family:var(--mono);color:var(--cream)">.litertlm</span> / <span style="font-family:var(--mono);color:var(--cream)">.task</span>, MNN model directories (<span style="font-family:var(--mono)">config.json</span> + sidecars), and LiteRT EmbeddingGemma <span style="font-family:var(--mono);color:var(--cream)">.tflite</span> with its tokenizer. GGUF, safetensors, PyTorch and ONNX weights are <b style="color:var(--cream)">not</b> supported — run those under a separate runtime such as llama.cpp in Termux.</span>
+      <div class="ai-callout ai-callout--cyan" data-reveal>
+        <span class="ai-callout-icon">&#8505;</span><span><b class="ai-callout-strong">Supported packages:</b> LiteRT-LM <span class="ai-mono">.litertlm</span> / <span class="ai-mono">.task</span>, MNN model directories (<span class="ai-mono">config.json</span> + sidecars), and LiteRT EmbeddingGemma <span class="ai-mono">.tflite</span> with its tokenizer. GGUF, safetensors, PyTorch and ONNX weights are <b class="ai-callout-strong">not</b> supported, run those under a separate runtime such as llama.cpp in Termux.</span>
       </div>
     </div>
 
     <!-- ===== QUICKSTART: AICHAT ===== -->
-    <div id="ai-aichat" style="max-width:1000px;margin:0 auto;padding:44px 24px 10px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 6px;color:var(--cream)">Quickstart: chat from the terminal with AIChat</h2>
-      <p style="font-family:var(--sans);color:var(--mute);font-size:15px;line-height:1.6;margin:0 0 22px;max-width:700px"><a href="https://github.com/sigoden/aichat" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">AIChat</a> is the fastest and lightest way to talk to your on-device model right now — a single terminal binary, no extra runtime. It's in both this launcher's repo and the official Termux repo.</p>
+    <div class="ai-section" id="ai-aichat">
+      <h2 class="ai-section-title" data-reveal>Quickstart: chat from the terminal with AIChat</h2>
+      <p class="ai-section-lead" data-reveal><a class="ai-link" href="https://github.com/sigoden/aichat" target="_blank" rel="noopener">AIChat</a> is the fastest and lightest way to talk to your on-device model right now, a single terminal binary, no extra runtime. It's in both this launcher's repo and the official Termux repo.</p>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start" class="feature-grid">
-        <div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--gold);color:#0d1012;font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">1</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Install</h3>
+      <div class="ai-grid ai-grid--two" data-reveal-stagger>
+        <div class="ai-step">
+          <div class="ai-step-head">
+            <div class="ai-step-num ai-step-num--filled">1</div>
+            <h3 class="ai-step-title">Install</h3>
           </div>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:14px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--cream)">pkg i -y aichat</pre>
+          <div class="ai-cmd glass--sm" data-cmd>
+            <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
+            <pre data-cmd-text>pkg i -y aichat</pre>
           </div>
         </div>
-        <div>
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:32px;height:32px;border-radius:8px;background:var(--panel);border:1px solid var(--gline);color:var(--gold);font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none">2</div>
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:16px;margin:0;color:var(--cream)">Run &amp; answer the prompts</h3>
+        <div class="ai-step">
+          <div class="ai-step-head">
+            <div class="ai-step-num">2</div>
+            <h3 class="ai-step-title">Run &amp; answer the prompts</h3>
           </div>
-          <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:14px">
-            <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button>
-            <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--cream)">aichat</pre>
+          <div class="ai-cmd glass--sm" data-cmd>
+            <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
+            <pre data-cmd-text>aichat</pre>
           </div>
         </div>
       </div>
 
-      <p style="font-family:var(--sans);color:var(--mute);font-size:14.5px;line-height:1.7;margin:22px 0 14px;max-width:700px">On first run, AIChat offers to create a config file. Walk through it:</p>
-      <ol style="font-family:var(--sans);color:var(--mute);font-size:14.5px;line-height:1.7;margin:0 0 18px;padding-left:22px;max-width:700px">
-        <li>Choose the <b style="color:var(--cream)">OpenAI-Compatible</b> platform.</li>
-        <li>Give it any name (e.g. <span style="font-family:var(--mono);color:var(--cream)">tai</span>).</li>
-        <li>Paste the <b style="color:var(--cream)">API base URL</b> and <b style="color:var(--cream)">API key</b> from <span style="font-family:var(--mono);color:var(--cream)">Settings → TAI / Termux AI → Endpoint &amp; access</span> — the base URL already ends in <span style="font-family:var(--mono);color:var(--cream)">/v1</span>, and the key is the bearer token. (The same two values are in <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/endpoint</span> and <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/token</span>.)</li>
+      <p class="ai-body-text" data-reveal>On first run, AIChat offers to create a config file. Walk through it:</p>
+      <ol class="ai-list" data-reveal>
+        <li>Choose the <b class="ai-callout-strong">OpenAI-Compatible</b> platform.</li>
+        <li>Give it any name (e.g. <span class="ai-mono">tai</span>).</li>
+        <li>Paste the <b class="ai-callout-strong">API base URL</b> and <b class="ai-callout-strong">API key</b> from <span class="ai-mono">Settings &rarr; TAI / Termux AI &rarr; Endpoint &amp; access</span>, the base URL already ends in <span class="ai-mono">/v1</span>, and the key is the bearer token. (The same two values are in <span class="ai-mono">~/.launcherctl/endpoint</span> and <span class="ai-mono">~/.launcherctl/token</span>.)</li>
       </ol>
 
-      <p style="font-family:var(--sans);color:var(--dim);font-size:13.5px;line-height:1.7;margin:0 0 12px;max-width:700px">Prefer to write the config by hand? It looks like this in <span style="font-family:var(--mono);color:var(--mute)">~/.config/aichat/config.yaml</span>:</p>
-      <div data-cmd style="position:relative;background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:14px;max-width:700px">
-        <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button>
-        <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--cream)">clients:
+      <p class="ai-body-text ai-body-text--dim" data-reveal>Prefer to write the config by hand? It looks like this in <span class="ai-mono ai-mono--mute">~/.config/aichat/config.yaml</span>:</p>
+      <div class="ai-cmd ai-cmd--wide glass--sm" data-cmd data-reveal>
+        <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
+        <pre data-cmd-text>clients:
   - type: openai-compatible
     name: tai
     api_base: http://127.0.0.1:54298/v1   # your endpoint
@@ -446,84 +448,84 @@
     models:
       - name: gemma-4-e2b-it-litert-lm     # any installed model id</pre>
       </div>
-      <div style="display:flex;gap:10px;margin-top:18px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.3);border-left:3px solid var(--orange);border-radius:8px;padding:12px 15px;font-family:var(--sans);font-size:13px;color:#e6c4b4;line-height:1.6;max-width:700px">
-        <span style="font-family:var(--mono)">⚠</span><span>Chat and coding models work well over AIChat. The <b style="color:#f0d0c0">embedding models are untested</b> with AIChat's RAG features for now — treat them as experimental.</span>
+      <div class="ai-callout ai-callout--orange ai-callout--warn" data-reveal>
+        <span class="ai-callout-icon">&#9888;</span><span>Chat and coding models work well over AIChat. The <b class="ai-callout-strong">embedding models are untested</b> with AIChat's RAG features for now, treat them as experimental.</span>
       </div>
     </div>
 
     <!-- tai commands -->
-    <div id="ai-commands" style="max-width:1000px;margin:0 auto;padding:38px 24px 20px;scroll-margin-top:58px">
-      <h2 style="font-family:var(--mono);font-weight:600;font-size:22px;margin:0 0 16px;color:var(--cream)">tai commands</h2>
-      <div class="command-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:760px">
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai status</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai models</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai download MODEL_ID URL --accept-terms</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai preflight MODEL_ID</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai load MODEL_ID [--auto|--cpu|--gpu]</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai keep-warm MODEL_ID --minutes 30</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai runtime</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai unload</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai delete MODEL_ID</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
-        <div data-cmd style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 13px"><code data-cmd-text style="font-family:var(--mono);font-size:13px;color:var(--cream)"><span style="color:var(--green)">$</span> tai doctor</code><button data-copy style="flex:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer"><span data-copy-label>copy</span></button></div>
+    <div class="ai-section" id="ai-commands">
+      <h2 class="ai-section-title" data-reveal>tai commands</h2>
+      <div class="ai-grid ai-grid--commands" data-reveal-stagger>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai status</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai models</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai download MODEL_ID URL --accept-terms</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai preflight MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai load MODEL_ID [--auto|--cpu|--gpu]</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai keep-warm MODEL_ID --minutes 30</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai runtime</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai unload</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai delete MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai doctor</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
       </div>
-      <p style="font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:14px 0 0;max-width:760px">Prefix any command with <span style="color:var(--mute)">tai --json</span> for raw API JSON you can pipe into <span style="color:var(--mute)">jq</span> and scripts. <span style="color:var(--mute)">tai load</span>, <span style="color:var(--mute)">preflight</span>, and <span style="color:var(--mute)">keep-warm</span> default to the assistant model when no ID is given. See <span style="color:var(--mute)">tai --help</span> for the full command set.</p>
+      <p class="ai-footnote" data-reveal>Prefix any command with <span class="ai-mono ai-mono--mute">tai --json</span> for raw API JSON you can pipe into <span class="ai-mono ai-mono--mute">jq</span> and scripts. <span class="ai-mono ai-mono--mute">tai load</span>, <span class="ai-mono ai-mono--mute">preflight</span>, and <span class="ai-mono ai-mono--mute">keep-warm</span> default to the assistant model when no ID is given. See <span class="ai-mono ai-mono--mute">tai --help</span> for the full command set.</p>
     </div>
 
     <!-- ===== API REFERENCE ===== -->
-    <div style="background:var(--ink);border-top:1px solid var(--line);margin-top:44px">
-      <div class="api-layout" style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:44px;padding:44px 24px 110px;align-items:start">
+    <div class="ai-api">
+      <div class="api-layout">
         <!-- endpoint index -->
-        <aside class="api-sidebar" style="position:sticky;top:70px">
-          <div style="font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold);letter-spacing:.04em;margin-bottom:6px">API REFERENCE</div>
-          <button data-scrollto="ep-intro" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Introduction</button>
-          <button data-scrollto="ep-base" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Base URL &amp; auth</button>
-          <button data-scrollto="ep-ratelimits" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Rate limits</button>
-          <button data-scrollto="ep-errors" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Errors &amp; status</button>
-          <button data-scrollto="ep-streaming" style="display:block;text-align:left;width:100%;font-family:var(--sans);font-size:13.5px;color:var(--mute);background:transparent;border:none;padding:6px 0;cursor:pointer">Streaming</button>
-          <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:16px 0 6px">Endpoints</div>
-          <div data-eplist style="display:flex;flex-direction:column;gap:2px"></div>
+        <aside class="api-sidebar">
+          <div class="api-sidebar-title">API REFERENCE</div>
+          <button class="api-nav-button" data-scrollto="ep-intro">Introduction</button>
+          <button class="api-nav-button" data-scrollto="ep-base">Base URL &amp; auth</button>
+          <button class="api-nav-button" data-scrollto="ep-ratelimits">Rate limits</button>
+          <button class="api-nav-button" data-scrollto="ep-errors">Errors &amp; status</button>
+          <button class="api-nav-button" data-scrollto="ep-streaming">Streaming</button>
+          <div class="api-sidebar-label">Endpoints</div>
+          <div data-eplist class="api-eplist"></div>
         </aside>
         <!-- endpoint detail -->
-        <main style="min-width:0">
-          <div data-spy id="ep-intro" style="scroll-margin-top:64px">
-            <div style="font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.06em;margin-bottom:6px">API REFERENCE</div>
-            <h2 style="font-family:var(--mono);font-weight:700;font-size:30px;margin:0 0 14px;color:var(--cream)">Introduction</h2>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:16px;line-height:1.7;max-width:640px;margin:0 0 8px">Use TAI's local API to run and interact with models. The same server also powers <span style="font-family:var(--mono);color:var(--cream)">launcherctl</span>. API routes accept the bearer token or <span style="font-family:var(--mono);color:var(--cream)">X-Api-Key</span> when authentication is enabled; CORS preflight and the root health route are exempt.</p>
+        <main class="ai-spy-main">
+          <div class="ai-spy-block" data-spy id="ep-intro">
+            <div class="ai-spy-kicker">API REFERENCE</div>
+            <h2 class="ai-spy-title">Introduction</h2>
+            <p class="ai-spy-body">Use TAI's local API to run and interact with models. The same server also powers <span class="ai-mono">launcherctl</span>. API routes accept the bearer token or <span class="ai-mono">X-Api-Key</span> when authentication is enabled; CORS preflight and the root health route are exempt.</p>
           </div>
 
-          <div data-spy id="ep-base" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Base URL &amp; auth</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">TAI stores its current address and secret token in <span style="font-family:var(--mono);color:var(--cream)">~/.launcherctl/</span>. OpenAI-compatible clients append <span style="font-family:var(--mono);color:var(--cream)">/v1</span>; Ollama clients use the base address as-is.</p>
-            <div data-cmd style="position:relative;background:var(--panelink);border:1px solid var(--line);border-radius:10px;padding:15px;max-width:660px">
-              <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:var(--panelink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-              <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--cream)">BASE=$(sed -n '1p' ~/.launcherctl/endpoint)
+          <div class="ai-spy-block" data-spy id="ep-base">
+            <h3 class="ai-spy-subtitle">Base URL &amp; auth</h3>
+            <p class="ai-spy-body">TAI stores its current address and secret token in <span class="ai-mono">~/.launcherctl/</span>. OpenAI-compatible clients append <span class="ai-mono">/v1</span>; Ollama clients use the base address as-is.</p>
+            <div class="ai-cmd glass--sm" data-cmd>
+              <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
+              <pre data-cmd-text>BASE=$(sed -n '1p' ~/.launcherctl/endpoint)
 TOKEN=$(cat ~/.launcherctl/token)
 export OPENAI_BASE_URL="$BASE/v1"
 export OPENAI_API_KEY="$TOKEN"</pre>
             </div>
-            <p style="font-family:var(--sans);color:var(--dim);font-size:13.5px;line-height:1.6;max-width:640px;margin:14px 0 0">Default bind mode is <span style="font-family:var(--mono);color:var(--mute)">localhost</span> (<span style="font-family:var(--mono);color:var(--mute)">127.0.0.1</span>). LAN mode is opt-in; treat the token as a network secret when enabled. Token auth can be relaxed for localhost in settings, but is always enforced on LAN.</p>
+            <p class="ai-footnote">Default bind mode is <span class="ai-mono ai-mono--mute">localhost</span> (<span class="ai-mono ai-mono--mute">127.0.0.1</span>). LAN mode is opt-in; treat the token as a network secret when enabled. Token auth can be relaxed for localhost in settings, but is always enforced on LAN.</p>
           </div>
 
-          <div data-spy id="ep-ratelimits" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Rate limits</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Operational routes use per-route rolling 60-second windows. Exceeding a configured limit returns <span style="font-family:var(--mono);color:var(--cream)">HTTP 429</span> with <span style="font-family:var(--mono);color:var(--cream)">Retry-After</span>, <span style="font-family:var(--mono);color:var(--cream)">RateLimit-Limit</span>, <span style="font-family:var(--mono);color:var(--cream)">RateLimit-Remaining</span> and <span style="font-family:var(--mono);color:var(--cream)">RateLimit-Reset</span> headers. Wait for the advertised interval before retrying.</p>
-            <div style="overflow-x:auto;max-width:660px"><table style="border-collapse:collapse;width:100%;font-family:var(--mono);font-size:13px"><tbody>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Reads (status, runtime, models)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">120 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Generation (chat, responses, completions, embeddings)</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">60 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">App launch</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">30 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Model load / download / import</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">20 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Model delete / cancel download</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">30 / min</td></tr>
-              <tr><td style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">Unload / preflight / keep-warm / runtime cancel</td><td style="padding:8px 12px;border-bottom:1px solid var(--line2);text-align:right;color:var(--cream)">60 / min</td></tr>
-              <tr><td style="padding:8px 12px;color:var(--mute)">Token rotate</td><td style="padding:8px 12px;text-align:right;color:var(--cream)">5 / min</td></tr>
+          <div class="ai-spy-block" data-spy id="ep-ratelimits">
+            <h3 class="ai-spy-subtitle">Rate limits</h3>
+            <p class="ai-spy-body">Operational routes use per-route rolling 60-second windows. Exceeding a configured limit returns <span class="ai-mono">HTTP 429</span> with <span class="ai-mono">Retry-After</span>, <span class="ai-mono">RateLimit-Limit</span>, <span class="ai-mono">RateLimit-Remaining</span> and <span class="ai-mono">RateLimit-Reset</span> headers. Wait for the advertised interval before retrying.</p>
+            <div class="ai-table ai-table--plain glass--sm"><table><tbody>
+              <tr><td>Reads (status, runtime, models)</td><td class="ai-table-num">120 / min</td></tr>
+              <tr><td>Generation (chat, responses, completions, embeddings)</td><td class="ai-table-num">60 / min</td></tr>
+              <tr><td>App launch</td><td class="ai-table-num">30 / min</td></tr>
+              <tr><td>Model load / download / import</td><td class="ai-table-num">20 / min</td></tr>
+              <tr><td>Model delete / cancel download</td><td class="ai-table-num">30 / min</td></tr>
+              <tr><td>Unload / preflight / keep-warm / runtime cancel</td><td class="ai-table-num">60 / min</td></tr>
+              <tr><td>Token rotate</td><td class="ai-table-num">5 / min</td></tr>
             </tbody></table></div>
           </div>
 
-          <div data-spy id="ep-errors" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Errors &amp; status</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 14px">Errors use the OpenAI error envelope, with a string <span style="font-family:var(--mono);color:var(--cream)">code</span> you can switch on. Common codes: <span style="font-family:var(--mono);color:var(--mute)">bad_request</span> (400), <span style="font-family:var(--mono);color:var(--mute)">model_not_found</span> (404), <span style="font-family:var(--mono);color:var(--mute)">unsupported_audio_output</span> (501). Missing or wrong bearer token returns 401.</p>
-            <div data-cmd style="position:relative;background:var(--panelink);border:1px solid var(--line);border-radius:10px;padding:15px;max-width:660px">
-              <button data-copy style="position:absolute;top:9px;right:9px;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--gold);background:var(--panelink);border:1px solid var(--gline);border-radius:6px;padding:5px 10px;cursor:pointer"><span data-copy-label>copy</span></button>
-              <pre data-cmd-text style="margin:0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--cream)">{
+          <div class="ai-spy-block" data-spy id="ep-errors">
+            <h3 class="ai-spy-subtitle">Errors &amp; status</h3>
+            <p class="ai-spy-body">Errors use the OpenAI error envelope, with a string <span class="ai-mono">code</span> you can switch on. Common codes: <span class="ai-mono ai-mono--mute">bad_request</span> (400), <span class="ai-mono ai-mono--mute">model_not_found</span> (404), <span class="ai-mono ai-mono--mute">unsupported_audio_output</span> (501). Missing or wrong bearer token returns 401.</p>
+            <div class="ai-cmd glass--sm" data-cmd>
+              <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
+              <pre data-cmd-text>{
   "error": {
     "type": "invalid_request_error",
     "code": "model_not_found",
@@ -533,12 +535,12 @@ export OPENAI_API_KEY="$TOKEN"</pre>
             </div>
           </div>
 
-          <div data-spy id="ep-streaming" style="scroll-margin-top:64px;margin-top:40px">
-            <h3 style="font-family:var(--mono);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--cream)">Streaming</h3>
-            <p style="font-family:var(--sans);color:var(--mute);font-size:15.5px;line-height:1.7;max-width:640px;margin:0 0 8px">The OpenAI routes (<span style="font-family:var(--mono);color:var(--cream)">/v1/chat/completions</span>, <span style="font-family:var(--mono);color:var(--cream)">/v1/responses</span>) stream as <b style="color:var(--cream)">Server-Sent Events</b> when you send <span style="font-family:var(--mono);color:var(--cream)">"stream": true</span>, terminated by a <span style="font-family:var(--mono);color:var(--mute)">data: [DONE]</span> line. The Ollama routes (<span style="font-family:var(--mono);color:var(--cream)">/api/chat</span>, <span style="font-family:var(--mono);color:var(--cream)">/api/generate</span>) stream <b style="color:var(--cream)">newline-delimited JSON</b> by default.</p>
+          <div class="ai-spy-block" data-spy id="ep-streaming">
+            <h3 class="ai-spy-subtitle">Streaming</h3>
+            <p class="ai-spy-body">The OpenAI routes (<span class="ai-mono">/v1/chat/completions</span>, <span class="ai-mono">/v1/responses</span>) stream as <b class="ai-callout-strong">Server-Sent Events</b> when you send <span class="ai-mono">"stream": true</span>, terminated by a <span class="ai-mono ai-mono--mute">data: [DONE]</span> line. The Ollama routes (<span class="ai-mono">/api/chat</span>, <span class="ai-mono">/api/generate</span>) stream <b class="ai-callout-strong">newline-delimited JSON</b> by default.</p>
           </div>
 
-          <div data-epdetail style="margin-top:44px;display:flex;flex-direction:column;gap:14px"></div>
+          <div data-epdetail class="ai-epdetail"></div>
         </main>
       </div>
     </div>
