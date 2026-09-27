@@ -16,33 +16,42 @@
 <title>Termux Launcher — Your home screen is a terminal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
 <link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
-<link rel="stylesheet" href="styles.css?v=20260817-3">
+<link rel="stylesheet" href="styles.css?v=20260927-1">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
 <div id="site-shell">
 
-<div id="tl" style="--bg:#080b0d;--bg2:#0b1012;--panel:#0f1518;--panelink:#090d0f;--ink:#0a0e12;--line:#20292d;--line2:#151c1f;--accent:#72d8cd;--accent-b:#a5eee7;--accent-soft:rgba(114,216,205,.09);--accent-line:rgba(114,216,205,.34);--blue:var(--accent);--blue-b:var(--accent-b);--blue-soft:var(--accent-soft);--bline:var(--accent-line);--text:#e2e7ef;--cream:var(--text);--mute:#98a2af;--dim:#5a6470;--green:#7fd18c;--cyan:#63c2d4;--orange:#e0a072;--red:#e07070;--gold:var(--accent);--gold-b:var(--accent-b);--gold-soft:var(--accent-soft);--gline:var(--accent-line);--mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;background:radial-gradient(900px 700px at 82% 4%,rgba(58,127,119,.18),transparent 62%),radial-gradient(800px 720px at 12% 34%,rgba(83,57,120,.1),transparent 68%),linear-gradient(180deg,#081214 0%,#080c0e 34%,#091012 100%);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden">
+<div class="wallpaper" aria-hidden="true">
+  <i class="wallpaper-blob wallpaper-blob--1"></i>
+  <i class="wallpaper-blob wallpaper-blob--2"></i>
+  <i class="wallpaper-blob wallpaper-blob--3"></i>
+  <i class="wallpaper-blob wallpaper-blob--4"></i>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<div id="tl" class="tl">
 
   <!-- ===================== NAV ===================== -->
-  <nav class="site-nav">
+  <nav class="site-nav glass glass--fixed">
     <div class="site-nav-inner">
       <button class="brand-button" data-nav="setup" aria-label="Go to overview">
         <img src="assets/icons/termux-launcher.png" alt="" width="30" height="30">
         <span>Termux Launcher</span>
       </button>
       <div class="nav-tabs">
+        <i class="nav-indicator" aria-hidden="true"></i>
         <button data-nav="setup">About</button>
         <button data-nav="wiki">Docs</button>
         <button data-nav="ai">Termux&nbsp;AI</button>
       </div>
       <div class="nav-actions">
-        <a data-hide-sm href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
-        <button class="download-button" data-nav="setup" data-scrollto="tl-install">Install</button>
+        <a class="nav-link" data-hide-sm href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
+        <button class="download-button btn btn--primary btn--sm" data-nav="setup" data-scrollto="tl-install">Install</button>
       </div>
     </div>
   </nav>
@@ -51,104 +60,186 @@
   <!-- ====================  1:SETUP  ===================== -->
   <!-- ==================================================== -->
   <section class="about-view" data-view="setup" data-screen-label="1 About" style="display:block">
-    <section class="about-hero">
-      <div class="about-hero-copy">
-        <div class="about-kicker"><span></span>AN ANDROID HOME APP BUILT ON TERMUX</div>
-        <h1>Your home screen<br>is <span>a terminal.</span></h1>
-        <p>Termux Launcher is an Android home launcher powered by the amazing Termux terminal emulator — the closest you can get to controlling your Android from a terminal. It brings its own multiplexer, keyboard, command palette and app drawer, and your apps stay a keystroke away.</p>
-        <div class="about-actions">
-          <a class="about-primary" data-scrollto="tl-install" href="#setup">Get the APK</a>
-          <button class="about-secondary" data-article="overview">Install guide</button>
-          <a class="about-github" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
-        </div>
-        <div class="hero-terminal" aria-label="Example Termux Launcher command">
-          <div class="hero-terminal-line"><span>HOME</span><code><b>❯ </b><span data-terminal-line></span><i aria-hidden="true"></i></code></div>
-          <div class="hero-meta"><span data-release-tag="PickleHik3/termux-launcher:main">latest release</span><span>GPL-3.0-only</span><span>Android 8+</span><span>AGSL blur on 13+</span></div>
+
+    <!-- hero -->
+    <section class="hero" data-hero>
+      <div class="hero-copy">
+        <p class="hero-eyebrow" data-hero-item>An Android home app built on Termux</p>
+        <h1 class="hero-title" data-hero-item aria-label="Your home screen is a terminal.">
+          <span class="word-mask"><span class="word">Your</span></span>
+          <span class="word-mask"><span class="word">home</span></span>
+          <span class="word-mask"><span class="word">screen</span></span>
+          <span class="word-mask"><span class="word">is</span></span>
+          <span class="word-mask"><span class="word hero-title-mono">a terminal.<i class="hero-cursor" aria-hidden="true"></i></span></span>
+        </h1>
+        <a class="hero-cta btn btn--primary" data-hero-item data-scrollto="tl-install" href="#setup">Get the APK</a>
+      </div>
+      <div class="hero-phone" data-phone>
+        <div class="phone-frame glass glass--fixed">
+          <video class="phone-video" src="assets/screen-20260803-124853-web.mp4" poster="assets/screen-recording-poster.jpg" muted autoplay loop playsinline preload="metadata" width="720" height="1608" aria-label="Termux Launcher workflow screen recording"></video>
+          <img class="phone-shot" data-shot="home" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          <img class="phone-shot" data-shot="clock" src="assets/shots/clock.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          <img class="phone-shot" data-shot="kew" src="assets/shots/kew.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          <img class="phone-shot" data-shot="notify" src="assets/shots/notify.jpeg" alt="" width="957" height="2048" loading="lazy" decoding="async">
+          <img class="phone-shot" data-shot="rainbow" src="assets/shots/rainbow.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          <img class="phone-shot" data-shot="settings" src="assets/shots/settings.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
         </div>
       </div>
-
-      <figure class="about-tour" id="tour">
-        <div class="about-phone">
-          <video src="assets/screen-20260803-124853-web.mp4" poster="assets/screen-recording-poster.jpg" controls loop muted autoplay playsinline preload="metadata" width="720" height="1608" aria-label="Termux Launcher workflow screen recording"></video>
-        </div>
-        <figcaption>74s, unedited, no sound — app search, panes, media at the prompt, a reply sent without opening the app.</figcaption>
-      </figure>
-    </section>
-
-    <section class="about-explainer">
-      <div>
-        <h2>What it actually is</h2>
-        <div class="about-explainer-grid">
-          <p>Termux Launcher starts from <strong>Termux</strong> and makes it the thing your home button opens. The shell underneath is still upstream Termux — <code>pkg</code>, the repos and everything you already know keep working.</p>
-          <p>On top of that: an in-app multiplexer — like tmux but with clear advantages, such as pinch zoom per pane — plus Sixel and Kitty graphics for images and gifs in the terminal, and a command palette that reaches every launcher feature, so nothing needs memorizing.</p>
-          <p>And it stays a launcher: app dock and drawer, quick replies to notifications without leaving the terminal, Material colors from your wallpaper, optional Shizuku privileges, and local models served over an OpenAI-compatible API.</p>
-        </div>
+      <div class="hero-strip" data-hero-item>
+        <span data-release-tag="PickleHik3/termux-launcher:main">latest release</span>
+        <span>GPL-3.0-only</span>
+        <span>Android 8+</span>
       </div>
     </section>
 
-    <section class="about-additions">
-      <div class="about-rule">ON TOP OF OFFICIAL TERMUX<span></span>10 ADDITIONS</div>
-      <div class="addition-columns">
-        <div>
-          <article><em>01</em><p><strong>Terminal</strong><span>Sixel + Kitty graphics, Kitty fonts and shaping, animated cursor, TUI-aware touch</span></p></article>
-          <article><em>02</em><p><strong>In-app multiplexer</strong><span>Sessions, windows, panes, floating panes, pinch zoom per pane</span></p></article>
-          <article><em>03</em><p><strong>In-app status bar</strong><span>Sessions, real CPU &amp; RAM, weather, a slide-down clock and widgets page</span></p></article>
-          <article><em>04</em><p><strong>Command palette</strong><span>Every launcher action - swipe up on the space bar and type</span></p></article>
-          <article><em>05</em><p><strong>In-app keyboard</strong><span>Julow's Unexpected Keyboard built in, custom layouts included</span></p></article>
-        </div>
-        <div>
-          <article><em>06</em><p><strong>Quick reply</strong><span>Answer a notification without opening the app</span></p></article>
-          <article><em>07</em><p><strong>App drawer + dock</strong><span>Pin what you use, search the rest, clones and work profiles included</span></p></article>
-          <article><em>08</em><p><strong>Material themes</strong><span>Wallpaper colours across launcher surfaces and the shell</span></p></article>
-          <article><em>09</em><p><strong>Shizuku integration</strong><span>Optional - detailed system stats, process labels, power-button lock</span></p></article>
-          <article><em>10</em><p><strong>Local LLM backends</strong><span>Google LiteRT and Alibaba MNN, over an OpenAI/Ollama-compatible API</span></p></article>
-        </div>
+    <!-- spine: the 10 additions -->
+    <section class="spine section" data-spine>
+      <div class="spine-head">
+        <p class="rule" data-reveal>On top of official Termux <span></span> 10 additions</p>
+      </div>
+      <div class="spine-grid">
+        <ol class="spine-chapters">
+          <li class="chapter glass" data-chapter="01" data-shot="kew" data-reveal>
+            <em>01</em>
+            <h3>Terminal</h3>
+            <p>Sixel + Kitty graphics, Kitty fonts and shaping, animated cursor, TUI-aware touch</p>
+            <img class="chapter-shot" src="assets/shots/kew.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="02" data-shot="home" data-reveal>
+            <em>02</em>
+            <h3>In-app multiplexer</h3>
+            <p>Sessions, windows, panes, floating panes, pinch zoom per pane</p>
+            <img class="chapter-shot" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="03" data-shot="clock" data-reveal>
+            <em>03</em>
+            <h3>In-app status bar</h3>
+            <p>Sessions, real CPU &amp; RAM, weather, a slide-down clock and widgets page</p>
+            <img class="chapter-shot" src="assets/shots/clock.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="04" data-shot="home" data-reveal>
+            <em>04</em>
+            <h3>Command palette</h3>
+            <p>Every launcher action - swipe up on the space bar and type</p>
+            <img class="chapter-shot" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="05" data-shot="rainbow" data-reveal>
+            <em>05</em>
+            <h3>In-app keyboard</h3>
+            <p>Julow's Unexpected Keyboard built in, custom layouts included</p>
+            <img class="chapter-shot" src="assets/shots/rainbow.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="06" data-shot="notify" data-reveal>
+            <em>06</em>
+            <h3>Quick reply</h3>
+            <p>Answer a notification without opening the app</p>
+            <img class="chapter-shot" src="assets/shots/notify.jpeg" alt="" width="957" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="07" data-shot="home" data-reveal>
+            <em>07</em>
+            <h3>App drawer + dock</h3>
+            <p>Pin what you use, search the rest, clones and work profiles included</p>
+            <img class="chapter-shot" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="08" data-shot="rainbow" data-reveal>
+            <em>08</em>
+            <h3>Material themes</h3>
+            <p>Wallpaper colours across launcher surfaces and the shell</p>
+            <img class="chapter-shot" src="assets/shots/rainbow.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="09" data-shot="settings" data-reveal>
+            <em>09</em>
+            <h3>Shizuku integration</h3>
+            <p>Optional - detailed system stats, process labels, power-button lock</p>
+            <img class="chapter-shot" src="assets/shots/settings.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+          <li class="chapter glass" data-chapter="10" data-shot="settings" data-reveal>
+            <em>10</em>
+            <h3>Local LLM backends</h3>
+            <p>Google LiteRT and Alibaba MNN, over an OpenAI/Ollama-compatible API</p>
+            <img class="chapter-shot" src="assets/shots/settings.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
+          </li>
+        </ol>
+        <div class="spine-phone-slot" data-phone-slot aria-hidden="true"></div>
       </div>
     </section>
 
-    <section class="about-install" id="tl-install">
-      <div class="about-rule">INSTALL<span></span>ONE APK</div>
-      <h2>Pick an edition, then set it as home.</h2>
-      <p class="about-install-lead">You only need the Main APK to try it — on first launch it downloads its bootstrap packages. Termux:API and Termux:Styling are optional; if you use either, take the one matching your edition, since Android rejects mismatched signatures. Styling is largely unnecessary anyway — fonts and colors are handled in-app.</p>
-      <div class="edition-grid" id="setup-downloads">
-        <article class="edition-card recommended">
-          <span class="edition-badge">Recommended</span>
-          <div class="edition-package">com.termux</div>
-          <h3>Termux edition</h3>
-          <p>Official Termux package ecosystem and timely updates. All four Android ABIs. Cannot be installed alongside official Termux.</p>
-          <a href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:main">latest</span> ↗</a>
-        </article>
-        <article class="edition-card">
-          <div class="edition-package alt">com.termux.launcher.nix</div>
-          <h3>Nix edition</h3>
-          <p>The entire nixpkgs collection, declarative configs and rollbacks, side by side with official Termux. arm64-v8a and x86_64. Companions: <a href="https://github.com/PickleHik3/termux-api/releases/tag/nix-v0.53.1" target="_blank" rel="noopener">TLNix:API</a> · <a href="https://github.com/PickleHik3/termux-styling/releases/tag/nix-v0.32.2" target="_blank" rel="noopener">TLNix:Styling</a>.</p>
-          <a class="edition-alt-link" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:nix" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:nix">v0.2.35-a-nix</span> ↗</a>
-        </article>
-        <article class="edition-card">
-          <div class="edition-package alt">io.vaj.tl</div>
-          <h3>Demo edition</h3>
-          <p>Runs off a manually compiled package repo that is not updated anymore — at most consider it a demo of the launcher, not for daily use. Installs alongside official Termux. arm64-v8a only.<br><a href="migrate-vaj.html" style="display:inline-block;margin-top:8px;color:var(--accent-b);font-family:var(--mono);font-size:12.5px;text-decoration:none">Deprecated · VAJ → Nix migration guide</a></p>
-          <a class="edition-alt-link" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:vaj" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:vaj">v0.2.35-a-vaj</span> ↗</a>
-        </article>
+    <!-- what it actually is -->
+    <section class="statements-section section">
+      <p class="rule" data-reveal>What it actually is <span></span></p>
+      <hr class="divider" data-reveal>
+      <div class="statements" data-reveal-stagger>
+        <div class="line-mask"><p class="statement">It starts from Termux and makes it the thing your home button opens. <code>pkg</code>, the repos and everything you know keep working.</p></div>
+        <div class="line-mask"><p class="statement">On top: a multiplexer with pinch zoom per pane, Sixel and Kitty graphics, and a command palette that reaches every launcher feature.</p></div>
+        <div class="line-mask"><p class="statement">And it stays a launcher: dock and drawer, quick replies from the terminal, Material colours from your wallpaper, local models over an OpenAI-compatible API.</p></div>
       </div>
-      <div class="install-next-grid">
+    </section>
+
+    <!-- install -->
+    <section class="install section" id="tl-install">
+      <p class="rule" data-reveal>Install <span></span> one APK</p>
+      <h2 class="section-title" data-reveal="blur">Pick an edition, then set it as home.</h2>
+      <p class="install-lead" data-reveal>You only need the Main APK to try it — on first launch it downloads its bootstrap packages. Termux:API and Termux:Styling are optional; if you use either, take the one matching your edition, since Android rejects mismatched signatures. Styling is largely unnecessary anyway — fonts and colors are handled in-app.</p>
+      <div class="edition-grid" id="setup-downloads" data-reveal-stagger>
+        <div class="edition-slot">
+          <article class="edition-card glass gradient-border recommended" data-tilt>
+            <span class="edition-badge">Recommended</span>
+            <div class="edition-body">
+              <div class="edition-package">com.termux</div>
+              <h3>Termux edition</h3>
+              <p>Official Termux package ecosystem and timely updates. All four Android ABIs. Cannot be installed alongside official Termux.</p>
+              <a class="edition-link btn btn--primary" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:main">latest</span> ↗</a>
+            </div>
+          </article>
+        </div>
+        <div class="edition-slot">
+          <article class="edition-card glass" data-tilt>
+            <div class="edition-body">
+              <div class="edition-package alt">com.termux.launcher.nix</div>
+              <h3>Nix edition</h3>
+              <p>The entire nixpkgs collection, declarative configs and rollbacks, side by side with official Termux. arm64-v8a and x86_64. Companions: <a class="link-slide" href="https://github.com/PickleHik3/termux-api/releases/tag/nix-v0.53.1" target="_blank" rel="noopener">TLNix:API</a> · <a class="link-slide" href="https://github.com/PickleHik3/termux-styling/releases/tag/nix-v0.32.2" target="_blank" rel="noopener">TLNix:Styling</a>.</p>
+              <a class="edition-link edition-alt-link btn btn--ghost" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:nix" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:nix">v0.2.35-a-nix</span> ↗</a>
+            </div>
+          </article>
+        </div>
+        <div class="edition-slot">
+          <article class="edition-card glass" data-tilt>
+            <div class="edition-body">
+              <div class="edition-package alt">io.vaj.tl</div>
+              <h3>Demo edition</h3>
+              <p>Runs off a manually compiled package repo that is not updated anymore — at most consider it a demo of the launcher, not for daily use. Installs alongside official Termux. arm64-v8a only.<br><a class="edition-migrate-link link-slide" href="migrate-vaj.html">Deprecated · VAJ → Nix migration guide</a></p>
+              <a class="edition-link edition-alt-link btn btn--ghost" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:vaj" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:vaj">v0.2.35-a-vaj</span> ↗</a>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="install-next-grid glass" data-reveal-stagger>
         <div><small>THEN, ONCE</small><p>Open it, let the bootstrap download finish and you land in the shell.<br>Settings <i>→</i> Launcher &amp; Apps <i>→</i> <strong>Set as default launcher</strong></p></div>
-        <div><small>OPTIONAL · QUICK START</small><p>One interactive script installs the shell from the demo videos — fish + a Material prompt that follows your wallpaper, eza, zoxide, Neovim and optional showcase tools. Every replaced config gets a <b>.bak</b> first. On the Nix edition the same setup is <b>setup-toolkits</b>.</p><button data-article="shell-goodies">Shell setup script →</button> <button data-article="nix">Nix: setup-toolkits →</button></div>
-        <div><p>Companions, ABIs, signing keys and the full walkthrough live in the docs.</p><button data-article="overview">Full install guide →</button></div>
+        <div><small>OPTIONAL · QUICK START</small><p>One interactive script installs the shell from the demo videos — fish + a Material prompt that follows your wallpaper, eza, zoxide, Neovim and optional showcase tools. Every replaced config gets a <b>.bak</b> first. On the Nix edition the same setup is <b>setup-toolkits</b>.</p><button class="link-slide" data-article="shell-goodies">Shell setup script →</button> <button class="link-slide" data-article="nix">Nix: setup-toolkits →</button></div>
+        <div><p>Companions, ABIs, signing keys and the full walkthrough live in the docs.</p><button class="link-slide" data-article="overview">Full install guide →</button></div>
       </div>
     </section>
 
-    <section class="about-docs-links">
-      <div>
-        <h2>Screenshots, keybinds and the rest are in the docs.</h2>
-        <nav>
-          <button data-article="install">Home launcher &amp; gestures <span>→</span></button>
-          <button data-article="tour">Command palette <span>→</span></button>
-          <button data-article="surface">Terminal, panes &amp; workspaces <span>→</span></button>
-          <button data-article="shell">In-app keyboard <span>→</span></button>
-          <button data-article="keybindings">Keybindings &amp; multiplexer <span>→</span></button>
-          <button data-article="extra-keys">Extra Keys recipes <span>→</span></button>
-        </nav>
+    <!-- docs ticker -->
+    <section class="docs-ticker">
+      <div class="section">
+        <h2 class="section-title docs-ticker-title" data-reveal>Screenshots, keybinds and the rest are in the docs.</h2>
+      </div>
+      <div class="marquee" data-reveal>
+        <div class="marquee-inner">
+          <button class="marquee-item glass glass--sm" data-article="install">Home launcher &amp; gestures <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="tour">Command palette <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="surface">Terminal, panes &amp; workspaces <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="shell">In-app keyboard <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="keybindings">Keybindings &amp; multiplexer <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="extra-keys">Extra Keys recipes <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="install" aria-hidden="true" tabindex="-1">Home launcher &amp; gestures <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="tour" aria-hidden="true" tabindex="-1">Command palette <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="surface" aria-hidden="true" tabindex="-1">Terminal, panes &amp; workspaces <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="shell" aria-hidden="true" tabindex="-1">In-app keyboard <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="keybindings" aria-hidden="true" tabindex="-1">Keybindings &amp; multiplexer <span>→</span></button>
+          <button class="marquee-item glass glass--sm" data-article="extra-keys" aria-hidden="true" tabindex="-1">Extra Keys recipes <span>→</span></button>
+        </div>
       </div>
     </section>
   </section>
@@ -455,18 +546,18 @@ export OPENAI_API_KEY="$TOKEN"</pre>
 
 
   <!-- footer -->
-  <footer style="border-top:1px solid var(--line);background:var(--panelink)">
-    <div style="max-width:1200px;margin:0 auto;padding:28px 22px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
-      <div style="display:flex;align-items:center;gap:10px">
-        <img src="assets/icons/termux-launcher.png" alt="" width="22" height="22" style="width:22px;height:22px;border-radius:6px">
-        <span style="font-family:var(--mono);font-size:12.5px;color:var(--dim)">termux-launcher · the shell is the launcher</span>
+  <footer class="site-footer glass">
+    <div class="site-footer-inner">
+      <div class="site-footer-brand" data-reveal>
+        <img src="assets/icons/termux-launcher.png" alt="" width="22" height="22">
+        <span>termux-launcher · the shell is the launcher</span>
       </div>
-      <div style="display:flex;gap:16px;font-family:var(--mono);font-size:12.5px">
-        <a data-nav="setup" href="#setup" style="color:var(--mute);text-decoration:none;cursor:pointer">Overview</a>
-        <a data-nav="wiki" href="#wiki" style="color:var(--mute);text-decoration:none;cursor:pointer">Docs</a>
-        <a data-nav="ai" href="#ai" style="color:var(--mute);text-decoration:none;cursor:pointer">Termux AI</a>
-        <a href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">GitHub ↗</a>
-        <a href="https://github.com/PickleHik3/termux-launcher/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none">Licenses ↗</a>
+      <div class="site-footer-links" data-reveal-stagger>
+        <a class="link-slide" data-nav="setup" href="#setup">Overview</a>
+        <a class="link-slide" data-nav="wiki" href="#wiki">Docs</a>
+        <a class="link-slide" data-nav="ai" href="#ai">Termux AI</a>
+        <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener">Licenses ↗</a>
       </div>
     </div>
   </footer>
