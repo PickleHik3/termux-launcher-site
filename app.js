@@ -464,9 +464,6 @@ class TermuxLauncherSite {
 
     document.querySelectorAll("#tl .nav-tabs [data-nav]").forEach((element) => {
       const active = element.dataset.nav === view;
-      element.style.background = active ? "var(--blue-soft)" : "transparent";
-      element.style.color = active ? "var(--blue)" : "var(--mute)";
-      element.style.fontWeight = "400";
       if (active) element.setAttribute("aria-current", "page");
       else element.removeAttribute("aria-current");
     });
@@ -483,6 +480,8 @@ class TermuxLauncherSite {
     if (view === "wiki") this.showArticle(subview);
     if (view === "ai") this.buildSpy(document.querySelector('#tl [data-view="ai"]'));
     window.scrollTo({ top: 0, behavior: "auto" });
+    // motion.js listens for this to re-bind reveals and refresh ScrollTrigger.
+    document.dispatchEvent(new CustomEvent("tl:viewchange", { detail: { view, subview } }));
   }
 
   showArticle(name) {
@@ -1119,7 +1118,8 @@ class TermuxLauncherSite {
   scrollToId(id) {
     const element = document.getElementById(id);
     if (!element) return;
-    const top = element.getBoundingClientRect().top + window.scrollY - 58;
+    const navHeight = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 64;
+    const top = element.getBoundingClientRect().top + window.scrollY - navHeight - 24;
     window.scrollTo({ top, behavior: "smooth" });
   }
 
