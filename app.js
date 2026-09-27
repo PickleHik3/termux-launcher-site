@@ -501,10 +501,7 @@ class TermuxLauncherSite {
     });
     document.querySelectorAll("#tl [data-article]").forEach((button) => {
       const active = button.dataset.article === name;
-      button.style.background = active ? "var(--gold-soft)" : "transparent";
-      button.style.borderLeftColor = active ? "var(--gold)" : "transparent";
-      button.style.color = active ? "var(--gold)" : "var(--mute)";
-      button.style.fontWeight = active ? "600" : "400";
+      button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", String(active));
     });
 
@@ -542,8 +539,9 @@ class TermuxLauncherSite {
   highlightSpy(activeLink) {
     Object.values(this.spyMap || {}).forEach((link) => {
       const active = link === activeLink;
-      link.style.color = active ? "var(--gold)" : "var(--dim)";
-      link.style.fontWeight = active ? "600" : "400";
+      link.classList.toggle("is-active", active);
+      if (active) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
     });
   }
 
@@ -1134,13 +1132,11 @@ class TermuxLauncherSite {
     const label = button.querySelector("[data-copy-label]") || button;
     const original = label.textContent;
     label.textContent = "copied";
-    button.style.color = "var(--green)";
-    button.style.borderColor = "var(--green)";
+    button.classList.add("is-copied");
     window.clearTimeout(button.resetTimer);
     button.resetTimer = window.setTimeout(() => {
       label.textContent = original;
-      button.style.color = "var(--gold)";
-      button.style.borderColor = "var(--gline)";
+      button.classList.remove("is-copied");
     }, 1300);
   }
 
