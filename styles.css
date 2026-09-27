@@ -3,7 +3,7 @@
    Glassmorphic redesign, see DESIGN.md. Order:
    1 tokens + easing  2 base  3 wallpaper + grain  4 glass  5 keyframes
    6 shared type + buttons  7 reveal system  8 nav  9 About view
-   10 footer  11 Docs / Termux AI / migration (legacy skin, kept working)
+   10 footer  11 Docs / Termux AI / migration (glass skin)
    12 breakpoints  13 reduced motion
    ========================================================================== */
 
@@ -1360,28 +1360,158 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
     transform 600ms var(--ease-out);
 }
 
-/* ---- 11. Docs, Termux AI and the migration page (legacy skin) ----
-   These selectors are kept working on the new tokens. The next worker
-   re-skins the views themselves. */
+/* ---- 11. Docs, Termux AI and the migration page ----
+   Reading surfaces: glass tokens, fade-up reveals, sliding indicators. No
+   pin, no tilt, no marquee, no gradient border. */
+
+/* -- Docs / wiki layout -- */
+.wiki-layout {
+  display: grid;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + 48px) var(--gutter) 120px;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) 220px;
+  align-items: start;
+  gap: clamp(26px, 3vw, 44px);
+}
+
+.wiki-sidebar,
+.wiki-toc-col {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  max-height: calc(100vh - var(--nav-h) - 48px);
+  overflow-y: auto;
+  padding: 18px;
+}
+
+.wiki-sidebar-title,
+.wiki-toc-title {
+  margin-bottom: 10px;
+  padding-left: 4px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.wiki-article-nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.wiki-article-button {
+  position: relative;
+  width: 100%;
+  padding: 9px 13px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--mute);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: left;
+  transition: color 250ms var(--ease-snap), background-color 250ms var(--ease-snap);
+}
+
+.wiki-article-button:hover {
+  color: var(--accent-b);
+  background: var(--glass-fill);
+}
+
+.wiki-article-button.is-active,
+.wiki-article-button[aria-pressed="true"] {
+  color: var(--accent-b);
+}
+
+/* Positioned by motion.js (transform/width); visible only with JS motion. */
+.wiki-sidebar-indicator,
+.wiki-toc-indicator {
+  position: absolute;
+  opacity: 0;
+  background: var(--accent);
+  pointer-events: none;
+  transition: transform 350ms var(--ease-snap), width 350ms var(--ease-snap), opacity 250ms var(--ease-snap);
+}
+
+.wiki-sidebar-indicator {
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 36px;
+}
+
+.wiki-toc-indicator {
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 20px;
+}
+
+html.has-motion .wiki-sidebar-indicator,
+html.has-motion .wiki-toc-indicator {
+  opacity: 1;
+}
+
+.wiki-sidebar-links {
+  margin: 16px 0 0;
+  padding: 14px 4px 0;
+  border-top: 1px solid var(--glass-line);
+}
+
+.wiki-sidebar-links a {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+[data-wiki-content] {
+  min-width: 0;
+}
 
 .wiki-kicker {
-  margin-bottom: 6px;
-  color: var(--gold);
+  margin-bottom: 8px;
+  color: var(--accent);
   font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 #tl [data-article-body] > h1,
 .wiki-empty h1 {
-  margin: 0 0 14px;
-  color: var(--cream);
-  font-family: var(--mono);
-  font-size: 32px;
-  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
 }
 
-.wiki-prose,
+.wiki-article-meta {
+  display: flex;
+  max-width: 730px;
+  margin: 0 0 30px;
+  align-items: center;
+  gap: 12px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.wiki-article-meta i {
+  flex: 1;
+  height: 1px;
+  background: var(--glass-line);
+}
+
 .wiki-empty p {
   max-width: 660px;
   color: var(--mute);
@@ -1390,13 +1520,55 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   line-height: 1.7;
 }
 
-.wiki-prose > :first-child {
-  margin-top: 0;
-  font-size: 16px;
+.wiki-inline-toc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 12px;
+  border-left: 1px solid var(--glass-line);
 }
 
-/* The article title comes from collection front matter. Keep an accidental
-   Markdown H1 from creating a second page title if a CMS edit adds one later. */
+.wiki-inline-toc a {
+  padding: 5px 0 5px 2px;
+  color: var(--dim);
+  font-size: 12.5px;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color 250ms var(--ease-snap);
+}
+
+.wiki-inline-toc a:hover {
+  color: var(--mute);
+}
+
+.wiki-inline-toc a.is-active,
+.wiki-inline-toc a[aria-current="location"] {
+  color: var(--accent-b);
+}
+
+.wiki-inline-toc .wiki-toc-h3 {
+  padding-left: 14px;
+}
+
+.wiki-toc-col:has(.wiki-inline-toc:empty) {
+  visibility: hidden;
+}
+
+/* -- Docs prose -- */
+.wiki-prose {
+  max-width: 730px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--mute);
+  font-family: var(--sans);
+}
+
+.wiki-prose > :first-child {
+  margin-top: 0;
+}
+
+/* The article title comes from collection front matter; hide an accidental
+   Markdown H1 so it never duplicates the page title. */
 .wiki-prose > h1 {
   display: none;
 }
@@ -1414,17 +1586,29 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
 
 .wiki-prose h2,
 .wiki-prose h3 {
-  scroll-margin-top: 64px;
-  margin: 28px 0 10px;
-  color: var(--cream);
-  font-family: var(--mono);
-  font-size: 18px;
+  scroll-margin-top: calc(var(--nav-h) + 24px);
+  margin: 0;
+  color: var(--text);
+  font-family: var(--display);
   font-weight: 600;
-  line-height: 1.35;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.wiki-prose h2 {
+  margin-top: 46px;
+  padding-top: 22px;
+  border-top: 1px solid var(--glass-line);
+  font-size: 1.6rem;
+}
+
+.wiki-prose h3 {
+  margin-top: 32px;
+  font-size: 1.2rem;
 }
 
 .wiki-prose a {
-  color: var(--cyan);
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -1433,21 +1617,18 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
 }
 
 .wiki-prose :not(pre) > code {
-  color: var(--cream);
+  color: var(--text);
   font-family: var(--mono);
   font-size: 0.92em;
 }
 
 .wiki-prose pre {
   position: relative;
-  max-width: 660px;
+  max-width: 730px;
   margin: 0 0 20px;
   padding: 14px 68px 14px 14px;
   overflow-x: auto;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--ink);
-  color: var(--cream);
+  color: var(--text);
   font-family: var(--mono);
   font-size: 12.5px;
   line-height: 1.65;
@@ -1463,26 +1644,32 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   top: 9px;
   right: 9px;
   padding: 5px 10px;
-  border: 1px solid var(--gline);
+  border: 1px solid var(--accent-line);
   border-radius: 6px;
-  background: var(--ink);
-  color: var(--gold);
+  background: transparent;
+  color: var(--accent);
   cursor: pointer;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  transition: color 250ms var(--ease-snap), border-color 250ms var(--ease-snap);
+}
+
+.wiki-copy.is-copied {
+  color: var(--accent-b);
+  border-color: var(--accent-b);
 }
 
 .wiki-prose blockquote {
-  max-width: 660px;
+  max-width: 730px;
   margin: 0 0 20px;
   padding: 13px 16px;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--gold);
-  border-radius: 8px;
-  background: var(--panelink);
-  color: var(--cream);
+  border: 1px solid var(--glass-line);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--glass-radius-sm);
+  background: var(--glass-fill);
+  color: var(--text);
   font-family: var(--mono);
   font-size: 13.5px;
 }
@@ -1499,8 +1686,8 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   height: auto;
   margin: 22px auto 28px;
   object-fit: contain;
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  border: 1px solid var(--glass-line);
+  border-radius: var(--glass-radius-sm);
 }
 
 .wiki-prose video {
@@ -1509,12 +1696,58 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   max-width: 760px;
   height: auto;
   margin: 20px 0;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #070a0b;
+  border: 1px solid var(--glass-line);
+  border-radius: var(--glass-radius-sm);
+  background: var(--bg2);
 }
 
-/* ---- Inline clips (```clip blocks) ---- */
+.wiki-prose table {
+  display: block;
+  max-width: 730px;
+  margin: 0 0 20px;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.wiki-prose th,
+.wiki-prose td {
+  padding: 9px 12px;
+  border: 1px solid var(--glass-line);
+  color: var(--mute);
+  text-align: left;
+}
+
+.wiki-prose th {
+  background: var(--glass-fill);
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+.wiki-prose td strong {
+  color: var(--text);
+}
+
+.wiki-prose td:first-child > a[href$="migrate-vaj.html"] {
+  display: inline-block;
+  margin-left: 0.45em;
+  padding: 0.12em 0.5em;
+  border: 1px solid var(--accent-line);
+  border-radius: 4px;
+  background: var(--accent-soft);
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wiki-prose::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* -- Inline clips (```clip blocks, see upgradeWikiClips) -- */
 .wiki-clip {
   margin: 22px 0 26px;
   max-width: 300px;
@@ -1545,22 +1778,19 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
 
 /* The product-card captures are 1080x1920 with a wordmark, tagline and baked
    caption around the phone. In the docs only the phone matters, so the frame
-   crops to the bezel (800x1680 at 140,103) in CSS - no re-encode, no second
-   asset. */
+   crops to the bezel (800x1680 at 140,103) in CSS - no re-encode. */
 .wiki-clip-frame {
   position: relative;
   overflow: hidden;
   aspect-ratio: 800 / 1680;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: var(--panelink);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-line);
+  border-radius: var(--glass-radius-sm);
+  background: var(--glass-fill);
+  box-shadow: var(--glass-shadow);
 }
 
 .wiki-clip-frame video {
   position: absolute;
-  /* left is a share of the frame's width (140/800), top a share of its height
-     (103/1680) - percentage offsets resolve against different axes. */
   top: -6.131%;
   left: -17.5%;
   width: 135%;
@@ -1572,7 +1802,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   background: transparent;
 }
 
-/* Plain device recordings have no card around them - show them whole. */
 .wiki-clip-frame--raw {
   aspect-ratio: auto;
 }
@@ -1584,9 +1813,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   width: 100%;
 }
 
-/* Fills the frame so a blocked clip can be started anywhere on the phone. The
-   badge only shows while paused; once playing the button stays but goes
-   invisible, so it can still be used to pause. */
 .wiki-clip-toggle {
   position: absolute;
   inset: 0;
@@ -1605,7 +1831,7 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   height: 0;
   border-style: solid;
   border-width: 13px 0 13px 21px;
-  border-color: transparent transparent transparent var(--cream);
+  border-color: transparent transparent transparent var(--text);
   filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.8));
   transition: opacity 200ms var(--ease-snap);
 }
@@ -1619,7 +1845,7 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
 }
 
 .wiki-clip-toggle:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--accent);
   outline-offset: -4px;
 }
 
@@ -1631,7 +1857,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   line-height: 1.6;
 }
 
-/* Screenshots and gifs framed like clips, at their own aspect ratio. */
 .wiki-clip-frame--img img {
   display: block;
   width: 100%;
@@ -1641,7 +1866,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   border-radius: inherit;
 }
 
-/* A capture that has not been recorded yet: a visible, honest gap. */
 .wiki-clip-frame--todo {
   display: flex;
   flex-direction: column;
@@ -1650,20 +1874,20 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   gap: 12px;
   aspect-ratio: 9 / 19.5;
   padding: 18px;
-  border: 1px dashed var(--line);
-  border-radius: 22px;
+  border: 1px dashed var(--glass-line);
+  border-radius: var(--glass-radius-sm);
   background: repeating-linear-gradient(
     -45deg,
     transparent 0 14px,
     rgba(255, 255, 255, 0.015) 14px 28px
-  ), var(--panelink);
+  ), var(--glass-fill);
   box-shadow: none;
   overflow: visible;
 }
 
 .wiki-clip-frame--todo-wide {
   aspect-ratio: 16 / 10;
-  border-radius: 12px;
+  border-radius: var(--glass-radius-sm);
 }
 
 .wiki-clip-todo-badge {
@@ -1671,8 +1895,8 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   font-size: 10.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gline);
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
   border-radius: 999px;
   padding: 4px 10px;
 }
@@ -1686,10 +1910,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   text-align: center;
 }
 
-/* A lone figure sits beside the prose instead of splitting it in half.
-   Merged rows (two+ clips) and layout: full rows keep the full width.
-   Rows with no adjacent text to wrap get centered instead of floated,
-   so no empty band opens beside the card. */
 @media (min-width: 900px) {
   .wiki-prose .wiki-clip-row--aside {
     float: right;
@@ -1702,7 +1922,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
     max-width: 240px;
   }
 
-  /* Headings, rules and code blocks start below any floated media. */
   .wiki-prose h2,
   .wiki-prose hr {
     clear: both;
@@ -1721,121 +1940,653 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   max-width: 720px;
 }
 
-.wiki-prose::after {
-  content: "";
-  display: block;
-  clear: both;
+/* Article kicker, meta and prose use the shared [data-reveal] system
+   (section 7) as-is; no extra rules needed here. */
+
+/* -- Termux AI view -- */
+.ai-hero {
+  max-width: var(--reading-max);
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + 40px) var(--gutter) 20px;
 }
 
-.wiki-prose table {
-  display: block;
+.ai-hero-kicker {
+  margin-bottom: 14px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ai-hero-title {
+  max-width: 720px;
+  margin: 0;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: clamp(2rem, 5.4vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.ai-hero-accent {
+  color: var(--accent);
+}
+
+.ai-hero-lead {
+  max-width: 620px;
+  margin: 18px 0 0;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.ai-section {
+  max-width: var(--reading-max);
+  margin: 0 auto;
+  padding: 44px var(--gutter) 10px;
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+.ai-section-title {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.ai-section-lead {
   max-width: 660px;
-  margin: 0 0 20px;
-  overflow-x: auto;
-  border-collapse: collapse;
+  margin: 0 0 8px;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-.wiki-prose th,
-.wiki-prose td {
-  padding: 9px 12px;
-  border: 1px solid var(--line);
+.ai-section-note {
+  max-width: 680px;
+  margin: 0 0 18px;
+  color: var(--dim);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.ai-body-text {
+  max-width: 700px;
+  margin: 22px 0 14px;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.ai-body-text--dim {
+  color: var(--dim);
+  font-size: 13.5px;
+}
+
+.ai-list {
+  max-width: 700px;
+  margin: 0 0 18px;
+  padding-left: 22px;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.ai-list b {
+  color: var(--text);
+}
+
+.ai-footnote {
+  max-width: 760px;
+  margin: 14px 0 0;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
+.ai-mono {
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+.ai-mono--mute {
+  color: var(--mute);
+}
+
+.ai-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.ai-tag--green { color: var(--green); }
+.ai-tag--orange { color: var(--orange); }
+.ai-tag--cyan { color: var(--cyan); }
+
+.ai-link {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+.ai-link:hover {
+  text-decoration: underline;
+}
+
+.ai-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.ai-grid--features {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 10px;
+}
+
+.ai-grid--import {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+  margin: 0 0 26px;
+}
+
+.ai-grid--two {
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.ai-grid--commands {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 760px;
+}
+
+.ai-card {
+  padding: 20px;
+}
+
+.ai-card-icon {
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 20px;
+}
+
+.ai-card-title {
+  margin-bottom: 6px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.ai-card-body {
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.ai-step {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-step-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ai-step-num {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--accent-line);
+  border-radius: 8px;
+  background: var(--glass-fill);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ai-step-num--filled {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.ai-step-title {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ai-step-body {
+  margin: 0;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.ai-phone-shot {
+  align-self: center;
+  max-width: 220px;
+  padding: 6px;
+  border: 1px solid var(--glass-line);
+  border-radius: 24px;
+  background: var(--bg2);
+}
+
+.ai-phone-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
+
+/* -- Command / code rows -- */
+.ai-cmd {
+  position: relative;
+  padding: 14px;
+}
+
+.ai-cmd pre,
+.ai-cmd code {
+  margin: 0;
+  overflow-x: auto;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ai-cmd--wide {
+  max-width: 700px;
+}
+
+.ai-cmd--wide pre {
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.ai-cmd--row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 13px;
+}
+
+.ai-cmd--row code {
+  font-size: 13px;
+}
+
+.ai-prompt {
+  color: var(--green);
+}
+
+.ai-copy-button {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent-line);
+  border-radius: 6px;
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: color 250ms var(--ease-snap), border-color 250ms var(--ease-snap);
+}
+
+.ai-cmd:not(.ai-cmd--row) .ai-copy-button {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+}
+
+.ai-copy-button.is-copied {
+  color: var(--accent-b);
+  border-color: var(--accent-b);
+}
+
+/* -- Tables -- */
+.ai-table {
+  overflow: hidden;
+  overflow-x: auto;
+  margin-top: 6px;
+}
+
+.ai-table table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.ai-table--plain table {
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.ai-table th,
+.ai-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--glass-line);
   color: var(--mute);
   text-align: left;
 }
 
-.wiki-prose th {
-  background: var(--panelink);
-  color: var(--gold);
+.ai-table thead th {
+  color: var(--accent);
   font-family: var(--mono);
+  font-weight: 600;
 }
 
-.wiki-prose td strong {
+.ai-table tbody td:first-child {
   color: var(--text);
 }
 
-.wiki-prose td:first-child > a[href$="migrate-vaj.html"] {
-  display: inline-block;
-  margin-left: .45em;
-  padding: .12em .5em;
-  border: 1px solid var(--accent-line);
-  border-radius: 4px;
-  background: var(--accent-soft);
-  color: var(--green);
+.ai-table-num {
+  text-align: right;
   font-family: var(--mono);
-  font-size: .72em;
-  letter-spacing: .08em;
+}
+
+/* -- Callouts -- */
+.ai-callout {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 13px 16px;
+  border: 1px solid var(--glass-line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--glass-radius-sm);
+  background: var(--glass-fill);
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.6;
+  max-width: 820px;
+}
+
+.ai-callout-icon {
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+.ai-callout-strong {
+  color: var(--text);
+}
+
+.ai-callout-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--dim);
+}
+
+.ai-callout--green { border-left-color: var(--green); }
+.ai-callout--green .ai-callout-icon { color: var(--green); }
+.ai-callout--orange { border-left-color: var(--orange); }
+.ai-callout--orange .ai-callout-icon { color: var(--orange); }
+.ai-callout--cyan { border-left-color: var(--cyan); }
+.ai-callout--cyan .ai-callout-icon { color: var(--cyan); }
+.ai-callout--warn { color: var(--text); }
+
+/* -- API reference -- */
+.ai-api {
+  margin-top: 44px;
+  border-top: 1px solid var(--glass-line);
+}
+
+.api-layout {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 44px;
+  padding: 44px var(--gutter) 110px;
+  align-items: start;
+}
+
+.api-sidebar {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  padding: 18px;
+}
+
+.api-sidebar-title {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.api-nav-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: var(--mute);
+  background: transparent;
+  border: 0;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: color 250ms var(--ease-snap);
+}
+
+.api-nav-button:hover {
+  color: var(--accent-b);
+}
+
+.api-sidebar-label {
+  margin: 16px 0 6px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-@media (max-width: 1080px) {
-  .wiki-layout {
-    grid-template-columns: 220px minmax(0, 1fr) !important;
-    gap: 30px !important;
-  }
-
-  .wiki-toc {
-    display: none;
-  }
+.api-eplist {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-@media (max-width: 820px) {
-  .wiki-layout,
-  .api-layout {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 28px !important;
-  }
-
-  .wiki-sidebar,
-  .api-sidebar {
-    position: static !important;
-  }
-
-  .wiki-sidebar nav {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4px !important;
-  }
-
-  .api-sidebar [data-eplist] {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4px 16px !important;
-  }
-
-  .feature-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  .import-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
+.api-eplist button {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
-@media (max-width: 560px) {
-  .import-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
+.ai-spy-main {
+  min-width: 0;
 }
 
-@media (max-width: 620px) {
-  .wiki-layout,
-  .api-layout {
-    padding-inline: 18px !important;
-  }
+.ai-spy-block {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
 
-  .wiki-sidebar nav,
-  .api-sidebar [data-eplist],
-  .command-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
+.ai-spy-block + .ai-spy-block {
+  margin-top: 40px;
+}
 
-  [data-cmd] {
-    max-width: calc(100vw - 36px);
-  }
+.ai-spy-kicker {
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
 
-  [data-cmd-text] {
-    overflow-wrap: anywhere;
-  }
+.ai-spy-title {
+  margin: 0 0 14px;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.ai-spy-subtitle {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.ai-spy-body {
+  max-width: 640px;
+  margin: 0 0 8px;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+.ai-epdetail {
+  margin-top: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* app.js-generated endpoint cards (buildEndpointReference, buildCommandBlock)
+   set their own inline cssText for every property, including colour; the
+   custom properties they reference already resolve to the accent palette,
+   so the result stays on-theme even though those panels are flat rather
+   than true glass. Nothing to override here. */
+
+/* -- Migration page (migrate-vaj.html) -- */
+.migration-page {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + 48px) 22px 110px;
+}
+
+.migration-hero,
+.migration-content {
+  max-width: 760px;
+}
+
+.migration-hero {
+  padding: clamp(28px, 4vw, 40px) clamp(24px, 4vw, 40px) clamp(38px, 5vw, 58px);
+}
+
+.migration-hero h1 {
+  max-width: 720px;
+  margin: 10px 0 20px;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.migration-hero > p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.migration-hero code,
+.migration-coexist code {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+
+.migration-coexist {
+  margin-top: 26px;
+  padding: 14px 16px;
+  border: 1px solid var(--accent-line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--glass-radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-b);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.migration-content {
+  padding-top: 24px;
+}
+
+.migration-content > h2:first-child {
+  font-size: 1.6rem;
+}
+
+.migration-content h2 {
+  margin-top: 40px;
+  color: var(--text);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.migration-content p {
+  max-width: 730px;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+.migration-timeline {
+  display: grid;
+  margin-bottom: 24px;
+  padding: 6px;
+}
+
+.migration-timeline > div {
+  display: grid;
+  padding: 13px 15px;
+  grid-template-columns: minmax(170px, 0.75fr) minmax(220px, 1.25fr);
+  gap: 18px;
+  border-bottom: 1px solid var(--glass-line);
+}
+
+.migration-timeline > div:last-child {
+  border-bottom: 0;
+}
+
+.migration-timeline strong {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.migration-timeline span {
+  color: var(--text);
 }
 
 /* search results (generated by app.js; search is dormant but must not break) */
@@ -1897,181 +2648,48 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   color: var(--dim);
 }
 
-.wiki-layout {
-  display: grid;
-  max-width: 1320px !important;
-  margin: 0 auto;
-  padding: 34px 24px 120px !important;
-  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) 190px !important;
-  align-items: start;
-  gap: clamp(26px, 3vw, 44px) !important;
+/* -- Docs / AI / migration breakpoints -- */
+@media (max-width: 1240px) and (min-width: 821px) {
+  .wiki-layout {
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  }
+
+  .wiki-toc-col {
+    display: none;
+  }
 }
 
-.wiki-sidebar {
-  position: sticky !important;
-  top: 80px !important;
-  max-height: calc(100vh - 108px);
-  padding-right: 8px;
-  overflow-y: auto;
-}
-
-.wiki-sidebar-title {
-  padding: 0 0 12px 13px;
-  color: var(--dim);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.wiki-article-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.wiki-nav-item,
-.wiki-article-nav [data-article] {
-  width: 100%;
-  padding: 9px 13px !important;
-  border: 0 !important;
-  border-left: 2px solid transparent !important;
-  border-radius: 0 6px 6px 0 !important;
-  background: transparent;
-  color: var(--mute);
-  cursor: pointer;
-  font-family: var(--sans);
-  font-size: 14px;
-  line-height: 1.35;
-  text-align: left;
-}
-
-.wiki-article-nav [data-article][aria-pressed="true"] {
-  border-left-color: var(--accent) !important;
-  color: var(--accent) !important;
-}
-
-.wiki-inline-toc {
-  display: flex;
-  margin: 4px 0 10px 15px;
-  padding-left: 12px;
-  flex-direction: column;
-  border-left: 1px solid var(--line);
-}
-
-.wiki-inline-toc a {
-  padding: 5px 0 5px 2px;
-  color: var(--dim);
-  font-size: 12.5px;
-  line-height: 1.45;
-  text-decoration: none;
-  transition: color 150ms var(--ease-snap);
-}
-
-.wiki-inline-toc .wiki-toc-h3 {
-  padding-left: 14px;
-}
-
-.wiki-sidebar-links {
-  margin: 16px 0 0;
-  padding: 14px 0 0 13px;
-  border-top: 1px solid var(--line);
-}
-
-.wiki-sidebar-links a {
-  display: block;
-  margin-bottom: 9px;
-  color: var(--cyan);
-  font-family: var(--mono);
-  font-size: 13px;
-  text-decoration: none;
-}
-
-[data-wiki-content] {
-  min-width: 0;
-}
-
-#tl [data-article-body] > h1 {
-  margin: 0 0 10px;
-  color: var(--text);
-  font-size: clamp(34px, 4vw, 46px);
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-}
-
-.wiki-article-meta {
-  display: flex;
-  max-width: 730px;
-  margin: 0 0 34px;
-  align-items: center;
-  gap: 12px;
-  color: var(--dim);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-}
-
-.wiki-article-meta i {
-  flex: 1;
-  height: 1px;
-  background: var(--line);
-}
-
-.wiki-prose {
-  max-width: 730px;
-  font-size: 16px;
-  line-height: 1.75;
-}
-
-.wiki-prose h2 {
-  margin-top: 46px;
-  padding-top: 22px;
-  border-top: 1px solid var(--line2);
-  font-size: 26px;
-}
-
-.wiki-prose h3 {
-  margin-top: 32px;
-  font-size: 18px;
-}
-
-.wiki-prose pre {
-  max-width: 730px;
-  border-color: var(--line);
-  border-left: 2px solid var(--accent-line);
-  border-radius: 10px;
-  background: var(--panelink);
-}
-
-.wiki-prose blockquote {
-  max-width: 730px;
-  border-color: var(--line);
-  border-left: 2px solid var(--accent);
-  border-radius: 10px;
-  background: var(--panel);
-}
-
-.wiki-prose table {
-  max-width: 730px;
+@media (max-width: 900px) {
+  .ai-grid--features,
+  .ai-grid--import {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 820px) {
-  .wiki-layout {
-    grid-template-columns: 1fr !important;
+  .wiki-layout,
+  .api-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-top: calc(var(--nav-h) + 32px);
+  }
+
+  .wiki-toc-col {
+    display: none;
   }
 
   .wiki-sidebar {
-    position: static !important;
+    position: static;
     max-height: none;
-    margin-inline: -24px;
-    padding: 0 24px 14px;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 0 var(--gutter) 14px;
     overflow-x: auto;
-    border-bottom: 1px solid var(--line);
+    overflow-y: visible;
+    border-radius: 0;
+    border-width: 0 0 1px;
   }
 
   .wiki-sidebar-title,
-  .wiki-inline-toc,
   .wiki-sidebar-links {
     display: none;
   }
@@ -2082,129 +2700,68 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
     gap: 8px;
   }
 
-  .wiki-article-nav [data-article] {
+  .wiki-sidebar-indicator {
+    display: none;
+  }
+
+  .wiki-article-button {
     width: auto;
     flex: none;
-    border: 1px solid var(--line) !important;
-    border-radius: 4px !important;
+    border: 1px solid var(--glass-line);
+    border-radius: 999px;
+  }
+
+  .api-sidebar {
+    position: static;
+  }
+
+  .api-eplist {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 16px;
+  }
+}
+
+@media (max-width: 620px) {
+  .wiki-layout,
+  .api-layout {
+    padding-inline: 18px;
+  }
+
+  .api-eplist,
+  .ai-grid--commands {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  [data-cmd] {
+    max-width: calc(100vw - 36px);
+  }
+
+  [data-cmd-text] {
+    overflow-wrap: anywhere;
   }
 }
 
 @media (max-width: 560px) {
   .wiki-layout {
-    padding-inline: 18px !important;
+    padding-inline: 18px;
   }
 
   .wiki-sidebar {
     margin-inline: -18px;
     padding-inline: 18px;
   }
-}
 
-/* ---- VAJ to Nix migration guide ---- */
+  .ai-grid--import {
+    grid-template-columns: minmax(0, 1fr);
+  }
 
-.migration-page {
-  width: min(100%, 1180px);
-  margin: 0 auto;
-  padding: clamp(52px, 7vw, 88px) 22px 110px;
-}
-
-.migration-hero,
-.migration-content {
-  max-width: 760px;
-}
-
-.migration-hero {
-  padding-bottom: clamp(38px, 5vw, 58px);
-  border-bottom: 1px solid var(--line);
-}
-
-.migration-hero h1 {
-  max-width: 720px;
-  margin: 10px 0 20px;
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: clamp(42px, 6vw, 68px);
-  font-weight: 600;
-  letter-spacing: -0.055em;
-  line-height: 1;
-  text-wrap: balance;
-}
-
-.migration-hero > p {
-  max-width: 680px;
-  margin: 0;
-  color: var(--mute);
-  font-size: 18px;
-  line-height: 1.7;
-}
-
-.migration-hero code,
-.migration-coexist code {
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 0.92em;
-}
-
-.migration-coexist {
-  margin-top: 26px;
-  padding: 14px 16px;
-  border: 1px solid var(--accent-line);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  background: var(--accent-soft);
-  color: var(--accent-b);
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.migration-content {
-  padding-top: 4px;
-}
-
-.migration-content > h2:first-child {
-  font-size: 26px;
-}
-
-.migration-timeline {
-  display: grid;
-  margin-bottom: 24px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--panel);
-}
-
-.migration-timeline > div {
-  display: grid;
-  padding: 13px 15px;
-  grid-template-columns: minmax(170px, .75fr) minmax(220px, 1.25fr);
-  gap: 18px;
-  border-bottom: 1px solid var(--line);
-}
-
-.migration-timeline > div:last-child {
-  border-bottom: 0;
-}
-
-.migration-timeline strong {
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.migration-timeline span {
-  color: var(--text);
-}
-
-@media (max-width: 560px) {
   .migration-page {
     padding-inline: 18px;
   }
 
   .migration-hero h1 {
-    font-size: clamp(38px, 12vw, 52px);
+    font-size: clamp(2.2rem, 12vw, 3rem);
   }
 
   .migration-timeline > div {
@@ -2213,105 +2770,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
   }
 }
 
-.wiki-toc-col {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 108px);
-  overflow-y: auto;
-  padding-top: 6px;
-}
-
-.wiki-toc-title {
-  margin-bottom: 8px;
-  color: var(--dim);
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.wiki-toc-col .wiki-inline-toc {
-  margin: 0;
-  padding-left: 12px;
-}
-
-.api-sidebar [data-eplist] button {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-/* Nothing to list (page has no h2/h3): hide the whole column quietly. */
-.wiki-toc-col:has(.wiki-inline-toc:empty) {
-  visibility: hidden;
-}
-
-/* Not enough room for three columns: drop the toc, keep two. */
-@media (max-width: 1240px) and (min-width: 821px) {
-  .wiki-layout {
-    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) !important;
-  }
-
-  .wiki-toc-col {
-    display: none;
-  }
-}
-
-@media (max-width: 820px) {
-  .wiki-toc-col {
-    display: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .api-sidebar [data-eplist] {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-}
-
-/* wiki / AI skin overrides on the new tokens */
-.wiki-toc {
-  display: none;
-}
-
-.wiki-nav-item:hover {
-  color: var(--accent-b) !important;
-}
-
-.wiki-kicker {
-  color: var(--accent);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-}
-
-#tl [data-article-body] > h1,
-.wiki-empty h1 {
-  color: var(--text);
-  font-family: var(--display);
-}
-
-.wiki-prose h2,
-.wiki-prose h3 {
-  color: var(--text);
-  font-family: var(--display);
-  letter-spacing: -0.01em;
-}
-
-.wiki-prose a,
-.wiki-prose th {
-  color: var(--accent);
-}
-
-.wiki-copy {
-  border-color: var(--accent-line);
-  color: var(--accent);
-}
-
-#tl [data-view="ai"] > div:first-child h1,
-#tl [data-view="ai"] h2,
-#tl [data-view="ai"] h3 {
-  font-family: var(--display) !important;
-  letter-spacing: -0.015em !important;
-}
 
 /* ---- 12. Breakpoints ---- */
 @media (min-width: 900px) {
@@ -2364,16 +2822,6 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
 
   html.has-motion .spine-phone-slot {
     width: 280px;
-  }
-}
-
-@media (max-width: 900px) {
-  .wiki-layout {
-    grid-template-columns: 1fr !important;
-  }
-
-  .wiki-sidebar {
-    position: static !important;
   }
 }
 

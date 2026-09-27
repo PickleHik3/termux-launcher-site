@@ -10,15 +10,23 @@
 <title>VAJ to Nix migration — Termux Launcher</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
 <link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
-<link rel="stylesheet" href="styles.css?v=20260810-1">
+<link rel="stylesheet" href="styles.css?v=20260927-1">
 </head>
 <body>
-<div id="tl" style="--bg:#080b0d;--bg2:#0b1012;--panel:#0f1518;--panelink:#090d0f;--ink:#0a0e12;--line:#20292d;--line2:#151c1f;--accent:#72d8cd;--accent-b:#a5eee7;--accent-soft:rgba(114,216,205,.09);--accent-line:rgba(114,216,205,.34);--blue:var(--accent);--blue-b:var(--accent-b);--blue-soft:var(--accent-soft);--bline:var(--accent-line);--text:#e2e7ef;--cream:var(--text);--mute:#98a2af;--dim:#5a6470;--green:#7fd18c;--cyan:#63c2d4;--orange:#e0a072;--red:#e07070;--gold:var(--accent);--gold-b:var(--accent-b);--gold-soft:var(--accent-soft);--gline:var(--accent-line);--mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'IBM Plex Sans',system-ui,sans-serif;min-height:100vh;background:radial-gradient(900px 700px at 82% 4%,rgba(58,127,119,.18),transparent 62%),radial-gradient(800px 720px at 12% 34%,rgba(83,57,120,.1),transparent 68%),linear-gradient(180deg,#081214 0%,#080c0e 34%,#091012 100%);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden">
+<div id="tl" class="tl">
 
-  <nav class="site-nav">
+<div class="wallpaper" aria-hidden="true">
+  <i class="wallpaper-blob wallpaper-blob--1"></i>
+  <i class="wallpaper-blob wallpaper-blob--2"></i>
+  <i class="wallpaper-blob wallpaper-blob--3"></i>
+  <i class="wallpaper-blob wallpaper-blob--4"></i>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+  <nav class="site-nav glass glass--fixed">
     <div class="site-nav-inner">
       <a class="brand-button" href="./" aria-label="Termux Launcher home">
         <img src="assets/icons/termux-launcher.png" alt="" width="30" height="30">
@@ -26,18 +34,18 @@
       </a>
       <div class="nav-tabs"></div>
       <div class="nav-actions">
-        <a href="./">Back to site</a>
-        <a class="download-button" href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">Get Nix APK ↗</a>
+        <a class="nav-link" href="./">Back to site</a>
+        <a class="download-button btn btn--primary btn--sm" href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">Get Nix APK ↗</a>
       </div>
     </div>
   </nav>
 
   <main class="migration-page">
-    <header class="migration-hero">
+    <header class="migration-hero glass">
       <div class="wiki-kicker">MIGRATION GUIDE · VAJ → NIX</div>
       <h1>Move from VAJ to the Nix edition.</h1>
       <p>VAJ is deprecated: <code>v0.2.35-a-vaj</code> is its final feature-parity release, and only security fixes follow. The Nix edition is its replacement: the same idea — a launcher that installs alongside official Termux — with a package set that is actively maintained.</p>
-      <div class="migration-coexist">Nothing is removed for you. <code>io.vaj.tl</code>, <code>com.termux.launcher.nix</code> and official <code>com.termux</code> are three different Android packages, so all three can sit on the phone while you try the new one.</div>
+      <div class="migration-coexist glass glass--sm">Nothing is removed for you. <code>io.vaj.tl</code>, <code>com.termux.launcher.nix</code> and official <code>com.termux</code> are three different Android packages, so all three can sit on the phone while you try the new one.</div>
     </header>
 
     <article class="wiki-prose migration-content">
@@ -50,7 +58,7 @@
       </ul>
 
       <h2>Timeline</h2>
-      <div class="migration-timeline">
+      <div class="migration-timeline glass glass--sm">
         <div><strong>Final feature release</strong><span><code>v0.2.35-a-vaj</code></span></div>
         <div><strong>VAJ apt repository</strong><span><code>repo.pathayam.xyz</code>, online read-only for at least 6 months</span></div>
         <div><strong>Successor</strong><span><code>com.termux.launcher.nix</code></span></div>
