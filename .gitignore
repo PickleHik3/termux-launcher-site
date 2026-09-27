@@ -4,3 +4,5 @@ _site/
 Gemfile.lock
 oauth-worker/.wrangler/
 oauth-worker/node_modules/
+vendor/
+.claude/worktrees/
