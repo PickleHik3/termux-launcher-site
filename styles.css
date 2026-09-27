@@ -682,8 +682,8 @@ html.has-motion.is-loaded .site-nav {
   position: relative;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  min-height: calc(100vh - var(--nav-h) - 12px);
-  min-height: calc(100svh - var(--nav-h) - 12px);
+  min-height: calc(100vh - var(--nav-h) - 44px);
+  min-height: calc(100svh - var(--nav-h) - 44px);
   max-width: var(--content-max);
   margin: 0 auto;
   padding: 0 var(--gutter);
@@ -870,6 +870,28 @@ html.has-motion.is-loaded .phone-frame {
 
 .spine-head {
   margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+/* Wide viewports: the hero is exactly one screen tall; the phone hangs out of
+   its row past the fold instead of stretching the section. */
+@media (min-width: 900px) {
+  .hero {
+    height: calc(100vh - var(--nav-h) - 44px);
+    height: calc(100svh - var(--nav-h) - 44px);
+    min-height: 640px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  .hero-phone {
+    align-self: start;
+    margin-bottom: 0;
+  }
+
+  /* The phone's tail hangs (about 1200px minus the viewport height) below the
+     hero; keep the spine's rule clear of it on short screens. */
+  .spine {
+    padding-top: clamp(220px, calc(1200px - 100svh), 520px);
+  }
 }
 
 .spine-grid {
