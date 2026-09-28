@@ -2443,6 +2443,152 @@ html.has-motion .wiki-toc-indicator {
   overflow-wrap: anywhere;
 }
 
+/* -- Endpoint reference (JS-built) -- */
+.api-eplist-label {
+  margin: 12px 0 4px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.api-eplist-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  color: var(--mute);
+  background: transparent;
+  border: none;
+  padding: 5px 0;
+  cursor: pointer;
+  transition: color 250ms var(--ease-snap);
+}
+
+.api-eplist-button:hover {
+  color: var(--accent-b);
+}
+
+.api-eplist-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.api-eplist-path {
+  color: inherit;
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
+.api-method {
+  min-width: 30px;
+  color: var(--mute);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.api-method--get { color: var(--green); }
+.api-method--post { color: var(--blue); }
+.api-method--delete { color: var(--red); }
+
+.api-group {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.api-group-title {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.api-card {
+  padding: 16px 18px;
+}
+
+.api-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.api-pill {
+  color: var(--bg);
+  background: var(--mute);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 5px;
+  padding: 2px 8px;
+}
+
+.api-pill.api-method--get { background: var(--green); }
+.api-pill.api-method--post { background: var(--blue); }
+.api-pill.api-method--delete { background: var(--red); }
+
+.api-card-path {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+.api-card-desc {
+  margin: 11px 0 0;
+  color: var(--mute);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.api-card-params {
+  margin: 9px 0 0;
+  color: var(--dim);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.api-card-note {
+  display: flex;
+  gap: 8px;
+  margin-top: 11px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: 7px;
+  padding: 8px 11px;
+  color: var(--accent-b);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.api-block {
+  margin-top: 12px;
+}
+
+.api-block-label {
+  margin-bottom: 5px;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ai-cmd--muted pre {
+  color: var(--mute);
+}
+
 .ai-spy-main {
   min-width: 0;
 }
@@ -2495,11 +2641,11 @@ html.has-motion .wiki-toc-indicator {
   gap: 14px;
 }
 
-/* app.js-generated endpoint cards (buildEndpointReference, buildCommandBlock)
-   set their own inline cssText for every property, including colour; the
-   custom properties they reference already resolve to the accent palette,
-   so the result stays on-theme even though those panels are flat rather
-   than true glass. Nothing to override here. */
+/* app.js-generated endpoint cards (buildEndpointReference, createEndpointLink,
+   createEndpointCard, createEndpointBlock) now use the classes above
+   (.api-eplist-*, .api-method*, .api-group*, .api-card*, .api-block*) instead
+   of inline cssText, so they sit on the same glass surfaces as the rest of
+   the AI view. */
 
 /* -- Migration page (migrate-vaj.html) -- */
 .migration-page {
