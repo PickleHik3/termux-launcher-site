@@ -21,7 +21,7 @@ setup-toolkits
 
 > Note: the `rm` replaces the bootstrap config on purpose - only run it in that directory, and back up first if you already customized it.
 
-`setup-toolkits` is a checklist over the launcher flake's optional toolkits (shell essentials, eye candy, language toolchains) - it's the Nix edition's equivalent of the [setup script](#wiki/shell-goodies). Rerun it anytime:
+`setup-toolkits` is a checklist over the launcher flake's optional toolkits (shell essentials, eye candy, language toolchains) - it's the Nix edition's equivalent of [tlstore](#wiki/tlstore). Rerun it anytime:
 
 ```sh
 setup-toolkits --list            # current selection, no changes

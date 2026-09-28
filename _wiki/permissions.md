@@ -13,14 +13,48 @@ A home screen that is also a terminal ends up asking for a few permissions that 
 
 **Accessibility service.** Used for exactly one thing: locking the screen when you double-tap the alphabets row. The service is declared with screen-reading and gesture abilities *disabled* - it can only send the "lock screen" action. If you'd rather not enable an accessibility service, the Shizuku lock method does the same job.
 
-**Shizuku.** The privileged backend, if you have [Shizuku](https://shizuku.rikka.app/) or Sui set up. It powers the nicer screen-lock method (a real power-button keypress, so the system's screen-off animation plays and secure lock behaves normally), detailed CPU/memory and top-process data in the status bar, and foreground-process labels on window pills. RAM totals remain available without it through Android's `ActivityManager`, while CPU uses a best-effort direct `/proc` fallback when the device allows it.
-
-Connecting it: install Shizuku and start its service (Wireless debugging or root, per Shizuku's own guide), then **Settings → Services & permissions → Shizuku → Connect** and approve the dialog. Two things worth knowing;
-
-* The privileged backend only initializes when you connect it from that settings page. Until then, the CPU card uses whatever the direct `/proc` fallback can read and detailed process data may be absent.
-* A Wireless-debugging start does not survive a reboot. Start Shizuku again, then revisit the settings page to reconnect; everything falls back to unprivileged data in the meantime.
+**Shizuku.** The privileged backend, if you have [Shizuku](https://shizuku.rikka.app/) or Sui set up. It powers the nicer screen-lock method (a real power-button keypress, so the system's screen-off animation plays and secure lock behaves normally), detailed CPU/memory and top-process data in the status bar, foreground-process labels on window pills, and `btop` in [tlstore](#wiki/tlstore). See [Shizuku](#shizuku) below for setup and what to do when it isn't working.
 
 **Storage / All files access.** Only for the classic Termux `~/storage` symlinks (`termux-setup-storage`), so the shell can reach your shared storage. The launcher itself doesn't touch your files.
+
+## Shizuku
+
+Shizuku lets an app use selected system APIs with the privileges of ADB or root, after you approve
+that app - no root required, since on supported Android versions Shizuku can start through
+Wireless debugging instead. Without it, RAM totals remain available through Android's
+`ActivityManager`, and CPU uses a best-effort direct `/proc` fallback when the device allows it;
+Shizuku adds detailed CPU/memory and process data, foreground-process labels on window pills, the
+Shizuku screen-lock method, and `btop` from tlstore.
+
+**Setting it up:**
+
+1. Install the [Shizuku](https://shizuku.rikka.app/) app and start its service through Wireless
+   debugging or root, per its own setup guide.
+2. In Termux Launcher, open **Settings → Services & permissions → Shizuku**.
+3. Choose **Request Shizuku permission** and approve the dialog that appears over the launcher.
+
+The privileged backend only initializes once you connect it from that settings page - until then
+the CPU card uses whatever the direct `/proc` fallback can read, and detailed process data may be
+absent. A Wireless-debugging start does not survive a reboot: start Shizuku again, then revisit the
+settings page to reconnect; everything falls back to unprivileged data in the meantime.
+
+**`rish` in the terminal.** Shizuku's shell helper gives a command an ADB-privileged shell, which
+can read system process data and run tools outside Termux's app sandbox - anything installed under
+`/data/local/tmp` runs from there, so tools the sandbox would otherwise refuse to execute work when
+launched through `rish`.
+
+**Common failures:**
+
+- **Permission denied, or the prompt never appears.** Open the Shizuku app and check Termux
+  Launcher's authorization there - grant it, or reset a previous denial - then use **Request
+  Shizuku permission** again. Also check that **Enable privileged features** and **Prefer Shizuku
+  backend** are on, on the same settings page.
+- **Unavailable after a reboot.** Expected for a Wireless-debugging start; start Shizuku again and
+  reconnect from the settings page.
+- **The stats card shows `--`, `stale`, or no processes.** CPU percentages need two samples to
+  compute a change, and the process list only samples while the card is open - leave it open a few
+  seconds first. If it still doesn't recover, confirm the Shizuku settings page reports
+  **SHIZUKU · READY**, then restart Shizuku and re-check permission.
 
 ## Regular permissions
 
