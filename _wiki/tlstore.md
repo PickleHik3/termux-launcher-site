@@ -24,7 +24,7 @@ Eight things are on offer, and each brings whatever it needs along with it:
 | `fastfetch`   | System information beside an animated logo. Drop any GIF at `~/Pictures/gif/skel.gif` and it plays there.                          |
 | `sigye`       | A clock for the terminal.                                                                                                           |
 | `kitten`      | Kitty's companion tool, for images and files in the terminal.                                                                       |
-| `dawn`        | A writing pad for the terminal: markdown that takes shape as you type. With a local model downloaded and set as default in TAI, `Ctrl+/` asks it to rewrite the selected text or write at the cursor. |
+| `dawn`        | A writing pad for the terminal: markdown that takes shape as you type. With a local model downloaded and set as default in On-device AI, `Ctrl+/` asks it to rewrite the selected text or write at the cursor. |
 | `claude-code` | Anthropic's [Claude Code](https://claude.com/claude-code), about 200 MB. Sign in by running `claude`; `tlstore update` keeps it current. |
 | `opencode`    | [opencode](https://opencode.ai), about 200 MB. Sign in by running `opencode`; `tlstore update` keeps it current.                    |
 | `btop`        | A resource monitor that sees the whole phone - every process, disk and network interface - run as the shell user through Shizuku. Needs [Shizuku](#wiki/permissions) connected, or it says the lane isn't there. Launcher only. |

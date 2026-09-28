@@ -47,7 +47,6 @@
         <i class="nav-indicator" aria-hidden="true"></i>
         <button data-nav="setup">About</button>
         <button data-nav="wiki">Docs</button>
-        <button data-nav="ai">Termux&nbsp;AI</button>
       </div>
       <div class="nav-actions">
         <a class="nav-link" data-hide-sm href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
@@ -280,7 +279,7 @@
           <i class="wiki-sidebar-indicator" aria-hidden="true"></i>
         </nav>
         <div class="wiki-sidebar-links">
-          <a class="link-slide" data-nav="ai" href="#ai">Termux AI ↗</a>
+          <a class="link-slide" data-article="on-device-ai" href="#wiki/on-device-ai">On-device AI ↗</a>
           <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub repo ↗</a>
         </div>
       </aside>
@@ -358,7 +357,7 @@
                   {% if ref.key %}
                     <button class="reference-pill" data-article="{{ ref.key | escape }}">{{ ref.title | escape }}</button>
                   {% else %}
-                    <a class="reference-pill" data-nav="ai" href="{{ ref.href }}">{{ ref.title | escape }} ↗</a>
+                    <a class="reference-pill" href="{{ ref.href }}" target="_blank" rel="noopener">{{ ref.title | escape }} ↗</a>
                   {% endif %}
                 {% endfor %}
               </div>
@@ -393,254 +392,6 @@
     </div>
   </section>
 
-  <!-- ==================================================== -->
-  <!-- ==================  3:TERMUX-AI  =================== -->
-  <!-- ==================================================== -->
-  <section data-view="ai" data-screen-label="3 Termux AI" style="display:none">
-    <!-- product hero -->
-    <div class="ai-hero">
-      <div class="ai-hero-kicker" data-reveal>TAI &middot; TERMUX AI</div>
-      <h1 class="ai-hero-title" data-reveal="blur">Local language models,<br><span class="ai-hero-accent">on your device.</span></h1>
-      <p class="ai-hero-lead" data-reveal>TAI hosts models locally and speaks OpenAI- and Ollama-compatible HTTP. Your prompts and output stay on the device unless you deliberately expose the API to your network.</p>
-    </div>
-
-    <!-- feature grid -->
-    <div class="ai-section">
-      <div class="ai-grid ai-grid--features" data-reveal-stagger>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9670;</div><div class="ai-card-title">On-device &amp; private</div><div class="ai-card-body">Localhost bind by default. Bearer-token auth on every request.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#8644;</div><div class="ai-card-title">OpenAI + Ollama</div><div class="ai-card-body">Drop-in for Codex, OpenCode, Crush, AIChat and Ollama clients.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9636;</div><div class="ai-card-title">Two backends</div><div class="ai-card-body">LiteRT-LM (default) and a bundled MNN backend, routed per model.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9881;</div><div class="ai-card-title">Isolated runtime</div><div class="ai-card-body">Native model work runs in its own :tai_runtime process, apart from the launcher.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9680;</div><div class="ai-card-title">Capability-aware</div><div class="ai-card-body">Text, image, audio, tools, embeddings, each model reports what it serves.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#8613;</div><div class="ai-card-title">Import your own</div><div class="ai-card-body">LiteRT-LM <span class="ai-mono">.litertlm</span>/<span class="ai-mono">.task</span> and MNN model directories.</div></div>
-      </div>
-    </div>
-
-    <!-- model catalog -->
-    <div class="ai-section" id="ai-catalog">
-      <h2 class="ai-section-title" data-reveal>Model catalog</h2>
-      <p class="ai-section-lead" data-reveal>Models aren't bundled in the APK, pull them from the in-app gallery or with <span class="ai-mono">tai</span> (several GB each). Only one generation model loads at a time, inside the isolated <span class="ai-mono">:tai_runtime</span> process. This is the full built-in catalog; you can also <a class="ai-link" data-scrollto="ai-import" href="#ai">import your own</a>.</p>
-      <p class="ai-section-note" data-reveal>Two backends &mdash; <span class="ai-mono ai-mono--mute">LiteRT-LM</span> (Google AI Edge) and <span class="ai-mono ai-mono--mute">MNN</span>. <span class="ai-tag ai-tag--green">rec</span> = recommended default &middot; <span class="ai-tag ai-tag--orange">gated</span> = accept the provider's Hugging Face terms first &middot; <span class="ai-tag ai-tag--cyan">import</span> = added via the import flow, not a direct download. Multimodal LiteRT-LM models also appear as separate <span class="ai-mono ai-mono--mute">-vision</span> / <span class="ai-mono ai-mono--mute">-audio</span> IDs on the API.</p>
-      <div class="ai-table glass glass--sm" data-reveal>
-        <table>
-          <thead><tr>
-            <th>Model</th>
-            <th>Backend</th>
-            <th>Best for</th>
-            <th class="ai-table-num">Download</th>
-            <th class="ai-table-num">RAM</th>
-          </tr></thead>
-          <tbody>
-            <tr><td>Gemma 4 E2B IT <span class="ai-tag ai-tag--green">&middot; rec</span></td><td class="ai-mono">LiteRT-LM</td><td>General chat &middot; image &middot; audio &middot; tools</td><td class="ai-table-num">2.4 GB</td><td class="ai-table-num">8 GB+</td></tr>
-            <tr><td>Gemma 4 E4B IT</td><td class="ai-mono">LiteRT-LM</td><td>Coding &middot; reasoning &middot; multimodal &middot; tools</td><td class="ai-table-num">3.7 GB</td><td class="ai-table-num">12 GB+</td></tr>
-            <tr><td>Qwen2.5 1.5B Instruct <span class="ai-tag ai-tag--cyan">&middot; import</span></td><td class="ai-mono">LiteRT-LM</td><td>Lightweight text &middot; code &middot; multilingual</td><td class="ai-table-num">1.5 GB</td><td class="ai-table-num">6 GB+</td></tr>
-            <tr><td>DeepSeek-R1 Distill 1.5B</td><td class="ai-mono">LiteRT-LM</td><td>Small reasoning tasks</td><td class="ai-table-num">1.7 GB</td><td class="ai-table-num">6 GB+</td></tr>
-            <tr><td>FunctionGemma 270M <span class="ai-tag ai-tag--orange">&middot; gated</span></td><td class="ai-mono">LiteRT-LM</td><td>Function/tool selection (CPU-only)</td><td class="ai-table-num">0.3 GB</td><td class="ai-table-num">6 GB+</td></tr>
-            <tr><td>EmbeddingGemma 300M <span class="ai-tag ai-tag--orange">&middot; gated</span></td><td class="ai-mono">LiteRT-LM</td><td>Embeddings (<span class="ai-mono">/v1/embeddings</span>)</td><td class="ai-table-num">183 MB</td><td class="ai-table-num">4 GB+</td></tr>
-            <tr><td>Qwen3 Embedding 0.6B</td><td class="ai-mono">MNN</td><td>Embeddings (<span class="ai-mono">/v1/embeddings</span>)</td><td class="ai-table-num">378 MB</td><td class="ai-table-num">4 GB+</td></tr>
-            <tr><td>Qwen2.5-Coder 1.5B <span class="ai-tag ai-tag--green">&middot; rec</span></td><td class="ai-mono">MNN</td><td>Coding &middot; tools &middot; terminal clients</td><td class="ai-table-num">971 MB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
-            <tr><td>Qwen2.5-Coder 7B</td><td class="ai-mono">MNN</td><td>Higher-quality coding</td><td class="ai-table-num">4.4 GB</td><td class="ai-table-num">10&ndash;12 GB+</td></tr>
-            <tr><td>Qwen2.5 0.5B</td><td class="ai-mono">MNN</td><td>Tiny general chat</td><td class="ai-table-num">557 MB</td><td class="ai-table-num">3 GB+</td></tr>
-            <tr><td>Qwen2.5 1.5B</td><td class="ai-mono">MNN</td><td>Lightweight multilingual chat</td><td class="ai-table-num">879 MB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
-            <tr><td>Qwen2.5 3B</td><td class="ai-mono">MNN</td><td>Balanced multilingual chat</td><td class="ai-table-num">2.4 GB</td><td class="ai-table-num">6&ndash;8 GB+</td></tr>
-            <tr><td>DeepSeek-R1 1.5B Qwen</td><td class="ai-mono">MNN</td><td>Small reasoning tasks</td><td class="ai-table-num">1.0 GB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="ai-callout ai-callout--orange" data-reveal>
-        <span class="ai-callout-icon">&#9680;</span><span><b class="ai-callout-strong">About the multimodal LiteRT models.</b> Gemma 4 E2B / E4B are multimodal, but rather than holding text, vision and audio in memory at once, TAI splits each into separate <span class="ai-mono">-vision</span> and <span class="ai-mono">-audio</span> model IDs that share one downloaded file. Only the mode you request is loaded at a time, a deliberate trade-off to cut RAM cost and avoid memory pressure on phones. Pick the ID matching the input you intend to send.<br><span class="ai-callout-sub">Learn more about the backends: <a class="ai-link" href="https://ai.google.dev/edge/litert" target="_blank" rel="noopener">LiteRT (Google AI Edge) &#8599;</a> &middot; <a class="ai-link" href="https://github.com/alibaba/MNN" target="_blank" rel="noopener">MNN &#8599;</a> (<a class="ai-link" href="https://mnn-docs.readthedocs.io/" target="_blank" rel="noopener">docs</a>)</span></span>
-      </div>
-    </div>
-
-    <!-- ===== IMPORT & ADD MODELS ===== -->
-    <div class="ai-section" id="ai-import">
-      <h2 class="ai-section-title" data-reveal>Add &amp; import your own models</h2>
-      <p class="ai-section-lead" data-reveal>Beyond the built-in catalog, TAI can pull any compatible model straight from Hugging Face. The suggested flow: set a Hugging Face token once, then either download a catalog entry or paste a model's repo URL into the import window. Everything runs through <span class="ai-mono">Settings &rarr; TAI / Termux AI</span>.</p>
-      <div class="ai-callout ai-callout--green" data-reveal>
-        <span class="ai-callout-icon">&#8615;</span><span><b class="ai-callout-strong">Recommended: let the app download for you.</b> Rather than fetching files by hand, just paste the model's Hugging Face URL into the import window, TAI downloads, verifies, and registers it. Browse compatible models here: <a class="ai-link" href="https://huggingface.co/litert-community" target="_blank" rel="noopener">huggingface.co/litert-community</a> (LiteRT) and <a class="ai-link" href="https://huggingface.co/taobao-mnn" target="_blank" rel="noopener">huggingface.co/taobao-mnn</a> (MNN). Copy any model's page URL and paste it into <b class="ai-callout-strong">Add a model</b>.</span>
-      </div>
-
-      <div class="ai-grid ai-grid--import" data-reveal-stagger>
-        <!-- step 1: HF token -->
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num ai-step-num--filled">1</div>
-            <h3 class="ai-step-title">Set a Hugging Face token</h3>
-          </div>
-          <div class="ai-phone-shot"><img src="assets/screenshots/tai-hf-token.jpeg" alt="Hugging Face token dialog in Termux AI settings" loading="lazy" width="917" height="2048"></div>
-          <p class="ai-step-body">A classic <b class="ai-callout-strong">Read</b> token, or a fine-grained token with <span class="ai-mono">Contents: Read</span>, is enough. It's sent only to Hugging Face download URLs. For a <span class="ai-tag ai-tag--orange">gated</span> model, also open its huggingface.co page and accept the terms first.</p>
-        </div>
-
-        <!-- step 2: import window -->
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num">2</div>
-            <h3 class="ai-step-title">Paste a repo URL to add</h3>
-          </div>
-          <div class="ai-phone-shot"><img src="assets/screenshots/tai-import.jpeg" alt="Add a model window: Hugging Face repo URL and capability checkboxes" loading="lazy" width="917" height="2048"></div>
-          <p class="ai-step-body">In <b class="ai-callout-strong">Add a model</b>, paste a Hugging Face repo URL (or pick a local LiteRT package). Capabilities are guessed from known LiteRT/MNN model names, tick or untick them, then <span class="ai-mono">Import &amp; verify</span>. Catalog entries download the same way; just tap one and confirm the provider terms.</p>
-        </div>
-
-        <!-- step 3: connect clients -->
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num">3</div>
-            <h3 class="ai-step-title">Point your client at it</h3>
-          </div>
-          <div class="ai-phone-shot"><img src="assets/screenshots/tai-endpoint.jpeg" alt="Endpoint and access dialog showing OpenAI base URL and bearer token" loading="lazy" width="917" height="2048"></div>
-          <p class="ai-step-body">Once installed, load it (<span class="ai-mono">tai load MODEL_ID</span>) and connect any OpenAI- or Ollama-compatible client with the local base URL and bearer token from <b class="ai-callout-strong">Endpoint &amp; access</b>, the same values live in <span class="ai-mono">~/.launcherctl/</span>.</p>
-        </div>
-      </div>
-
-      <div class="ai-callout ai-callout--cyan" data-reveal>
-        <span class="ai-callout-icon">&#8505;</span><span><b class="ai-callout-strong">Supported packages:</b> LiteRT-LM <span class="ai-mono">.litertlm</span> / <span class="ai-mono">.task</span>, MNN model directories (<span class="ai-mono">config.json</span> + sidecars), and LiteRT EmbeddingGemma <span class="ai-mono">.tflite</span> with its tokenizer. GGUF, safetensors, PyTorch and ONNX weights are <b class="ai-callout-strong">not</b> supported, run those under a separate runtime such as llama.cpp in Termux.</span>
-      </div>
-    </div>
-
-    <!-- ===== QUICKSTART: AICHAT ===== -->
-    <div class="ai-section" id="ai-aichat">
-      <h2 class="ai-section-title" data-reveal>Quickstart: chat from the terminal with AIChat</h2>
-      <p class="ai-section-lead" data-reveal><a class="ai-link" href="https://github.com/sigoden/aichat" target="_blank" rel="noopener">AIChat</a> is the fastest and lightest way to talk to your on-device model right now, a single terminal binary, no extra runtime. It's in both this launcher's repo and the official Termux repo.</p>
-
-      <div class="ai-grid ai-grid--two" data-reveal-stagger>
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num ai-step-num--filled">1</div>
-            <h3 class="ai-step-title">Install</h3>
-          </div>
-          <div class="ai-cmd glass glass--sm" data-cmd>
-            <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-            <pre data-cmd-text>pkg i -y aichat</pre>
-          </div>
-        </div>
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num">2</div>
-            <h3 class="ai-step-title">Run &amp; answer the prompts</h3>
-          </div>
-          <div class="ai-cmd glass glass--sm" data-cmd>
-            <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-            <pre data-cmd-text>aichat</pre>
-          </div>
-        </div>
-      </div>
-
-      <p class="ai-body-text" data-reveal>On first run, AIChat offers to create a config file. Walk through it:</p>
-      <ol class="ai-list" data-reveal>
-        <li>Choose the <b class="ai-callout-strong">OpenAI-Compatible</b> platform.</li>
-        <li>Give it any name (e.g. <span class="ai-mono">tai</span>).</li>
-        <li>Paste the <b class="ai-callout-strong">API base URL</b> and <b class="ai-callout-strong">API key</b> from <span class="ai-mono">Settings &rarr; TAI / Termux AI &rarr; Endpoint &amp; access</span>, the base URL already ends in <span class="ai-mono">/v1</span>, and the key is the bearer token. (The same two values are in <span class="ai-mono">~/.launcherctl/endpoint</span> and <span class="ai-mono">~/.launcherctl/token</span>.)</li>
-      </ol>
-
-      <p class="ai-body-text ai-body-text--dim" data-reveal>Prefer to write the config by hand? It looks like this in <span class="ai-mono ai-mono--mute">~/.config/aichat/config.yaml</span>:</p>
-      <div class="ai-cmd ai-cmd--wide glass glass--sm" data-cmd data-reveal>
-        <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-        <pre data-cmd-text>clients:
-  - type: openai-compatible
-    name: tai
-    api_base: http://127.0.0.1:54298/v1   # your endpoint
-    api_key: YOUR_TOKEN                    # your bearer token
-    models:
-      - name: gemma-4-e2b-it-litert-lm     # any installed model id</pre>
-      </div>
-      <div class="ai-callout ai-callout--orange ai-callout--warn" data-reveal>
-        <span class="ai-callout-icon">&#9888;</span><span>Chat and coding models work well over AIChat. The <b class="ai-callout-strong">embedding models are untested</b> with AIChat's RAG features for now, treat them as experimental.</span>
-      </div>
-    </div>
-
-    <!-- tai commands -->
-    <div class="ai-section" id="ai-commands">
-      <h2 class="ai-section-title" data-reveal>tai commands</h2>
-      <div class="ai-grid ai-grid--commands" data-reveal-stagger>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai status</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai models</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai download MODEL_ID URL --accept-terms</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai preflight MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai load MODEL_ID [--auto|--cpu|--gpu]</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai keep-warm MODEL_ID --minutes 30</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai runtime</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai unload</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai delete MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai doctor</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-      </div>
-      <p class="ai-footnote" data-reveal>Prefix any command with <span class="ai-mono ai-mono--mute">tai --json</span> for raw API JSON you can pipe into <span class="ai-mono ai-mono--mute">jq</span> and scripts. <span class="ai-mono ai-mono--mute">tai load</span>, <span class="ai-mono ai-mono--mute">preflight</span>, and <span class="ai-mono ai-mono--mute">keep-warm</span> default to the assistant model when no ID is given. See <span class="ai-mono ai-mono--mute">tai --help</span> for the full command set.</p>
-    </div>
-
-    <!-- ===== API REFERENCE ===== -->
-    <div class="ai-api">
-      <div class="api-layout">
-        <!-- endpoint index -->
-        <aside class="api-sidebar" data-reveal>
-          <div class="api-sidebar-title">API REFERENCE</div>
-          <button class="api-nav-button" data-scrollto="ep-intro">Introduction</button>
-          <button class="api-nav-button" data-scrollto="ep-base">Base URL &amp; auth</button>
-          <button class="api-nav-button" data-scrollto="ep-ratelimits">Rate limits</button>
-          <button class="api-nav-button" data-scrollto="ep-errors">Errors &amp; status</button>
-          <button class="api-nav-button" data-scrollto="ep-streaming">Streaming</button>
-          <div class="api-sidebar-label">Endpoints</div>
-          <div data-eplist class="api-eplist"></div>
-        </aside>
-        <!-- endpoint detail -->
-        <main class="ai-spy-main">
-          <div class="ai-spy-block" data-spy data-reveal id="ep-intro">
-            <div class="ai-spy-kicker">API REFERENCE</div>
-            <h2 class="ai-spy-title">Introduction</h2>
-            <p class="ai-spy-body">Use TAI's local API to run and interact with models. The same server also powers <span class="ai-mono">launcherctl</span>. API routes accept the bearer token or <span class="ai-mono">X-Api-Key</span> when authentication is enabled; CORS preflight and the root health route are exempt.</p>
-          </div>
-
-          <div class="ai-spy-block" data-spy data-reveal id="ep-base">
-            <h3 class="ai-spy-subtitle">Base URL &amp; auth</h3>
-            <p class="ai-spy-body">TAI stores its current address and secret token in <span class="ai-mono">~/.launcherctl/</span>. OpenAI-compatible clients append <span class="ai-mono">/v1</span>; Ollama clients use the base address as-is.</p>
-            <div class="ai-cmd glass glass--sm" data-cmd>
-              <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-              <pre data-cmd-text>BASE=$(sed -n '1p' ~/.launcherctl/endpoint)
-TOKEN=$(cat ~/.launcherctl/token)
-export OPENAI_BASE_URL="$BASE/v1"
-export OPENAI_API_KEY="$TOKEN"</pre>
-            </div>
-            <p class="ai-footnote">Default bind mode is <span class="ai-mono ai-mono--mute">localhost</span> (<span class="ai-mono ai-mono--mute">127.0.0.1</span>). LAN mode is opt-in; treat the token as a network secret when enabled. Token auth can be relaxed for localhost in settings, but is always enforced on LAN.</p>
-          </div>
-
-          <div class="ai-spy-block" data-spy data-reveal id="ep-ratelimits">
-            <h3 class="ai-spy-subtitle">Rate limits</h3>
-            <p class="ai-spy-body">Operational routes use per-route rolling 60-second windows. Exceeding a configured limit returns <span class="ai-mono">HTTP 429</span> with <span class="ai-mono">Retry-After</span>, <span class="ai-mono">RateLimit-Limit</span>, <span class="ai-mono">RateLimit-Remaining</span> and <span class="ai-mono">RateLimit-Reset</span> headers. Wait for the advertised interval before retrying.</p>
-            <div class="ai-table ai-table--plain glass glass--sm"><table><tbody>
-              <tr><td>Reads (status, runtime, models)</td><td class="ai-table-num">120 / min</td></tr>
-              <tr><td>Generation (chat, responses, completions, embeddings)</td><td class="ai-table-num">60 / min</td></tr>
-              <tr><td>App launch</td><td class="ai-table-num">30 / min</td></tr>
-              <tr><td>Model load / download / import</td><td class="ai-table-num">20 / min</td></tr>
-              <tr><td>Model delete / cancel download</td><td class="ai-table-num">30 / min</td></tr>
-              <tr><td>Unload / preflight / keep-warm / runtime cancel</td><td class="ai-table-num">60 / min</td></tr>
-              <tr><td>Token rotate</td><td class="ai-table-num">5 / min</td></tr>
-            </tbody></table></div>
-          </div>
-
-          <div class="ai-spy-block" data-spy data-reveal id="ep-errors">
-            <h3 class="ai-spy-subtitle">Errors &amp; status</h3>
-            <p class="ai-spy-body">Errors use the OpenAI error envelope, with a string <span class="ai-mono">code</span> you can switch on. Common codes: <span class="ai-mono ai-mono--mute">bad_request</span> (400), <span class="ai-mono ai-mono--mute">model_not_found</span> (404), <span class="ai-mono ai-mono--mute">unsupported_audio_output</span> (501). Missing or wrong bearer token returns 401.</p>
-            <div class="ai-cmd glass glass--sm" data-cmd>
-              <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-              <pre data-cmd-text>{
-  "error": {
-    "type": "invalid_request_error",
-    "code": "model_not_found",
-    "message": "Unknown TAI model: MODEL_ID"
-  }
-}</pre>
-            </div>
-          </div>
-
-          <div class="ai-spy-block" data-spy data-reveal id="ep-streaming">
-            <h3 class="ai-spy-subtitle">Streaming</h3>
-            <p class="ai-spy-body">The OpenAI routes (<span class="ai-mono">/v1/chat/completions</span>, <span class="ai-mono">/v1/responses</span>) stream as <b class="ai-callout-strong">Server-Sent Events</b> when you send <span class="ai-mono">"stream": true</span>, terminated by a <span class="ai-mono ai-mono--mute">data: [DONE]</span> line. The Ollama routes (<span class="ai-mono">/api/chat</span>, <span class="ai-mono">/api/generate</span>) stream <b class="ai-callout-strong">newline-delimited JSON</b> by default.</p>
-          </div>
-
-          <div data-epdetail class="ai-epdetail"></div>
-        </main>
-      </div>
-    </div>
-  </section>
-
 
   <!-- footer -->
   <footer class="site-footer glass">
@@ -652,7 +403,7 @@ export OPENAI_API_KEY="$TOKEN"</pre>
       <div class="site-footer-links" data-reveal-stagger>
         <a class="link-slide" data-nav="setup" href="#setup">Overview</a>
         <a class="link-slide" data-nav="wiki" href="#wiki">Docs</a>
-        <a class="link-slide" data-nav="ai" href="#ai">Termux AI</a>
+        <a class="link-slide" data-article="on-device-ai" href="#wiki/on-device-ai">On-device AI</a>
         <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
         <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener">Licenses ↗</a>
       </div>

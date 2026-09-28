@@ -2,14 +2,14 @@
 
 class TermuxLauncherSite {
   constructor() {
-    this.views = ["setup", "wiki", "ai"];
+    this.views = ["setup", "wiki"];
     this.spyMap = null;
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
       "get-started", "home-screen", "notifications", "layout", "look",
       "keyboard", "extra-keys", "terminal", "panes", "command-palette", "fonts",
-      "tlstore", "on-device-ai", "voice", "display", "keybindings",
+      "tlstore", "on-device-ai", "on-device-ai-api", "voice", "display", "keybindings",
       "action-reference", "keyboard-layout", "config", "permissions", "nix"
     ];
     // Old keys from before the docs rework resolve here, then the hash is
@@ -69,7 +69,7 @@ class TermuxLauncherSite {
         { key: "config", title: "Config files" },
         { key: "permissions", title: "Permissions & Shizuku" },
         { key: "nix", title: "Nix edition" },
-        { title: "Termux AI API", href: "#ai" }
+        { key: "on-device-ai-api", title: "On-device AI API" }
       ]
     };
     this.terminalLines = [
@@ -78,75 +78,11 @@ class TermuxLauncherSite {
       "kew --sixel",
       "tai status"
     ];
-    this.endpointGroups = [
-      {
-        name: "OpenAI-compatible",
-        items: [
-          { method: "GET", path: "/v1/models", description: "List installed, loadable models and their capabilities. Multimodal LiteRT-LM models also appear as separate -vision and -audio model IDs.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  \"$OPENAI_BASE_URL/models\" | jq .", response: "{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"gemma-4-e2b-it-litert-lm\",\n      \"object\": \"model\",\n      \"owned_by\": \"termux-launcher\",\n      \"_backend\": \"litert-lm\",\n      \"_capabilities\": [\"text_chat\", \"tool_use\", \"image_input\", \"audio_input\"]\n    }\n  ]\n}" },
-          { method: "GET", path: "/v1/models/{id}", description: "Return the OpenAI-compatible model object for one installed model ID." },
-          { method: "POST", path: "/v1/chat/completions", description: "Chat Completions — text, image/audio input, and tools. Set \"stream\": true for token-by-token Server-Sent Events.", params: "Body: <b>model</b>, <b>messages</b>[], optional <b>stream</b>, <b>tools</b>, <b>temperature</b>, <b>max_tokens</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}' \\\n  \"$OPENAI_BASE_URL/chat/completions\"", note: "60 requests / minute. Requires a chat model loaded (tai load MODEL_ID)." },
-          { method: "POST", path: "/v1/responses", description: "OpenAI Responses API — the newer input/output shape used by Codex and recent clients. Accepts a string or structured input and supports tools and streaming.", params: "Body: <b>model</b>, <b>input</b> (string or content array), optional <b>stream</b>, <b>tools</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"input\":\"Say hi in one word.\"}' \\\n  \"$OPENAI_BASE_URL/responses\"", note: "60 requests / minute." },
-          { method: "POST", path: "/v1/completions", description: "Legacy text completions (prompt in, text out). Prefer chat/completions or responses for new work.", note: "60 requests / minute." },
-          { method: "POST", path: "/v1/embeddings", description: "Embeddings for models that advertise text_embeddings (e.g. embeddinggemma-300m, 768-dim). Returns OpenAI-shape float vectors.", params: "Body: <b>model</b>, <b>input</b> (string or string[]), optional <b>encoding_format</b>, <b>dimensions</b>.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"embeddinggemma-300m\",\"input\":\"hello world\"}' \\\n  \"$OPENAI_BASE_URL/embeddings\"", response: "{\n  \"object\": \"list\",\n  \"model\": \"embeddinggemma-300m\",\n  \"data\": [\n    { \"object\": \"embedding\", \"index\": 0, \"embedding\": [-0.0251, 0.0404, 0.0088, \"...768 floats\"] }\n  ],\n  \"usage\": { \"prompt_tokens\": 6, \"total_tokens\": 6 }\n}", note: "60 requests / minute. Embedding models are served on demand — you do NOT load them via runtime/load (that path is for generation models only)." },
-          { method: "POST", path: "/v1/audio/speech", description: "Present for OpenAI SDK compatibility only. Always returns HTTP 501 unsupported_audio_output — there is no local text-to-speech runner.", response: "HTTP 501\n{\n  \"error\": {\n    \"type\": \"api_error\",\n    \"code\": \"unsupported_audio_output\",\n    \"message\": \"Audio output is not available from the local LiteRT-LM or MNN runners.\"\n  }\n}" }
-        ]
-      },
-      {
-        name: "Ollama-compatible",
-        items: [
-          { method: "GET", path: "/api/version", description: "Server version string. Reports an Ollama-compatible version so Ollama clients accept the endpoint.", response: "{ \"version\": \"0.13.3-termux-launcher\" }" },
-          { method: "GET", path: "/api/tags", description: "List installed models in Ollama shape (name, size, digest, details)." },
-          { method: "GET", path: "/api/ps", description: "List currently loaded models. Empty array when nothing is resident.", response: "{ \"models\": [] }" },
-          { method: "POST", path: "/api/chat", description: "Chat and tool calls, Ollama shape. Streams newline-delimited JSON (NDJSON) unless \"stream\": false.", note: "60 requests / minute." },
-          { method: "POST", path: "/api/generate", description: "Prompt-style generation, Ollama shape.", example: "curl \"$BASE/api/generate\" -d '{\n  \"model\": \"MODEL_ID\",\n  \"prompt\": \"Why is the sky blue?\"\n}'", note: "60 requests / minute." },
-          { method: "POST", path: "/api/show", description: "Show one model's details and capabilities.", params: "Body: <b>model</b>." },
-          { method: "POST", path: "/api/embed", description: "Create embeddings for text_embeddings models, Ollama shape.", params: "Body: <b>model</b>, <b>input</b> (string or string[]).", response: "{\n  \"model\": \"embeddinggemma-300m\",\n  \"embeddings\": [ [-0.0251, 0.0404, 0.0088, \"...768 floats\"] ]\n}", note: "60 requests / minute. Served on demand — no runtime/load needed." },
-          { method: "POST", path: "/api/embeddings", description: "Legacy Ollama embeddings alias.", params: "Body: <b>model</b>, <b>prompt</b>.", response: "{ \"embedding\": [0.012, -0.034, \"...floats\"] }" },
-          { method: "POST", path: "/api/pull", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
-          { method: "POST", path: "/api/create", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
-          { method: "POST", path: "/api/push", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
-          { method: "POST", path: "/api/copy", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" },
-          { method: "POST", path: "/api/delete", description: "Not supported — returns 501 unsupported_registry_operation. Use the model import flow in settings instead.", response: "HTTP 501" }
-        ]
-      },
-      {
-        name: "Model management",
-        items: [
-          { method: "GET", path: "/v1/ai/status", description: "Overall AI status: runtime state, active settings/roles, device profile, and capability limitations.", response: "{\n  \"ok\": true,\n  \"name\": \"TAI\",\n  \"runtime\": {\n    \"loaded\": false,\n    \"loadedModelId\": null,\n    \"runtimeName\": \"litert-lm\",\n    \"state\": \"unloaded\",\n    \"backend\": \"none\"\n  },\n  \"settings\": { \"roles\": { \"...\": \"...\" } }\n}" },
-          { method: "GET", path: "/v1/ai/models", description: "Full model catalog with display names, sizes, licenses, and per-model runtime profiles (compatible accelerators, context sizes)." },
-          { method: "GET", path: "/v1/ai/models/downloads", description: "List in-progress and queued model downloads with source URLs and target paths." },
-          { method: "GET", path: "/v1/ai/runtime", description: "Loaded model and runtime state (backend, keep-warm/idle timers, active generation).", response: "{\n  \"ok\": true,\n  \"runtime\": {\n    \"loaded\": true,\n    \"loadedModelId\": \"MODEL_ID\",\n    \"state\": \"ready\",\n    \"backend\": \"gpu\",\n    \"keepWarmRemainingMs\": 0\n  }\n}" },
-          { method: "POST", path: "/v1/ai/runtime/preflight", description: "Check whether a model can load safely (ABI, memory, accelerator) without touching the runtime.", params: "Body: <b>model</b> (or <b>modelId</b>)." },
-          { method: "POST", path: "/v1/ai/runtime/load", description: "Load a model into the isolated :tai_runtime process. Only one generation model is resident at a time.", params: "Body: <b>model</b> (or <b>modelId</b>), optional <b>accelerator</b>: auto | cpu | gpu.", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\":\"MODEL_ID\",\"accelerator\":\"auto\"}' \\\n  \"$BASE/v1/ai/runtime/load\"", note: "20 requests / minute. Heavy — allocates GPU/CPU memory." },
-          { method: "POST", path: "/v1/ai/runtime/keep-warm", description: "Keep the loaded model resident for a set number of minutes instead of unloading on idle.", params: "Body: <b>minutes</b> (or <b>keepWarmMinutes</b>), optional <b>model</b>." },
-          { method: "POST", path: "/v1/ai/runtime/unload", description: "Unload the active model and free its memory." },
-          { method: "POST", path: "/v1/ai/runtime/cancel", description: "Cancel an in-flight load or generation on the runtime." },
-          { method: "POST", path: "/v1/ai/models/download", description: "Download a catalog model by URL. Gated models require explicit terms acceptance.", params: "Body: <b>model</b> (or <b>modelId</b>), <b>url</b>, <b>acceptedTerms</b>: true.", note: "20 requests / minute. Downloads are several GB." },
-          { method: "POST", path: "/v1/ai/models/download-catalog", description: "Download a built-in catalog entry by its catalog ID.", params: "Body: <b>modelId</b> (or <b>model</b>)." },
-          { method: "POST", path: "/v1/ai/models/import", description: "Register a model from a Hugging Face repo URL or a local package path, with per-capability flags.", params: "Body: <b>model</b>/<b>modelId</b>, <b>url</b> or <b>path</b>, optional <b>displayName</b>, <b>roleHint</b>, <b>license</b>, <b>backend</b>, <b>autoLoad</b>." },
-          { method: "POST", path: "/v1/ai/models/delete", description: "Delete a downloaded or imported model and its files.", params: "Body: <b>model</b> (or <b>modelId</b>).", note: "Destructive — removes model files from disk." },
-          { method: "POST", path: "/v1/ai/models/load", description: "Alias for /v1/ai/runtime/load: load a generation model into the registry slot.", params: "Body: <b>model</b> (or <b>modelId</b>), optional <b>accelerator</b>: auto | cpu | gpu." },
-          { method: "POST", path: "/v1/ai/models/unload", description: "Alias for /v1/ai/runtime/unload: unload the active generation model." },
-          { method: "POST", path: "/v1/ai/models/downloads/cancel", description: "Cancel an in-progress model download.", params: "Body: <b>modelId</b> (or download <b>id</b>)." }
-        ]
-      },
-      {
-        name: "Launcher",
-        items: [
-          { method: "POST", path: "/v1/apps/launch", description: "Launch an app by fuzzy query, resolved against the app catalog. Exact package or activity matches rank before labels; ties return 409 with a candidates array. This is what launcherctl launch calls.", params: "Body: <b>query</b> (app name, package, or activity).", example: "curl -sS -H \"Authorization: Bearer $TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"query\":\"maps\"}' \\\n  \"$BASE/v1/apps/launch\"", note: "30 requests / minute." },
-          { method: "POST", path: "/v1/auth/rotate", description: "Rotate the API token and rewrite ~/.launcherctl/token and ~/.launcherctl/endpoint. All existing clients must re-read the new token.", note: "5 requests / minute. Invalidates the current token immediately." }
-        ]
-      }
-    ];
   }
 
   async mount() {
     void this.hydrateGitHubData();
     this.startHeroTerminal();
-    // The endpoint reference depends on nothing async; build it before the
-    // wiki fetches so the Termux AI view has its full height on first paint
-    // instead of growing by a few thousand pixels once 17 markdown files land.
-    this.buildEndpointReference();
     await this.hydrateStaticWiki();
     this.decorateWikiContent();
     this.buildSearchIndex();
@@ -499,7 +435,7 @@ class TermuxLauncherSite {
       const el = document.createElement(ref.key ? "button" : "a");
       el.className = "reference-pill";
       if (ref.key) { el.type = "button"; el.dataset.article = ref.key; el.textContent = ref.title; }
-      else { el.href = ref.href; el.dataset.nav = "ai"; el.textContent = `${ref.title} ↗`; }
+      else { el.href = ref.href; el.target = "_blank"; el.rel = "noopener"; el.textContent = `${ref.title} ↗`; }
       shelf.appendChild(el);
     });
     referenceSection.append(referenceHeading, shelf);
@@ -697,7 +633,6 @@ class TermuxLauncherSite {
     if (this.observer) this.observer.disconnect();
     this.spyMap = null;
     if (view === "wiki") this.showArticle(subview);
-    if (view === "ai") this.buildSpy(document.querySelector('#tl [data-view="ai"]'));
     window.scrollTo({ top: 0, behavior: "auto" });
     // motion.js listens for this to re-bind reveals and refresh ScrollTrigger.
     document.dispatchEvent(new CustomEvent("tl:viewchange", { detail: { view, subview } }));
@@ -1014,12 +949,7 @@ class TermuxLauncherSite {
     });
     // Static destinations
     const statics = [
-      { title: "Download & install", tag: "About", view: "setup", id: "setup-downloads", kw: "apk build com.termux io.vaj.tl companion install release" },
-      { title: "Model catalog", tag: "Termux AI", view: "ai", id: "ai-catalog", kw: "gemma qwen deepseek embedding litert mnn model ram download" },
-      { title: "Add & import your own models", tag: "Termux AI", view: "ai", id: "ai-import", kw: "hugging face token import repo url litert mnn gguf" },
-      { title: "Chat from the terminal with AIChat", tag: "Termux AI", view: "ai", id: "ai-aichat", kw: "aichat openai compatible client endpoint token config" },
-      { title: "tai commands", tag: "Termux AI", view: "ai", id: "ai-commands", kw: "tai status models load runtime keep-warm doctor cli" },
-      { title: "API reference", tag: "Termux AI", view: "ai", id: "ep-intro", kw: "openai ollama endpoints v1 chat completions responses embeddings launcherctl app launch rate limit 429 errors streaming sse" }
+      { title: "Download & install", tag: "About", view: "setup", id: "setup-downloads", kw: "apk build com.termux io.vaj.tl companion install release" }
     ];
     statics.forEach((s) => index.push({
       title: s.title, tag: s.tag, view: s.view, id: s.id,
@@ -1185,124 +1115,6 @@ class TermuxLauncherSite {
     this.closeSearch(state, true);
   }
 
-  buildEndpointReference() {
-    const list = document.querySelector("#tl [data-eplist]");
-    const details = document.querySelector("#tl [data-epdetail]");
-    if (!list || !details) return;
-
-    this.endpointGroups.forEach((group, groupIndex) => {
-      const groupLabel = document.createElement("div");
-      groupLabel.textContent = group.name;
-      groupLabel.className = "api-eplist-label";
-      list.appendChild(groupLabel);
-
-      const groupDetails = document.createElement("section");
-      groupDetails.dataset.spy = "";
-      groupDetails.dataset.reveal = "";
-      groupDetails.id = `epg-${groupIndex}`;
-      groupDetails.className = "api-group";
-      const title = document.createElement("h3");
-      title.textContent = group.name;
-      title.className = "api-group-title";
-      groupDetails.appendChild(title);
-
-      group.items.forEach((endpoint) => {
-        list.appendChild(this.createEndpointLink(endpoint, groupIndex));
-        groupDetails.appendChild(this.createEndpointCard(endpoint));
-      });
-      details.appendChild(groupDetails);
-    });
-  }
-
-  createEndpointLink(endpoint, groupIndex) {
-    const button = document.createElement("button");
-    button.dataset.scrollto = `epg-${groupIndex}`;
-    button.className = "api-eplist-button";
-
-    const method = document.createElement("span");
-    method.textContent = endpoint.method;
-    method.className = this.methodClass(endpoint.method, "api-method");
-    const path = document.createElement("span");
-    path.textContent = endpoint.path.replace(/^.*\//, "/");
-    path.className = "api-eplist-path";
-    button.append(method, path);
-    return button;
-  }
-
-  methodClass(method, base) {
-    const modifier = (method || "").toLowerCase();
-    const known = { get: 1, post: 1, delete: 1 };
-    // The colour modifier is shared by the sidebar label and the card pill
-    // (.api-method--get sets colour; .api-pill.api-method--get sets background).
-    return known[modifier] ? `${base} api-method--${modifier}` : base;
-  }
-
-  createEndpointCard(endpoint) {
-    const card = document.createElement("article");
-    card.className = "api-card glass glass--sm";
-
-    const heading = document.createElement("div");
-    heading.className = "api-card-head";
-    const method = document.createElement("span");
-    method.textContent = endpoint.method;
-    method.className = this.methodClass(endpoint.method, "api-pill");
-    const path = document.createElement("code");
-    path.textContent = endpoint.path;
-    path.className = "api-card-path";
-    heading.append(method, path);
-
-    const description = document.createElement("p");
-    description.textContent = endpoint.description;
-    description.className = "api-card-desc";
-    card.append(heading, description);
-
-    if (endpoint.params) {
-      const params = document.createElement("p");
-      params.innerHTML = endpoint.params;
-      params.className = "api-card-params";
-      card.appendChild(params);
-    }
-
-    if (endpoint.note) {
-      const note = document.createElement("div");
-      note.innerHTML = endpoint.note;
-      note.className = "api-card-note";
-      card.appendChild(note);
-    }
-
-    card.appendChild(this.createEndpointBlock(endpoint.example, "Request"));
-    card.appendChild(this.createEndpointBlock(endpoint.response, "Response", true));
-    return card;
-  }
-
-  createEndpointBlock(text, label, readOnly) {
-    if (!text) return document.createDocumentFragment();
-    const wrap = document.createElement("div");
-    wrap.className = "api-block";
-    if (label) {
-      const tag = document.createElement("div");
-      tag.textContent = label;
-      tag.className = "api-block-label";
-      wrap.appendChild(tag);
-    }
-    const command = document.createElement("div");
-    command.dataset.cmd = "";
-    command.className = readOnly ? "ai-cmd glass glass--sm ai-cmd--muted" : "ai-cmd glass glass--sm";
-    if (!readOnly) {
-      const copy = document.createElement("button");
-      copy.dataset.copy = "";
-      copy.innerHTML = "<span data-copy-label>copy</span>";
-      copy.className = "ai-copy-button";
-      command.appendChild(copy);
-    }
-    const pre = document.createElement("pre");
-    pre.dataset.cmdText = "";
-    pre.textContent = text;
-    command.appendChild(pre);
-    wrap.appendChild(command);
-    return wrap;
-  }
-
   handleClick(event) {
     const marqueeToggle = event.target.closest("[data-marquee-toggle]");
     if (marqueeToggle) {
@@ -1331,6 +1143,7 @@ class TermuxLauncherSite {
 
     const article = event.target.closest("[data-article]");
     if (article) {
+      event.preventDefault();
       this.setView("wiki", article.dataset.article, true);
       return;
     }

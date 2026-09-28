@@ -63,8 +63,7 @@ becomes `git add .`. Spelled letters join up ("L S" is `ls`), and "dash", "dot",
 ## Speech models
 
 With no speech model installed, voice input uses Android's own recognizer, which types straight to
-the cursor with no panel. Install a model in **Settings → Services & permissions → TAI · Termux
-AI → Model centre → Speech**:
+the cursor with no panel. Install a model in **Settings → On-device AI → Model centre → Speech**:
 
 | Model | Languages | Download |
 | --- | --- | ---: |
@@ -109,5 +108,5 @@ tai speak "The build finished."
 `tai transcribe` runs the installed speech model over an audio file and prints the plain text.
 `tai speak` reads text aloud with the installed voice model, or saves it to a file with `--out`.
 Both cover the whole command surface in [On-device AI](#wiki/on-device-ai); the underlying API
-routes (`/v1/audio/transcriptions`, `/v1/audio/speech`) are documented on the **Termux AI** view's
-`#ai` endpoint reference.
+routes (`/v1/audio/transcriptions`, `/v1/audio/speech`) are documented on the
+[On-device AI API](#wiki/on-device-ai-api) page.

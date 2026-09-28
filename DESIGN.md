@@ -15,7 +15,7 @@ over a wallpaper (AGSL blur on Android 13+). The site quotes that literally:
   blur.
 - The phone is the one solid object on the page. The About scroll story revolves around it.
 
-Reading surfaces (Docs, Termux AI, migration page) share the tokens and the wallpaper but stay
+Reading surfaces (Docs, migration page) share the tokens and the wallpaper but stay
 calm: fade-up reveals only, no pinning, no tilt.
 
 ## 2. Fixed decisions
@@ -24,7 +24,7 @@ calm: fade-up reveals only, no pinning, no tilt.
 |---|---|
 | Motion stack | GSAP 3.15 + ScrollTrigger from jsdelivr, loaded in `index.html`. No Lenis, no smooth-scroll library. Vanilla CSS for hovers and reveals. |
 | Wallpaper | Generated aurora gradient mesh, CSS only. Teal with a faint violet tint, slow drift, grain on top. No image asset. |
-| Scope | About view gets the full treatment. Docs and Termux AI get glass tokens and calm motion. `migrate-vaj.html` gets the shared nav, wallpaper and tokens. |
+| Scope | About view gets the full treatment. Docs gets glass tokens and calm motion. `migrate-vaj.html` gets the shared nav, wallpaper and tokens. |
 | Display font | Geist (Google Fonts) for headings. Body stays IBM Plex Sans, mono stays IBM Plex Mono. |
 | Scroll behaviour | Scroll-linked (scrub) only. Never scroll-jacking, never `preventDefault` on wheel/touch. |
 | Media | Assets in `assets/`, plus new media made for the docs rework (section 15): the tour infographic and new captures listed in `MEDIA_TODO.md`. No stock. A page with no media yet ships text-first, never with a placeholder. |
@@ -429,7 +429,7 @@ Because views are shown/hidden with `display`, motion.js re-observes on every
 `tl:viewchange` event (see section 12) and calls `ScrollTrigger.refresh()` after the view
 switch has painted (double `requestAnimationFrame`).
 
-## 11. Docs, Termux AI and the migration page
+## 11. Docs and the migration page
 
 - Same nav, wallpaper, grain, tokens, `.glass` surfaces, reveal system. No pin, no tilt, no
   marquee, no gradient border.
@@ -440,20 +440,17 @@ switch has painted (double `requestAnimationFrame`).
 - `.wiki-toc-col`: glass, sticky. Active TOC entry gets a sliding indicator too.
 - `.wiki-prose`: H1/H2/H3 Geist, code blocks and tables become `.glass--sm` surfaces. Clip
   figures from `upgradeWikiClips` keep their markup; their frame gets `.glass--sm`.
-- AI view: every `style="…"` in the view is replaced by a class. Minimum class set:
-  `.ai-hero`, `.ai-section` (max-width `--reading-max`, padding, `scroll-margin-top: calc(var(--nav-h) + 16px)`),
-  `.ai-grid`, `.ai-card.glass`, `.ai-card-icon`, `.ai-card-title`, `.ai-card-body`,
-  `.ai-table` (glass wrapper, mono cells), `.ai-cmd` (the command rows with `[data-copy]`),
-  `.ai-copy-button`, `.ai-step-num`, `.ai-phone-shot`, `.ai-spy-block` (the `#ep-*` blocks),
-  `.api-sidebar`. Ids `#ai-catalog #ai-import #ai-aichat #ai-commands #ep-intro #ep-base
-  #ep-ratelimits #ep-errors #ep-streaming` and all `data-*` hooks stay verbatim.
-- `buildEndpointReference` and `buildCommandBlock` in app.js write inline `cssText` for the
-  generated endpoint detail. Those may stay for now (JS-owned) but must render correctly on
-  the glass surfaces; the worker restyling the AI view checks `.api-detail` output visually.
 - `migrate-vaj.html`: adopts the new `<head>` (Geist link, new cache-bust), the wallpaper
   and grain markup, the glass nav (it has no view tabs; the tabs container stays empty), and
   `.migration-hero`, `.migration-timeline`, `.migration-coexist` become glass. It loads no
   JS, so it must look complete with every reveal visible (it never gets `html.has-motion`).
+
+2026-09-28: the top-level "Termux AI" view (`data-view="ai"`, nav tab, `#ai-*`/`#ep-*` ids, the
+`.ai-*`/`.api-*` class set, `buildEndpointReference` and friends in app.js) was folded into Docs
+as two wiki pages, [On-device AI](_wiki/on-device-ai.md) and
+[On-device AI API](_wiki/on-device-ai-api.md), and the feature was renamed "On-device AI"
+everywhere user-facing (the `tai` CLI name is unchanged). The site now has two views: About and
+Docs.
 
 ## 12. Contracts between files
 
@@ -517,8 +514,9 @@ only on fixed/sticky surfaces below 720px; ScrollTrigger and IntersectionObserve
 gated; 4 to 6 signature moments (pinned phone, masked hero words, tilt cards, gradient border,
 marquee, block cursor) and no more.
 
-Build: `bundle exec jekyll build` clean; `#setup`, `#wiki/<article>`, `#ai` hashes route;
-GitHub release hydration still fills the strip and the three edition cards; the `1`/`2`/`3`
+Build: `bundle exec jekyll build` clean; `#setup`, `#wiki/<article>` hashes route (`#wiki/on-device-ai`
+and `#wiki/on-device-ai-api` included; an old `#ai` link falls back to About, the same as any
+unknown view); GitHub release hydration still fills the strip and the edition cards; the `1`/`2`
 keys still switch views; search is live on the docs (section 15).
 
 ## 15. Docs rework (amended 2026-09-28)
