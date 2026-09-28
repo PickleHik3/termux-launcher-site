@@ -1,0 +1,124 @@
+# Data for the docs landing page (#wiki with no key) and the grouped sidebar.
+# Order here is the order things render in; edit this file, not the templates,
+# to reorder a group, a "beyond the tour" card or the reference shelf.
+
+# Sidebar group order. Must match the `group` front matter used in _wiki/*.md.
+groups:
+  - Start here
+  - Everyday
+  - Typing
+  - Terminal
+  - Extras
+  - Reference
+
+# The tour infographic: an inline SVG slot. Flip to true once
+# _includes/tour-infographic.html exists with the real artwork; until then the
+# landing page renders the eight moves as plain cards only.
+infographic: false
+
+# The eight moves from the in-app tour, recapped on the landing page.
+moves:
+  - n: 1
+    gesture: Hold a pane corner
+    body: The corner tab opens; tap ? to see what every control does.
+  - n: 2
+    gesture: Hold the dock
+    body: Choose your pinned apps.
+  - n: 3
+    gesture: Pull down on the dock
+    body: The app drawer; Home brings you back.
+  - n: 4
+    gesture: Tap the keyboard key on the key row
+    body: Hide or show the keyboard.
+  - n: 5
+    gesture: Swipe up on the space bar
+    body: The command palette.
+  - n: 6
+    gesture: Hold on terminal text
+    body: Select and copy; in htop or nvim your finger becomes the mouse.
+  - n: 7
+    gesture: Hold Ctrl + Alt
+    body: Every key shows its shortcut.
+  - n: 8
+    gesture: Swipe along the status bar
+    body: "Terminal, Home screen, Linux display."
+
+# "Beyond the tour": the eleven features the tour does not teach, most
+# important first. `key` must match a _wiki/<key>.md file. `poster` is
+# optional, a path to an existing image (used as a static preview only).
+beyond:
+  - key: notifications
+    title: Essential notifications
+    line: Only what matters reaches the status bar.
+    poster: assets/screenshots/essential-notification-rule.webp
+  - key: home-screen
+    title: Home screen & widgets
+    line: Widget pages, drawer layouts, folders, A-Z scrub.
+    poster: assets/showcase/features/app-drawer-layouts-poster.webp
+  - key: layout
+    title: Layout & full screen
+    line: Layout editor, minimal mode, hide the system bars.
+    poster: assets/showcase/features/surface-editor-poster.webp
+  - key: look
+    title: Look & themes
+    line: Appearance editor, wallpaper colours, Fancier Glass.
+  - key: keyboard
+    title: Your keyboard
+    line: Floating, split, swipe away, your own layout, voice.
+    poster: assets/showcase/features/keybind-discovery-poster.webp
+  - key: extra-keys
+    title: Extra keys
+    line: Edit the key row, presets, pages, actions.
+    poster: assets/showcase/features/extra-keys-editor-poster.webp
+  - key: terminal
+    title: Terminal power
+    line: Panes, pictures, big text, links, clipboard history.
+    poster: assets/showcase/features/window-splitting-poster.webp
+  - key: tlstore
+    title: tlstore
+    line: fastfetch with GIFs, Claude Code, sigye, btop.
+    poster: assets/showcase/features/sigye-poster.webp
+  - key: on-device-ai
+    title: On-device AI
+    line: Run a model on the phone, point any AI app at it.
+  - key: voice
+    title: Voice & speech
+    line: Dictation, cleanup, read aloud. All local.
+  - key: display
+    title: Linux display
+    line: Desktop apps in the drawer, opened with a tap.
+
+# Edition strip.
+editions:
+  - id: com.termux
+    name: com.termux
+    note: Recommended
+    recommended: true
+  - id: com.termux.launcher.nix
+    name: com.termux.launcher.nix
+    note: Nix edition
+    recommended: false
+  - id: io.vaj.tl
+    name: io.vaj.tl
+    note: Deprecated, migrate
+    recommended: false
+    href: migrate-vaj.html
+
+# Reference shelf pills, in display order. `key` matches a _wiki/<key>.md
+# file; an entry without `key` uses `href` instead (an external/in-page link).
+reference:
+  - key: keybindings
+    title: Keybindings config
+  - key: action-reference
+    title: Action reference
+  - key: keyboard-layout
+    title: Keyboard layout schema
+  - key: config
+    title: Config files
+  - key: permissions
+    title: Permissions & Shizuku
+  - key: nix
+    title: Nix edition
+  - title: Termux AI API
+    href: "#ai"
+    external: true
