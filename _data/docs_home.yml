@@ -64,7 +64,7 @@ beyond:
     line: Appearance editor, wallpaper colours, Fancier Glass.
   - key: keyboard
     title: Your keyboard
-    line: Floating, split, swipe away, your own layout, voice.
+    line: Floating, split, your own layout, voice.
     poster: assets/showcase/features/keybind-discovery-poster.webp
   - key: extra-keys
     title: Extra keys
