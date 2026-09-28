@@ -41,7 +41,7 @@ The keyboard has three shapes:
 
 ## Hiding it
 
-Swipe down from its top edge - the strip just above the first row of keys, or the empty space between the keyboard and the rows above it - to put it away. Let go early and it springs back. A hidden keyboard comes back the next time you tap the terminal; to keep it off, run **Keyboard on/off** from the palette or press the Keyboard key again.
+Swipe down from the current page's bottom border to put it away - the same border a swipe up opens it from, in every place and mode. A hidden keyboard comes back the next time you tap the terminal; to keep it off, run **Keyboard on/off** from the palette or press the Keyboard key again.
 
 ## Choosing a keyboard
 

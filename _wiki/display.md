@@ -4,8 +4,8 @@ group: Extras
 order: 150
 ---
 The Linux display is the third place on the pane wall, alongside Terminal and Widgets: a real X11
-display where Linux desktop apps run beside the terminal. Swipe left from the terminal, or tap the
-screen glyph at the edge of the status bar, to reach it.
+display where Linux desktop apps run beside the terminal. Hold the terminal's border, then drag
+sideways, or tap the screen glyph peeking in from the status bar's edge, to reach it.
 
 ## Turn it on
 
