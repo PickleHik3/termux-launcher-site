@@ -1428,7 +1428,7 @@ html.has-motion .site-footer-links[data-reveal-stagger].is-visible > * {
 
 .wiki-landing-search {
   max-width: 420px;
-  margin: 22px 0 0;
+  margin: 22px 0 40px;
 }
 
 .wiki-search-label {
@@ -1805,6 +1805,9 @@ html.has-motion .wiki-toc-indicator {
 .wiki-landing-getstarted {
   display: inline-block;
   margin-top: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
   font-family: var(--mono);
   font-size: 13px;
 }
@@ -3024,7 +3027,8 @@ html.has-motion .wiki-toc-indicator {
   max-height: min(60vh, 420px);
   overflow-y: auto;
   padding: 6px;
-  background: var(--glass-fill-dense);
+  /* Near-opaque: results sit over sidebar text, which must not show through. */
+  background: rgba(11, 16, 18, 0.97);
   border: 1px solid var(--glass-line);
   border-radius: var(--glass-radius-sm);
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.8);

@@ -992,7 +992,8 @@ class TermuxLauncherSite {
         tag: "Docs",
         view: "wiki",
         sub: key,
-        text: (article.textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
+        // Prose only, so result snippets skip the kicker, title and meta line.
+        text: ((article.querySelector(".wiki-prose") || article).textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
       });
     });
     // Static destinations
