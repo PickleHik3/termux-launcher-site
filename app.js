@@ -169,8 +169,24 @@ class TermuxLauncherSite {
 
     this.statTimer = window.setInterval(() => this.tickStats(), 2200);
     this.wireShowcaseClips();
+    this.wireInfographic();
     const initial = this.parseHash() || { view: "setup", subview: null };
     this.setView(initial.view, initial.subview, false);
+  }
+
+  // The tour infographic opens full size in a dialog; its text is too small at column width.
+  // Delegated, because the landing markup can be re-rendered after start-up.
+  wireInfographic() {
+    document.addEventListener("click", (event) => {
+      const dialog = document.querySelector("[data-infographic-dialog]");
+      if (!dialog || typeof dialog.showModal !== "function") return;
+      if (event.target.closest("[data-infographic-open], .tour-infographic-wide")) {
+        if (!dialog.open) dialog.showModal();
+      } else if (event.target.closest("[data-infographic-close]") || event.target === dialog) {
+        // A click on the backdrop lands on the dialog element itself.
+        dialog.close();
+      }
+    });
   }
 
   // Wiki clips carry preload="none" and only play while on screen, so opening

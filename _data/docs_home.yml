@@ -14,7 +14,7 @@ groups:
 # The tour infographic: an inline SVG slot. Flip to true once
 # _includes/tour-infographic.html exists with the real artwork; until then the
 # landing page renders the eight moves as plain cards only.
-infographic: false
+infographic: true
 
 # The eight moves from the in-app tour, recapped on the landing page.
 moves:

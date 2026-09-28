@@ -300,7 +300,7 @@
               <div class="search-results" data-search-results id="wiki-landing-search-results" role="listbox" hidden></div>
             </div>
 
-            <section class="wiki-landing-section" data-reveal>
+            <section class="wiki-landing-section{% if docs_home.infographic %} has-infographic{% endif %}" data-reveal>
               <h2>The tour on one page</h2>
               {% if docs_home.infographic %}
                 {% include tour-infographic.html %}

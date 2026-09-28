@@ -1802,6 +1802,129 @@ html.has-motion .wiki-toc-indicator {
   color: var(--dim);
 }
 
+/* Tour infographic (_includes/tour-infographic.html). The drawing carries its own
+   headline, so the section's h2 stays for the outline and search only. Wide: the SVG
+   replaces the move cards. Phones: the diagram, then the cards carry the text. */
+.tour-infographic {
+  margin: 0;
+}
+
+.tour-infographic-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.tour-infographic-tall {
+  display: none;
+}
+
+.tour-infographic-wide {
+  cursor: zoom-in;
+}
+
+/* The landing has no "On this page" list, so the drawing may take the empty TOC column. */
+@media (min-width: 1241px) {
+  .tour-infographic {
+    margin-right: calc(-220px - clamp(26px, 3vw, 44px));
+  }
+}
+
+.tour-infographic-open {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+}
+
+.tour-infographic-dialog {
+  width: min(96vw, 1600px);
+  max-width: none;
+  max-height: 94vh;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--glass-line);
+  border-radius: var(--glass-radius);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.9);
+}
+
+.tour-infographic-dialog::backdrop {
+  background: rgba(8, 11, 13, 0.82);
+}
+
+.tour-infographic-dialog img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.tour-infographic-close {
+  display: block;
+  margin: 12px 12px 0 auto;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--accent-line);
+  border-radius: 999px;
+  background: rgba(11, 16, 18, 0.9);
+  color: var(--accent-b);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 250ms var(--ease-snap);
+}
+
+.tour-infographic-close:hover {
+  background: var(--accent-soft);
+}
+
+.tour-infographic-caption {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-align: right;
+}
+
+.has-infographic > h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.has-infographic .tour-moves,
+.has-infographic .tour-moves-caption {
+  display: none;
+}
+
+@media (max-width: 819px) {
+  .tour-infographic-wide {
+    display: none;
+  }
+
+  .tour-infographic-tall {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .tour-infographic-caption {
+    display: none;
+  }
+
+  .has-infographic .tour-moves {
+    display: grid;
+  }
+
+  .has-infographic .tour-moves-caption {
+    display: block;
+  }
+}
+
 .wiki-landing-getstarted {
   display: inline-block;
   margin-top: 16px;
