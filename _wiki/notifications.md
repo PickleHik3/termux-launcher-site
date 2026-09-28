@@ -1,6 +1,7 @@
 ---
-title: Essential notifications
-order: 24
+title: Notifications & status bar
+group: Everyday
+order: 30
 ---
 Android's shade is a pull-away from whatever you are doing. The status bar at the top of the terminal can hold up to three notifications *in place* instead, so the ones you actually wait for - a code, a reply, a build result - sit above the prompt until you deal with them.
 

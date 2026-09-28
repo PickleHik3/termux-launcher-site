@@ -1,6 +1,7 @@
 ---
-title: Shell goodies
-order: 40
+title: tlstore
+group: Extras
+order: 120
 ---
 The launcher works with whatever shell setup you already have. But if you want the setup from the demo videos - fish shell, a Material-themed prompt that follows your wallpaper, nice `ls`, smart `cd` - the launcher ships a small store that sets it all up in one go.
 

@@ -1,6 +1,7 @@
 ---
-title: configs
-order: 45
+title: Config files
+group: Reference
+order: 230
 ---
 Everything lives in `~/.termux/`. Fully commented reference copies of every config are kept fresh in `~/.termux/launcher/examples/` on each app start - when in doubt, read those. After editing any file, apply it without restarting:
 

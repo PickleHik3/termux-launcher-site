@@ -1,6 +1,7 @@
 ---
-title: Terminal fonts
-order: 22
+title: Fonts
+group: Terminal
+order: 110
 ---
 Font handling is ported from kitty and then taken further. There are three ways in and they stack: an in-app picker for people who just want a good font, the classic `~/.termux/font.ttf` for people who already have one, and `~/.termux/fonts.conf` for people who want every knob.
 

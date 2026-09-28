@@ -1,6 +1,7 @@
 ---
-title: Keybindings & multiplexer
-order: 50
+title: Keybindings config
+group: Reference
+order: 200
 ---
 Termux Launcher routes panes, windows, sessions, terminal controls, and app shortcuts through one action registry. The command palette, physical keyboard, embedded in-app keyboard, and Termux Extra Keys can therefore reach the same actions, but each surface has a different configuration syntax.
 

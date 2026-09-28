@@ -1,6 +1,7 @@
 ---
-title: Extra Keys recipes
-order: 65
+title: Extra keys
+group: Typing
+order: 70
 ---
 Termux Extra Keys are the configurable rows in the terminal dock. They are separate from the full embedded keyboard defined by `~/.termux/keyboard/layout.xml`.
 

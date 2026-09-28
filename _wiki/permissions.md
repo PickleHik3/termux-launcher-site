@@ -1,6 +1,7 @@
 ---
-title: Permissions
-order: 25
+title: Permissions & Shizuku
+group: Reference
+order: 240
 ---
 A home screen that is also a terminal ends up asking for a few permissions that look scary out of context. Here is what each one actually does. The short version: **everything below is optional** - deny anything and only that one feature stops working. The app manages them all from **Settings → Services & permissions**.
 

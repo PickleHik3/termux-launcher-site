@@ -1,6 +1,7 @@
 ---
-title: Terminal
-order: 20
+title: Terminal features
+group: Terminal
+order: 80
 ---
 The terminal core is upstream Termux, with a lot built on top. This page covers what's different.
 

@@ -1,6 +1,7 @@
 ---
-title: Home Launcher
-order: 10
+title: Home screen & apps
+group: Everyday
+order: 20
 ---
 * **Pin Apps to Dock:** Long press on the empty space in the dock to pin your favorite apps.
 * **App actions on hold:** long press any app icon - in the dock or in the filtered row - for its Android shortcuts plus *App info*, *Uninstall*, *Change app icon*, *Change dock icon* and *Unpin*.

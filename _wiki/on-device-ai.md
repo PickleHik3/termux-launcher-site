@@ -1,6 +1,7 @@
 ---
-title: LLM backends
-order: 35
+title: On-device AI
+group: Extras
+order: 130
 ---
 The launcher can run language models entirely on your phone - no cloud, nothing leaves the device. Two runtimes are built in:
 

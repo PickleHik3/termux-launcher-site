@@ -1,6 +1,7 @@
 ---
 title: Action reference
-order: 55
+group: Reference
+order: 210
 ---
 These are the current action IDs accepted by `~/.termux/termux-launcher-bindings.conf`, the command palette, `tool:` keys in the embedded keyboard, and `tool:` entries in Termux Extra Keys.
 

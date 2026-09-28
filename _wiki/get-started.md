@@ -1,6 +1,7 @@
 ---
-title: Quick Start
-order: 5
+title: Get started
+group: Start here
+order: 10
 ---
 Termux Launcher is a terminal emulator Android home launcher, powered by the amazing Termux terminal emulator. It is designed to give you the closest experience to controlling your Android using a terminal.
 

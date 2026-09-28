@@ -1,6 +1,7 @@
 ---
-title: Command Palette
-order: 15
+title: Palette & shortcuts
+group: Terminal
+order: 100
 ---
 Every action the launcher knows - splits, sessions, windows, appearance, clipboard, even launching Android apps - lives in one searchable list. Keybinds, keyboard gestures and the palette all run the same actions, so anything you can bind to a key you can also just type.
 

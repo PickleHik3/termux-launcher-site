@@ -27,7 +27,7 @@ calm: fade-up reveals only, no pinning, no tilt.
 | Scope | About view gets the full treatment. Docs and Termux AI get glass tokens and calm motion. `migrate-vaj.html` gets the shared nav, wallpaper and tokens. |
 | Display font | Geist (Google Fonts) for headings. Body stays IBM Plex Sans, mono stays IBM Plex Mono. |
 | Scroll behaviour | Scroll-linked (scrub) only. Never scroll-jacking, never `preventDefault` on wheel/touch. |
-| Media | Only assets already in `assets/`. No placeholders, no stock, no new captures (see `MEDIA_TODO.md`). |
+| Media | Assets in `assets/`, plus new media made for the docs rework (section 15): the tour infographic and new captures listed in `MEDIA_TODO.md`. No stock. A page with no media yet ships text-first, never with a placeholder. |
 
 ## 3. Tokens
 
@@ -519,4 +519,29 @@ marquee, block cursor) and no more.
 
 Build: `bundle exec jekyll build` clean; `#setup`, `#wiki/<article>`, `#ai` hashes route;
 GitHub release hydration still fills the strip and the three edition cards; the `1`/`2`/`3`
-keys still switch views; search remains dormant but unbroken.
+keys still switch views; search is live on the docs (section 15).
+
+## 15. Docs rework (amended 2026-09-28)
+
+This supersedes the parts of sections 2, 11 and 14 it touches. The plan it implements was
+reviewed in `.lavish/docs-ia-spec.html` (local only).
+
+- Layers: the in-app tour teaches; the docs landing recaps the tour and introduces what the
+  tour leaves out; the pages go deep. Pages are written for someone using Termux as their
+  Android home screen: what you can do first, then how, then settings, then limits.
+- `#wiki` with no key opens the docs landing, a built block in `index.html` driven by
+  `_data/docs_home.yml`. Top to bottom: search, the tour infographic, "Beyond the tour" cards
+  (order comes from the YAML), an edition strip, a reference shelf. No hero, no marquee.
+- The tour infographic is inline SVG with live text, in the site tokens (three hues only).
+  It is the one sanctioned new illustration. It gets a `<title>`/`<desc>` listing every move.
+- Sidebar: articles are grouped by the `group` front-matter key, in the group order set in
+  `_data/docs_home.yml` (Start here, Everyday, Typing, Terminal, Extras, Reference), sorted by
+  `order` within a group. Group labels use the eyebrow style. The sliding indicator is kept.
+- Page keys match titles. Old keys resolve through an alias map in `showArticle` and rewrite
+  the hash with `replaceState`. `extra-keys`, `action-reference` and `keyboard-layout` never
+  change: the app's example config files link them.
+- Search is live: an input at the top of the sidebar and of the landing, `/` focuses it,
+  results come from the existing index in `app.js`.
+- New docs copy follows section 13's copy rules. Existing wiki copy that is rewritten follows
+  them too.
+
