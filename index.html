@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
 <link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
-<link rel="stylesheet" href="styles.css?v=20260927-1">
+<link rel="stylesheet" href="styles.css?v=20260928-1">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
 </head>
@@ -225,7 +225,7 @@
       <div class="section">
         <h2 class="section-title docs-ticker-title" data-reveal>Screenshots, keybinds and the rest are in the docs.</h2>
       </div>
-      <div class="marquee" data-reveal>
+      <div class="marquee" id="docs-marquee" data-reveal>
         <div class="marquee-inner">
           <button class="marquee-item glass glass--sm" data-article="install">Home launcher &amp; gestures <span>→</span></button>
           <button class="marquee-item glass glass--sm" data-article="tour">Command palette <span>→</span></button>
@@ -240,6 +240,9 @@
           <button class="marquee-item glass glass--sm" data-article="keybindings" aria-hidden="true" tabindex="-1">Keybindings &amp; multiplexer <span>→</span></button>
           <button class="marquee-item glass glass--sm" data-article="extra-keys" aria-hidden="true" tabindex="-1">Extra Keys recipes <span>→</span></button>
         </div>
+      </div>
+      <div class="section marquee-controls" data-reveal>
+        <button class="marquee-toggle" type="button" data-marquee-toggle aria-pressed="false" aria-controls="docs-marquee">Pause ticker</button>
       </div>
     </section>
   </section>
@@ -566,7 +569,7 @@ export OPENAI_API_KEY="$TOKEN"</pre>
 
 </div>
 </div>
-<script src="app.js?v=20260927-1" defer></script>
-<script src="motion.js?v=20260927-1" defer></script>
+<script src="app.js?v=20260928-1" defer></script>
+<script src="motion.js?v=20260928-1" defer></script>
 </body>
 </html>
