@@ -26,7 +26,7 @@ title: Terminal font picker
 caption: The managed Maple Mono setup, rendering controls and installed family cards.
 ```
 
-* **Recommended setup** - one tap installs Maple Mono (a 373 KB download) with its ligatures on and icon glyphs routed to the bundled Symbols Nerd Font Mono. Same result as the [Shell goodies](#wiki/shell-goodies) script's font step, without the 20 MB Nerd Font build.
+* **Recommended setup** - one tap installs Maple Mono (a 373 KB download) with its ligatures on and icon glyphs routed to the bundled Symbols Nerd Font Mono. Same result as the [tlstore](#wiki/tlstore) script's font step, without the 20 MB Nerd Font build.
 * **Families** - fourteen curated families. Each row shows the download size, face count, whether it is variable and whether it ligates, plus a **License** button with the full notice and upstream link before anything is fetched.
 * **Nerd Font icons** - routes `U+E000-U+F8FF` and `U+F0000-U+FFFFD` to the bundled symbols face, so powerline, devicon, codicon and Material Design glyphs work with any family. The symbols face is in the APK, not downloaded.
 * **Ligature policy** - the three `disable_ligatures` values, spelled out: always shaped, un-fuse under the cursor, or off.
@@ -54,9 +54,9 @@ Most are SIL Open Font License 1.1. The exceptions: Hack is MIT plus the Bitstre
 
 Installing also mirrors the regular and italic faces to `~/.termux/font.ttf` and `font-italic.ttf`, so plain Termux tooling and other forks see a sane font even though they know nothing about `fonts.d`.
 
-The same screen is reachable without leaving the terminal: `fonts.pick` opens the picker and `fonts.install` installs a family by id, both from the [Command Palette](#wiki/tour), a keybind or an extra key.
+The same screen is reachable without leaving the terminal: `fonts.pick` opens the picker and `fonts.install` installs a family by id, both from the [Command palette](#wiki/command-palette), a keybind or an extra key.
 
-The box drawing below is the same machinery the `sigye` clock leans on - see [Shell goodies](#wiki/shell-goodies).
+The box drawing below is the same machinery the `sigye` clock leans on - see [tlstore](#wiki/tlstore).
 
 ## The simple path - font.ttf
 

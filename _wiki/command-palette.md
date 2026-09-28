@@ -47,7 +47,7 @@ Some rows want more from you:
 
 ## Handy defaults
 
-A few worth remembering (the full set, and how to change them, is on the [configs](#wiki/tmux) page):
+A few worth remembering (the full set, and how to change them, is on the [Keybindings config](#wiki/keybindings) page):
 
 | Keys                | Action                               |     |
 | ------------------- | ------------------------------------ | --- |
@@ -57,8 +57,9 @@ A few worth remembering (the full set, and how to change them, is on the [config
 | Ctrl + Alt + `      | Toggle scratchpad                    |     |
 | Ctrl + Alt + K      | Toggle the keyboard                  |     |
 | Ctrl + Alt + S      | Search scrollback                    |     |
-| Ctrl + Alt + 1…9    | Jump to session by number            |     |
+| Ctrl + Alt + 1…9    | Jump to window by number             |     |
+| Ctrl + Alt + Shift + 1…9 | Jump to session by number        |     |
 
-Tip: hold **Ctrl + Alt** on the in-app keyboard and the bound keys light up with a legend of what they do.
+Hold **Ctrl + Alt** on the in-app keyboard at any time, in or out of the palette, and the bound keys light up with a legend of what they do - a quick way to check a chord before you commit to it.
 
-Every one of these can be remapped, and new keys bound to any palette action, from `~/.termux/termux-launcher-bindings.conf` - see [configs](#wiki/tmux).
+Every one of these can be remapped, and new keys bound to any palette action, from `~/.termux/termux-launcher-bindings.conf` - see [Keybindings config](#wiki/keybindings).

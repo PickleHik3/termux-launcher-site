@@ -7,7 +7,7 @@ Termux Extra Keys are the configurable rows in the terminal dock. They are separ
 
 ## Visual editor
 
-Open **Settings → Keyboard → Edit extra keys**, or run the `extrakeys.edit` launcher action. The visual editor supports multiple pages, tap-to-edit keys, hold-and-drag reordering, macros, swipe-up actions and a glyph picker. It writes the same Extra Keys configuration described below, so you can start visually and keep hand-editing later.
+Open **Settings → Keyboard → Edit extra keys**, or run the `extrakeys.edit` launcher action. The visual editor writes the same Extra Keys configuration described further down, so you can start visually and keep hand-editing later.
 
 ```clip
 src: assets/showcase/features/extra-keys-editor
@@ -15,15 +15,32 @@ title: Extra keys editor
 caption: Editing tap and swipe-up actions, choosing a glyph, then adding another page and row.
 ```
 
-## Edit the file directly
+* **Rows** - **Add row** appends one below the last; a row's drag handle reorders it, and holding a key drags it within or between rows. Removing a row (with a confirmation, since its keys go with it) is one tap away.
+* **Pages** - swipe the row sideways to switch pages. A page with no keys stays hidden from the live dock; add a key to it and it appears in the row once it has something to show. The first page can't be emptied out this way - with nothing on it, the whole row stays hidden instead.
+* **Editing a key** - tap it to set what **Tap** and **Swipe up** do (a key, a built-in Extra Key command, or a `tool:` action), its **Label** (blank shows the key name) and **Swipe-up label**, and its colour. The **Ω** glyph picker offers a searchable catalogue of arrows, box drawing, blocks, shapes, Powerline separators and terminal marks for the label fields - only glyphs your device can actually draw are offered.
+* **Save** applies the row immediately; **Discard** asks first if you have unsaved edits.
 
-Configure the rows in `~/.termux/termux.properties`, then apply changes with:
+## Presets
+
+The editor's **Presets** section replaces everything on the current page in one tap (with a confirmation, since it overwrites what's there):
+
+* **Launcher default** - the row the app ships with.
+* **Classic Termux** - the plain Termux row (Esc, Tab, Ctrl, Alt, arrows), if you'd rather start from that than the launcher's own set.
+* **Two rows** - a two-row starting point with palette, search, hints and workspace keys on top of a classic bottom row.
+* **Clear page** - empties the current page.
+* **Before the update** - your previous row, if the app ever asked and you chose to switch. When an update ships a new default row, a card offers **Switch** or **Keep mine**; choosing **Switch** saves the row you had under this preset before replacing it, so picking a new default never actually loses your old one - it's one preset away.
+
+Resetting to plain Termux keys, or backing out of a row you don't like, is the same tap: open the editor, pick the page, apply **Classic Termux** or **Launcher default** from Presets.
+
+## Editing the file
+
+Configure the rows in `~/.termux/termux.properties` directly, then apply changes with:
 
 ```sh
 termux-reload-settings
 ```
 
-## Item schema
+### Item schema
 
 `extra-keys` is a matrix: the outer array contains rows and each inner array contains buttons.
 
@@ -50,7 +67,7 @@ extra-keys = [[ \
 ]]
 ```
 
-## Launcher action syntax
+### Launcher action syntax
 
 Use a `key` item—not `macro`—to run a registry action:
 
@@ -70,7 +87,7 @@ extra-keys = [[ \
 ]]
 ```
 
-## Multiplexer control row
+### Multiplexer control row
 
 This row combines pane creation, focus, layouts, floating panes, and window navigation. Swipe upward on buttons with a `popup` to run the secondary action.
 
@@ -87,9 +104,9 @@ extra-keys = [[ \
 ]]
 ```
 
-Pane and window actions are unavailable while single-pane compatibility mode is enabled.
+Pane and window actions are unavailable while **Split-pane controls** is off (**Settings → Terminal → Sessions and panes**) - see [Panes & sessions](#wiki/panes).
 
-## App and session shortcuts
+### App and session shortcuts
 
 Extra Keys can launch apps because they can supply the required `query` argument:
 
@@ -106,7 +123,7 @@ extra-keys = [[ \
 
 For values containing punctuation or spaces, prefer a package name or stable app ID. The Extra Key argument parser trims names and values and separates multiple arguments with commas; it does not provide a second quoting layer inside the `tool:` string.
 
-## Two-row example
+### Two-row example
 
 ```properties
 extra-keys = [ \
@@ -128,7 +145,7 @@ extra-keys = [ \
 ]
 ```
 
-## Classic terminal and tmux macros
+### Classic terminal and tmux macros
 
 Use `macro` when you want to send ordinary terminal keystrokes instead of invoking a launcher action:
 
@@ -145,7 +162,7 @@ extra-keys = [[ \
 
 These macros target a shell program such as tmux. They are unrelated to the launcher's in-app multiplexer actions such as `pane.split_vertical` and `window.next`.
 
-## Choosing the right surface
+### Choosing the right surface
 
 | Goal | Best configuration |
 | --- | --- |
