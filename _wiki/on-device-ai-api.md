@@ -82,7 +82,7 @@ A multimodal LiteRT model shares one downloaded file across up to three ids. By 
 - `gemma-4-e2b-it-litert-lm-vision` - text + image
 - `gemma-4-e2b-it-litert-lm-audio` - text + audio
 
-Only one modality is loaded at a time. Under the **Both** exposure setting the bare id serves every modality at once and the text-only split gets its own `-text` suffix instead. Sending media to a model id that doesn't cover it returns `capability_not_supported`.
+Only one modality is loaded at a time. Under **Endpoint exposure → Combined** the bare id serves every modality and there are no suffixed ids; under **Both** the bare id is combined and the text-only split gets its own `-text` suffix. Sending media to a model id that doesn't cover it returns `capability_not_supported`.
 
 ### `POST /v1/embeddings`
 

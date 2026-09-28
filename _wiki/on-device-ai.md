@@ -76,7 +76,7 @@ A multimodal LiteRT model (Gemma 4) is advertised on the API as up to three ids 
 - `model-id-vision` - text + image
 - `model-id-audio` - text + audio
 
-Only one mode loads at a time, which keeps the memory cost down. An advanced **Combined exposure** setting can serve every modality from the bare id at once (at a higher memory cost), in which case the text-only variant moves to `model-id-text` instead of disappearing.
+Only one mode loads at a time, which keeps the memory cost down. The advanced **Endpoint exposure** setting changes this: **Combined** serves every modality from the bare id alone, at a higher memory cost; **Both** keeps that combined id and adds the splits, with the text-only one as `model-id-text`.
 
 ## Managing it from the shell
 
