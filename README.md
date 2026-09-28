@@ -4,9 +4,9 @@ Product, setup, documentation, and showcase site for [Termux Launcher](https://g
 
 ## Layout of the site
 
-- `index.html` holds the three views (About, Docs, Termux AI); `migrate-vaj.html` is the standalone migration page.
+- `index.html` holds the two views (About, Docs); `migrate-vaj.html` is the standalone migration page.
 - `styles.css` carries the tokens and the glass design system; `DESIGN.md` is the spec it follows and the contract between `index.html`, `styles.css` and `motion.js`. Read it before changing any of the three.
-- `app.js` routes views and hashes, hydrates the wiki and release data, and builds the API endpoint reference.
+- `app.js` routes views and hashes, hydrates the wiki and release data, and builds the search index.
 - `motion.js` owns the GSAP scroll story on the About view, the reveal observer and the sliding nav, sidebar and TOC indicators. It is gated on `prefers-reduced-motion` and drops out cleanly without GSAP.
 - The `?v=` query on the stylesheet and scripts is a cache-bust; bump it whenever you edit `styles.css`, `app.js` or `motion.js`.
 
