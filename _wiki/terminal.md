@@ -3,7 +3,22 @@ title: Terminal features
 group: Terminal
 order: 80
 ---
-The terminal core is upstream Termux, with a lot built on top. This page covers what's different.
+The terminal core is upstream Termux, with a lot built on top. This page covers what's different. Panes, windows, sessions and workspaces have their own page: [Panes & sessions](#wiki/panes).
+
+## Copy, paste and mouse mode
+
+Holding text to copy is one of the tour's moves - a quick reminder here, then the rest:
+
+* **Drag scrolls, always** - one or two fingers. Inside mouse-aware apps the drag is translated to scroll-wheel events, so lists in `htop`, lazygit or vim scroll naturally.
+* **Tap sends a click** when the running app tracks the mouse.
+* **Press and hold, then drag** to hold the mouse button down - a small haptic marks the handoff. From there you can select text in vim, drag tmux-style splits, or resize TUI panes exactly like a desktop mouse. A quick long-press without moving still opens ordinary text selection with the copy toolbar, and a drag before either haptic just scrolls.
+* **In a plain shell** there's no mouse for an app to take, so the same hold always starts text selection.
+* **Mouse mode** turns every touch into the mouse, for a program that wants one without you holding first: a finger down clicks at that cell, held and dragged it drags, two fingers turn the wheel. It's the Keyboard key's swipe-up on the shipped extra-keys row, or `tool:mouse.toggle` on any key or chord; a small mouse icon at the end of the status bar shows it's on.
+* **Pinch to zoom** changes the focused pane's font size, with jitter filtering so two-finger scrolling doesn't zoom by accident. A new split or window inherits the size of the pane it came from; panes you've never zoomed keep following the global terminal size.
+
+## Find text
+
+**Ctrl + Alt + S** searches the focused pane's history and screen, case-insensitively, and jumps straight to a result.
 
 ## Images, GIFs and graphics
 
@@ -12,8 +27,6 @@ Three graphics protocols are supported out of the box - nothing to enable:
 * **Sixel** and **iTerm2 inline images** - so `img2sixel`, `chafa` and friends just work.
 * **Kitty graphics protocol** - the full modern set: PNG and raw pixel data, placements, z-index, and **animation**. Send an animated GIF through it and it keeps playing on the terminal's own clock, even after the program that sent it exits.
 
-Tested clients: `timg -pk`, `chafa -f kitty`, and **yazi**'s image previews all work. One caveat: `kitten icat` itself isn't usable - kitty's `kitten` binary isn't packaged for Android and crashes before reaching the terminal. Use `timg` or `chafa` instead.
-
 ```clip
 src: assets/showcase/raw/fetch
 title: Graphics in a pane
@@ -21,83 +34,46 @@ formats: mp4
 caption: fastfetch drawing its logo through the kitty graphics protocol, over a wallpaper-themed prompt.
 ```
 
-## Fonts and text rendering
-
-Font handling is ported from kitty: per-style fonts (regular/bold/italic/bold italic), **nerd-font symbol mapping** that never breaks cell widths, ligature control, variable-font axes and cell-metric tweaks. There is an in-app picker for all of it and a `~/.termux/fonts.conf` for hand-editing - the whole system, including gap-free box drawing, is on the [Terminal fonts](#wiki/fonts) page. The old `~/.termux/font.ttf` and Termux:Styling still work if you never touch either.
-
-Text shaping is real: ZWJ emoji, flags, Arabic, Indic conjuncts and programming ligatures render correctly, and selection/copy/resize don't mangle them.
-
-There's also a subtle **cursor trail** - a short streak when the cursor jumps, so you never lose it in a full-screen app. On by default, toggleable from the palette (*Toggle cursor trail*), and it turns itself off in battery-saver mode.
-
-## Touch
-
-Touch is tuned for TUIs rather than plain shells:
-
-* **Drag scrolls, always** - one or two fingers. Inside mouse-aware apps the drag is translated to scroll-wheel events, so lists in `htop`, lazygit or vim scroll naturally.
-* **Tap = mouse click** when the app tracks the mouse.
-* **Press-and-hold, then drag** to send a real mouse drag (select text in vim, resize tmux panes). You'll feel a small haptic when it engages. A quick long-press without moving still gives you normal text selection with the copy toolbar.
-* **Pinch to zoom** changes font size - with jitter filtering so two-finger scrolling doesn't accidentally zoom.
-* Scrolled up reading something? Live output no longer yanks you to the bottom - the view stays put until you scroll back down.
-
-## The multiplexer
-
-No tmux needed - the app is one natively. The hierarchy is **sessions → windows → panes**, and everything below is reachable from the [Command Palette](#wiki/tour), keybinds, extra keys, or the space-bar swipes on the built-in keyboard.
-
 ```clip
-name: window-splitting
-title: Window splitting
-caption: One pane split in two, focus moved, then reshaped - no tmux running.
+name: kew
+title: Album art in the terminal
+caption: kew, a terminal music player, drawing cover art through the same graphics protocol.
 ```
 
-* **Splits** - vertical/horizontal, arrow-key focus movement, keyboard resize, drag the dividers.
-* **Layouts** - six presets (grid, tall, fat, horizontal, vertical, stack); *Next pane layout* (`Ctrl+Alt+L`) cycles them and the window keeps re-tiling new panes to match until you hand-shape it.
-* **Floating panes** - pop any pane out with `Ctrl+Alt+F`. Drag the top handle to move, the corner grip to resize; tap its pill for close/dock buttons. Positions survive app restarts.
-* **Scratchpad** - `Ctrl+Alt+` ` (backtick) summons a dedicated floating shell above whatever you're doing; toggle again and it hides, **but the shell keeps running** and follows you across windows and sessions. Perfect for a music player or a quick calculation.
-* **Windows** - like tmux windows: `Ctrl+Alt+C` new, `Ctrl+Alt+[` / `]` to switch, pills in the status row to tap. Pills label themselves after the file open in your editor, or the running process.
-* **Sessions** - fully separate workspaces of windows. Tap the chip at the left of the status row for the sessions panel, or open the **Session browser** for a searchable tree of every session, window and pane (it searches working directories and running programs too).
-* **Workspaces** - save the whole arrangement (windows, panes, floats, working directories) to a named file and load it later or after a reboot. *Save workspace* / *Load workspace* in the palette; files live in `~/.termux/workspaces/` as JSON. Layout comes back with fresh shells in the right directories - running programs are not resurrected.
+Tested clients: `timg -pk`, `chafa -f kitty`, and **yazi**'s image previews all work. One caveat: `kitten icat` itself isn't usable - kitty's `kitten` binary isn't packaged for Android and crashes before reaching the terminal. Use `timg` or `chafa` instead.
 
-If you want none of this, **Settings → Terminal IO → Single-pane compatibility mode** returns the terminal to plain Termux behaviour.
+## Big and small text
 
-## Status bar
+A program can draw a word or a line at any size it likes, not just the one cell every other character gets - kitty's text-sizing protocol (`OSC 66`), which this terminal implements. A heading can print twice as tall and twice as wide as body text, or a status glyph can shrink to a fraction of a cell, without leaving text mode. Selecting any part of an enlarged block selects and copies all of it as one piece of text.
 
-The glass strip at the top is two tiers:
+If a pane gets too narrow for a block already on screen, it drops back to normal size on its own row and grows again once the pane is wide enough - rotating the phone keeps a block whole either way.
 
-* The **status row**: the session chip, window pills, then **CPU**, **RAM** and **weather** widgets - tap any of them for a drop-down detail card (per-core load and top processes, or the hourly/weekly forecast).
-* The **widget area**: a clock (six styles - flip, LCD, LED and more), up to three **pinned notifications** (which ones is up to you - see [Essential notifications](#wiki/notifications)), and a **media / now-playing widget** with controls when something plays in the background.
+## Links in TUIs
 
-And it stacks downward with gestures:
+Programs that emit proper OSC 8 hyperlinks are reliable: the link is underlined, and tapping it shows you the full target before anything opens. Only `http`, `https`, `mailto`, `tel`, `sms`, `geo`, `ftp` and `ftps` schemes can be opened this way; anything else, `file` links included, can only be copied.
 
-* **Slide down on the status bar** to reveal the clock.
-* **Swipe up** closes the expanded clock again.
+Plain-text URLs picked out of ordinary output are still a bit hit-or-miss, especially with a program that redraws its own chrome around the text - a workspace manager like herdr with its sidebar open is the case that trips it up most. If an underline doesn't look right, try scrolling a little; the detection re-runs on the visible screen.
 
-```clip
-image: assets/screenshots/clock-status-pane.webp
-title: Expanded clock and status pane
-caption: The current clock surface above the session, CPU, RAM and weather row.
-```
+**Ctrl + Alt + U** pulls up keyboard-labelled hints instead, extracted straight from what's on screen: URLs, absolute and relative paths, and `path:line[:column]` references. Pick a label to open a URL or copy anything else; hold Shift while picking a URL to copy it instead of opening it.
 
-Everything is toggleable in **Settings → Terminal & Status**, and the glass itself (blur, opacity, grain, corner radius) is edited live on your real wallpaper via the surface editor. RAM works without elevated access; CPU uses a best-effort direct fallback, while detailed CPU/memory and process data need [Shizuku](#wiki/launcherctl). Weather needs location.
+## Clipboard history
 
-The same screen has an experimental **Lazy Mode** for idle battery: the clock stops animating and the CPU/RAM readings sample far less often, which takes the launcher's idle CPU use down to a fraction of what it was. The detail cards still get every sample when open. If testing goes well it will become the default.
+Swipe down-left on the Ctrl key (the clipboard corner) to open the keyboard's clipboard history in place of the keys. It lists what you've copied **in the launcher** - a terminal selection, the keyboard's copy/cut keys, a link or a hint you copied from a sheet, a yank in find mode, and anything a program copies with `launcherctl clipboard copy` or an OSC 52 escape. What you copy in other apps isn't collected; the paste key still pastes whatever's on the phone's clipboard, as always.
 
-```clip
-src: assets/showcase/features/surface-editor
-title: Surface editor
-caption: Previewing clock styles and switching among the live dock, keyboard, status and terminal surfaces.
-```
+Tap an item to paste it and put it back on the clipboard. Pin an item to keep it above the rest and across restarts - recent items live in memory only, about thirty of them, and the panel keeps up to twenty pins; anything over 16 KB still reaches the clipboard but isn't listed. **Clear** asks twice and never touches pins.
 
-```clip
-name: statusbar-modes
-title: Status bar modes
-caption: The widget area moving through clock, media and pinned-notification modes, then the CPU detail card.
-```
+Whether a program can *read back* what you've copied is a separate switch: **Settings → Terminal → Clipboard → Let programs read the clipboard**.
+
+## Status and notifications from programs
+
+* A window whose foreground program is actively using CPU shows a breathing rim; a background window that rings the terminal bell gets a pulsing rim until you focus it. A silent but busy build can look active, and a sleeping or idle TUI doesn't count as work just because it's open.
+* Every window pill also picks up a small mark in the icon's corner: a tick or a cross once a command finishes unseen, or a bell once the window rings.
+* A program with no terminal to write an escape into - a coding agent's tool runner, say - can still post a real Android notification (`launcherctl notify`, the same thing an `OSC 99` request does: named, replaceable, with an urgency level) or set a progress ring on its window's pill (`launcherctl progress`, the same as `OSC 9;4`).
+* There's also a subtle **cursor trail** - a short streak when the cursor jumps, so you never lose it in a full-screen app. On by default, toggleable from the palette (*Toggle cursor trail*), and it turns itself off in battery-saver mode.
 
 ## Small but nice
 
-* **Hints** (`Ctrl+Alt+U`) - keyboard-labelled overlays for URLs, paths and `file:line` references on screen; pick one to open or insert it.
-* **Scrollback search** (`Ctrl+Alt+S`).
-* **Clickable links** - OSC 8 hyperlinks are underlined; tapping shows you the full target before opening.
-* **Prompt jumping** - jump between shell prompts from the palette. Works out of the box in fish; bash/zsh need one `source` line ([configs](#wiki/tmux)).
+* **Prompt jumping** - jump between shell prompts from the palette. Works out of the box in fish; bash/zsh need one `source` line ([config files](#wiki/config)).
 * **Kitty keyboard protocol** - modern TUIs get full key disambiguation (all five enhancement levels).
 * **Key inspector** - a palette action that shows exactly what any key press produces: the Android event, which keybind claimed it, and the bytes sent to the shell. Great for debugging a custom layout or binding.
+* Fonts, ligatures and gap-free box drawing have their own page: [Terminal fonts](#wiki/fonts).
