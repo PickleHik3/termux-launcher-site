@@ -16,11 +16,11 @@ termux-reload-settings
 | `~/.termux/fonts.conf` | Fonts, nerd-font symbols, ligatures, box drawing - see [Terminal fonts](#wiki/fonts) |
 | `~/.termux/fonts.d/` | Drop-in font fragments, including the app-managed `10-launcher.conf` |
 | `~/.termux/colors.properties` | Terminal colors (only when wallpaper colors are off) |
-| `~/.termux/keyboard/layout.xml` | In-app keyboard layout - see [in-app keyboard](#wiki/shell) |
+| `~/.termux/keyboard/layout.xml` | In-app keyboard layout - see [in-app keyboard](#wiki/keyboard) |
 
 ## Keybindings
 
-`~/.termux/termux-launcher-bindings.conf` binds keys to any action from the [Command Palette](#wiki/tour) - the palette is also where you discover action ids and see which keys are already taken. The format is kitty-inspired:
+`~/.termux/termux-launcher-bindings.conf` binds keys to any action from the [Command Palette](#wiki/command-palette) - the palette is also where you discover action ids and see which keys are already taken. The format is kitty-inspired:
 
 ```text
 # map <keys> <action> [arguments]
@@ -76,13 +76,13 @@ disable_ligatures cursor
 font_features regular +zero
 ```
 
-Also available: `bold_font`, `bold_italic_font`, `family="…"` to use an installed family instead of a file, and `modify_font` to nudge cell width/height, baseline and underline metrics. The example file documents every directive. The [setup script](#wiki/shell-goodies) writes a ready-made Maple Mono version of this.
+Also available: `bold_font`, `bold_italic_font`, `family="…"` to use an installed family instead of a file, and `modify_font` to nudge cell width/height, baseline and underline metrics. The example file documents every directive. [tlstore](#wiki/tlstore)'s shell setup writes a ready-made Maple Mono version of this.
 
 ## Colors
 
 By default the terminal is themed from your wallpaper (Material You) - **Settings → Look & feel → Use wallpaper colors**. While that's on, `colors.properties` is ignored. Turn it off to use your own `colors.properties`, same format as upstream Termux.
 
-The current palette is also exported for scripts as `~/.termux/material-colors.sh` / `.properties` - see [Shell goodies](#wiki/shell-goodies).
+The current palette is also exported for scripts as `~/.termux/material-colors.sh` / `.properties` - see [tlstore](#wiki/tlstore).
 
 ## Shell integration
 
