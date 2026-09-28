@@ -329,7 +329,7 @@
       <h2 class="ai-section-title" data-reveal>Model catalog</h2>
       <p class="ai-section-lead" data-reveal>Models aren't bundled in the APK, pull them from the in-app gallery or with <span class="ai-mono">tai</span> (several GB each). Only one generation model loads at a time, inside the isolated <span class="ai-mono">:tai_runtime</span> process. This is the full built-in catalog; you can also <a class="ai-link" data-scrollto="ai-import" href="#ai">import your own</a>.</p>
       <p class="ai-section-note" data-reveal>Two backends &mdash; <span class="ai-mono ai-mono--mute">LiteRT-LM</span> (Google AI Edge) and <span class="ai-mono ai-mono--mute">MNN</span>. <span class="ai-tag ai-tag--green">rec</span> = recommended default &middot; <span class="ai-tag ai-tag--orange">gated</span> = accept the provider's Hugging Face terms first &middot; <span class="ai-tag ai-tag--cyan">import</span> = added via the import flow, not a direct download. Multimodal LiteRT-LM models also appear as separate <span class="ai-mono ai-mono--mute">-vision</span> / <span class="ai-mono ai-mono--mute">-audio</span> IDs on the API.</p>
-      <div class="ai-table glass--sm" data-reveal>
+      <div class="ai-table glass glass--sm" data-reveal>
         <table>
           <thead><tr>
             <th>Model</th>
@@ -416,7 +416,7 @@
             <div class="ai-step-num ai-step-num--filled">1</div>
             <h3 class="ai-step-title">Install</h3>
           </div>
-          <div class="ai-cmd glass--sm" data-cmd>
+          <div class="ai-cmd glass glass--sm" data-cmd>
             <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
             <pre data-cmd-text>pkg i -y aichat</pre>
           </div>
@@ -426,7 +426,7 @@
             <div class="ai-step-num">2</div>
             <h3 class="ai-step-title">Run &amp; answer the prompts</h3>
           </div>
-          <div class="ai-cmd glass--sm" data-cmd>
+          <div class="ai-cmd glass glass--sm" data-cmd>
             <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
             <pre data-cmd-text>aichat</pre>
           </div>
@@ -441,7 +441,7 @@
       </ol>
 
       <p class="ai-body-text ai-body-text--dim" data-reveal>Prefer to write the config by hand? It looks like this in <span class="ai-mono ai-mono--mute">~/.config/aichat/config.yaml</span>:</p>
-      <div class="ai-cmd ai-cmd--wide glass--sm" data-cmd data-reveal>
+      <div class="ai-cmd ai-cmd--wide glass glass--sm" data-cmd data-reveal>
         <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
         <pre data-cmd-text>clients:
   - type: openai-compatible
@@ -460,16 +460,16 @@
     <div class="ai-section" id="ai-commands">
       <h2 class="ai-section-title" data-reveal>tai commands</h2>
       <div class="ai-grid ai-grid--commands" data-reveal-stagger>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai status</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai models</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai download MODEL_ID URL --accept-terms</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai preflight MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai load MODEL_ID [--auto|--cpu|--gpu]</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai keep-warm MODEL_ID --minutes 30</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai runtime</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai unload</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai delete MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai doctor</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai status</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai models</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai download MODEL_ID URL --accept-terms</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai preflight MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai load MODEL_ID [--auto|--cpu|--gpu]</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai keep-warm MODEL_ID --minutes 30</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai runtime</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai unload</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai delete MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
+        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai doctor</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
       </div>
       <p class="ai-footnote" data-reveal>Prefix any command with <span class="ai-mono ai-mono--mute">tai --json</span> for raw API JSON you can pipe into <span class="ai-mono ai-mono--mute">jq</span> and scripts. <span class="ai-mono ai-mono--mute">tai load</span>, <span class="ai-mono ai-mono--mute">preflight</span>, and <span class="ai-mono ai-mono--mute">keep-warm</span> default to the assistant model when no ID is given. See <span class="ai-mono ai-mono--mute">tai --help</span> for the full command set.</p>
     </div>
@@ -478,7 +478,7 @@
     <div class="ai-api">
       <div class="api-layout">
         <!-- endpoint index -->
-        <aside class="api-sidebar">
+        <aside class="api-sidebar" data-reveal>
           <div class="api-sidebar-title">API REFERENCE</div>
           <button class="api-nav-button" data-scrollto="ep-intro">Introduction</button>
           <button class="api-nav-button" data-scrollto="ep-base">Base URL &amp; auth</button>
@@ -490,16 +490,16 @@
         </aside>
         <!-- endpoint detail -->
         <main class="ai-spy-main">
-          <div class="ai-spy-block" data-spy id="ep-intro">
+          <div class="ai-spy-block" data-spy data-reveal id="ep-intro">
             <div class="ai-spy-kicker">API REFERENCE</div>
             <h2 class="ai-spy-title">Introduction</h2>
             <p class="ai-spy-body">Use TAI's local API to run and interact with models. The same server also powers <span class="ai-mono">launcherctl</span>. API routes accept the bearer token or <span class="ai-mono">X-Api-Key</span> when authentication is enabled; CORS preflight and the root health route are exempt.</p>
           </div>
 
-          <div class="ai-spy-block" data-spy id="ep-base">
+          <div class="ai-spy-block" data-spy data-reveal id="ep-base">
             <h3 class="ai-spy-subtitle">Base URL &amp; auth</h3>
             <p class="ai-spy-body">TAI stores its current address and secret token in <span class="ai-mono">~/.launcherctl/</span>. OpenAI-compatible clients append <span class="ai-mono">/v1</span>; Ollama clients use the base address as-is.</p>
-            <div class="ai-cmd glass--sm" data-cmd>
+            <div class="ai-cmd glass glass--sm" data-cmd>
               <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
               <pre data-cmd-text>BASE=$(sed -n '1p' ~/.launcherctl/endpoint)
 TOKEN=$(cat ~/.launcherctl/token)
@@ -509,10 +509,10 @@ export OPENAI_API_KEY="$TOKEN"</pre>
             <p class="ai-footnote">Default bind mode is <span class="ai-mono ai-mono--mute">localhost</span> (<span class="ai-mono ai-mono--mute">127.0.0.1</span>). LAN mode is opt-in; treat the token as a network secret when enabled. Token auth can be relaxed for localhost in settings, but is always enforced on LAN.</p>
           </div>
 
-          <div class="ai-spy-block" data-spy id="ep-ratelimits">
+          <div class="ai-spy-block" data-spy data-reveal id="ep-ratelimits">
             <h3 class="ai-spy-subtitle">Rate limits</h3>
             <p class="ai-spy-body">Operational routes use per-route rolling 60-second windows. Exceeding a configured limit returns <span class="ai-mono">HTTP 429</span> with <span class="ai-mono">Retry-After</span>, <span class="ai-mono">RateLimit-Limit</span>, <span class="ai-mono">RateLimit-Remaining</span> and <span class="ai-mono">RateLimit-Reset</span> headers. Wait for the advertised interval before retrying.</p>
-            <div class="ai-table ai-table--plain glass--sm"><table><tbody>
+            <div class="ai-table ai-table--plain glass glass--sm"><table><tbody>
               <tr><td>Reads (status, runtime, models)</td><td class="ai-table-num">120 / min</td></tr>
               <tr><td>Generation (chat, responses, completions, embeddings)</td><td class="ai-table-num">60 / min</td></tr>
               <tr><td>App launch</td><td class="ai-table-num">30 / min</td></tr>
@@ -523,10 +523,10 @@ export OPENAI_API_KEY="$TOKEN"</pre>
             </tbody></table></div>
           </div>
 
-          <div class="ai-spy-block" data-spy id="ep-errors">
+          <div class="ai-spy-block" data-spy data-reveal id="ep-errors">
             <h3 class="ai-spy-subtitle">Errors &amp; status</h3>
             <p class="ai-spy-body">Errors use the OpenAI error envelope, with a string <span class="ai-mono">code</span> you can switch on. Common codes: <span class="ai-mono ai-mono--mute">bad_request</span> (400), <span class="ai-mono ai-mono--mute">model_not_found</span> (404), <span class="ai-mono ai-mono--mute">unsupported_audio_output</span> (501). Missing or wrong bearer token returns 401.</p>
-            <div class="ai-cmd glass--sm" data-cmd>
+            <div class="ai-cmd glass glass--sm" data-cmd>
               <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
               <pre data-cmd-text>{
   "error": {
@@ -538,7 +538,7 @@ export OPENAI_API_KEY="$TOKEN"</pre>
             </div>
           </div>
 
-          <div class="ai-spy-block" data-spy id="ep-streaming">
+          <div class="ai-spy-block" data-spy data-reveal id="ep-streaming">
             <h3 class="ai-spy-subtitle">Streaming</h3>
             <p class="ai-spy-body">The OpenAI routes (<span class="ai-mono">/v1/chat/completions</span>, <span class="ai-mono">/v1/responses</span>) stream as <b class="ai-callout-strong">Server-Sent Events</b> when you send <span class="ai-mono">"stream": true</span>, terminated by a <span class="ai-mono ai-mono--mute">data: [DONE]</span> line. The Ollama routes (<span class="ai-mono">/api/chat</span>, <span class="ai-mono">/api/generate</span>) stream <b class="ai-callout-strong">newline-delimited JSON</b> by default.</p>
           </div>

@@ -287,26 +287,6 @@ a:focus-visible {
   to { opacity: 1; transform: none; }
 }
 
-@keyframes tl-eyebrow-in {
-  from { opacity: 0; transform: translateY(16px); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: blur(0); }
-}
-
-@keyframes tl-cta-in {
-  from { opacity: 0; transform: translateY(16px) scale(0.96); }
-  to { opacity: 1; transform: none; }
-}
-
-@keyframes tl-strip-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: none; }
-}
-
-@keyframes tl-phone-in {
-  from { opacity: 0; transform: translateY(22vh) rotate(2deg); }
-  to { opacity: 1; transform: none; }
-}
-
 /* ---- 6. Shared type + buttons ---- */
 .section {
   max-width: var(--content-max);
@@ -553,10 +533,15 @@ html.has-motion [data-reveal-stagger].is-visible > :nth-child(n + 6) { transitio
   border-radius: 999px;
   background: var(--glass-fill-strong);
   box-shadow: inset 0 0 0 1px var(--glass-line);
+  opacity: 0;
   pointer-events: none;
   transition:
     transform 400ms var(--spring-smooth),
     width 400ms var(--spring-smooth);
+}
+
+html.has-motion .nav-indicator {
+  opacity: 1;
 }
 
 .nav-tabs button {
@@ -846,21 +831,8 @@ html.has-motion .word-mask:nth-child(3) .word { transition-delay: 250ms; }
 html.has-motion .word-mask:nth-child(4) .word { transition-delay: 305ms; }
 html.has-motion .word-mask:nth-child(5) .word { transition-delay: 360ms; }
 
-html.has-motion.is-loaded .hero-eyebrow {
-  animation: tl-eyebrow-in 600ms var(--ease-out) 80ms backwards;
-}
-
-html.has-motion.is-loaded .hero-cta {
-  animation: tl-cta-in 550ms var(--spring-snappy) 420ms backwards;
-}
-
-html.has-motion.is-loaded .hero-strip {
-  animation: tl-strip-in 550ms var(--ease-out) 500ms backwards;
-}
-
-html.has-motion.is-loaded .phone-frame {
-  animation: tl-phone-in 780ms var(--ease-out) 120ms backwards;
-}
+/* The eyebrow, CTA, strip and phone entry is the GSAP timeline in motion.js
+   (DESIGN.md section 12); only the H1 words enter from CSS. */
 
 /* 9.3 Spine */
 .spine {
@@ -1394,16 +1366,12 @@ html.has-motion .statements[data-reveal-stagger].is-visible > :nth-child(3) .sta
 
 .site-footer-links a {
   color: var(--mute);
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 0.2em;
-  transition: color 350ms var(--ease-snap), text-decoration-color 350ms var(--ease-snap);
+  transition: color 350ms var(--ease-snap);
 }
 
 .site-footer-links a:hover,
 .site-footer-links a:focus-visible {
   color: var(--text);
-  text-decoration-color: var(--accent);
 }
 
 html.has-motion .site-footer-links[data-reveal-stagger] > * {
@@ -3216,11 +3184,7 @@ html.has-motion .wiki-toc-indicator {
   .marquee-inner,
   .gradient-border::after,
   .hero-cursor,
-  .site-nav,
-  .hero-eyebrow,
-  .hero-cta,
-  .hero-strip,
-  .phone-frame {
+  .site-nav {
     animation: none;
   }
 

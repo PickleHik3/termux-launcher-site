@@ -744,6 +744,7 @@ class TermuxLauncherSite {
       article.querySelectorAll(".wiki-prose pre").forEach((pre) => {
         if (pre.dataset.cmd !== undefined) return;
         pre.dataset.cmd = "";
+        pre.classList.add("glass", "glass--sm");
         const code = pre.querySelector("code") || pre;
         code.dataset.cmdText = "";
         const button = document.createElement("button");
@@ -962,6 +963,7 @@ class TermuxLauncherSite {
 
       const groupDetails = document.createElement("section");
       groupDetails.dataset.spy = "";
+      groupDetails.dataset.reveal = "";
       groupDetails.id = `epg-${groupIndex}`;
       groupDetails.className = "api-group";
       const title = document.createElement("h3");
@@ -1050,7 +1052,7 @@ class TermuxLauncherSite {
     }
     const command = document.createElement("div");
     command.dataset.cmd = "";
-    command.className = readOnly ? "ai-cmd glass--sm ai-cmd--muted" : "ai-cmd glass--sm";
+    command.className = readOnly ? "ai-cmd glass glass--sm ai-cmd--muted" : "ai-cmd glass glass--sm";
     if (!readOnly) {
       const copy = document.createElement("button");
       copy.dataset.copy = "";
