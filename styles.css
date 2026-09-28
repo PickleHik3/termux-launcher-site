@@ -2511,6 +2511,7 @@ html.has-motion .wiki-toc-indicator {
 .migration-hero,
 .migration-content {
   max-width: 760px;
+  margin-inline: auto;
 }
 
 .migration-hero {
@@ -2814,7 +2815,7 @@ html.has-motion .wiki-toc-indicator {
       "num"
       "title"
       "body";
-    min-height: 62vh;
+    min-height: 56vh;
   }
 
   html.has-motion .chapter-shot {

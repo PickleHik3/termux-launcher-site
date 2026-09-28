@@ -507,7 +507,11 @@
   // indicator does the sliding. The untransformed origin is the current rect
   // minus the current (possibly mid-transition) translate.
   function placeIndicator(indicator, active, axis) {
-    if (!indicator || !active) return;
+    if (!indicator) return;
+    // No active item yet (the TOC spy has not fired): keep the bar hidden
+    // rather than parked at the container's corner.
+    if (!active) { indicator.style.opacity = "0"; return; }
+    indicator.style.opacity = "";
     var ar = active.getBoundingClientRect();
     var ir = indicator.getBoundingClientRect();
     if (!ar.width && !ar.height) return;
