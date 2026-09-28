@@ -3,9 +3,7 @@ title: Get started
 group: Start here
 order: 10
 ---
-Termux Launcher is a terminal emulator Android home launcher, powered by the amazing Termux terminal emulator. It is designed to give you the closest experience to controlling your Android using a terminal.
-
-The shell underneath is still upstream Termux — `pkg`, the repositories and everything you already know keep working. Everything above the shell has diverged far enough to be its own thing now. If you're familiar with Termux already, the feature list below plus the linked pages is all you need.
+Termux Launcher turns the Termux terminal emulator into your Android home screen. The shell underneath is still upstream Termux (`pkg`, the repositories and everything you already know keep working), but everything above it, from the dock to the keyboard to the multiplexer, is built for running your phone from a prompt.
 
 ```clip
 src: assets/showcase/raw/hero
@@ -14,19 +12,7 @@ formats: mp4
 caption: The home screen - status strip, live terminal, app dock, A-Z row and the built-in keyboard.
 ```
 
-## What's added on top of Termux
-
-* **Terminal features** — Sixel + Kitty graphics protocols (images and gifs right in the terminal), kitty font handling and shaping, kitty keyboard protocol, styled underlines, animated cursor, TUI-aware touch. Details on [Terminal](#wiki/surface).
-* **In-app multiplexer** — like tmux but with some clear advantages, such as pinch zoom per pane. Sessions, windows, panes, floating panes and a scratchpad. `Ctrl+Alt` is the default chord — hold it and the bound keys light up with a legend. See [Terminal](#wiki/surface) and [Keybindings](#wiki/keybindings).
-* **Command palette** — swipe up on the space bar or `Ctrl+Alt+Shift+P`. Launch Android apps and reach every launcher feature from one search box. See [Command Palette](#wiki/tour).
-* **In-app keyboard** — a built-in port of [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) by Julow. See [in-app keyboard](#wiki/shell).
-* **Status bar** — session chip, window pills, RAM, best-effort CPU and weather; Shizuku adds detailed CPU/memory and process data. Tap a status item for a drop-down with more info, slide down for the expanded clock, and swipe up to close it. [Essential notification](#wiki/notifications) rules pin the notifications you wait for above the prompt.
-* **Quick reply** — answer a pinned app's notification without leaving the terminal. See [Home Launcher](#wiki/install).
-* **App drawer + dock** — A-Z row launching, a full drawer with three layouts, folders, custom icons. See [Home Launcher](#wiki/install).
-* **Material color themes** — the whole UI, terminal and keyboard follow your wallpaper.
-* **Local LLM backends** — Google LiteRT and Alibaba MNN, served over OpenAI/Ollama-compatible endpoints. See [LLM backends](#wiki/tai).
-
-## Editions
+## Choose an edition
 
 There are 2 editions (and a legacy one deprecated) of Termux Launcher available;
 
@@ -49,41 +35,45 @@ Notes:
 * Ensure you're downloading the same set of items — mixing official add-ons, old forks, or APKs signed with a different key breaks the install; Android rejects shared-UID/signature mismatches.
 * On first launch the app downloads bootstrap packages. You only need the Main APK to try the launcher.
 
-## Set it up
+## First launch
 
-**Install a nerd font** — go to **Settings → Appearance → Terminal fonts** and install one from the in-app picker (the recommended setup is one tap). Prompts, TUIs and the setup script below all use nerd-font icons, so do this first. Details on [Terminal fonts](#wiki/fonts).
+Once the Termux bootstrap finishes, Android may ask a couple of things: whether the launcher can read your wallpaper (it colours the status bar, dock and keyboard from it) and whether to turn on the Linux display. Answer either one or tap **Not now** - both stay changeable later in Settings.
 
-**Shell configs** — to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, the Neovim colour scheme and the showcase tools), use the store that ships inside the launcher once the bootstrap finishes and you reach the shell.
+Then a short tour plays over the real home screen, one card per gesture: help from a pane corner, pinning apps, opening one from the dock, the keyboard's on/off key, the command palette, your usage mode, and making Termux your home screen, closing on a few tips. Skip any card if you'd rather explore on your own, and replay the whole thing later from **Settings → About & support → Play the tour again**. The [docs home](#wiki) recaps the same moves in one picture if you want a reminder without re-running it.
 
-For the Termux and VAJ editions — details on [Shell goodies](#wiki/shell-goodies):
+## Usage mode
+
+Pick how much launcher you want from the first row of Settings:
+
+* **Terminal** - just the terminal.
+* **Terminal + Home screen** - apps, widgets and the app drawer.
+* **Terminal + Home screen + Linux display** - Linux desktop apps too.
+
+It's a preset, not a lock: picking one sets the pinned apps row, the A-Z index, the app drawer, the widget pane and the Linux display switch, and each one stays editable on its own page afterward. Move one of them off the preset and the row reads **Custom**. Change it anytime from **Settings → Mode**.
+
+## Make it your Home app
+
+**Settings → Apps → Set as default launcher** opens Android's default Home app screen - pick Termux Launcher there. You can switch back to another launcher anytime from Android's own settings.
+
+## Your first hour
+
+**Install a nerd font** - go to **Settings → Look → Terminal fonts** and install one from the in-app picker (the recommended setup is one tap). Prompts, TUIs and the setup script below all use nerd-font icons, so do this first. Details on [Terminal fonts](#wiki/fonts).
+
+**Shell configs** - to get the terminal themes that source your wallpaper's Material colors (fish, oh-my-posh, eza, zoxide, the Neovim colour scheme and the showcase tools), use the store that ships inside the launcher once the bootstrap finishes and you reach the shell.
+
+For the Termux and VAJ editions - details on [tlstore](#wiki/tlstore):
 
 ```sh
 tlstore shell      # the fish shell setup in one go
 tlstore install    # pick anything else, Claude Code included
 ```
 
-For the Nix edition (`com.termux.launcher.nix`) — run after initializing the launcher flake, see [Nix edition](#wiki/nix):
+For the Nix edition (`com.termux.launcher.nix`) - run after initializing the launcher flake, see [Nix edition](#wiki/nix):
 
 ```sh
 setup-toolkits
 ```
 
 A config you already have is never replaced without showing you the change first, and every replaced file gets a timestamped `.bak`.
-* **Make it your Home app** — **Settings → Launcher & Apps → Set as default launcher**. Android shows its Home-app picker; you can switch back anytime from Android Settings.
-* **Shared storage** — run `termux-setup-storage` to reach your internal shared storage from the shell.
-* **Use it as a terminal only** — if you don't want it as your home app, long press the terminal → More → Settings → Launcher & Apps → **Terminal Only**. It disables the launcher features; each can be turned back on individually.
 
-## Docs
-
-* [Home Launcher](#wiki/install) - dock, app drawer, quick reply, app launching gestures, lock screen.
-* [Command Palette](#wiki/tour) - every launcher action, searchable from the keyboard or a gesture.
-* [Terminal](#wiki/surface) - graphics protocols, the multiplexer, floating panes, workspaces and the status bar.
-* [Terminal fonts](#wiki/fonts) - the in-app picker, `fonts.conf`, gap-free box drawing and symbol maps.
-* [Essential notifications](#wiki/notifications) - rules that pin the notifications you wait for above the prompt.
-* [Permissions](#wiki/launcherctl) - what the app asks for and why, including Shizuku.
-* [in-app keyboard](#wiki/shell) - the built-in Unexpected Keyboard port and custom layouts.
-* [Nix edition](#wiki/nix) - first setup, `setup-toolkits` and daily Nix commands.
-* [LLM backends](#wiki/tai) - local models over an OpenAI/Ollama-compatible API.
-* [Shell goodies](#wiki/shell-goodies) - the optional setup script and the CLI tools it installs.
-* [configs](#wiki/tmux) - keybindings, fonts and properties.
-* [Backup & recovery](#wiki/backup) - updating safely, what to back up, common fixes.
+**Shared storage** - run `termux-setup-storage` to reach your internal shared storage from the shell.
