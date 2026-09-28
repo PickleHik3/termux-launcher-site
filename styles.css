@@ -1283,7 +1283,8 @@ html.has-motion .statements[data-reveal-stagger].is-visible > :nth-child(3) .sta
 }
 
 .marquee:hover .marquee-inner,
-.marquee:focus-within .marquee-inner {
+.marquee:focus-within .marquee-inner,
+.marquee.is-paused .marquee-inner {
   animation-play-state: paused;
 }
 
@@ -1322,6 +1323,35 @@ html.has-motion .statements[data-reveal-stagger].is-visible > :nth-child(3) .sta
 
 .marquee-item:hover span {
   color: var(--accent);
+}
+
+/* Pause control for the ticker (WCAG 2.2.2): hover and focus pause it, this
+   gives touch and switch users the same. */
+.marquee-controls {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 14px;
+}
+
+.marquee-toggle {
+  min-height: 44px;
+  padding: 6px 16px;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dim);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 350ms var(--ease-snap), border-color 350ms var(--ease-snap);
+}
+
+.marquee-toggle:hover,
+.marquee-toggle[aria-pressed="true"] {
+  color: var(--accent-b);
+  border-color: var(--accent-line);
 }
 
 /* ---- 10. Footer ---- */
@@ -1364,11 +1394,16 @@ html.has-motion .statements[data-reveal-stagger].is-visible > :nth-child(3) .sta
 
 .site-footer-links a {
   color: var(--mute);
-  transition: color 350ms var(--ease-snap);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+  transition: color 350ms var(--ease-snap), text-decoration-color 350ms var(--ease-snap);
 }
 
-.site-footer-links a:hover {
+.site-footer-links a:hover,
+.site-footer-links a:focus-visible {
   color: var(--text);
+  text-decoration-color: var(--accent);
 }
 
 html.has-motion .site-footer-links[data-reveal-stagger] > * {
@@ -3213,6 +3248,11 @@ html.has-motion .wiki-toc-indicator {
   }
 
   .marquee-inner > [aria-hidden="true"] {
+    display: none;
+  }
+
+  /* Nothing moves, so there is nothing to pause. */
+  .marquee-controls {
     display: none;
   }
 

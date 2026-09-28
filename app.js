@@ -87,8 +87,11 @@ class TermuxLauncherSite {
   async mount() {
     void this.hydrateGitHubData();
     this.startHeroTerminal();
-    await this.hydrateStaticWiki();
+    // The endpoint reference depends on nothing async; build it before the
+    // wiki fetches so the Termux AI view has its full height on first paint
+    // instead of growing by a few thousand pixels once 17 markdown files land.
     this.buildEndpointReference();
+    await this.hydrateStaticWiki();
     this.decorateWikiContent();
     this.buildSearchIndex();
     this.wireSearch();
@@ -997,7 +1000,9 @@ class TermuxLauncherSite {
   methodClass(method, base) {
     const modifier = (method || "").toLowerCase();
     const known = { get: 1, post: 1, delete: 1 };
-    return known[modifier] ? `${base} ${base}--${modifier}` : base;
+    // The colour modifier is shared by the sidebar label and the card pill
+    // (.api-method--get sets colour; .api-pill.api-method--get sets background).
+    return known[modifier] ? `${base} api-method--${modifier}` : base;
   }
 
   createEndpointCard(endpoint) {
@@ -1067,6 +1072,15 @@ class TermuxLauncherSite {
   }
 
   handleClick(event) {
+    const marqueeToggle = event.target.closest("[data-marquee-toggle]");
+    if (marqueeToggle) {
+      const marquee = document.getElementById(marqueeToggle.getAttribute("aria-controls"));
+      const paused = marquee ? marquee.classList.toggle("is-paused") : false;
+      marqueeToggle.setAttribute("aria-pressed", String(paused));
+      marqueeToggle.textContent = paused ? "Play ticker" : "Pause ticker";
+      return;
+    }
+
     const copyButton = event.target.closest("[data-copy]");
     if (copyButton) {
       const text = copyButton.closest("[data-cmd]")?.querySelector("[data-cmd-text]")?.textContent;
