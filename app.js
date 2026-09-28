@@ -959,16 +959,16 @@ class TermuxLauncherSite {
     this.endpointGroups.forEach((group, groupIndex) => {
       const groupLabel = document.createElement("div");
       groupLabel.textContent = group.name;
-      groupLabel.style.cssText = "font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:12px 0 4px";
+      groupLabel.className = "api-eplist-label";
       list.appendChild(groupLabel);
 
       const groupDetails = document.createElement("section");
       groupDetails.dataset.spy = "";
       groupDetails.id = `epg-${groupIndex}`;
-      groupDetails.style.cssText = "scroll-margin-top:64px;margin-top:8px;display:flex;flex-direction:column;gap:14px";
+      groupDetails.className = "api-group";
       const title = document.createElement("h3");
       title.textContent = group.name;
-      title.style.cssText = "font-family:var(--mono);font-weight:600;font-size:19px;margin:0 0 12px;color:var(--cream)";
+      title.className = "api-group-title";
       groupDetails.appendChild(title);
 
       group.items.forEach((endpoint) => {
@@ -982,48 +982,54 @@ class TermuxLauncherSite {
   createEndpointLink(endpoint, groupIndex) {
     const button = document.createElement("button");
     button.dataset.scrollto = `epg-${groupIndex}`;
-    button.style.cssText = "display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:transparent;border:none;padding:5px 0;cursor:pointer";
+    button.className = "api-eplist-button";
 
     const method = document.createElement("span");
     method.textContent = endpoint.method;
-    method.style.cssText = `font-family:var(--mono);font-size:9px;font-weight:700;color:${this.methodColors[endpoint.method] || "var(--mute)"};min-width:30px`;
+    method.className = this.methodClass(endpoint.method, "api-method");
     const path = document.createElement("span");
     path.textContent = endpoint.path.replace(/^.*\//, "/");
-    path.style.cssText = "font-family:var(--mono);font-size:12.5px;color:var(--mute)";
+    path.className = "api-eplist-path";
     button.append(method, path);
     return button;
   }
 
+  methodClass(method, base) {
+    const modifier = (method || "").toLowerCase();
+    const known = { get: 1, post: 1, delete: 1 };
+    return known[modifier] ? `${base} ${base}--${modifier}` : base;
+  }
+
   createEndpointCard(endpoint) {
     const card = document.createElement("article");
-    card.style.cssText = "background:var(--panelink);border:1px solid var(--line);border-radius:11px;padding:16px 18px";
+    card.className = "api-card glass glass--sm";
 
     const heading = document.createElement("div");
-    heading.style.cssText = "display:flex;align-items:center;gap:10px;flex-wrap:wrap";
+    heading.className = "api-card-head";
     const method = document.createElement("span");
     method.textContent = endpoint.method;
-    method.style.cssText = `font-family:var(--mono);font-size:11px;font-weight:700;color:#0d1012;background:${this.methodColors[endpoint.method] || "var(--mute)"};border-radius:5px;padding:2px 8px`;
+    method.className = this.methodClass(endpoint.method, "api-pill");
     const path = document.createElement("code");
     path.textContent = endpoint.path;
-    path.style.cssText = "font-family:var(--mono);font-size:14px;color:var(--cream)";
+    path.className = "api-card-path";
     heading.append(method, path);
 
     const description = document.createElement("p");
     description.textContent = endpoint.description;
-    description.style.cssText = "font-family:var(--sans);font-size:14px;color:var(--mute);line-height:1.55;margin:11px 0 0";
+    description.className = "api-card-desc";
     card.append(heading, description);
 
     if (endpoint.params) {
       const params = document.createElement("p");
       params.innerHTML = endpoint.params;
-      params.style.cssText = "font-family:var(--sans);font-size:13px;color:var(--dim);line-height:1.6;margin:9px 0 0";
+      params.className = "api-card-params";
       card.appendChild(params);
     }
 
     if (endpoint.note) {
       const note = document.createElement("div");
       note.innerHTML = endpoint.note;
-      note.style.cssText = "display:flex;gap:8px;margin-top:11px;background:rgba(217,139,106,.09);border:1px solid rgba(217,139,106,.28);border-radius:7px;padding:8px 11px;font-family:var(--mono);font-size:11.5px;color:#e6c4b4;line-height:1.5";
+      note.className = "api-card-note";
       card.appendChild(note);
     }
 
@@ -1035,27 +1041,26 @@ class TermuxLauncherSite {
   createEndpointBlock(text, label, readOnly) {
     if (!text) return document.createDocumentFragment();
     const wrap = document.createElement("div");
-    wrap.style.cssText = "margin-top:12px";
+    wrap.className = "api-block";
     if (label) {
       const tag = document.createElement("div");
       tag.textContent = label;
-      tag.style.cssText = "font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:5px";
+      tag.className = "api-block-label";
       wrap.appendChild(tag);
     }
     const command = document.createElement("div");
     command.dataset.cmd = "";
-    command.style.cssText = "position:relative;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:13px";
+    command.className = readOnly ? "ai-cmd glass--sm ai-cmd--muted" : "ai-cmd glass--sm";
     if (!readOnly) {
       const copy = document.createElement("button");
       copy.dataset.copy = "";
       copy.innerHTML = "<span data-copy-label>copy</span>";
-      copy.style.cssText = "position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--gold);background:var(--ink);border:1px solid var(--gline);border-radius:6px;padding:4px 9px;cursor:pointer";
+      copy.className = "ai-copy-button";
       command.appendChild(copy);
     }
     const pre = document.createElement("pre");
     pre.dataset.cmdText = "";
     pre.textContent = text;
-    pre.style.cssText = `margin:0;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:${readOnly ? "var(--mute)" : "var(--cream)"}`;
     command.appendChild(pre);
     wrap.appendChild(command);
     return wrap;
