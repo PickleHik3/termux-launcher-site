@@ -7,10 +7,71 @@ class TermuxLauncherSite {
     this.observer = null;
     this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
-      "overview", "install", "nix", "tour", "surface", "fonts", "notifications",
-      "launcherctl", "shell", "tai", "shell-goodies", "tmux", "keybindings",
-      "action-reference", "keyboard-layout", "extra-keys", "backup"
+      "get-started", "home-screen", "notifications", "layout", "look",
+      "keyboard", "extra-keys", "terminal", "panes", "command-palette", "fonts",
+      "tlstore", "on-device-ai", "voice", "display", "keybindings",
+      "action-reference", "keyboard-layout", "config", "permissions", "nix"
     ];
+    // Old keys from before the docs rework resolve here, then the hash is
+    // rewritten with replaceState. "backup" had a page that was removed, so
+    // it (and any other unknown key) falls back to the docs landing.
+    this.wikiAliases = {
+      overview: "get-started",
+      install: "home-screen",
+      shell: "keyboard",
+      surface: "terminal",
+      tour: "command-palette",
+      "shell-goodies": "tlstore",
+      tai: "on-device-ai",
+      tmux: "config",
+      launcherctl: "permissions",
+      backup: "landing"
+    };
+    this.docsHomeGroups = [
+      "Start here", "Everyday", "Typing", "Terminal", "Extras", "Reference"
+    ];
+    // Mirrors _data/docs_home.yml, for the non-Jekyll static fallback only
+    // (hydrateStaticWiki, when the wiki view is served without a Liquid
+    // build). Jekyll builds read the YAML file directly.
+    this.docsHomeStatic = {
+      moves: [
+        { n: 1, gesture: "Hold a pane corner", body: "The corner tab opens; tap ? to see what every control does." },
+        { n: 2, gesture: "Hold the dock", body: "Choose your pinned apps." },
+        { n: 3, gesture: "Pull down on the dock", body: "The app drawer; Home brings you back." },
+        { n: 4, gesture: "Tap the keyboard key on the key row", body: "Hide or show the keyboard." },
+        { n: 5, gesture: "Swipe up on the space bar", body: "The command palette." },
+        { n: 6, gesture: "Hold on terminal text", body: "Select and copy; in htop or nvim your finger becomes the mouse." },
+        { n: 7, gesture: "Hold Ctrl + Alt", body: "Every key shows its shortcut." },
+        { n: 8, gesture: "Swipe along the status bar", body: "Terminal, Home screen, Linux display." }
+      ],
+      beyond: [
+        { key: "notifications", title: "Essential notifications", line: "Only what matters reaches the status bar." },
+        { key: "home-screen", title: "Home screen & widgets", line: "Widget pages, drawer layouts, folders, A-Z scrub." },
+        { key: "layout", title: "Layout & full screen", line: "Layout editor, minimal mode, hide the system bars." },
+        { key: "look", title: "Look & themes", line: "Appearance editor, wallpaper colours, Fancier Glass." },
+        { key: "keyboard", title: "Your keyboard", line: "Floating, split, swipe away, your own layout, voice." },
+        { key: "extra-keys", title: "Extra keys", line: "Edit the key row, presets, pages, actions." },
+        { key: "terminal", title: "Terminal power", line: "Panes, pictures, big text, links, clipboard history." },
+        { key: "tlstore", title: "tlstore", line: "fastfetch with GIFs, Claude Code, sigye, btop." },
+        { key: "on-device-ai", title: "On-device AI", line: "Run a model on the phone, point any AI app at it." },
+        { key: "voice", title: "Voice & speech", line: "Dictation, cleanup, read aloud. All local." },
+        { key: "display", title: "Linux display", line: "Desktop apps in the drawer, opened with a tap." }
+      ],
+      editions: [
+        { name: "com.termux", note: "Recommended" },
+        { name: "com.termux.launcher.nix", note: "Nix edition" },
+        { name: "io.vaj.tl", note: "Deprecated, migrate", href: "migrate-vaj.html" }
+      ],
+      reference: [
+        { key: "keybindings", title: "Keybindings config" },
+        { key: "action-reference", title: "Action reference" },
+        { key: "keyboard-layout", title: "Keyboard layout schema" },
+        { key: "config", title: "Config files" },
+        { key: "permissions", title: "Permissions & Shizuku" },
+        { key: "nix", title: "Nix edition" },
+        { title: "Termux AI API", href: "#ai" }
+      ]
+    };
     this.terminalLines = [
       "launcherctl launch signal",
       "tai load gemma-4-e2b-it-litert-lm",
@@ -254,17 +315,41 @@ class TermuxLauncherSite {
       return;
     }
 
-    documents.forEach((doc, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.dataset.article = doc.key;
-      button.className = "wiki-nav-item";
-      button.textContent = doc.title;
-      sidebar.appendChild(button);
+    this.docsHomeGroups.forEach((group, groupIndex) => {
+      const label = document.createElement("div");
+      label.className = "wiki-group-label";
+      label.textContent = group;
+      sidebar.appendChild(label);
 
+      if (groupIndex === 0) {
+        const home = document.createElement("button");
+        home.type = "button";
+        home.dataset.article = "landing";
+        home.className = "wiki-article-button";
+        home.textContent = "Docs home";
+        sidebar.appendChild(home);
+      }
+
+      documents.filter((doc) => doc.group === group).forEach((doc) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.article = doc.key;
+        button.className = "wiki-article-button";
+        button.textContent = doc.title;
+        sidebar.appendChild(button);
+      });
+    });
+    const indicator = document.createElement("i");
+    indicator.className = "wiki-sidebar-indicator";
+    indicator.setAttribute("aria-hidden", "true");
+    sidebar.appendChild(indicator);
+
+    main.appendChild(this.buildStaticLandingArticle());
+
+    documents.forEach((doc) => {
       const article = document.createElement("article");
       article.dataset.articleBody = doc.key;
-      article.style.display = index === 0 ? "block" : "none";
+      article.style.display = "none";
 
       const kicker = document.createElement("div");
       kicker.className = "wiki-kicker";
@@ -286,6 +371,125 @@ class TermuxLauncherSite {
       article.append(kicker, heading, meta, prose);
       main.appendChild(article);
     });
+  }
+
+  // Mirrors the Liquid-built landing block for the non-Jekyll fallback path,
+  // from this.docsHomeStatic (kept in step with _data/docs_home.yml by hand).
+  buildStaticLandingArticle() {
+    const article = document.createElement("article");
+    article.dataset.articleBody = "landing";
+    article.className = "wiki-landing";
+    article.style.display = "block";
+
+    const kicker = document.createElement("div");
+    kicker.className = "wiki-kicker";
+    kicker.dataset.reveal = "";
+    kicker.textContent = "Documentation";
+
+    const h1 = document.createElement("h1");
+    h1.dataset.reveal = "";
+    h1.textContent = "Everything the tour did not show you";
+
+    const lead = document.createElement("p");
+    lead.className = "wiki-landing-lead";
+    lead.dataset.reveal = "";
+    lead.textContent = "The in-app tour teaches eight moves. Below: a recap of all of them, then the features the tour leaves out.";
+
+    const searchBlock = document.createElement("div");
+    searchBlock.className = "wiki-search wiki-landing-search";
+    searchBlock.dataset.search = "";
+    searchBlock.innerHTML = `
+      <label class="wiki-search-label" for="wiki-landing-search">Search docs</label>
+      <input class="wiki-search-input" type="text" id="wiki-landing-search" data-search-input
+        placeholder="Search docs…" autocomplete="off" role="combobox" aria-autocomplete="list"
+        aria-controls="wiki-landing-search-results" aria-expanded="false">
+      <div class="search-results" data-search-results id="wiki-landing-search-results" role="listbox" hidden></div>
+    `;
+
+    const tourSection = document.createElement("section");
+    tourSection.className = "wiki-landing-section";
+    tourSection.dataset.reveal = "";
+    const tourHeading = document.createElement("h2");
+    tourHeading.textContent = "The tour on one page";
+    const moves = document.createElement("ol");
+    moves.className = "tour-moves";
+    moves.dataset.revealStagger = "";
+    moves.setAttribute("aria-label", "The eight moves the in-app tour teaches");
+    this.docsHomeStatic.moves.forEach((move) => {
+      const li = document.createElement("li");
+      li.className = "tour-move glass glass--sm";
+      li.innerHTML = `<span class="tour-move-n" aria-hidden="true">${move.n}</span><span class="tour-move-gesture">${this.escapeHtml(move.gesture)}</span><span class="tour-move-body">${this.escapeHtml(move.body)}</span>`;
+      moves.appendChild(li);
+    });
+    const caption = document.createElement("p");
+    caption.className = "tour-moves-caption";
+    caption.textContent = "Replay any time: Settings → About & support → Play the tour again.";
+    tourSection.append(tourHeading, moves, caption);
+
+    const beyondSection = document.createElement("section");
+    beyondSection.className = "wiki-landing-section";
+    beyondSection.dataset.reveal = "";
+    const beyondHeading = document.createElement("h2");
+    beyondHeading.textContent = "Beyond the tour";
+    const beyondGrid = document.createElement("div");
+    beyondGrid.className = "beyond-grid";
+    beyondGrid.dataset.revealStagger = "";
+    this.docsHomeStatic.beyond.forEach((card, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "beyond-card glass glass--sm";
+      button.dataset.article = card.key;
+      button.innerHTML = `<span class="beyond-card-rank" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span><span class="beyond-card-title">${this.escapeHtml(card.title)}</span><span class="beyond-card-line">${this.escapeHtml(card.line)}</span>`;
+      beyondGrid.appendChild(button);
+    });
+    beyondSection.append(beyondHeading, beyondGrid);
+
+    const editionSection = document.createElement("section");
+    editionSection.className = "wiki-landing-section";
+    editionSection.dataset.reveal = "";
+    const editionHeading = document.createElement("h2");
+    editionHeading.textContent = "Pick an edition";
+    const editionStrip = document.createElement("div");
+    editionStrip.className = "edition-strip";
+    editionStrip.dataset.revealStagger = "";
+    this.docsHomeStatic.editions.forEach((ed) => {
+      const el = document.createElement(ed.href ? "a" : "button");
+      el.className = "edition-chip glass glass--sm";
+      if (ed.href) el.href = ed.href;
+      else {
+        el.type = "button";
+        el.dataset.nav = "setup";
+        el.dataset.scrollto = "tl-install";
+      }
+      el.innerHTML = `<span class="edition-chip-name">${this.escapeHtml(ed.name)}</span><span class="edition-chip-note">${this.escapeHtml(ed.note)}</span>`;
+      editionStrip.appendChild(el);
+    });
+    const getStarted = document.createElement("button");
+    getStarted.type = "button";
+    getStarted.className = "link-slide wiki-landing-getstarted";
+    getStarted.dataset.article = "get-started";
+    getStarted.textContent = "Get started guide →";
+    editionSection.append(editionHeading, editionStrip, getStarted);
+
+    const referenceSection = document.createElement("section");
+    referenceSection.className = "wiki-landing-section";
+    referenceSection.dataset.reveal = "";
+    const referenceHeading = document.createElement("h2");
+    referenceHeading.textContent = "Reference";
+    const shelf = document.createElement("div");
+    shelf.className = "reference-shelf";
+    shelf.dataset.revealStagger = "";
+    this.docsHomeStatic.reference.forEach((ref) => {
+      const el = document.createElement(ref.key ? "button" : "a");
+      el.className = "reference-pill";
+      if (ref.key) { el.type = "button"; el.dataset.article = ref.key; el.textContent = ref.title; }
+      else { el.href = ref.href; el.dataset.nav = "ai"; el.textContent = `${ref.title} ↗`; }
+      shelf.appendChild(el);
+    });
+    referenceSection.append(referenceHeading, shelf);
+
+    article.append(kicker, h1, lead, searchBlock, tourSection, beyondSection, editionSection, referenceSection);
+    return article;
   }
 
   stripLiquidText(scope) {
@@ -313,6 +517,7 @@ class TermuxLauncherSite {
     return {
       key,
       title: metadata.title || key,
+      group: metadata.group || "",
       order: Number.parseInt(metadata.order || "999", 10),
       body: match ? match[2].trim() : normalized.trim()
     };
@@ -490,9 +695,13 @@ class TermuxLauncherSite {
       if (window.location.hash !== "#wiki") window.history.replaceState(null, "", "#wiki");
       return;
     }
-    if (!articles.some((article) => article.dataset.articleBody === name)) {
-      name = articles[0].dataset.articleBody;
+    // Old keys resolve through the alias map; anything left unrecognised
+    // (including no key at all) falls back to the docs landing block.
+    let resolved = name ? this.wikiAliases[name] || name : "landing";
+    if (!articles.some((article) => article.dataset.articleBody === resolved)) {
+      resolved = "landing";
     }
+    name = resolved;
 
     articles.forEach((article) => {
       article.style.display = article.dataset.articleBody === name ? "block" : "none";
@@ -507,7 +716,7 @@ class TermuxLauncherSite {
       document.querySelector(`#tl [data-article-body="${name}"]`),
       toc
     );
-    const hash = `#wiki/${name}`;
+    const hash = name === "landing" ? "#wiki" : `#wiki/${name}`;
     if (window.location.hash !== hash) window.history.replaceState(null, "", hash);
   }
 
@@ -771,10 +980,12 @@ class TermuxLauncherSite {
 
   buildSearchIndex() {
     const index = [];
-    // Wiki articles (Docs)
-    document.querySelectorAll("#tl [data-article-body]").forEach((article) => {
+    // Wiki articles (Docs). The landing block itself is navigation, not a
+    // result: its own content is the "Beyond the tour" cards, already
+    // indexed as the pages they link to.
+    document.querySelectorAll('#tl [data-article-body]:not([data-article-body="landing"])').forEach((article) => {
       const key = article.dataset.articleBody;
-      const button = document.querySelector(`#tl [data-article="${key}"]`);
+      const button = document.querySelector(`#tl .wiki-sidebar [data-article="${key}"]`);
       const title = (button ? button.textContent : article.querySelector("h1")?.textContent || key).trim();
       index.push({
         title,
@@ -802,64 +1013,69 @@ class TermuxLauncherSite {
     this.searchActive = -1;
   }
 
+  // Two search fields exist (sidebar, docs landing); both read the same
+  // index but keep independent input/results state so typing in one never
+  // touches the other. `/` (handleKey, unchanged) focuses whichever is
+  // currently visible.
   wireSearch() {
-    this.searchRoot = document.querySelector("[data-search]");
-    this.searchToggle = document.querySelector("[data-search-toggle]");
-    this.searchInput = document.querySelector("[data-search-input]");
-    this.searchResults = document.querySelector("[data-search-results]");
-    if (!this.searchRoot || !this.searchInput || !this.searchResults) return;
+    this.searchBlocks = [...document.querySelectorAll("[data-search]")]
+      .map((root) => {
+        const input = root.querySelector("[data-search-input]");
+        const results = root.querySelector("[data-search-results]");
+        if (!input || !results) return null;
+        const state = { root, input, results, items: [], active: -1 };
 
-    this.searchToggle.addEventListener("click", () => this.openSearch());
-    this.searchInput.addEventListener("input", () => this.runSearch(this.searchInput.value));
-    this.searchInput.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") { this.closeSearch(true); return; }
-      if (event.key === "ArrowDown") { event.preventDefault(); this.moveActive(1); return; }
-      if (event.key === "ArrowUp") { event.preventDefault(); this.moveActive(-1); return; }
-      if (event.key === "Enter") {
-        event.preventDefault();
-        const pick = this.searchItems[this.searchActive] || this.searchItems[0];
-        if (pick) this.goToResult(pick);
-      }
-    });
-    this.searchResults.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-result]");
-      if (!button) return;
-      const item = this.searchItems[Number.parseInt(button.dataset.result, 10)];
-      if (item) this.goToResult(item);
-    });
-    document.addEventListener("click", (event) => {
-      if (!this.searchRoot.contains(event.target) && !this.searchResults.contains(event.target)) {
-        this.closeSearch(false);
-      }
-    });
+        input.addEventListener("input", () => this.runSearch(state, input.value));
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") { this.closeSearch(state, true); return; }
+          if (event.key === "ArrowDown") { event.preventDefault(); this.moveActive(state, 1); return; }
+          if (event.key === "ArrowUp") { event.preventDefault(); this.moveActive(state, -1); return; }
+          if (event.key === "Enter") {
+            event.preventDefault();
+            const pick = state.items[state.active] || state.items[0];
+            if (pick) this.goToResult(state, pick);
+          }
+        });
+        results.addEventListener("click", (event) => {
+          const button = event.target.closest("[data-result]");
+          if (!button) return;
+          const item = state.items[Number.parseInt(button.dataset.result, 10)];
+          if (item) this.goToResult(state, item);
+        });
+        document.addEventListener("click", (event) => {
+          if (!root.contains(event.target)) this.closeSearch(state, false);
+        });
+        return state;
+      })
+      .filter(Boolean);
   }
 
   openSearch() {
-    if (!this.searchRoot) return;
-    this.searchRoot.classList.add("open");
-    this.searchToggle.setAttribute("aria-expanded", "true");
-    this.searchInput.focus();
-    this.searchInput.select();
-    if (this.searchInput.value.trim()) this.runSearch(this.searchInput.value);
+    if (!this.searchBlocks?.length) return;
+    const state = this.searchBlocks.find((s) => s.input.offsetParent !== null) || this.searchBlocks[0];
+    state.root.classList.add("open");
+    state.input.focus();
+    state.input.select();
+    if (state.input.value.trim()) this.runSearch(state, state.input.value);
   }
 
-  closeSearch(clear) {
-    if (!this.searchRoot) return;
-    this.searchRoot.classList.remove("open");
-    this.searchToggle.setAttribute("aria-expanded", "false");
-    this.searchResults.hidden = true;
-    this.searchResults.replaceChildren();
-    this.searchItems = [];
-    this.searchActive = -1;
-    if (clear) this.searchInput.value = "";
+  closeSearch(state, clear) {
+    state.root.classList.remove("open");
+    state.input.setAttribute("aria-expanded", "false");
+    state.results.hidden = true;
+    state.results.replaceChildren();
+    state.items = [];
+    state.active = -1;
+    if (clear) state.input.value = "";
   }
 
-  runSearch(query) {
+  runSearch(state, query) {
     const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
     if (!terms.length) {
-      this.searchResults.hidden = true;
-      this.searchResults.replaceChildren();
-      this.searchItems = [];
+      state.input.setAttribute("aria-expanded", "false");
+      state.results.hidden = true;
+      state.results.replaceChildren();
+      state.items = [];
       return;
     }
     const scored = [];
@@ -876,26 +1092,28 @@ class TermuxLauncherSite {
       if (matchesAll) scored.push({ entry, score });
     }
     scored.sort((a, b) => b.score - a.score);
-    this.searchItems = scored.slice(0, 8).map((s) => s.entry);
-    this.searchActive = this.searchItems.length ? 0 : -1;
-    this.renderResults(terms);
+    state.items = scored.slice(0, 8).map((s) => s.entry);
+    state.active = state.items.length ? 0 : -1;
+    state.input.setAttribute("aria-expanded", "true");
+    this.renderResults(state, terms);
   }
 
-  renderResults(terms) {
-    this.searchResults.replaceChildren();
-    if (!this.searchItems.length) {
+  renderResults(state, terms) {
+    state.results.replaceChildren();
+    if (!state.items.length) {
       const empty = document.createElement("div");
       empty.className = "search-empty";
       empty.textContent = "No matches. Try another term.";
-      this.searchResults.appendChild(empty);
-      this.searchResults.hidden = false;
+      state.results.appendChild(empty);
+      state.results.hidden = false;
       return;
     }
-    this.searchItems.forEach((item, i) => {
+    state.items.forEach((item, i) => {
       const button = document.createElement("button");
       button.type = "button";
       button.dataset.result = String(i);
-      button.className = "search-result" + (i === this.searchActive ? " active" : "");
+      button.setAttribute("role", "option");
+      button.className = "search-result" + (i === state.active ? " active" : "");
 
       const head = document.createElement("div");
       const title = document.createElement("span");
@@ -914,9 +1132,9 @@ class TermuxLauncherSite {
         snip.textContent = snippet;
         button.appendChild(snip);
       }
-      this.searchResults.appendChild(button);
+      state.results.appendChild(button);
     });
-    this.searchResults.hidden = false;
+    state.results.hidden = false;
   }
 
   snippetFor(item, terms) {
@@ -935,19 +1153,19 @@ class TermuxLauncherSite {
     return slice;
   }
 
-  moveActive(delta) {
-    if (!this.searchItems.length) return;
-    this.searchActive = (this.searchActive + delta + this.searchItems.length) % this.searchItems.length;
-    this.searchResults.querySelectorAll("[data-result]").forEach((el, i) => {
-      el.classList.toggle("active", i === this.searchActive);
-      if (i === this.searchActive) el.scrollIntoView({ block: "nearest" });
+  moveActive(state, delta) {
+    if (!state.items.length) return;
+    state.active = (state.active + delta + state.items.length) % state.items.length;
+    state.results.querySelectorAll("[data-result]").forEach((el, i) => {
+      el.classList.toggle("active", i === state.active);
+      if (i === state.active) el.scrollIntoView({ block: "nearest" });
     });
   }
 
-  goToResult(item) {
+  goToResult(state, item) {
     this.setView(item.view, item.sub || null, true);
     if (item.id) window.setTimeout(() => this.scrollToId(item.id), 90);
-    this.closeSearch(true);
+    this.closeSearch(state, true);
   }
 
   buildEndpointReference() {
