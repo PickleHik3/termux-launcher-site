@@ -53,8 +53,21 @@ The list holds **32 rules**; past that the dialog reports *Rule list is full*.
 * **Tapping a pin opens what the notification points at**, by sending the notification's own content intent, exactly as tapping it in the shade would. Only if there is no such intent, or it has been cancelled, does the app's plain launcher entry get used. Notifications marked auto-cancel are cleared afterwards, as the shade does.
 * **Dismissing a pin keeps it gone** for as long as that notification stays active, even though the rule still matches. If the app reposts it, it can pin again.
 
-Pins share the widget slot with the clock, so the clock gives up room as pins arrive: full size with nothing pinned, compact with one or two, and down to a mono chip with all three. One pin alongside an active media session is the one case where both are shown together. The [Terminal](#wiki/surface) page covers the rest of the status bar.
+Pins share the widget slot with the clock, so the clock gives up room as pins arrive: full size with nothing pinned, compact with one or two, and down to a mono chip with all three. One pin alongside an active media session is the one case where both are shown together.
 
 ## Where the rules live
 
 They are stored as a JSON array in the app's own preferences under `essential_notification_rules`, defaulting to `[]`. Each entry is `{"id":…, "package":…, "match":…, "clear":…}`. There is no shell command or config file for this yet - the dialog is the only way to edit rules, and a malformed or unusable entry is dropped on load rather than breaking the list.
+
+## Notification dots and history
+
+* **Notification dots** - a small Material-colour dot on any docked app with an active notification. Needs the same notification-access grant as essential rules.
+* **Save notification history** - off by default. On, it writes notification titles and text - message bodies and one-time codes included - into `~/.launcherctl`, where any command or script you run in Termux can read them. Dots and the status bar don't need this switched on.
+
+Both switches sit under **Settings → Apps → App browsing**.
+
+## The rest of the status bar
+
+* **Clock:** switch between 24- and 12-hour time with **Use 12-hour time** under **Settings → Status bar**. The clock's face - Flip, LCD, Minimal, LED matrix, Tape or Slab - and its position on screen are set in the Appearance editor instead, opened from a corner tab. See [Look](#wiki/look).
+* **CPU, memory and weather:** three optional status cards, each with its own switch under **Settings → Status bar**. Weather needs location permission. Tap any of the three for a detail card - per-core load and top processes, or the forecast with an Open-Meteo credit.
+* **Window badges:** the mark on a window's pill in the status row - a ring while its foreground process is busy, a bell once it rings the terminal bell and wants attention, a tick or cross once a command finishes unseen. A background window that rings gets a pulsing rim until you focus it and clear it.
