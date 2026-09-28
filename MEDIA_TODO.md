@@ -26,6 +26,19 @@ Captured from the current Android dev build on 2026-08-17. Public pages contain 
 
 Capture a populated page with at least two ordinary Android widgets and a short edit-mode recording that adds, moves, resizes and moves a widget between pages. Provide MP4, WebM and a WebP poster for the recording.
 
+## Docs rework (v1.0, 2026-09-28)
+
+The widget captures above now target the Home screen & apps page (`#wiki/home-screen`), not Terminal.
+
+| Target page | Future asset | Status |
+| --- | --- | --- |
+| Docs home | Tour infographic as inline SVG, dropped into `_includes/tour-infographic.html`, then set `infographic: true` in `_data/docs_home.yml` | From the Claude Design prompt in the docs spec. |
+| Layout & full screen | Layout editor recording: drag a bar to another edge, keyboard on/off, minimal mode from the corner tab | Page is text-first. |
+| Look & themes | Appearance editor versus Layout editor screenshots | `surface-editor` stands in today. |
+| Keyboard | Docked, floating and split cycle recording; Look → Keyboard look screenshot | Page is text-first for these. |
+| Terminal features | Clipboard history screenshot | Page is text-first for this. |
+| On-device AI, Voice & speech, Linux display | Card posters for the docs home | Cards have no poster yet. |
+
 ## Capture rules
 
 - Keep recordings silent, short and single-purpose. Avoid personal notifications, account names, tokens and device identifiers.
