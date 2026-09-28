@@ -25,14 +25,14 @@ Open **Settings → On-device AI → Model centre**. It lists every installed mo
 
 | Model | Backend | Best for | Download | RAM | Tags |
 | --- | --- | --- | ---: | ---: | --- |
-| Gemma 4 E2B IT | LiteRT-LM | General chat, images, audio, tools | 2.4 GB | 8 GB+ | rec · gated |
-| Gemma 4 E4B IT | LiteRT-LM | Better coding and reasoning | 3.7 GB | 12 GB+ | gated |
+| Gemma 4 E2B IT | LiteRT-LM | General chat, images, audio, tools | 2.4 GB | 8 GB+ | rec |
+| Gemma 4 E4B IT | LiteRT-LM | Better coding and reasoning | 3.7 GB | 12 GB+ | |
 | Whisper ACFT Base / Base (English) | LiteRT-LM | Voice input, multilingual or English only | 97 MB | 6 GB+ | |
 | Whisper ACFT Small / Small (English) | LiteRT-LM | Voice input, better accuracy | 273 MB | 8 GB+ | |
 | Parakeet TDT 0.6B v3 | LiteRT-LM | Voice input in 25 European languages | 586 MB | 8 GB+ | |
 | KittenTTS Nano 0.8 | LiteRT-LM | Reading text aloud, in English | 90 MB | 4 GB+ | |
 
-**rec** = the recommended general model · **gated** = accept the provider's Hugging Face terms first. This built-in catalog is deliberately short: any other LiteRT-LM or MNN model (Qwen, DeepSeek distills, an embedding model) still runs when you add it by Hugging Face link or import the file (see Importing your own, below) - it's just not in the catalog list.
+**rec** = the recommended general model. Both Gemma 4 models are Apache-2.0 and download without a token. This built-in catalog is deliberately short: any other LiteRT-LM or MNN model (Qwen, DeepSeek distills, an embedding model) still runs when you add it by Hugging Face link or import the file (see Importing your own, below) - it's just not in the catalog list.
 
 A few things to know before downloading:
 
