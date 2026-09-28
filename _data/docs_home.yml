@@ -11,12 +11,12 @@ groups:
   - Extras
   - Reference
 
-# The tour infographic: an inline SVG slot. Flip to true once
-# _includes/tour-infographic.html exists with the real artwork; until then the
-# landing page renders the eight moves as plain cards only.
+# The tour infographic: an inline SVG slot in _includes/tour-infographic.html.
+# Shown above the move cards below when true.
 infographic: true
 
-# The eight moves from the in-app tour, recapped on the landing page.
+# The eight moves that run the launcher: the in-app tour's lessons plus the tips
+# on its closing card, recapped on the landing page.
 moves:
   - n: 1
     gesture: Hold a pane corner
@@ -40,8 +40,8 @@ moves:
     gesture: Hold Ctrl + Alt
     body: Every key shows its shortcut.
   - n: 8
-    gesture: Swipe along the status bar
-    body: "Terminal, Home screen, Linux display."
+    gesture: Hold a pane border, then drag
+    body: Move between Terminal, Home screen and Linux display.
 
 # "Beyond the tour": the eleven features the tour does not teach, most
 # important first. `key` must match a _wiki/<key>.md file. `poster` is
@@ -119,6 +119,5 @@ reference:
     title: Permissions & Shizuku
   - key: nix
     title: Nix edition
-  - title: Termux AI API
-    href: "#ai"
-    external: true
+  - key: on-device-ai-api
+    title: On-device AI API
