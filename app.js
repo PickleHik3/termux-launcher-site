@@ -77,11 +77,6 @@ class TermuxLauncherSite {
         ]
       }
     ];
-    this.methodColors = {
-      GET: "var(--green)",
-      POST: "var(--blue)",
-      DELETE: "var(--red)"
-    };
   }
 
   async mount() {
