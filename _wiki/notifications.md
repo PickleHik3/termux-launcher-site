@@ -1,36 +1,38 @@
 ---
-title: Notifications & status bar
+title: Notifications
 group: Everyday
 order: 30
 ---
-Android's shade is a pull-away from whatever you are doing. The status bar at the top of the terminal can hold up to three notifications *in place* instead, so the ones you actually wait for - a code, a reply, a build result - sit above the prompt until you deal with them.
+Android's shade pulls you away from what you are doing. The launcher can pin the notifications you actually wait for (a code, a reply, a build result) in the status bar above the prompt, show dots on docked apps, and keep a history your scripts can read. This page covers all three. The rest of the bar is on [Status bar](#wiki/status-bar).
 
-Nothing is pinned by default. You choose what qualifies by writing rules, and with no rules the feature stays idle: no pins, and the clock keeps its full size.
+Nothing is pinned by default. You choose what qualifies by writing rules; with no rules, nothing pins and the clock keeps its full size.
 
-## Turning it on
+## Turn it on
 
-**Settings → Terminal & status**, in the notification section:
+Everything here lives on **Settings → Notifications** ("Dots, pinned alerts and history"). The same page is linked from **Settings → Status bar → More** and from **Settings → Apps**.
 
-1. **Media and pinned notifications** - opens Android's notification-access screen. Without this grant the launcher cannot read notifications at all, so no rule can ever match. The same grant is what powers the media widget.
-2. **Essential notification rules** - the rule list, and where you add one.
+1. **Notification access** opens Android's notification-access screen. Without it the launcher cannot read notifications at all, so dots, pins, media, quick reply and history all need it.
+2. **Pinned notifications** ("Pin matching notifications to the top pane. Match an app package, keywords, or both.") holds your rules.
 
 ```clip
 image: assets/screenshots/essential-notification-rule.webp
-title: Essential notification rule
-caption: Match an app package, keywords or both, with optional source-notification clearing.
+title: Pinned notification rule
+caption: The add-rule form: an app package, keywords or both, and whether dismissing the pin also clears the notification.
 ```
 
-## What a rule is
+## Pinned notification rules
 
-Two fields and a checkbox:
+The add form has two fields and a switch, then **Add rule**:
 
-* **App package** - matched exactly against the posting app, case-insensitive. `com.whatsapp`, not `WhatsApp`. Leave it blank to mean *any app*.
-* **Keywords in title or text** - a case-insensitive **substring**, not a pattern. `otp` matches "Your OTP is 481920". It is tested against the notification's title and its body, and a pin matches if either contains it. Leave it blank to mean *any text*.
-* **Dismissing the pin also clears the notification** - off by default. Off, swiping the pin away only removes it from the pane and the notification stays in the shade. On, the source notification is cancelled too, so the pin is the only place you need to deal with it.
+* **App package (e.g. com.whatsapp)**: matched exactly against the posting app, ignoring case. `com.whatsapp`, not `WhatsApp`. Leave it blank for any app.
+* **Keywords in title or text**: a plain substring, ignoring case, not a pattern. `otp` matches "Your OTP is 481920". It is tested against the title and the body. Leave it blank for any text.
+* **Dismissing the pin also clears the notification**: off by default. Off, swiping the pin away leaves the notification in the shade; on, the notification is cleared too.
 
-At least one of the two fields must be filled. A rule with both blank would pin everything, so it is rejected - the dialog says *Enter an app package, keywords, or both*.
+At least one field must be filled; a rule with both blank would pin everything, so the form says "Enter an app package, keywords, or both".
 
-Some shapes worth stealing:
+Each saved rule is a card with its own **on/off switch**, a **Clears** pill when it clears the notification, and **Remove**. A rule that is off never matches.
+
+Some rules worth copying:
 
 | Package | Keywords | What it catches |
 | --- | --- | --- |
@@ -39,35 +41,48 @@ Some shapes worth stealing:
 | `com.google.android.gm` | `invoice` | Only invoice mail |
 | *(blank)* | `build failed` | CI results from whichever app reports them |
 
-Two details that decide behaviour once you have more than one rule:
+* **The first matching rule wins.** Rules are tested in list order, so a narrow rule above a broad one takes precedence.
+* **Adding the same rule again replaces it.** The same package and keywords move to the end of the list, take the new clear setting and come back switched on.
+* The list holds **32 rules**; past that the form says "Rule list is full".
 
-* **The first matching rule wins.** Rules are tested in list order, so a narrow rule placed above a broad one takes precedence - useful when you want one app's matches cleared on dismiss and everything else left alone.
-* **A rule cannot be added twice.** Its identity is derived from the package and keywords, so re-adding the same pair is a no-op rather than a duplicate.
+## Pinned cards on screen
 
-The list holds **32 rules**; past that the dialog reports *Rule list is full*.
+* Each card shows the sender in bold, then the message, with the sender's avatar and the app's badge, a tint from the app icon and the age (now, 4m, 2h, 1d). A conversation that folds several messages shows a count.
+* Up to **8** matches are kept; past that the oldest is dropped. The bar shows **two** cards at once; **swipe up or down** on them to scroll the rest.
+* **Tap** a card to open what the notification points at, as tapping it in the shade would.
+* **Swipe sideways** to dismiss it. "Dismissed" with an undo shows for four seconds. A dismissed pin stays gone while that notification is active, even though the rule still matches; if the app posts it again, it can pin again.
+* **Hold** a card for the whole message with **Open**, **Dismiss** and **Mute this rule**. Mute turns that rule's switch off.
+* TalkBack users get the same actions on each card.
 
-## What happens on screen
-
-* **Three pins at most.** A fourth match evicts the oldest rather than growing the stack.
-* **Order is stable.** Pins already on screen keep their positions, and new matches are appended oldest-first by post time - so a pin never jumps around underneath your finger while you are reading it.
-* **Tapping a pin opens what the notification points at**, by sending the notification's own content intent, exactly as tapping it in the shade would. Only if there is no such intent, or it has been cancelled, does the app's plain launcher entry get used. Notifications marked auto-cancel are cleared afterwards, as the shade does.
-* **Dismissing a pin keeps it gone** for as long as that notification stays active, even though the rule still matches. If the app reposts it, it can pin again.
-
-Pins share the widget slot with the clock, so the clock gives up room as pins arrive: full size with nothing pinned, compact with one or two, and down to a mono chip with all three. One pin alongside an active media session is the one case where both are shown together.
+The clock keeps its full face as cards arrive and scales down as one piece to the room left, never below its compact size. A media session shares the space only with a single card.
 
 ## Where the rules live
 
-They are stored as a JSON array in the app's own preferences under `essential_notification_rules`, defaulting to `[]`. Each entry is `{"id":…, "package":…, "match":…, "clear":…}`. There is no shell command or config file for this yet - the dialog is the only way to edit rules, and a malformed or unusable entry is dropped on load rather than breaking the list.
+Rules are stored as a JSON array in the app's own preferences under `essential_notification_rules`, defaulting to `[]`. Each entry is `{"id":…, "package":…, "match":…, "clear":…, "enabled":…}`; an entry without `enabled` counts as on. A malformed entry is dropped on load rather than breaking the list. There is no shell command or config file for rules yet; the settings page is the only way to edit them.
 
-## Notification dots and history
+## Notification dots
 
-* **Notification dots** - a small Material-colour dot on any docked app with an active notification. Needs the same notification-access grant as essential rules.
-* **Save notification history** - off by default. On, it writes notification titles and text - message bodies and one-time codes included - into `~/.launcherctl`, where any command or script you run in Termux can read them. Dots and the status bar don't need this switched on.
+**Settings → Notifications → On the home screen → Notification dots** shows a dot on docked apps with an active notification. Off by default.
 
-Both switches sit under **Settings → Apps → App browsing**.
+## Notification history for the shell
 
-## The rest of the status bar
+**Settings → Notifications → For the shell → Notification history** records notifications into a database under `~/.launcherctl`, where commands and agents in Termux can read them:
 
-* **Clock:** switch between 24- and 12-hour time with **Use 12-hour time** under **Settings → Status bar**. The clock's face - Flip, LCD, Minimal, LED matrix, Tape or Slab - and its position on screen are set in the Appearance editor instead, opened from a corner tab. See [Look](#wiki/look).
-* **CPU, memory and weather:** three optional status cards, each with its own switch under **Settings → Status bar**. Weather needs location permission. Tap any of the three for a detail card - per-core load and top processes, or the forecast with an Open-Meteo credit.
-* **Window badges:** the mark on a window's pill in the status row - a ring while its foreground process is busy, a bell once it rings the terminal bell and wants attention, a tick or cross once a command finishes unseen. A background window that rings gets a pulsing rim until you focus it and clear it.
+```sh
+launcherctl notifications --app … --since 7d
+```
+
+* Nothing is recorded until you check an app in the page's app list. Only checked apps are saved.
+* **Keep for**: 7 days, 30 days, 90 days or 1 year.
+* **Mask one-time codes** ("Codes are hidden before a notification is saved.").
+* **Clear history** deletes every saved notification; the checked apps stay checked.
+
+Dots, pins and the widgets do not need history turned on.
+
+## Elsewhere
+
+* **Quick reply** from the dock answers a notification without opening the app; see [Home screen & apps](#wiki/home-screen).
+* The **Notifications** and **Media** widgets use the same notification access; see [Widgets](#wiki/widgets).
+* Programs in the terminal can post their own Android notifications; see [Terminal features](#wiki/terminal).
+
+Full details: [Notifications](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Notifications.md)
