@@ -78,7 +78,7 @@ Turn off **Split-pane controls** in **Settings → Terminal → Sessions and pan
 
 **Save workspace** in the palette records the whole arrangement (sessions, windows, pane trees and their split ratios, floating panes and their bounds, focused panes, titles and working directories) to a named file, optionally with the foreground command in each pane too. Files live in `~/.termux/workspaces/` as JSON.
 
-**Load workspace** offers **Append** to keep what is already open or **Replace** to remove it once the replacement terminals are ready. Recorded commands, if you saved them, are a separate confirmation, and each one starts again from the beginning in a fresh login shell; it is never resumed at its old point. Review a hand-edited workspace file before agreeing to run its commands.
+**Load workspace** offers **Add to current** to keep what is already open or **Replace** to remove it once the replacement terminals are ready. Recorded commands, if you saved them, are a separate confirmation, and each one starts again from the beginning in a fresh login shell; it is never resumed at its old point. Review a hand-edited workspace file before agreeing to run its commands.
 
 ## Programs controlling panes
 

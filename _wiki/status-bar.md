@@ -42,7 +42,7 @@ A chip shows one short item: the open file in an editor, the running process, or
 
 A background window that rings gets a pulsing rim until you focus it.
 
-**Agent status.** When a coding agent runs in a window, a small dot sits in front of the chip's label: the accent colour while it is **Working**, a warm colour when it **Needs you** (a permission prompt or a question), and a muted colour when it is **Idle**. The sessions panel shows the same, as `claude · Working`. The launcher recognises common agents (Claude Code, Codex, opencode, Gemini, aider and others) from the screen; for exact states, `launcherctl agent install-hooks` writes Claude Code hooks that report them with `launcherctl agent working|blocked|idle|clear`.
+**Agent status.** When a coding agent runs in a window, a small dot sits in front of the chip's label: the accent colour while it is **Working**, a warm colour when it **Needs you** (a permission prompt or a question), and a muted colour when it is **Idle**. The Sessions drawer shows the same state word after each pane's name. The launcher recognises common agents (Claude Code, Codex, opencode, Gemini, aider and others) from the screen; for exact states, `launcherctl agent install-hooks` writes Claude Code hooks that report them with `launcherctl agent working|blocked|idle|clear`.
 
 ## Clock
 
