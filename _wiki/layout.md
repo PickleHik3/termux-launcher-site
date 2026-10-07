@@ -3,44 +3,79 @@ title: Layout & full screen
 group: Everyday
 order: 40
 ---
-Layout is about where things sit and how much of the screen they get - the status bar, the dock, the A-Z row, the extra keys and the keyboard. For what things look like instead, see [Look](#wiki/look).
+Layout is where things sit and how much of the screen they get: the status bar, the apps row, the A-Z index, the extra keys and the keyboard. This page covers the corner tab, the Layout editor, minimal mode and full screen. For what things look like, see [Look & themes](#wiki/look).
 
 ## The corner tab
 
-Hold any pane's corner to open it: a **?** for context help on whatever you're touching, a layout icon that opens the Layout editor below, and a sliders icon for the Appearance editor. Tap away from the controls to put them away again.
+**Hold a corner** of a pane for its tab. Tap away from it to put it away. What it holds depends on the place:
+
+* **Terminal, one pane:** **Appearance**, the minimal mode button, the automatic tiling toggle, **Open settings** and **?** for help on what you are touching.
+* **Terminal, a split pane:** close, move, and maximise or restore that pane.
+* **Widgets:** **Edit widgets**, **Add page**, **Appearance**, minimal mode and **?** (see [Widgets](#wiki/widgets)).
+* **Display:** turn the display on or off, minimal mode, settings, **Appearance** and **?**.
+
+## Open the Layout editor
+
+Layout is a tab of **Appearance**. Open Appearance from **Settings → Appearance**, from the corner tab, or from the terminal's long-press menu, then pick **Layout** in the **Wallpaper | Look | Layout | Icon pack** pill at the top.
+
+Home, Terminal and Display share one layout, so whatever you arrange applies to all three. Portrait and landscape each have their own layout; the toggle in the editor switches which one you are arranging.
 
 ## The Layout editor
 
-Settings has no Layout page of its own - open **Layout** from the corner tab or the long-press menu instead. The editor is one scrolling sheet that pulls up from the bottom. Home, Terminal and Display share one layout, so whatever you arrange lands on all three; the miniature on screen shows the place you opened it from. A Portrait/Landscape toggle above the miniature switches which orientation you're arranging, since each has its own layout - the real screen behind the editor only follows the orientation you're actually holding the phone in.
+The canvas, a picture of your screen, fills the editor. Under it is a sheet of fixed height:
 
-* **Status bar, apps row, A-Z index and extra keys:** drag each one by the six-dot grip at its corner to the edge you want - any of the four, in either orientation - or into the **Hidden** tray under the phone to put it away. A bar in the tray is a chip with the same grip, so it comes back the way it went. Dropping a bar between two others on the same edge sets the order they stack in. The A-Z index rides the pinned apps row while they share an edge; dropped on another edge, it stands on its own. A bar on the bottom edge - the apps row, the A-Z index or the extra keys, not the status bar - can also drop into an **Under the keyboard** slot, so it stays put while the keyboard is up instead of sitting above it.
+* **Row A:** the **Portrait/Landscape** toggle, **Style: Docked / Floating**, and the eye-off **Hidden elements** button.
+* **Row B:** **Corners** and **Margin**, or the keyboard's own tools while the keyboard is selected.
+* **Undo** and **Done** sit in the top bar.
 
-  The status bar can be hidden the same way, which is how a full-screen layout is built by hand - with it away, the clock, weather and window pills go with it and the content takes its band. Shown, it looks different depending on the edge: at the top it's the bar you already know; at the bottom it grows upward from the dock, clock at its foot and window pills along its upper edge; on the left or right it becomes a narrow column with the place badge, one chip per window, and the system readings stacked down it.
+**Move a bar.** Press the status bar, the apps row, the A-Z index or the extra keys anywhere and drag it to any of the four edges. Dropping it between two others on the same edge sets their order. Or tap a bar to select it: it gets an outline and a four-arrow **Move** button whose menu lists the edges and **Hide**.
 
-* **A-Z index: On / Minimised / Off.** Set separately per orientation. Minimised folds the index into a small glass tab flush against the screen edge, which slides the letters out under your finger and claims no band of its own.
+**Under the keyboard.** The apps row, the A-Z index or the extra keys can drop into the slot under the keyboard. They then stay at the bottom of the screen and the keyboard opens above them. The status bar always stands over the keyboard.
 
-* **Dock height and keyboard height:** how tall the dock and the built-in keyboard stand, plus **keyboard bottom padding** for the clearance under the keyboard - each set separately per orientation.
-* **Keyboard on/off:** whether the built-in keyboard is part of the layout at all. Off, nothing raises it, not a tap on the terminal, not a text field, until you turn it back on. It's the same switch as **Keyboard on/off** in the command palette and on the extra-keys row, and unlike the rest of the layout it's one switch for both orientations and every place.
-* **Keyboard type:** docked along the bottom, floating where you put it, or split for two thumbs - set per orientation, and reachable from a key or the palette too.
-* **Keyboard mode** (Display only): whether the keyboard floats over the display or shrinks it.
-* **Grid columns and grid rows** (Home only): how many widgets fit across and down a widget page, set separately for portrait and landscape. See [Home screen & apps](#wiki/home-screen).
+**Hide and restore.** Drop a bar on the eye-off button to hide it; the button shows how many are hidden. Tap eye-off to see hidden elements as tiles with a restore arrow: tap one to put it back on the edge it left, or drag it onto the canvas.
 
-**Done** and **Discard** let you keep or throw away everything you changed in that visit.
+**The A-Z index** rides the pinned apps row while they share an edge; on another edge it stands on its own. It is either on an edge or hidden.
+
+**The status bar** can go on any edge. At the bottom it grows upward from the dock; on a side it becomes a column of place badge, window chips and readings. Hide it to give the content its room: that is how a full-screen layout is built. See [Status bar](#wiki/status-bar).
+
+**Heights, by handle.** Each is set per orientation by dragging on the canvas; a readout shows the value while you hold:
+
+* the dock's inner edge sets **Dock** height;
+* the keyboard's top edge sets **Keyboard** height;
+* the bottom of the keys sets **Bottom padding**.
+
+**The keyboard.** Select it and three **Keyboard type** chips appear (docked, floating, split), with **Key radius** under them in Row B, set per orientation. To turn the built-in keyboard off, drag it onto eye-off; its tile in the hidden row turns it back on. This one switch covers every place and both orientations, and is the same as **Keyboard on/off** in the command palette and on the extra-keys row. See [Keyboard](#wiki/keyboard).
+
+**The widget grid** (Home only): a round handle on the corner of the first cell resizes the grid in whole cells, per orientation. See [Widgets](#wiki/widgets).
+
+**Style.** **Docked** joins the bars into one flush glass frame with the pane as a rounded insert. **Floating** gives each bar its own card. **Corners** and **Margin** apply in both styles.
+
+On the canvas the apps row shows seven placeholder icons; the extra keys show your real keys. Every bar and handle is also reachable with TalkBack, with move, hide, show and resize actions.
+
+**Done** keeps your changes and **Undo** steps back. Pressing Back with unsaved changes offers **Keep editing** or **Discard**, plus **Save** when a wallpaper change is pending.
+
+## Border gestures
+
+* **Hold the page border** and drag sideways to move between places.
+* **Swipe up from the bottom border** to open the keyboard, down to close it. This also turns the keyboard back on if you switched it off.
+* **Swipe down from the top border** to open the status bar, up to fold it, while the bar is along the top.
 
 ## Minimal mode
 
-Minimal mode gives whatever place you're on the whole screen: the status bar, the dock, the A-Z index, the extra keys and the keyboard go away, and the terminal, widgets or display take the room in portrait and landscape alike - on the terminal, a split shows only its active pane, maximised.
+Minimal mode is a second saved layout. It starts with only the content showing: the status bar, the apps row, the A-Z index, the extra keys and the keyboard go away, and the terminal, widgets or display take the room. Open Layout while minimal mode is on to choose what it keeps.
 
-It's one mode for the whole launcher, not a setting of one place: turn it on from Widgets and the terminal and display are minimal too, and moving between places never turns it off. Hold a corner and tap the four-outward-corners button to turn it on; the same button, now pointing inward, turns it off - nothing else does. It stays on until you turn it off, across restarts, and the keyboard comes back the way each place last had it. You can still raise the keyboard while it's on with a tap on the terminal; it goes back down when you move to another place.
+Everything else works as in your normal layout: a split shows all its panes, and the status bar and the borders answer the same gestures.
 
-Moving between places while minimal is still the same hold-and-drag on the page's border as anywhere else - the border stays drawn so there's a line to find.
-
-Whatever you want left on screen in minimal mode is arranged in the Layout editor itself: a terminal with only the A-Z index and the keyboard, say, is that layout with the other bars hidden. Minimal mode adds nothing to it but the maximised pane.
+* **Turn it on or off:** hold a corner and tap the four-outward-corners button; the same button, now pointing inward, turns it off. Nothing else does.
+* It is one mode for the whole launcher, it survives restarts, and moving between places never turns it off.
+* The keyboard goes away when you enter it. Raise it with a swipe up from the bottom border or a tap on the terminal; it goes down again when you move to another place.
 
 ## Full screen
 
-**Settings → Terminal → Full screen** hides Android's own system bars while you're using the launcher.
+**Settings → Terminal → Full screen** ("Hide system bars while using the launcher") hides Android's own status and navigation bars.
 
 ## Pane padding
 
-**Settings → Terminal → Fill padding with edge colours** makes the space between the text and a pane's rounded border take the colour of the nearest edge of what's on screen, so a full-screen app reaches the border instead of stopping short of it.
+**Settings → Terminal → Extend edge colors** ("Match pane padding to nearby terminal colors.", on by default) fills the space between the text and a pane's rounded border with the colour of the nearest edge, so a full-screen program reaches the border instead of stopping short of it.
+
+Full details: [Layout and full screen](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Layout_And_Full_Screen.md)

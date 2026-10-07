@@ -3,49 +3,69 @@ title: Look & themes
 group: Everyday
 order: 50
 ---
-Look controls what things look like - colours, blur, icons, glass. For where things sit instead, see [Layout](#wiki/layout).
+Look is what things look like: wallpaper, glass, colours, icons and terminal effects. This page covers the Appearance surface and the Theme & fonts page. For where things sit, see [Layout & full screen](#wiki/layout).
 
-## The Appearance editor
+## Appearance
 
-Open **Appearance** from a corner tab or the long-press menu, on the real home screen. Tap the floating palette to style every surface at once, or tap one surface - dock, keyboard, status panel, terminal - to style it on its own. Home, Terminal and Display share the same look, so whatever you change here changes all three.
+Open **Appearance** from **Settings → Appearance**, from a pane's corner tab, or from the terminal's long-press menu. It opens on the real home screen with four tabs in a pill at the top: **Wallpaper | Look | Layout | Icon pack**. It opens on Wallpaper, or on the tab you last used if you were there in the past 30 minutes.
 
-```clip
-src: assets/showcase/features/surface-editor
-title: Surface editor
-caption: Previewing clock styles and switching among the live dock, keyboard, status and terminal surfaces.
-```
+Home, Terminal and Display share one look, so a change here applies to all three.
 
-## Base vs independent values
+One **Done**, top right, applies everything from every tab at once: the Home wallpaper, the Lock wallpaper, the look and the layout. Pressing Back or Home with a wallpaper not yet applied offers **Keep editing**, **Discard** or **Save**.
 
-Surfaces follow shared **Base** values by default. Change a value on one surface directly and that surface becomes independent of Base for that value; tap **Follow Base** on it to hand the value back.
+## Wallpaper
 
-## Colour mode and wallpaper colours
+* Two cards, **Lock screen** and **Home screen**. The Lock card can be **Same as Home**.
+* **Choose photo** picks an image, previewed before you apply it. Your last five photos stay on the tab for a quick switch.
+* If another app set your lock screen wallpaper, the Lock card notices, and applying a Home wallpaper does not overwrite it.
 
-* **Color mode:** follow the system, force light, or force dark.
-* **Use wallpaper colors:** build the whole launcher palette from your Android wallpaper.
-* **Interface colors:** choose whether the dock, status bar, app drawer, in-app keyboard and command palette follow the wallpaper palette or the terminal colour scheme in `~/.termux/colors.properties` instead. Needs Android 11 or newer, and a scheme already on disk - apply one from Termux:Styling first.
-* **Terminal contrast:** Softer, Default or Harder, for the generated wallpaper palette.
+## Look
+
+A **Look** slider with five stops: **Clear**, **Mist**, **Tint**, **Solid** and **Custom**. Clear is the most glassy.
+
+At **Custom**, with nothing tapped, vertical sliders set **Blur**, **Grain**, **Opacity**, **Tint**, **Margin** and **Corner radius** for everything. Tap one element on the screen to tune it on its own; tap bare wallpaper to go back to all of them:
+
+* **Status bar:** blur, grain, opacity and tint, plus a **Clock** button for the clock face (Flip, LCD, Minimal, LED matrix, Tape, Slab) and its alignment (Left, Center, Right).
+* **Terminal:** the same four plus **Contrast**, with **Cursor trail** and **Terminal effect** pills.
+* **Dock:** plus **Size** and **Icons**.
+* **Keyboard:** plus **Radius** and **Spacing**, with a **Keyboard theme** button for its theme, colours and typeface (see [Keyboard](#wiki/keyboard)).
+
+**Undo** steps back; **Done** applies.
+
+## Glass
+
+Every glass surface bends the wallpaper at its edge as far as the chosen Look says, where the device can. There is no switch for it. It needs Android 13 or newer and a wallpaper set through the launcher's own picker or `launcherctl wallpaper set`. Reduce idle activity, battery saver and Android's reduced motion turn the extra motion off.
+
+## Cursor trail and terminal effect
+
+* **Cursor trail:** Default, Motion blur, Railgun, Torpedo, Pixie dust or Comet.
+* **Terminal effect:** None, CRT, CRT (green), CRT (amber) or TFT grid. It covers the status bar, dock and keyboard too, with the scanlines fixed to the screen.
+
+Both are on **Settings → Terminal**, under Terminal display, and on the Terminal element in Look → Custom.
+
+## Icon pack
+
+The **Icon pack** tab previews each pack on your real dock. The row of pack tiles starts with **System**; a tap applies a pack. The **Pinned app icons only** switch limits the pack to the dock.
+
+## Theme & fonts
+
+**Theme & fonts** has no row in Settings. Reach it from Settings search (try "theme" or "fonts") or the command palette's **Look and feel settings**. It holds:
+
+* **App theme:** System, Light or Dark.
+* **Wallpaper colors** ("Match the launcher and terminal to the wallpaper.", on by default) builds the launcher and terminal palette from your wallpaper. It overrides manual terminal colours: turn it off, or apply a Termux:Styling scheme, to use your own. Then the dock, status bar, drawer, keyboard and palette follow `~/.termux/colors.properties` too (that part needs Android 11 or newer).
+* **Terminal contrast:** **Softer · pastel**, **Default · system** or **Harder · punchy**, for the wallpaper palette. Greyed out while Wallpaper colors is off.
+* **Wallpaper parallax:** the wallpaper pans a little as the places slide. On by default; needs a wallpaper set through the launcher's picker.
+* **Wallpaper alignment:** lines up the wallpaper behind the launcher with the one on your screen.
+* **Monochrome icons**, **Icon pack** and **Pinned-app icon pack**, the same choices as the Icon pack tab.
+* **Surface style**, which opens the Look tab, and **Keyboard theme**.
+* **Terminal fonts**; see [Fonts](#wiki/fonts).
 
 ## Tools that follow the terminal colours
 
-Pick which command-line tools get recoloured whenever the palette changes: Starship, Helix, tmux, bat, Yazi, fzf, lazygit, Oh My Posh, Neovim, fish and herdr are built in. Turning one off puts its config back the way it was. You can add your own tool with a template - see [Config files](#wiki/config).
+On Theme & fonts, pick which command-line tools are recoloured whenever the palette changes: Starship, Helix, tmux, bat, Yazi, fzf, lazygit, Oh My Posh, Neovim, fish and herdr are built in. Turning one off puts its config back the way it was. You can add your own tool with a template; see [Config files](#wiki/config).
 
-## Fancier Glass
+## Battery: Reduce idle activity
 
-Every glass surface bends the wallpaper at its edge and catches a light along its rim. It needs a wallpaper set from inside Termux Launcher, is hidden below Android 13, and is tuned in the Appearance editor above. Turn it on under **Settings → Terminal → Fancier Glass**.
+**Settings → App behavior → Reduce idle activity** ("Lazy mode. Pause idle animations and update status less often.", off by default) stops the launcher animating while you are only looking at it: the clock swaps its digits instead of folding them, a working window's rim holds lit instead of breathing, the CPU, memory and weather readings sample far less often, and nothing repaints until something on screen changes.
 
-## Icon packs and monochrome icons
-
-* **Use monochrome icons:** render app icons in grayscale.
-* **Icon pack:** use icons from an installed launcher icon pack.
-* **Pinned-app icon pack:** an optional override for just the pinned apps; otherwise they use the global icon pack.
-
-All three live under **Settings → Look**.
-
-## Keyboard colours
-
-The built-in keyboard's own theme, colours and typeface are covered on the [Keyboard](#wiki/keyboard) page.
-
-## Battery: Lazy mode
-
-**Settings → Terminal → Lazy mode** stops the launcher animating while you're only looking at it: the clock swaps its digits instead of folding them, a working window's rim holds lit instead of breathing, the CPU/memory/weather readings sample far less often, and nothing repaints until something on screen actually changes. It's worth turning on, and a candidate to become the default - report anything that looks stuck or stale with it on.
+Full details: [Look and themes](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Look_And_Themes.md)
