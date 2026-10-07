@@ -48,6 +48,7 @@ h1, h2, h3, p, ul, figure { margin: 0; }
   line-height: 1;
   text-decoration: none;
   border: 1.5px solid transparent;
+  white-space: nowrap;
   transition: transform .18s var(--ease), background-color .18s, border-color .18s, color .18s;
 }
 .button:active { transform: translateY(1px); }
@@ -271,6 +272,7 @@ h1, h2, h3, p, ul, figure { margin: 0; }
 }
 @media (max-width: 600px) {
   .top-nav a[href="docs/"] { display: none; }
+  .top-brand span { display: none; }
   .hero { padding-top: 84px; }
   .hero-status { display: none; }
   .hero-title { max-width: none; }
