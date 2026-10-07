@@ -54,7 +54,7 @@ A window is like a tmux window:
 * `Ctrl+Alt+[` / `Ctrl+Alt+]` or `Ctrl+Alt+Left` / `Ctrl+Alt+Right` switch to the previous or next window.
 * `Ctrl+Alt+1`…`9` jump to a window by number.
 * `Ctrl+Alt+R` renames the current window.
-* `Ctrl+Alt+X` closes the current window, after a confirmation.
+* `Ctrl+Alt+X` closes the current window and every pane in it.
 
 Its pill sits in the status row: tap to switch, hold to rename, tap its own `×` to close. Pills label themselves after the open file in your editor, the running process, or the working directory, in that order.
 
