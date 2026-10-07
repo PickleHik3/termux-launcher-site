@@ -190,8 +190,10 @@
       b.addEventListener("pointerenter", () => show(b.dataset.media));
       b.addEventListener("focus", () => show(b.dataset.media));
     });
-    const v = stage.querySelector("video");
-    if (v) new IntersectionObserver(([en]) => (en.isIntersecting && v.classList.contains("is-active") ? v.play().catch(() => {}) : v.pause())).observe(stage);
+    new IntersectionObserver(([en]) => media.forEach((m) => {
+      if (m.tagName !== "VIDEO") return;
+      en.isIntersecting && m.classList.contains("is-active") ? m.play().catch(() => {}) : m.pause();
+    })).observe(stage);
   }
 
   /* ---------- release tags and stars ---------- */
