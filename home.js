@@ -16,7 +16,7 @@
     const RAMP = " .·:;+=*#%@";
     const INK = "#17181c", KLEIN = "#1f2bd4";
     const dpr = Math.min(devicePixelRatio || 1, 2);
-    const FONT_PX = 13;
+    const FONT_PX = 14;
     let cols = 0, rows = 0, cw = 0, ch = 0, sprites = null;
     let wake = [];                       // {x, y, t} in cell units
     let pointer = null;                  // last pointer cell
@@ -27,7 +27,7 @@
       const font = `500 ${FONT_PX * dpr}px "Martian Mono", monospace`;
       ctx.font = font;
       cw = Math.ceil(ctx.measureText("@").width / dpr);
-      ch = Math.round(FONT_PX * 1.45);
+      ch = Math.round(FONT_PX * 1.4);
       sprites = {};
       for (const color of [INK, KLEIN]) {
         const sheet = document.createElement("canvas");
@@ -44,29 +44,44 @@
       canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
       if (!sprites) buildSprites();
       cols = Math.ceil(r.width / cw); rows = Math.ceil(r.height / ch);
+      measureClear();
       draw(performance.now());
     }
 
-    // phone silhouette: rounded-rect signed distance, in cell units, right of centre
-    function phone(x, y) {
-      if (cols < 70) return 0;
-      const pw = Math.min(cols * .22, 30), ph = pw * 2.1;
-      const cx = cols * .72, cy = rows * .5;
-      const dx = Math.abs((x - cx) * cw) - (pw * cw) / 2 + 3 * cw;
-      const dy = Math.abs((y - cy) * ch) - (ph * ch) / 2 + 3 * ch;
-      const d = Math.hypot(Math.max(dx, 0), Math.max(dy, 0)) + Math.min(Math.max(dx, dy), 0) - 3 * cw;
-      return d < 0 ? .22 : Math.max(0, .22 - d / (6 * cw));
+    // smooth value noise, two octaves, drifting slowly
+    function hash(ix, iy) {
+      let n = (ix * 374761393 + iy * 668265263) | 0;
+      n = Math.imul(n ^ (n >>> 13), 1274126177);
+      return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
     }
-
+    function noise(x, y) {
+      const ix = Math.floor(x), iy = Math.floor(y), fx = x - ix, fy = y - iy;
+      const u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy);
+      const a = hash(ix, iy), b = hash(ix + 1, iy), c = hash(ix, iy + 1), d = hash(ix + 1, iy + 1);
+      return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+    }
+    // the copy pushes the characters away: feathered rectangle around .hero-copy and the top bar
+    let clear = null;
+    function measureClear() {
+      const c = hero.querySelector(".hero-copy"), r = hero.getBoundingClientRect(), b = c.getBoundingClientRect();
+      clear = { x0: (b.left - r.left) / cw, y0: (b.top - r.top) / ch, x1: (b.right - r.left) / cw, y1: (b.bottom - r.top) / ch };
+    }
+    function clearing(x, y) {
+      if (!clear) return 1;
+      const dx = Math.max(clear.x0 - x, 0, x - clear.x1), dy = Math.max(clear.y0 - y, 0, y - clear.y1);
+      const d = Math.hypot(dx * cw, dy * ch);
+      const f = Math.min(1, d / 110);
+      return y < 3.2 ? .35 : f * f;
+    }
     function density(x, y, t) {
-      const s = t * .00022;
-      let v = .5 + .5 * Math.sin(x * .085 + s) * Math.cos(y * .15 - s * 1.3);
-      v = v * .25 + .04 + phone(x, y);
+      const s = t * .00004;
+      const n = .72 * noise(x * .038 + s * 3, y * .07 + s) + .28 * noise(x * .11 - s * 2, y * .19 + s * 4);
+      const v = Math.min(.42, Math.max(0, n - .47) * 1.6) * clearing(x, y);
       let w = 0;
       for (const p of wake) {
         const age = (t - p.t) / 1400;
         if (age > 1) continue;
-        const r = Math.hypot((x - p.x) * cw, (y - p.y) * ch) / (26 + age * 120);
+        const r = Math.hypot((x - p.x) * cw, (y - p.y) * ch) / (30 + age * 140);
         w += Math.exp(-r * r) * (1 - age);
       }
       return [v, w];
@@ -86,7 +101,7 @@
           const i = Math.min(RAMP.length - 1, Math.floor(d * RAMP.length));
           if (i === 0) continue;
           const hot = w > .18;
-          ctx.globalAlpha = hot ? Math.min(1, .5 + w) : .18 + d * .55;
+          ctx.globalAlpha = hot ? Math.min(1, .55 + w) : .3 + d * .6;
           ctx.drawImage(hot ? blue : ink, i * sw, 0, sw, sh, x * sw, y * sh, sw, sh);
         }
       }
@@ -121,6 +136,8 @@
     if (reduced) { hero.classList.add("is-booted"); draw(performance.now()); }
     else {
       bootStart = performance.now();
+      setTimeout(() => { booted = true; hero.classList.add("is-booted"); }, 1700);
+      setTimeout(measureClear, 2400);
       document.fonts.ready.then(() => { sprites = null; resize(); });
       hero.addEventListener("pointermove", onMove, { passive: true });
       hero.addEventListener("pointerleave", () => { pointer = null; });
@@ -129,6 +146,23 @@
       start();
     }
     let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(resize, 120); });
+  }
+
+  /* ---------- top bar: dark over the ink band, hidden while scrolling down ---------- */
+  const top = document.querySelector(".top");
+  const band = document.querySelector(".show");
+  if (top && band) {
+    let lastY = scrollY;
+    const tick = () => {
+      const r = band.getBoundingClientRect();
+      top.classList.toggle("is-dark", r.top <= 40 && r.bottom > 40);
+      const y = scrollY;
+      top.classList.toggle("is-away", y > 120 && y > lastY + 2);
+      if (y < lastY - 2 || y <= 120) top.classList.remove("is-away");
+      lastY = y;
+    };
+    addEventListener("scroll", tick, { passive: true });
+    tick();
   }
 
   /* ---------- index stage ---------- */
