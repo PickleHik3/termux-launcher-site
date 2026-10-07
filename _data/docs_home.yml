@@ -45,7 +45,8 @@ moves:
 
 # "Beyond the tour": the eleven features the tour does not teach, most
 # important first. `key` must match a _wiki/<key>.md file. `poster` is
-# optional, a path to an existing image (used as a static preview only).
+# optional, a path to an existing image (used as a static preview only),
+# relative to the site root; docs/index.html prefixes it with ../.
 beyond:
   - key: notifications
     title: Essential notifications
@@ -102,7 +103,7 @@ editions:
     name: io.vaj.tl
     note: Deprecated, migrate
     recommended: false
-    href: migrate-vaj.html
+    href: ../migrate-vaj.html
 
 # Reference shelf pills, in display order. `key` matches a _wiki/<key>.md
 # file; an entry without `key` uses `href` instead (an external/in-page link).

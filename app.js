@@ -1,11 +1,14 @@
 "use strict";
 
+// The docs page lives at docs/index.html, one level below the site root, so
+// every root-relative asset path it emits is prefixed with this.
+const ASSET_BASE = "../";
+
 class TermuxLauncherSite {
   constructor() {
-    this.views = ["setup", "wiki"];
+    this.views = ["wiki"];
     this.spyMap = null;
     this.observer = null;
-    this.stats = { cpu: 24, ram: 61, temp: 41 };
     this.staticWikiFiles = [
       "get-started", "home-screen", "notifications", "layout", "look",
       "keyboard", "extra-keys", "terminal", "panes", "command-palette", "fonts",
@@ -60,7 +63,7 @@ class TermuxLauncherSite {
       editions: [
         { name: "com.termux", note: "Recommended" },
         { name: "com.termux.launcher.nix", note: "Nix edition" },
-        { name: "io.vaj.tl", note: "Deprecated, migrate", href: "migrate-vaj.html" }
+        { name: "io.vaj.tl", note: "Deprecated, migrate", href: `${ASSET_BASE}migrate-vaj.html` }
       ],
       reference: [
         { key: "keybindings", title: "Keybindings config" },
@@ -72,17 +75,9 @@ class TermuxLauncherSite {
         { key: "on-device-ai-api", title: "On-device AI API" }
       ]
     };
-    this.terminalLines = [
-      "launcherctl launch signal",
-      "tai load gemma-4-e2b-it-litert-lm",
-      "kew --sixel",
-      "tai status"
-    ];
   }
 
   async mount() {
-    void this.hydrateGitHubData();
-    this.startHeroTerminal();
     await this.hydrateStaticWiki();
     this.decorateWikiContent();
     this.buildSearchIndex();
@@ -103,10 +98,9 @@ class TermuxLauncherSite {
     window.addEventListener("hashchange", () => this.routeFromHash());
     window.addEventListener("popstate", () => this.routeFromHash());
 
-    this.statTimer = window.setInterval(() => this.tickStats(), 2200);
     this.wireShowcaseClips();
     this.wireInfographic();
-    const initial = this.parseHash() || { view: "setup", subview: null };
+    const initial = this.parseHash() || { view: "wiki", subview: null };
     this.setView(initial.view, initial.subview, false);
   }
 
@@ -144,96 +138,6 @@ class TermuxLauncherSite {
     clips.forEach((video) => observer.observe(video));
   }
 
-  startHeroTerminal() {
-    const output = document.querySelector("[data-terminal-line]");
-    if (!output) return;
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      output.textContent = this.terminalLines[0];
-      return;
-    }
-
-    let lineIndex = 0;
-    let characterIndex = 0;
-    let deleting = false;
-    const tick = () => {
-      const line = this.terminalLines[lineIndex];
-      characterIndex += deleting ? -1 : 1;
-      output.textContent = line.slice(0, Math.max(0, characterIndex));
-      let delay = deleting ? 24 : 54;
-      if (!deleting && characterIndex >= line.length) {
-        deleting = true;
-        delay = 1450;
-      } else if (deleting && characterIndex <= 0) {
-        deleting = false;
-        lineIndex = (lineIndex + 1) % this.terminalLines.length;
-        delay = 320;
-      }
-      window.setTimeout(tick, delay);
-    };
-    window.setTimeout(tick, 280);
-  }
-
-  async hydrateGitHubData() {
-    const repositories = [
-      { name: "PickleHik3/termux-launcher", includeStars: false },
-      { name: "PickleHik3/termux-api", includeStars: false },
-      { name: "PickleHik3/termux-styling", includeStars: false }
-    ];
-
-    await Promise.allSettled(repositories.map(async ({ name, includeStars }) => {
-      const requests = [this.fetchGitHubJson(`/repos/${name}/releases?per_page=20`)];
-      if (includeStars) requests.push(this.fetchGitHubJson(`/repos/${name}`));
-      const [releases, repository] = await Promise.all(requests);
-
-      if (includeStars && Number.isFinite(repository?.stargazers_count)) {
-        document.querySelectorAll("[data-github-stars]").forEach((element) => {
-          element.textContent = repository.stargazers_count.toLocaleString("en-US");
-          element.title = "Live from GitHub";
-        });
-      }
-
-      const published = Array.isArray(releases)
-        ? releases.filter((release) => !release.draft && !release.prerelease && typeof release.tag_name === "string")
-        : [];
-      this.applyReleaseData(`${name}:main`, published.find((release) => !/-(vaj|nix)$/i.test(release.tag_name)));
-      this.applyReleaseData(`${name}:vaj`, published.find((release) => /-vaj$/i.test(release.tag_name)));
-      // The Nix edition publishes as prereleases, so it gets its own pool.
-      const includingPrereleases = Array.isArray(releases)
-        ? releases.filter((release) => !release.draft && typeof release.tag_name === "string")
-        : [];
-      this.applyReleaseData(`${name}:nix`, includingPrereleases.find((release) => /-nix$/i.test(release.tag_name)));
-    }));
-  }
-
-  async fetchGitHubJson(path) {
-    const response = await fetch(`https://api.github.com${path}`, {
-      headers: { Accept: "application/vnd.github+json" }
-    });
-    if (!response.ok) throw new Error(`GitHub request failed: ${response.status}`);
-    return response.json();
-  }
-
-  applyReleaseData(key, release) {
-    if (!release?.tag_name || !release?.html_url) return;
-    let releaseUrl;
-    try {
-      releaseUrl = new URL(release.html_url);
-    } catch {
-      return;
-    }
-    if (releaseUrl.origin !== "https://github.com") return;
-
-    document.querySelectorAll("[data-release-tag]").forEach((element) => {
-      if (element.dataset.releaseTag === key) {
-        element.textContent = release.tag_name;
-        element.title = "Live from GitHub releases";
-      }
-    });
-    document.querySelectorAll("[data-release-link]").forEach((element) => {
-      if (element.dataset.releaseLink === key) element.href = releaseUrl.href;
-    });
-  }
-
   async hydrateStaticWiki() {
     const wikiView = document.querySelector('#tl [data-view="wiki"]');
     const placeholder = wikiView?.querySelector("[data-article-body]");
@@ -243,7 +147,7 @@ class TermuxLauncherSite {
 
     const documents = (await Promise.all(this.staticWikiFiles.map(async (key) => {
       try {
-        const response = await fetch(`_wiki/${key}.md`);
+        const response = await fetch(`${ASSET_BASE}_wiki/${key}.md`);
         if (!response.ok) return null;
         return this.parseWikiDocument(key, await response.text());
       } catch {
@@ -405,14 +309,9 @@ class TermuxLauncherSite {
     editionStrip.className = "edition-strip";
     editionStrip.dataset.revealStagger = "";
     this.docsHomeStatic.editions.forEach((ed) => {
-      const el = document.createElement(ed.href ? "a" : "button");
+      const el = document.createElement("a");
       el.className = "edition-chip glass glass--sm";
-      if (ed.href) el.href = ed.href;
-      else {
-        el.type = "button";
-        el.dataset.nav = "setup";
-        el.dataset.scrollto = "tl-install";
-      }
+      el.href = ed.href || `${ASSET_BASE}#install`;
       el.innerHTML = `<span class="edition-chip-name">${this.escapeHtml(ed.name)}</span><span class="edition-chip-note">${this.escapeHtml(ed.note)}</span>`;
       editionStrip.appendChild(el);
     });
@@ -605,14 +504,10 @@ class TermuxLauncherSite {
       this.openSearch();
       return;
     }
-    const viewNumber = Number.parseInt(event.key, 10);
-    if (viewNumber >= 1 && viewNumber <= this.views.length) {
-      this.setView(this.views[viewNumber - 1], null, true);
-    }
   }
 
   setView(view, subview, pushHistory) {
-    if (!this.views.includes(view)) view = "setup";
+    if (!this.views.includes(view)) view = "wiki";
     document.querySelectorAll("#tl [data-view]").forEach((element) => {
       element.style.display = element.dataset.view === view ? "block" : "none";
     });
@@ -756,7 +651,7 @@ class TermuxLauncherSite {
         frame = document.createElement("div");
         frame.className = "wiki-clip-frame wiki-clip-frame--raw wiki-clip-frame--img";
         const img = document.createElement("img");
-        img.src = path;
+        img.src = ASSET_BASE + path;
         img.loading = "lazy";
         img.alt = fields.title || fields.caption || "";
         frame.appendChild(img);
@@ -767,11 +662,11 @@ class TermuxLauncherSite {
         let card;
         if (name) {
           if (!/^[a-z0-9][a-z0-9-]*$/.test(name)) return;
-          base = `assets/showcase/features/${name}`;
+          base = `${ASSET_BASE}assets/showcase/features/${name}`;
           card = true;
         } else if (source) {
           if (!/^assets\/[a-z0-9][a-z0-9/-]*$/.test(source) || source.includes("..")) return;
-          base = source;
+          base = ASSET_BASE + source;
           card = false;
         } else {
           return;
@@ -947,14 +842,6 @@ class TermuxLauncherSite {
         text: ((article.querySelector(".wiki-prose") || article).textContent || "").replace(/\s+/g, " ").trim().toLowerCase()
       });
     });
-    // Static destinations
-    const statics = [
-      { title: "Download & install", tag: "About", view: "setup", id: "setup-downloads", kw: "apk build com.termux io.vaj.tl companion install release" }
-    ];
-    statics.forEach((s) => index.push({
-      title: s.title, tag: s.tag, view: s.view, id: s.id,
-      text: (s.title + " " + s.kw).toLowerCase()
-    }));
     this.searchIndex = index;
     this.searchItems = [];
     this.searchActive = -1;
@@ -1110,21 +997,11 @@ class TermuxLauncherSite {
   }
 
   goToResult(state, item) {
-    this.setView(item.view, item.sub || null, true);
-    if (item.id) window.setTimeout(() => this.scrollToId(item.id), 90);
+    this.setView("wiki", item.sub || null, true);
     this.closeSearch(state, true);
   }
 
   handleClick(event) {
-    const marqueeToggle = event.target.closest("[data-marquee-toggle]");
-    if (marqueeToggle) {
-      const marquee = document.getElementById(marqueeToggle.getAttribute("aria-controls"));
-      const paused = marquee ? marquee.classList.toggle("is-paused") : false;
-      marqueeToggle.setAttribute("aria-pressed", String(paused));
-      marqueeToggle.textContent = paused ? "Play ticker" : "Pause ticker";
-      return;
-    }
-
     const copyButton = event.target.closest("[data-copy]");
     if (copyButton) {
       const text = copyButton.closest("[data-cmd]")?.querySelector("[data-cmd-text]")?.textContent;
@@ -1135,9 +1012,7 @@ class TermuxLauncherSite {
     const navigation = event.target.closest("[data-nav]");
     if (navigation) {
       event.preventDefault();
-      const scrollTarget = navigation.dataset.scrollto;
       this.setView(navigation.dataset.nav, null, true);
-      if (scrollTarget) window.setTimeout(() => this.scrollToId(scrollTarget), 80);
       return;
     }
 
@@ -1168,12 +1043,6 @@ class TermuxLauncherSite {
         this.scrollToId(target);
         return;
       }
-    }
-
-    const scrollTarget = event.target.closest("[data-scrollto]");
-    if (scrollTarget) {
-      event.preventDefault();
-      this.scrollToId(scrollTarget.dataset.scrollto);
     }
   }
 
@@ -1212,22 +1081,6 @@ class TermuxLauncherSite {
     textarea.select();
     document.execCommand("copy");
     textarea.remove();
-  }
-
-  tickStats() {
-    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-    const step = (amount) => Math.round((Math.random() * 2 - 1) * amount);
-    this.stats.cpu = clamp(this.stats.cpu + step(9), 6, 57);
-    this.stats.ram = clamp(this.stats.ram + step(4), 55, 72);
-    if (Math.random() < 0.28) this.stats.temp = clamp(this.stats.temp + step(1), 39, 43);
-
-    const setValue = (key, value) => {
-      const element = document.querySelector(`#tl [data-wval="${key}"]`);
-      if (element) element.textContent = value;
-    };
-    setValue("cpu", `${this.stats.cpu}%`);
-    setValue("ram", `${this.stats.ram}%`);
-    setValue("temp", `${this.stats.temp}°`);
   }
 }
 

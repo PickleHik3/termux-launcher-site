@@ -20,7 +20,7 @@ There are 2 editions (and a legacy one deprecated) of Termux Launcher available;
 | -------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **(Recommended) Termux edition** | `com.termux`    | Official Termux package ecosystem. Timely package updates but **cannot be installed alongside official Termux.**   |
 | **Nix edition** | `com.termux.launcher.nix` | The full `nixpkgs` collection with declarative configs and rollbacks, and it **can be installed alongside official Termux.** Releases tagged `vX.Y.Z-nix` (marked pre-release). *arm64-v8a and x86_64.* See [Nix edition](#wiki/nix). |
-| **Demo edition** [Deprecated](migrate-vaj.html) | `io.vaj.tl` | Its manually compiled package repo is not updated anymore — at most consider it a demo, not recommended for daily use. [Migrate to the Nix edition](migrate-vaj.html). *arm64-v8a only.* |
+| **Demo edition** [Deprecated](../migrate-vaj.html) | `io.vaj.tl` | Its manually compiled package repo is not updated anymore — at most consider it a demo, not recommended for daily use. [Migrate to the Nix edition](../migrate-vaj.html). *arm64-v8a only.* |
 
 ## Download & installation
 
