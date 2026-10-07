@@ -10,7 +10,7 @@ class TermuxLauncherSite {
     this.spyMap = null;
     this.observer = null;
     this.staticWikiFiles = [
-      "get-started", "home-screen", "notifications", "layout", "look",
+      "get-started", "home-screen", "widgets", "status-bar", "notifications", "layout", "look",
       "keyboard", "extra-keys", "terminal", "panes", "command-palette", "fonts",
       "tlstore", "on-device-ai", "on-device-ai-api", "voice", "display", "keybindings",
       "action-reference", "keyboard-layout", "config", "permissions", "nix"
@@ -39,19 +39,21 @@ class TermuxLauncherSite {
     this.docsHomeStatic = {
       moves: [
         { n: 1, gesture: "Hold a pane corner", body: "The corner tab opens; tap ? to see what every control does." },
-        { n: 2, gesture: "Hold the dock", body: "Choose your pinned apps." },
-        { n: 3, gesture: "Pull down on the dock", body: "The app drawer; Home brings you back." },
-        { n: 4, gesture: "Tap the keyboard key on the key row", body: "Hide or show the keyboard." },
+        { n: 2, gesture: "Hold the apps row", body: "Choose your pinned apps." },
+        { n: 3, gesture: "Pull the apps row away from its edge", body: "The app drawer; Home brings you back." },
+        { n: 4, gesture: "Swipe up on the bottom border", body: "The keyboard comes up; swipe down to put it away." },
         { n: 5, gesture: "Swipe up on the space bar", body: "The command palette." },
         { n: 6, gesture: "Hold on terminal text", body: "Select and copy; in htop or nvim your finger becomes the mouse." },
         { n: 7, gesture: "Hold Ctrl + Alt", body: "Every key shows its shortcut." },
-        { n: 8, gesture: "Swipe along the status bar", body: "Terminal, Home screen, Linux display." }
+        { n: 8, gesture: "Hold a pane border, then drag", body: "Move between Terminal, Home and the Linux display." }
       ],
       beyond: [
-        { key: "notifications", title: "Essential notifications", line: "Only what matters reaches the status bar." },
-        { key: "home-screen", title: "Home screen & widgets", line: "Widget pages, drawer layouts, folders, A-Z scrub." },
-        { key: "layout", title: "Layout & full screen", line: "Layout editor, minimal mode, hide the system bars." },
-        { key: "look", title: "Look & themes", line: "Appearance editor, wallpaper colours, Fancier Glass." },
+        { key: "notifications", title: "Pinned notifications", line: "Only what matters reaches the status bar." },
+        { key: "widgets", title: "Widgets", line: "Eleven built-in widgets, any Android widget, pages." },
+        { key: "status-bar", title: "Status bar", line: "Sessions, CPU and memory, weather, the clock." },
+        { key: "home-screen", title: "Home screen & apps", line: "Dock, drawer layouts, folders, quick reply, A-Z scrub." },
+        { key: "layout", title: "Layout & full screen", line: "The Layout tab, minimal mode, hide the system bars." },
+        { key: "look", title: "Look & themes", line: "Wallpaper, the Look slider, icon packs, cursor trails." },
         { key: "keyboard", title: "Your keyboard", line: "Floating, split, swipe away, your own layout, voice." },
         { key: "extra-keys", title: "Extra keys", line: "Edit the key row, presets, pages, actions." },
         { key: "terminal", title: "Terminal power", line: "Panes, pictures, big text, links, clipboard history." },
