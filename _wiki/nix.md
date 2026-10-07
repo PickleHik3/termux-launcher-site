@@ -41,4 +41,4 @@ nix-on-droid rollback
 
 Put durable choices in the flake instead of piling up an unexplained profile - rollback is only useful when generations mean something. Your flake IS your backup: with it you can rebuild the whole environment on a new phone.
 
-Coming from the deprecated VAJ edition? The [VAJ → Nix migration guide](migrate-vaj.html) covers backing up your home, installing side by side and replacing APT packages from `nixpkgs`.
+Coming from the deprecated VAJ edition? The [VAJ → Nix migration guide](../migrate-vaj.html) covers backing up your home, installing side by side and replacing APT packages from `nixpkgs`.
