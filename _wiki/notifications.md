@@ -15,9 +15,9 @@ Everything here lives on **Settings → Notifications** ("Dots, pinned alerts an
 2. **Pinned notifications** ("Pin matching notifications to the top pane. Match an app package, keywords, or both.") holds your rules.
 
 ```clip
-image: assets/screenshots/essential-notification-rule.webp
-title: Pinned notification rule
-caption: The add-rule form: an app package, keywords or both, and whether dismissing the pin also clears the notification.
+svg: notification-rule
+title: A pinned notification rule
+caption: An app package, keywords, or both; matching notifications pin to the top pane.
 ```
 
 ## Pinned notification rules

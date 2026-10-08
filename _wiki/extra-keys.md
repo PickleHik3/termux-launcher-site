@@ -28,7 +28,14 @@ In **Appearance → Layout** the row can be moved to any edge, dropped into the 
 Open **Settings → Keyboard → Terminal extra keys** ("Keys and swipe actions"), or run the `extrakeys.edit` launcher action. The editor writes the same configuration described further down, so you can start visually and hand-edit later. Next to it, **Uppercase key labels** ("Show ESC, TAB and other labels in capitals.") is on by default.
 
 ```clip
+svg: extra-key-anatomy
+title: Anatomy of a key
+caption: What the editor lets you set on each key, and how rows and pages fit together.
+```
+
+```clip
 src: assets/showcase/features/extra-keys-editor
+crop: 0 0 1 0.45
 title: Extra keys editor
 caption: Editing tap and swipe-up actions, choosing a glyph, then adding another page and row.
 ```

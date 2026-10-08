@@ -6,10 +6,9 @@ order: 10
 Termux Launcher turns the Termux terminal emulator into your Android home screen. The shell underneath is still upstream Termux (`pkg`, the repositories and everything you already know keep working), but everything above it, from the dock to the keyboard to the multiplexer, is built for running your phone from a prompt. This page takes you from download to a working setup.
 
 ```clip
-src: assets/showcase/raw/hero
-title: Home screen tour
-formats: mp4
-caption: The home screen - status strip, live terminal, app dock, A-Z row and the built-in keyboard.
+svg: home-anatomy
+title: The home screen
+caption: Status bar, terminal, pinned apps, A-Z row, extra keys and the keyboard: every part of the screen, named.
 ```
 
 ## Choose an edition
