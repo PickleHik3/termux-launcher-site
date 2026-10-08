@@ -3,11 +3,11 @@ title: tlstore
 group: Extras
 order: 120
 ---
-The launcher works with whatever shell setup you already have. If you want the setup from the demo videos (fish shell, a Material-themed prompt that follows your wallpaper, nicer `ls`, smart `cd`) plus a handful of terminal apps worth having, the launcher ships a small store that gets them for you.
+The launcher works with whatever shell setup you already have. If you want a ready-made one (fish shell, a Material-themed prompt that follows your wallpaper, nicer `ls`, smart `cd`) plus a handful of terminal apps worth having, the launcher ships a small store that gets them for you.
 
 ## tlstore
 
-`tlstore` is the launcher's own package manager for tools and configs it shows off but does not ship in the APK: a fish setup, a few terminal programs, and three coding agents, all installed and kept up to date by one command. It is already on your PATH; the app puts it there, along with the shorter `tl` and `tls`, so all three names run the same store. The app ships tlstore release 2026.10.04.
+`tlstore` is the launcher's own package manager for tools and configs it shows off but does not ship in the APK: a fish setup, a few terminal programs, and three coding agents, all installed and kept up to date by one command. It is already on your PATH; the app puts it there, along with the shorter `tl` and `tls`, so all three names run the same store.
 
 ```sh
 tlstore install fish-shell   # fish, the prompt, eza, zoxide and the plugins, in one go
@@ -16,7 +16,7 @@ tlstore update               # bring what you have up to date
 tlstore remove kitten        # remove an item tlstore installed
 ```
 
-Plain `tlstore` inside the launcher opens the store window; anywhere else it prints the list. `tlstore shell` is gone: it is now `tlstore install fish-shell`.
+Plain `tlstore` inside the launcher opens the store window; anywhere else it prints the list.
 
 ## What's in the store
 
@@ -85,11 +85,11 @@ Fonts are not part of the store. The **Terminal fonts** row on the **Theme & fon
 
 ## Extras in the repo
 
-The same [examples folder](https://github.com/PickleHik3/termux-launcher/tree/main/docs/en/examples) has more you can grab by hand: a tmux config with a matching Material theme, and a system monitor and weather widget for status bars.
+The [examples folder](https://github.com/PickleHik3/termux-launcher/tree/main/docs/en/examples) has more you can grab by hand: a tmux config with a matching Material theme, and a system monitor and weather widget for status bars.
 
 ## Things worth installing
 
-Two that lean on the graphics and font work above. `sigye` is in the tlstore catalogue; `kew` is a separate music player worth a look.
+Two that show off the terminal's graphics and fonts. `sigye` is in the tlstore catalogue; `kew` is a separate music player worth a look.
 
 ```clip
 name: kew

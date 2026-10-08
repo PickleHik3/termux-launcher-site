@@ -3,7 +3,7 @@ title: Widgets
 group: Everyday
 order: 25
 ---
-The Widgets page is a grid of home-screen widgets beside the terminal: Android widgets from your apps, and eleven built-in ones drawn in the launcher's own style. This page covers reaching it, adding and arranging widgets, and sizing the grid.
+The Widgets page is a grid of home-screen widgets beside the terminal: Android widgets from your apps, and eleven built-in ones drawn in the launcher's own style.
 
 ## Turn it on and get there
 

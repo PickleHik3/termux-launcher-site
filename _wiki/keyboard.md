@@ -3,8 +3,6 @@ title: Keyboard
 group: Typing
 order: 60
 ---
-This page covers the built-in keyboard: how to type on it, its three shapes, how to hide or turn it off, and where its settings and looks live.
-
 The launcher ships a built-in port of [Unexpected Keyboard](https://github.com/Julow/Unexpected-Keyboard) by Jules Aguillon, a keyboard originally designed for programmers using Termux. Every key has up to eight extra characters on its corners, typed by swiping the key towards them. That puts Esc, Tab, Ctrl, arrows and all of shell punctuation on a normal-sized keyboard without extra rows. If you like it, support the upstream project; it is also a standalone keyboard app on [Google Play](https://play.google.com/store/apps/details?id=juloo.keyboard2) and [F-Droid](https://f-droid.org/packages/juloo.keyboard2/).
 
 The port is built into the app as a view: no separate keyboard to install, no Android input-method setup, and your system keyboard for other apps is untouched. It shows when you tap the terminal. **Ctrl + Alt + K** toggles it.

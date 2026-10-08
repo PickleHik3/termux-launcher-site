@@ -3,7 +3,7 @@ title: Layout & full screen
 group: Everyday
 order: 40
 ---
-Layout is where things sit and how much of the screen they get: the status bar, the apps row, the A-Z index, the extra keys and the keyboard. This page covers the corner tab, the Layout editor, minimal mode and full screen. For what things look like, see [Look & themes](#wiki/look).
+Layout is where things sit and how much of the screen they get: the status bar, the apps row, the A-Z index, the extra keys and the keyboard. The corner tab and the Layout editor set that; minimal mode and full screen take things away. For what things look like, see [Look & themes](#wiki/look).
 
 ## The corner tab
 

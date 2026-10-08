@@ -3,7 +3,7 @@ title: Permissions & Shizuku
 group: Reference
 order: 240
 ---
-A home screen that is also a terminal ends up asking for a few permissions that look scary out of context. Here is what each one actually does. The short version: **everything below is optional**; deny anything and only that one feature stops working.
+A home screen that is also a terminal ends up asking for a few permissions that look scary out of context. **Every one of them is optional**: deny a permission and only that one feature stops working.
 
 ## Where to manage them
 

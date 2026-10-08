@@ -3,7 +3,7 @@ title: On-device AI API
 group: Reference
 order: 260
 ---
-The local server behind [On-device AI](#wiki/on-device-ai) speaks OpenAI- and Ollama-compatible HTTP on localhost. This page is the endpoint reference; see On-device AI for the settings screens and the `tai` CLI.
+The local server behind [On-device AI](#wiki/on-device-ai) speaks OpenAI- and Ollama-compatible HTTP on localhost. The settings screens and the `tai` CLI are described there.
 
 ## Base URL & auth
 

@@ -3,7 +3,7 @@ title: Extra keys
 group: Typing
 order: 70
 ---
-The extra-keys row is the configurable row of keys on the terminal page, separate from the full built-in [Keyboard](#wiki/keyboard) defined by `~/.termux/keyboard/layout.xml`. This page covers what ships on it, the visual editor, and the `termux.properties` format behind it.
+The extra-keys row is the configurable row of keys on the terminal page, separate from the full built-in [Keyboard](#wiki/keyboard) defined by `~/.termux/keyboard/layout.xml`. You can edit it in a visual editor or straight in `termux.properties`.
 
 ## What ships on the row
 

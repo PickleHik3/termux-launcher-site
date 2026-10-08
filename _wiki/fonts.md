@@ -7,7 +7,7 @@ Font handling is ported from kitty and then taken further. There are three ways 
 
 ## Which file wins
 
-Read this once and the rest of the page stops surprising you. Config is loaded in this order, and a later duplicate directive replaces an earlier one:
+Config is loaded in this order, and a later duplicate directive replaces an earlier one:
 
 1. `~/.config/kitty/kitty.conf`: only its font directives are read (one level of `include` is followed), so your kitty setup carries over.
 2. `~/.termux/fonts.d/*.conf`: drop-ins, in ascending filename order. The app writes exactly one of them, `10-launcher.conf`.
@@ -38,7 +38,7 @@ The picker has four sections:
 
 | Family | Download | Faces | Notes |
 | --- | --- | --- | --- |
-| **Maple Mono** (recommended) | 373 KB | 4 | Variable `wght` 100-800, ligatures. The face the shaping was tuned against. |
+| **Maple Mono** (recommended) | 373 KB | 4 | Variable `wght` 100-800, ligatures. The face the launcher's text rendering is built around. |
 | Intel One Mono | 494 KB | 4 | Designed with and for low-vision developers. |
 | Hack | 601 KB | 4 | Four hand-tuned static faces, no ligatures. |
 | Commit Mono | 707 KB | 4 | Deliberately neutral, smart kerning; alternates are opt-in `font_features`. |

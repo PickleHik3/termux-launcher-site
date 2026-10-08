@@ -3,7 +3,7 @@ title: Terminal features
 group: Terminal
 order: 80
 ---
-The terminal core is upstream Termux, with a lot built on top. This page covers what is different: touch and mouse, links, the clipboard, graphics, effects and status from programs. Panes, windows, sessions and workspaces have their own page: [Panes & sessions](#wiki/panes).
+The terminal core is upstream Termux, with a lot built on top. The differences are in touch and mouse handling, links, the clipboard, graphics, effects and status from programs. Panes, windows, sessions and workspaces are on [Panes & sessions](#wiki/panes).
 
 ## Touch, copy and mouse mode
 
@@ -97,6 +97,6 @@ kitty users can set the trail in `~/.config/kitty/kitty.conf` with `cursor_trail
 * **Prompt jumping**: jump between shell prompts from the palette. Works out of the box in fish; bash and zsh need one `source` line ([Config files](#wiki/config)).
 * **Kitty keyboard protocol**: modern TUIs get full key disambiguation, all five enhancement levels.
 * **Key inspector**: a palette action that shows what any key press produces: the Android event, which keybind claimed it, and the bytes sent to the shell.
-* Fonts, ligatures and gap-free box drawing have their own page: [Terminal fonts](#wiki/fonts). Graphics and protocol limits are covered in depth in the bundled [Graphics, protocols and compatibility](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Terminal_Kitty_Protocols.md) page.
+* Fonts, ligatures and gap-free box drawing have their own page: [Terminal fonts](#wiki/fonts). Graphics and protocol limits are covered in depth on [Graphics, protocols and compatibility](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Terminal_Kitty_Protocols.md).
 
 Full details: [Touch, links and clipboard](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Touch_Links_And_Clipboard.md)

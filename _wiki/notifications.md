@@ -3,7 +3,7 @@ title: Notifications
 group: Everyday
 order: 30
 ---
-Android's shade pulls you away from what you are doing. The launcher can pin the notifications you actually wait for (a code, a reply, a build result) in the status bar above the prompt, show dots on docked apps, and keep a history your scripts can read. This page covers all three. The rest of the bar is on [Status bar](#wiki/status-bar).
+Android's shade pulls you away from what you are doing. The launcher can pin the notifications you actually wait for (a code, a reply, a build result) in the status bar above the prompt, show dots on docked apps, and keep a history your scripts can read. The rest of the bar is on [Status bar](#wiki/status-bar).
 
 Nothing is pinned by default. You choose what qualifies by writing rules; with no rules, nothing pins and the clock keeps its full size.
 

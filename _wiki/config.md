@@ -3,7 +3,7 @@ title: Config files
 group: Reference
 order: 230
 ---
-This page lists every file the launcher reads or writes in your home directory, and what each one is for. Almost everything lives in `~/.termux/`. After editing a file, apply it without restarting:
+The launcher keeps its files in your home directory, almost all of them under `~/.termux/`. After editing a file, apply it without restarting:
 
 ```sh
 termux-reload-settings

@@ -3,7 +3,7 @@ title: Look & themes
 group: Everyday
 order: 50
 ---
-Look is what things look like: wallpaper, glass, colours, icons and terminal effects. This page covers the Appearance surface and the Theme & fonts page. For where things sit, see [Layout & full screen](#wiki/layout).
+Look is what things look like: wallpaper, glass, colours, icons and terminal effects. It lives in two places: the Appearance surface and the Theme & fonts page. For where things sit, see [Layout & full screen](#wiki/layout).
 
 ## Appearance
 

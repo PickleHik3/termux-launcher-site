@@ -35,8 +35,8 @@ individual apps, or a full Linux distro), tick what you want, and tap **Copy the
 it into the terminal and press Enter; it installs everything, including the keyboard layouts and
 fonts the display needs.
 
-Apps installed inside a distro (a proot, via `proot-distro`) are the least tested path here: they
-work, but treat them as the rougher edge of this feature. A whole desktop environment (XFCE, LXQt)
+Apps installed inside a distro (a proot, via `proot-distro`) work too, but expect
+rougher edges. A whole desktop environment (XFCE, LXQt)
 is catalogued the same way, under its own group in the drawer.
 
 Once installed, apps appear in the app drawer with their own name and icon, beside your Android

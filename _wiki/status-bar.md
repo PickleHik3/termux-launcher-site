@@ -3,7 +3,7 @@ title: Status bar
 group: Everyday
 order: 28
 ---
-The status bar is the launcher's own bar: a clock, the row of sessions and windows, and readings for CPU, memory and weather. This page covers what each part shows, how to open and fold it, and where to set it up. Its settings are under **Settings → Status bar**. Pinned notifications in the bar are on [Notifications](#wiki/notifications).
+The status bar is the launcher's own bar: a clock, the row of sessions and windows, and readings for CPU, memory and weather. Its settings are under **Settings → Status bar**. Pinned notifications in the bar are on [Notifications](#wiki/notifications).
 
 ```clip
 svg: status-bar

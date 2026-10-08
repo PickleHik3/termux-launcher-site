@@ -79,6 +79,6 @@ Hold **Ctrl + Alt** on the built-in keyboard at any time, in or out of the palet
 
 ## Changing bindings
 
-Every shortcut can be remapped, and new keys bound to any palette action, in `~/.termux/termux-launcher-bindings.conf`; see [Keybindings config](#wiki/keybindings). The bundled [Keyboard shortcuts](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Keyboard_Shortcuts.md) page lists every default.
+Every shortcut can be remapped, and new keys bound to any palette action, in `~/.termux/termux-launcher-bindings.conf`; see [Keybindings config](#wiki/keybindings). [Keyboard shortcuts](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Keyboard_Shortcuts.md) lists every default.
 
 Full details: [Command palette and actions](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Command_Palette_And_Actions.md)

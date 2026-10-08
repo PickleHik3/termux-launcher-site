@@ -3,7 +3,7 @@ title: Home screen & apps
 group: Everyday
 order: 20
 ---
-This page covers moving around the home screen and opening apps: the three places, the dock, the A-Z row, launching from the prompt and the app drawer. Widgets have their own page, [Widgets](#wiki/widgets).
+The home screen is three places, a dock, an A-Z row, a prompt that launches apps, and an app drawer. Widgets are on their own page: [Widgets](#wiki/widgets).
 
 ## Places
 
