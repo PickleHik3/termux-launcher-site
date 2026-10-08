@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" role="img" style="font-family:var(--display,'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif)">
+  <title>Any OpenAI-compatible client talks to the model on your phone through a local base URL and bearer token</title>
+  <style>
+    .ae-t{fill:var(--on,#EEEDE8)}
+    .ae-t2{fill:var(--on-2,rgba(238,237,232,.64))}
+    .ae-t3{fill:var(--on-3,rgba(238,237,232,.40))}
+    .ae-mono{font-family:var(--mono,ui-monospace,Menlo,monospace)}
+    .ae-box{fill:var(--surface-2,#151823);stroke:rgba(238,237,232,.16);stroke-width:2}
+    .ae-chip{fill:none;stroke:rgba(238,237,232,.16);stroke-width:2}
+    .ae-rule{fill:none;stroke:rgba(238,237,232,.16);stroke-width:2}
+    .ae-line{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .ae-mk{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .ae-phone{fill:none;stroke:var(--on-2,rgba(238,237,232,.64));stroke-width:2.5}
+    .ae-glyph{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .ae-h{font-size:25px;font-weight:650}
+    .ae-l{font-size:23px}
+    .ae-n{font-size:21px}
+  </style>
+  <defs>
+    <marker id="ae-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="ae-mk" d="M2 1.5 L10 6 L2 10.5"/>
+    </marker>
+  </defs>
+
+  <!-- clients -->
+  <text class="ae-t ae-h" x="24" y="122">Any OpenAI-compatible</text>
+  <text class="ae-t ae-h" x="24" y="152">client</text>
+  <rect class="ae-chip" x="24" y="180" width="240" height="58" rx="29"/>
+  <text class="ae-t2 ae-l" x="144" y="217" text-anchor="middle">chat apps</text>
+  <rect class="ae-chip" x="24" y="254" width="240" height="58" rx="29"/>
+  <text class="ae-t2 ae-l" x="144" y="291" text-anchor="middle">editors and agents</text>
+  <rect class="ae-chip" x="24" y="328" width="240" height="58" rx="29"/>
+  <text class="ae-t2 ae-l" x="144" y="365" text-anchor="middle">scripts</text>
+
+  <path class="ae-line" d="M266 209 H276 V357 H266"/>
+  <path class="ae-line" d="M276 283 H408" marker-end="url(#ae-arrow)"/>
+  <text class="ae-t2 ae-n" x="342" y="240" text-anchor="middle">base URL</text>
+  <text class="ae-t2 ae-n" x="342" y="266" text-anchor="middle">+ token</text>
+
+  <!-- endpoint card -->
+  <rect class="ae-box" x="412" y="120" width="440" height="326" rx="24"/>
+  <text class="ae-t2 ae-l" x="440" y="172">OpenAI base URL</text>
+  <text class="ae-t ae-l ae-mono" x="440" y="210">http://127.0.0.1:&lt;port&gt;/v1</text>
+  <text class="ae-t2 ae-l" x="440" y="268">Bearer token</text>
+  <text class="ae-t ae-l ae-mono" x="440" y="306">~/.launcherctl/token</text>
+  <path class="ae-rule" d="M440 342 H824"/>
+  <text class="ae-t3 ae-n" x="440" y="386">Ollama-shaped: same port, no /v1</text>
+
+  <path class="ae-line" d="M852 283 H972" marker-end="url(#ae-arrow)"/>
+  <text class="ae-t2 ae-n ae-mono" x="912" y="240" text-anchor="middle" style="font-size:19px">127.0.0.1</text>
+  <text class="ae-t2 ae-n" x="912" y="266" text-anchor="middle">only</text>
+
+  <!-- phone -->
+  <rect class="ae-phone" x="978" y="30" width="196" height="424" rx="34"/>
+  <circle class="ae-phone" cx="1076" cy="52" r="4.5"/>
+  <g class="ae-glyph">
+    <rect x="1046" y="180" width="60" height="60" rx="10"/>
+    <rect x="1062" y="196" width="28" height="28" rx="5"/>
+    <path d="M1061 180 V168 M1076 180 V168 M1091 180 V168 M1061 240 V252 M1076 240 V252 M1091 240 V252 M1046 195 H1034 M1046 210 H1034 M1046 225 H1034 M1106 195 H1118 M1106 210 H1118 M1106 225 H1118"/>
+  </g>
+  <text class="ae-t ae-h" x="1076" y="302" text-anchor="middle">Model on</text>
+  <text class="ae-t ae-h" x="1076" y="332" text-anchor="middle">the phone</text>
+  <text class="ae-t2 ae-n" x="1076" y="374" text-anchor="middle">LiteRT-LM</text>
+  <text class="ae-t2 ae-n" x="1076" y="400" text-anchor="middle">or MNN</text>
+  <text class="ae-t3 ae-n" x="1076" y="486" text-anchor="middle">nothing leaves</text>
+  <text class="ae-t3 ae-n" x="1076" y="511" text-anchor="middle">the device</text>
+</svg>

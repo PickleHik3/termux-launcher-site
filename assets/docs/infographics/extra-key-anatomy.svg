@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="100%" role="img" style="font-family:var(--display,'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif)">
+  <title>An extra key has a tap action, a swipe-up action, a display label and a swipe-up label; keys sit in rows, rows sit on pages</title>
+  <style>
+    .ek-t{fill:var(--on,#EEEDE8)}
+    .ek-t2{fill:var(--on-2,rgba(238,237,232,.64))}
+    .ek-t3{fill:var(--on-3,rgba(238,237,232,.40))}
+    .ek-ac{fill:var(--klein-soft,#B9C1FF)}
+    .ek-key{fill:var(--surface-2,#151823);stroke:rgba(238,237,232,.16);stroke-width:2}
+    .ek-key-hot{fill:var(--surface-2,#151823);stroke:var(--klein-soft,#B9C1FF);stroke-width:2}
+    .ek-ghost{fill:none;stroke:var(--on-3,rgba(238,237,232,.40));stroke-width:2;stroke-dasharray:7 7}
+    .ek-pill{fill:var(--surface-2,#151823);stroke:var(--klein-soft,#B9C1FF);stroke-width:2}
+    .ek-badge{fill:var(--klein-bright,#4654F2);fill-opacity:.3;stroke:var(--klein-soft,#B9C1FF);stroke-width:2}
+    .ek-g{fill:none;stroke:var(--on,#EEEDE8);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .ek-big{fill:none;stroke:var(--on,#EEEDE8);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .ek-lead{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .ek-up{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+    .ek-dot{fill:var(--klein-soft,#B9C1FF);stroke:rgba(9,10,15,.85);stroke-width:3}
+    .ek-pg{fill:var(--on-3,rgba(238,237,232,.40))}
+    .ek-pg-on{fill:var(--klein-soft,#B9C1FF)}
+    .ek-l{font-size:26px;font-weight:650}
+    .ek-s{font-size:22px}
+    .ek-cap{font-size:20px;letter-spacing:2px}
+    .ek-b{font-weight:650}
+  </style>
+
+  <!-- the big key -->
+  <path class="ek-up" d="M330 168 V102 M316 116 L330 102 L344 116"/>
+  <rect class="ek-key" x="200" y="180" width="260" height="180" rx="24"/>
+  <rect class="ek-badge" x="298" y="192" width="64" height="30" rx="15"/>
+  <path class="ek-g" d="M330 215 V199 M323 206 L330 199 L337 206"/>
+  <g class="ek-big">
+    <rect x="270" y="252" width="120" height="74" rx="10"/>
+    <path d="M288 272 H290 M306 272 H308 M324 272 H326 M342 272 H344 M360 272 H362 M297 289 H299 M315 289 H317 M333 289 H335 M351 289 H353 M300 307 H360"/>
+  </g>
+
+  <!-- callouts -->
+  <path class="ek-lead" d="M236 88 H290 L330 130"/>
+  <circle class="ek-dot" cx="330" cy="130" r="6.5"/>
+  <text class="ek-t ek-l" x="24" y="96">Swipe-up action</text>
+  <text class="ek-t2 ek-s" x="24" y="126">any action, or none</text>
+
+  <path class="ek-lead" d="M486 184 L362 207"/>
+  <circle class="ek-dot" cx="362" cy="207" r="6.5"/>
+  <text class="ek-t ek-l" x="496" y="192">Swipe-up label</text>
+  <text class="ek-t2 ek-s" x="496" y="220">the small badge</text>
+  <text class="ek-t2 ek-s" x="496" y="246">above the key</text>
+
+  <path class="ek-lead" d="M486 294 L390 290"/>
+  <circle class="ek-dot" cx="390" cy="290" r="6.5"/>
+  <text class="ek-t ek-l" x="496" y="302">Display label</text>
+  <text class="ek-t2 ek-s" x="496" y="330">blank uses the</text>
+  <text class="ek-t2 ek-s" x="496" y="356">action name</text>
+
+  <path class="ek-lead" d="M170 254 H190 L224 334"/>
+  <circle class="ek-dot" cx="224" cy="334" r="6.5"/>
+  <text class="ek-t ek-l" x="24" y="262">Tap action</text>
+  <text class="ek-t2 ek-cap" x="24" y="292">KEYBOARD</text>
+
+  <!-- the row: keyboard, panes-up, panes-down, left, right, home-line, pencil -->
+  <rect class="ek-key-hot" x="728" y="150" width="58" height="60" rx="12"/>
+  <rect class="ek-key" x="793" y="150" width="58" height="60" rx="12"/>
+  <rect class="ek-key" x="858" y="150" width="58" height="60" rx="12"/>
+  <rect class="ek-key" x="923" y="150" width="58" height="60" rx="12"/>
+  <rect class="ek-key" x="988" y="150" width="58" height="60" rx="12"/>
+  <rect class="ek-key" x="1053" y="150" width="58" height="60" rx="12"/>
+  <rect class="ek-key" x="1118" y="150" width="58" height="60" rx="12"/>
+  <g class="ek-g">
+    <rect x="743" y="170" width="28" height="20" rx="4"/>
+    <path d="M749 176 H750 M756 176 H758 M764 176 H765 M751 184 H763"/>
+    <rect x="810" y="169" width="24" height="22" rx="4"/>
+    <path d="M810 180 H834 M818 176 L822 172 L826 176"/>
+    <rect x="875" y="169" width="24" height="22" rx="4"/>
+    <path d="M875 180 H899 M883 184 L887 188 L891 184"/>
+    <path d="M962 180 H942 M948 174 L942 180 L948 186"/>
+    <path d="M1007 180 H1027 M1021 174 L1027 180 L1021 186"/>
+    <path d="M1071 171 V189 M1093 180 H1076 M1082 174 L1076 180 L1082 186"/>
+    <path d="M1138 191 L1140 184 L1152 172 L1157 177 L1145 189 Z M1148 176 L1153 181"/>
+  </g>
+  <path class="ek-lead" d="M728 222 V232 H1176 V222"/>
+  <text class="ek-t2 ek-s" x="952" y="266" text-anchor="middle"><tspan class="ek-t ek-b">Row</tspan> · drag a key to reorder,</text>
+  <text class="ek-t2 ek-s" x="952" y="294" text-anchor="middle">hold to move between rows</text>
+
+  <!-- second, empty row -->
+  <rect class="ek-ghost" x="728" y="318" width="448" height="60" rx="14"/>
+  <rect class="ek-pill" x="877" y="328" width="150" height="40" rx="20"/>
+  <text class="ek-ac ek-s" x="952" y="356" text-anchor="middle">+ Add row</text>
+
+  <!-- pages -->
+  <circle class="ek-pg-on" cx="932" cy="406" r="6"/>
+  <circle class="ek-pg" cx="952" cy="406" r="6"/>
+  <circle class="ek-pg" cx="972" cy="406" r="6"/>
+  <text class="ek-t2 ek-s" x="952" y="446" text-anchor="middle"><tspan class="ek-t ek-b">Pages</tspan> · swipe the row sideways</text>
+</svg>

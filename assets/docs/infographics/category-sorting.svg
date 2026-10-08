@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" role="img" style="font-family:var(--display,'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif)">
+  <title>Two ways to sort your apps into categories: on this device, or by copying a prompt to an AI chat and pasting the answer back</title>
+  <style>
+    .cs-t{fill:var(--on,#EEEDE8)}
+    .cs-t2{fill:var(--on-2,rgba(238,237,232,.64))}
+    .cs-t3{fill:var(--on-3,rgba(238,237,232,.40))}
+    .cs-box{fill:var(--surface-2,#151823);stroke:rgba(238,237,232,.16);stroke-width:2}
+    .cs-hot{fill:var(--klein-bright,#4654F2)}
+    .cs-on-hot{fill:var(--on,#EEEDE8);fill-opacity:.82}
+    .cs-line{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5;stroke-linejoin:round}
+    .cs-glyph{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5}
+    .cs-mk{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .cs-pg{fill:none;stroke:var(--on,#EEEDE8);stroke-opacity:.82;stroke-width:2.5;stroke-linecap:round}
+    .cs-h{font-size:28px;font-weight:650}
+    .cs-n{font-size:23px;font-weight:600}
+    .cs-s{font-size:23px}
+    .cs-note{font-size:21px}
+  </style>
+  <defs>
+    <marker id="cs-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M2 1.5 L10 6 L2 10.5" class="cs-mk"/>
+    </marker>
+  </defs>
+
+  <!-- start -->
+  <rect class="cs-box" x="16" y="200" width="180" height="120" rx="20"/>
+  <text class="cs-t cs-n" x="106" y="254" text-anchor="middle">Your installed</text>
+  <text class="cs-t cs-n" x="106" y="284" text-anchor="middle">apps</text>
+
+  <!-- fork -->
+  <path class="cs-line" d="M196 260 H228 V120 H260" marker-end="url(#cs-arrow)"/>
+  <path class="cs-line" d="M196 260 H228 V390 H260" marker-end="url(#cs-arrow)"/>
+
+  <!-- top branch: on this device (recommended) -->
+  <rect class="cs-hot" x="262" y="40" width="638" height="160" rx="22"/>
+  <text class="cs-t cs-h" x="292" y="92">On this device</text>
+  <text class="cs-on-hot cs-s" x="292" y="136">Gemma 4 E4B · nothing leaves your phone</text>
+  <text class="cs-on-hot cs-s" x="292" y="170">about 6 minutes, keep it plugged in</text>
+  <!-- phone glyph -->
+  <rect x="842" y="64" width="30" height="54" rx="7" class="cs-pg"/>
+  <path d="M852 110 H862" class="cs-pg"/>
+
+  <!-- bottom branch: through an AI chat -->
+  <rect class="cs-box" x="262" y="330" width="194" height="120" rx="20"/>
+  <text class="cs-t cs-n" x="359" y="384" text-anchor="middle">Copy a prompt</text>
+  <text class="cs-t cs-n" x="359" y="414" text-anchor="middle">for an AI chat</text>
+  <path class="cs-line" d="M456 390 H482" marker-end="url(#cs-arrow)"/>
+  <rect class="cs-box" x="484" y="330" width="194" height="120" rx="20"/>
+  <text class="cs-t cs-n" x="581" y="384" text-anchor="middle">Paste it into</text>
+  <text class="cs-t cs-n" x="581" y="414" text-anchor="middle">any AI chat</text>
+  <path class="cs-line" d="M678 390 H704" marker-end="url(#cs-arrow)"/>
+  <rect class="cs-box" x="706" y="330" width="194" height="120" rx="20"/>
+  <text class="cs-t cs-n" x="803" y="384" text-anchor="middle">Paste the</text>
+  <text class="cs-t cs-n" x="803" y="414" text-anchor="middle">answer back</text>
+  <text class="cs-t3 cs-note" x="581" y="492" text-anchor="middle">sends your installed-app list to that service</text>
+
+  <!-- merge -->
+  <path class="cs-line" d="M900 120 H924 V242 H948" marker-end="url(#cs-arrow)"/>
+  <path class="cs-line" d="M900 390 H924 V278 H948" marker-end="url(#cs-arrow)"/>
+
+  <!-- end -->
+  <rect class="cs-box" x="950" y="170" width="234" height="180" rx="22"/>
+  <g class="cs-glyph">
+    <rect x="1045" y="196" width="19" height="19" rx="4"/>
+    <rect x="1070" y="196" width="19" height="19" rx="4"/>
+    <rect x="1045" y="221" width="19" height="19" rx="4"/>
+    <rect x="1070" y="221" width="19" height="19" rx="4"/>
+  </g>
+  <text class="cs-t cs-n" x="1067" y="286" text-anchor="middle">Apps grouped</text>
+  <text class="cs-t cs-n" x="1067" y="316" text-anchor="middle">into categories</text>
+</svg>
