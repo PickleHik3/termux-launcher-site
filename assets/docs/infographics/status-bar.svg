@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="100%" role="img" style="font-family:var(--display,'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif)">
+  <title>The status bar folded and open: sessions, windows, new session, CPU, memory and weather; tap the bar to add a clock and the date</title>
+  <style>
+    .sb-t{fill:var(--on,#EEEDE8)}
+    .sb-t2{fill:var(--on-2,rgba(238,237,232,.64))}
+    .sb-t3{fill:var(--on-3,rgba(238,237,232,.40))}
+    .sb-frame{fill:none;stroke:rgba(238,237,232,.16);stroke-width:2}
+    .sb-lead{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .sb-dot{fill:var(--klein-soft,#B9C1FF);stroke:rgba(9,10,15,.85);stroke-width:3}
+    .sb-mk{fill:none;stroke:var(--on-3,rgba(238,237,232,.40));stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .sb-down{fill:none;stroke:var(--on-3,rgba(238,237,232,.40));stroke-width:2.5;stroke-linecap:round}
+    .sb-cap{font-size:19px;font-weight:600;letter-spacing:3px}
+    .sb-l{font-size:24px;font-weight:650}
+    .sb-s{font-size:22px}
+  </style>
+  <defs>
+    <clipPath id="sb-clip-folded"><rect x="130" y="72" width="800" height="86.7" rx="16"/></clipPath>
+    <clipPath id="sb-clip-open"><rect x="130" y="300" width="800" height="231.1" rx="16"/></clipPath>
+    <marker id="sb-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="sb-mk" d="M2 1.5 L10 6 L2 10.5"/>
+    </marker>
+  </defs>
+
+  <!-- folded -->
+  <text class="sb-t2 sb-cap" x="20" y="122">FOLDED</text>
+  <image href="assets/docs/figures/status-collapsed.webp" x="130" y="72" width="800" height="86.7" preserveAspectRatio="none" clip-path="url(#sb-clip-folded)"/>
+  <rect class="sb-frame" x="130" y="72" width="800" height="86.7" rx="16"/>
+
+  <!-- above: sessions, new session, memory -->
+  <path class="sb-lead" d="M182 54 V100"/>
+  <circle class="sb-dot" cx="182" cy="100" r="6.5"/>
+  <text class="sb-t sb-l" x="182" y="42" text-anchor="middle">sessions</text>
+
+  <path class="sb-lead" d="M419 54 V104"/>
+  <circle class="sb-dot" cx="419" cy="104" r="6.5"/>
+  <text class="sb-t sb-l" x="419" y="42" text-anchor="middle">new session</text>
+
+  <path class="sb-lead" d="M726 54 V106"/>
+  <circle class="sb-dot" cx="726" cy="106" r="6.5"/>
+  <text class="sb-t sb-l" x="726" y="42" text-anchor="middle">memory</text>
+
+  <!-- below: windows, CPU, weather -->
+  <path class="sb-lead" d="M213 136 V144 H388 V136 M300 144 V182"/>
+  <text class="sb-t sb-l" x="300" y="210" text-anchor="middle">windows in this session</text>
+
+  <path class="sb-lead" d="M610 182 V128"/>
+  <circle class="sb-dot" cx="610" cy="128" r="6.5"/>
+  <text class="sb-t sb-l" x="610" y="210" text-anchor="middle">CPU</text>
+
+  <path class="sb-lead" d="M834 182 V128"/>
+  <circle class="sb-dot" cx="834" cy="128" r="6.5"/>
+  <text class="sb-t sb-l" x="834" y="210" text-anchor="middle">weather</text>
+
+  <!-- tap the bar -->
+  <path class="sb-down" d="M520 232 V284" marker-end="url(#sb-arrow)"/>
+  <text class="sb-t3 sb-s" x="538" y="266">tap the bar</text>
+
+  <!-- open -->
+  <text class="sb-t2 sb-cap" x="20" y="422">OPEN</text>
+  <image href="assets/docs/figures/status-expanded.webp" x="130" y="300" width="800" height="231.1" preserveAspectRatio="none" clip-path="url(#sb-clip-open)"/>
+  <rect class="sb-frame" x="130" y="300" width="800" height="231.1" rx="16"/>
+
+  <path class="sb-lead" d="M955 315 H612 V332"/>
+  <circle class="sb-dot" cx="612" cy="332" r="6.5"/>
+  <text class="sb-t sb-l" x="966" y="323">clock</text>
+  <text class="sb-t2 sb-s" x="966" y="350">flip digits</text>
+
+  <path class="sb-lead" d="M955 452 H636 L620 440"/>
+  <circle class="sb-dot" cx="620" cy="440" r="6.5"/>
+  <text class="sb-t sb-l" x="966" y="460">date</text>
+
+  <path class="sb-lead" d="M955 497 L890 483"/>
+  <circle class="sb-dot" cx="890" cy="483" r="6.5"/>
+  <text class="sb-t sb-l" x="966" y="505">the same row,</text>
+  <text class="sb-t2 sb-s" x="966" y="532">below the clock</text>
+</svg>

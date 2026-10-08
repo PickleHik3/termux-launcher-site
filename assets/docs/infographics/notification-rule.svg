@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" width="100%" role="img" style="font-family:var(--display,'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif)">
+  <title>A notification rule: an app package and/or keywords; a matching notification is pinned to the top pane</title>
+  <style>
+    .nr-t{fill:var(--on,#EEEDE8)}
+    .nr-t2{fill:var(--on-2,rgba(238,237,232,.64))}
+    .nr-t3{fill:var(--on-3,rgba(238,237,232,.40))}
+    .nr-ac{fill:var(--klein-soft,#B9C1FF)}
+    .nr-mono{font-family:var(--mono,ui-monospace,Menlo,monospace)}
+    .nr-box{fill:var(--surface-2,#151823);stroke:rgba(238,237,232,.16);stroke-width:2}
+    .nr-rule{fill:none;stroke:var(--on-3,rgba(238,237,232,.40));stroke-width:2}
+    .nr-line{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .nr-mk{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .nr-check{fill:var(--klein-bright,#4654F2)}
+    .nr-tick{fill:none;stroke:var(--on,#EEEDE8);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    .nr-phone{fill:none;stroke:var(--on-2,rgba(238,237,232,.64));stroke-width:2.5}
+    .nr-pane{fill:rgba(238,237,232,.04);stroke:rgba(238,237,232,.16);stroke-width:2}
+    .nr-band{fill:var(--klein-bright,#4654F2);fill-opacity:.24;stroke:var(--klein-soft,#B9C1FF);stroke-width:2}
+    .nr-ghost{fill:var(--on-3,rgba(238,237,232,.40));fill-opacity:.45}
+    .nr-h{font-size:38px;font-weight:650}
+    .nr-l{font-size:23px}
+    .nr-v{font-size:27px}
+    .nr-n{font-size:22px}
+  </style>
+  <defs>
+    <marker id="nr-arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="nr-mk" d="M2 1.5 L10 6 L2 10.5"/>
+    </marker>
+    <linearGradient id="nr-grad" gradientUnits="userSpaceOnUse" x1="0" y1="24" x2="0" y2="408">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".68" stop-color="#fff"/>
+      <stop offset="1" stop-color="#000"/>
+    </linearGradient>
+    <mask id="nr-fade" maskUnits="userSpaceOnUse" x="740" y="0" width="460" height="420">
+      <rect x="740" y="0" width="460" height="420" fill="url(#nr-grad)"/>
+    </mask>
+  </defs>
+
+  <!-- rule card -->
+  <rect class="nr-box" x="24" y="24" width="496" height="412" rx="24"/>
+  <text class="nr-t nr-h" x="56" y="80">Rule</text>
+
+  <text class="nr-t2 nr-l" x="56" y="134">App package</text>
+  <text class="nr-t nr-v nr-mono" x="56" y="175">com.whatsapp</text>
+  <path class="nr-rule" d="M56 192 H488"/>
+
+  <text class="nr-t3 nr-n" x="56" y="234">and / or</text>
+
+  <text class="nr-t2 nr-l" x="56" y="280">Keywords in title or text</text>
+  <text class="nr-t nr-v nr-mono" x="56" y="321">OTP</text>
+  <path class="nr-rule" d="M56 338 H488"/>
+
+  <rect class="nr-check" x="56" y="364" width="28" height="28" rx="7"/>
+  <path class="nr-tick" d="M63 378 L68 384 L78 371"/>
+  <text class="nr-t nr-l" x="100" y="384">Dismissing the pin also</text>
+  <text class="nr-t nr-l" x="100" y="413">clears the notification</text>
+
+  <!-- matches -->
+  <path class="nr-line" d="M540 230 H748" marker-end="url(#nr-arrow)"/>
+  <text class="nr-t2 nr-l" x="642" y="212" text-anchor="middle">matches</text>
+
+  <!-- phone, top half -->
+  <g mask="url(#nr-fade)">
+    <path class="nr-phone" d="M772 420 V70 Q772 24 818 24 H1086 Q1132 24 1132 70 V420"/>
+    <circle class="nr-phone" cx="952" cy="46" r="5"/>
+    <rect class="nr-pane" x="792" y="78" width="320" height="360" rx="16"/>
+    <rect class="nr-ghost" x="812" y="240" width="150" height="9" rx="4.5"/>
+    <rect class="nr-ghost" x="812" y="266" width="236" height="9" rx="4.5"/>
+    <rect class="nr-ghost" x="812" y="292" width="190" height="9" rx="4.5"/>
+    <rect class="nr-ghost" x="812" y="318" width="96" height="9" rx="4.5"/>
+    <rect class="nr-ghost" x="812" y="344" width="210" height="9" rx="4.5"/>
+  </g>
+  <text class="nr-t3 nr-n" x="800" y="62">12:43</text>
+  <text class="nr-ac nr-n" x="810" y="114">pinned to the top pane</text>
+  <rect class="nr-band" x="804" y="128" width="296" height="88" rx="14"/>
+  <g class="nr-mk" style="stroke-width:2.5">
+    <path d="M828 148 H840 M830 148 L829 162 L822 170 H846 L839 162 L838 148 M834 170 V188"/>
+  </g>
+  <text class="nr-t nr-n" x="862" y="162" style="font-weight:650">WhatsApp</text>
+  <text class="nr-t nr-l" x="862" y="196">Your OTP is 4821</text>
+
+  <text class="nr-t3 nr-l" x="952" y="446" text-anchor="middle">needs Notification access</text>
+</svg>

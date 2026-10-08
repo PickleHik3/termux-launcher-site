@@ -23,6 +23,7 @@ Your session keeps running while you are away, and the terminal never resizes fo
 
 ```clip
 name: app-icon-menu
+crop: 0.13 0.48 0.74 0.32
 title: App actions
 caption: Long-pressing a docked icon for its shortcuts, app info and icon options.
 ```
@@ -32,7 +33,9 @@ caption: Long-pressing a docked icon for its shortcuts, app info and icon option
 * **Quick reply:** when a pinned app has an unread notification, swipe up on its icon to answer right there. The Android keyboard opens with it; send, and you are back at the terminal. It uses the reply field on the app's notification and needs notification access (see [Notifications](#wiki/notifications)).
 
 ```clip
-image: assets/uploads/quick-response.gif
+src: assets/docs/figures/quick-reply
+formats: webm,mp4
+size: 398x340
 title: Quick reply
 caption: Swiping up on a pinned app with an unread notification and replying without opening the app.
 ```
@@ -50,6 +53,7 @@ caption: Swiping up on a pinned app with an unread notification and replying wit
 
 ```clip
 name: app-row-scrub
+crop: 0.13 0.66 0.74 0.20
 title: A-Z app row
 caption: Sliding across the alphabet row - the icons above filter as you go, and letting go over one launches it.
 ```
@@ -58,6 +62,7 @@ caption: Sliding across the alphabet row - the icons above filter as you go, and
 
 ```clip
 name: app-launching
+crop: 0.13 0.50 0.74 0.30
 title: Launch from the prompt
 caption: Typing "%" and a query at the prompt searches installed apps; Enter opens the first result.
 ```
@@ -75,17 +80,31 @@ Swipe down on the pinned apps row for a full-screen app drawer. On a left rail s
 * **Category sorting** and **Re-sort apps**, below.
 
 ```clip
-src: assets/showcase/features/app-drawer-layouts
-title: App drawer layouts
-caption: Switching among the vertical, horizontal-paged and category drawers on the current dev build.
+image: assets/docs/figures/drawer-vertical.webp
+size: 720x794
+title: Vertical
+layout: trio
+```
+
+```clip
+image: assets/docs/figures/drawer-pages.webp
+size: 720x794
+title: Horizontal pages
+```
+
+```clip
+image: assets/docs/figures/drawer-categories.webp
+size: 720x794
+title: Categories
+caption: The three drawer layouts under Settings → Apps → Drawer layout.
 ```
 
 **Categories.** Established launchers sort apps with server-side lists. Termux Launcher has no server, so **Category sorting** ("Choose how apps are grouped.") offers two ways in its **Sort apps into categories** dialog:
 
 ```clip
-image: assets/screenshots/drawer-category-sorting.webp
-title: Category sorting choices
-caption: Run Gemma on-device, or copy a prompt to an AI chat and paste the result back.
+svg: category-sorting
+title: How apps get sorted
+caption: Two ways to the same result: a local Gemma model, or a prompt you paste into any AI chat.
 ```
 
 * **On this device**: a local Gemma model sorts your apps, and nothing leaves your phone. Which model runs depends on your phone's tier: E2B on Tier 2, E4B on Tier 3, and the option is unavailable on Tier 1 phones, which lack the memory. You can change the model per function in the Model Centre; see [On-device AI](#wiki/on-device-ai).

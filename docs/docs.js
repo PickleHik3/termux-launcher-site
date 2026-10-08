@@ -18,20 +18,66 @@
   const el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text ? { textContent: text } : {});
   const slugify = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, "").trim().replace(/\s+/g, "-");
 
-  /* ── Clips: ```clip blocks with name / src / image / title / caption / formats / shape / layout ── */
+  /* ── Clips: ```clip blocks with name / src / image / svg / title / caption / formats / shape / layout / crop / size ── */
+  // "size: WxH" is the source frame in pixels (default: the 1080x1920 feature captures).
+  function parseSize(value) {
+    const m = /^(\d{1,5})\s*x\s*(\d{1,5})$/i.exec(value || "");
+    return m && +m[1] > 0 && +m[2] > 0 ? { w: +m[1], h: +m[2] } : null;
+  }
+  // "crop: x y w h" is the visible region as fractions of the source frame; anything malformed is ignored.
+  function parseCrop(value) {
+    const n = (value || "").split(/[\s,]+/).filter(Boolean).map(Number);
+    if (n.length !== 4 || !n.every(Number.isFinite)) return null;
+    const [x, y, w, h] = n;
+    const ok = x >= 0 && y >= 0 && w > 0 && h > 0 && x + w <= 1.0001 && y + h <= 1.0001;
+    return ok ? { x, y, w, h } : null;
+  }
+  const pct = (v) => `${+v.toFixed(4)}%`;
+
+  // An infographic: fetch the SVG, inline its root, point its assets/ links at the site root.
+  function loadSvg(name, frame) {
+    fetch(`${ASSETS}assets/docs/infographics/${name}.svg`)
+      .then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))))
+      .then((text) => {
+        const doc = new DOMParser().parseFromString(text, "image/svg+xml");
+        const svg = doc.documentElement;
+        if (!svg || svg.localName !== "svg" || doc.getElementsByTagName("parsererror").length) throw new Error("not an svg");
+        svg.querySelectorAll("script, foreignObject").forEach((n) => n.remove());
+        for (const node of [svg, ...svg.querySelectorAll("*")]) {
+          for (const attr of [...node.attributes]) {
+            if (/^on/i.test(attr.name)) node.removeAttributeNode(attr);
+            else if (attr.localName === "href" && attr.value.startsWith("assets/")) attr.value = ASSETS + attr.value;
+          }
+        }
+        frame.append(document.importNode(svg, true));
+        frame.hidden = false;
+      })
+      .catch(() => frame.remove());
+  }
+
   function buildClip(f) {
-    const figure = el("figure", f.shape === "wide" ? "clip wide" : "clip");
-    const frame = el("div", "clip-frame");
     const label = f.title || f.name || "";
-    if (f.image) {
+    const size = parseSize(f.size);
+    const crop = f.svg ? null : parseCrop(f.crop);
+    const figure = el("figure", f.shape === "wide" || ((crop || f.svg) && f.shape !== "narrow") ? "clip wide" : "clip");
+    const frame = el("div", "clip-frame");
+    let media;
+    if (f.svg) {
+      if (!/^[a-z0-9][a-z0-9-]*$/.test(f.svg)) return null;
+      frame.classList.add("infographic");
+      frame.hidden = true; // nothing visible until the SVG is in; a failed fetch leaves only the caption
+      loadSvg(f.svg, frame);
+    } else if (f.image) {
       if (!/^assets\/[a-z0-9][a-z0-9/._-]*$/i.test(f.image) || f.image.includes("..")) return null;
-      frame.append(Object.assign(el("img"), { loading: "lazy", decoding: "async", src: ASSETS + f.image, alt: f.title || f.caption || "" }));
+      media = Object.assign(el("img"), { loading: "lazy", decoding: "async", src: ASSETS + f.image, alt: f.title || f.caption || "" });
+      if (size) Object.assign(media, { width: size.w, height: size.h });
+      frame.append(media);
     } else {
       let base;
       if (/^[a-z0-9][a-z0-9-]*$/.test(f.name || "")) base = `${ASSETS}assets/showcase/features/${f.name}`;
       else if (/^assets\/[a-z0-9][a-z0-9/-]*$/.test(f.src || "") && !f.src.includes("..")) base = ASSETS + f.src;
       else return null;
-      frame.classList.add(base.includes("/showcase/features/") && !f.src ? "phone" : "raw");
+      if (!crop) frame.classList.add(base.includes("/showcase/features/") && !f.src ? "phone" : "raw");
       const formats = (f.formats || "webm,mp4").split(",").map((s) => s.trim().toLowerCase()).filter((s) => s === "webm" || s === "mp4");
       if (!formats.length) return null;
       const video = el("video");
@@ -48,6 +94,24 @@
       video.addEventListener("pause", () => { delete frame.dataset.playing; toggle.setAttribute("aria-label", `Play ${label}`); });
       frame.append(video, toggle);
       videos.push(video);
+      media = video;
+    }
+    if (crop) {
+      // Show only the declared region: the frame takes the region's aspect, the media is scaled and shifted behind it.
+      const src = size || { w: 1080, h: 1920 };
+      const aspect = (crop.w * src.w) / (crop.h * src.h);
+      frame.classList.add("crop");
+      frame.style.aspectRatio = `${+(crop.w * src.w).toFixed(2)} / ${+(crop.h * src.h).toFixed(2)}`;
+      Object.assign(media.style, {
+        left: pct((-crop.x / crop.w) * 100), top: pct((-crop.y / crop.h) * 100), width: pct(100 / crop.w),
+        aspectRatio: `${src.w} / ${src.h}`,
+      });
+      // No cropped frame taller than about 440px at full width.
+      if (figure.classList.contains("wide")) figure.style.maxWidth = `${Math.min(760, Math.round(440 * aspect), Math.round(crop.w * src.w))}px`;
+    } else if (size && media) {
+      // Reserve the box before the poster or image arrives, and never stretch past the source's own width.
+      media.style.aspectRatio = `${size.w} / ${size.h}`;
+      if (size.w < (figure.classList.contains("wide") ? 760 : 280)) figure.style.maxWidth = `${size.w}px`;
     }
     figure.append(frame);
     const cap = el("figcaption", "", f.caption || "");
@@ -69,6 +133,7 @@
       const prev = block.previousElementSibling;
       const row = prev && prev.classList.contains("clips") ? prev : el("div", "clips");
       if (fields.layout === "full") row.classList.add("full");
+      if (fields.layout === "trio") row.classList.add("trio");
       row.append(figure);
       if (row === prev) block.remove(); else block.replaceWith(row);
     });

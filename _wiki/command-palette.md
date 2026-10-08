@@ -7,6 +7,7 @@ Every action the launcher knows, from splits, sessions and windows to appearance
 
 ```clip
 name: command-palette
+crop: 0.13 0.24 0.74 0.32
 title: Command palette
 caption: Swipe up from the space bar, type "split", run it - the keycap strip shows the chord for what matched.
 ```

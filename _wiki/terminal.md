@@ -53,6 +53,8 @@ Three graphics protocols are supported out of the box:
 
 ```clip
 src: assets/showcase/raw/fetch
+size: 576x1296
+crop: 0 0.06 1 0.34
 title: Graphics in a pane
 formats: mp4
 caption: fastfetch drawing its logo through the kitty graphics protocol, over a wallpaper-themed prompt.
@@ -60,6 +62,7 @@ caption: fastfetch drawing its logo through the kitty graphics protocol, over a 
 
 ```clip
 name: kew
+crop: 0.13 0.28 0.74 0.34
 title: Album art in the terminal
 caption: kew, a terminal music player, drawing cover art through the same graphics protocol.
 ```
