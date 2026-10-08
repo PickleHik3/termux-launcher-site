@@ -53,7 +53,7 @@ caption: Swiping up on a pinned app with an unread notification and replying wit
 
 ```clip
 name: app-row-scrub
-crop: 0.13 0.62 0.74 0.20
+crop: 0.13 0.66 0.74 0.20
 title: A-Z app row
 caption: Sliding across the alphabet row - the icons above filter as you go, and letting go over one launches it.
 ```
