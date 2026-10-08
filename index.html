@@ -98,8 +98,8 @@ body[data-bg="desk"] .plate.desk{opacity:.55}
   animation:navIn .9s var(--spring) both;animation-delay:.05s;max-width:calc(100vw - 32px);
 }
 @keyframes navIn{from{opacity:0;transform:translateX(-50%) translateY(-18px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.nav .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;letter-spacing:-.01em;padding-right:10px;white-space:nowrap}
-.nav .mark{width:24px;height:24px;border-radius:7px;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.1);transition:transform .5s var(--snap)}
+.nav .brand{display:flex;flex:none;align-items:center;gap:10px;font-weight:600;font-size:.92rem;letter-spacing:-.01em;padding-right:10px;white-space:nowrap}
+.nav .mark{width:24px;height:24px;min-width:24px;max-width:none;border-radius:7px;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.1);transition:transform .5s var(--snap)}
 .nav .brand:hover .mark{transform:scale(1.06)}
 .nav .links{display:flex;gap:2px;padding:0 6px;border-left:1px solid var(--line);border-right:1px solid var(--line)}
 .nav .links a{position:relative;padding:8px 11px;border-radius:999px;font-size:.84rem;color:var(--on-2);transition:color .35s var(--snap),background-color .35s var(--snap)}
@@ -233,8 +233,8 @@ footer{position:relative;z-index:1;width:min(var(--max),100%);margin:0 auto;padd
   .nav{padding-left:12px} .nav .gh{height:36px;padding:0 13px}
   .stage{grid-template-columns:1fr;column-gap:0}
   .rail{order:-1;position:sticky;top:calc(var(--nav-h) + 28px + env(safe-area-inset-top,0px));z-index:2;height:calc(var(--ph) + 18px);
-    margin:0 calc(var(--gutter) * -1);padding:0 var(--gutter);
-    background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 78%,transparent 100%);pointer-events:none}
+    margin:calc(var(--nav-h) + 28px + env(safe-area-inset-top,0px)) calc(var(--gutter) * -1) 0;padding:0 var(--gutter);
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 92%,transparent 100%);pointer-events:none}
   .stick{position:static;height:var(--ph);justify-content:center;padding-top:6px}
   .phone{pointer-events:auto}
   .cap{display:none}
