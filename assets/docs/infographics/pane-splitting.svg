@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="100%" role="img" style="font-family:var(--display,'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif)">
+  <title>Splitting panes: split once, split again into a dwindle layout, then flick with two fingers to swap two panes</title>
+  <style>
+    .ps-t{fill:var(--on,#EEEDE8)}
+    .ps-t2{fill:var(--on-2,rgba(238,237,232,.64))}
+    .ps-frame{fill:var(--surface-2,#151823);stroke:rgba(238,237,232,.16);stroke-width:2}
+    .ps-pane{fill:rgba(238,237,232,.05);stroke:rgba(238,237,232,.16);stroke-width:2;vector-effect:non-scaling-stroke}
+    .ps-focus{stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5}
+    .ps-tint{fill:var(--klein-bright,#4654F2);fill-opacity:.3}
+    .ps-div{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:3;stroke-linecap:round}
+    .ps-num{fill:var(--klein-bright,#4654F2)}
+    .ps-finger{fill:var(--on,#EEEDE8);fill-opacity:.85}
+    .ps-flick{fill:none;stroke:var(--on,#EEEDE8);stroke-opacity:.85;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .ps-h{font-size:27px;font-weight:650}
+    .ps-s{font-size:22px}
+    .ps-n{font-size:20px;font-weight:700}
+
+    .ps-anim{transform-box:view-box;transform-origin:0 0;animation-duration:4s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+    /* base styles are the final state; reduced motion keeps them */
+    .ps-old{opacity:0;animation-name:ps-old}
+    .ps-new{opacity:1;animation-name:ps-new}
+    .ps-vdiv{opacity:0;animation-name:ps-vdiv}
+    .ps-hdiv{opacity:0;animation-name:ps-hdiv}
+    .ps-a{transform:translate(985px,34px) scale(1,.48656) translate(-834px,-34px);animation-name:ps-a}
+    .ps-b{transform:translate(834px,34px) scale(1,2.05525) translate(-985px,-34px);animation-name:ps-b}
+    .ps-hand{opacity:1;animation-name:ps-hand}
+    @keyframes ps-old{0%,45%{opacity:1}52%,100%{opacity:0}}
+    @keyframes ps-new{0%,45%{opacity:0}56%,100%{opacity:1}}
+    @keyframes ps-vdiv{0%,12%{transform:translateX(146px);opacity:1}45%{transform:translateX(0);opacity:1}60%,100%{transform:translateX(0);opacity:0}}
+    @keyframes ps-hdiv{0%,12%{transform:translateY(186px);opacity:1}45%{transform:translateY(0);opacity:1}60%,100%{transform:translateY(0);opacity:0}}
+    @keyframes ps-a{0%,22%{transform:translate(834px,34px) scale(1,1) translate(-834px,-34px)}42%,100%{transform:translate(985px,34px) scale(1,.48656) translate(-834px,-34px)}}
+    @keyframes ps-b{0%,22%{transform:translate(985px,34px) scale(1,1) translate(-985px,-34px)}42%,100%{transform:translate(834px,34px) scale(1,2.05525) translate(-985px,-34px)}}
+    @keyframes ps-hand{0%{opacity:0;transform:translate(0,0)}6%,20%{opacity:1;transform:translate(0,0)}34%{opacity:0;transform:translate(26px,-28px)}100%{opacity:0;transform:translate(26px,-28px)}}
+    @media (prefers-reduced-motion: reduce){
+      .ps-anim{animation:none!important}
+      .ps-hand{opacity:1;transform:none}
+    }
+  </style>
+
+  <!-- 1 · Split -->
+  <rect class="ps-frame" x="60" y="20" width="320" height="400" rx="18"/>
+  <rect class="ps-pane ps-focus ps-anim ps-old" x="74" y="34" width="292" height="372" rx="10"/>
+  <rect class="ps-pane ps-anim ps-new" x="74" y="34" width="141" height="372" rx="10"/>
+  <rect class="ps-pane ps-focus ps-anim ps-new" x="225" y="34" width="141" height="372" rx="10"/>
+  <path class="ps-div ps-anim ps-vdiv" d="M220 34 V406"/>
+  <circle class="ps-num" cx="82" cy="458" r="17"/>
+  <text class="ps-t ps-n" x="82" y="465" text-anchor="middle">1</text>
+  <text class="ps-t ps-h" x="110" y="467">Split</text>
+  <text class="ps-t2 ps-s" x="60" y="504">Ctrl+Alt+V, or the palette</text>
+
+  <!-- 2 · Split again -->
+  <rect class="ps-frame" x="440" y="20" width="320" height="400" rx="18"/>
+  <rect class="ps-pane" x="454" y="34" width="141" height="372" rx="10"/>
+  <rect class="ps-pane ps-focus ps-anim ps-old" x="605" y="34" width="141" height="372" rx="10"/>
+  <rect class="ps-pane ps-anim ps-new" x="605" y="34" width="141" height="181" rx="10"/>
+  <rect class="ps-pane ps-focus ps-anim ps-new" x="605" y="225" width="141" height="181" rx="10"/>
+  <path class="ps-div ps-anim ps-hdiv" d="M605 220 H746"/>
+  <circle class="ps-num" cx="462" cy="458" r="17"/>
+  <text class="ps-t ps-n" x="462" y="465" text-anchor="middle">2</text>
+  <text class="ps-t ps-h" x="490" y="467">Split again</text>
+  <text class="ps-t2 ps-s" x="440" y="504">dwindle: the new pane splits</text>
+
+  <!-- 3 · Flick to swap -->
+  <rect class="ps-frame" x="820" y="20" width="320" height="400" rx="18"/>
+  <rect class="ps-pane" x="834" y="34" width="141" height="372" rx="10"/>
+  <rect class="ps-pane" x="985" y="34" width="141" height="181" rx="10"/>
+  <rect class="ps-pane" x="985" y="225" width="141" height="181" rx="10"/>
+  <rect class="ps-pane ps-anim ps-b" x="985" y="34" width="141" height="181" rx="8"/>
+  <rect class="ps-pane ps-tint ps-focus ps-anim ps-a" x="834" y="34" width="141" height="372" rx="8"/>
+  <g class="ps-anim ps-hand">
+    <path class="ps-flick" d="M878 300 L940 236 M920 236 H940 V256"/>
+    <circle class="ps-finger" cx="866" cy="292" r="10"/>
+    <circle class="ps-finger" cx="892" cy="316" r="10"/>
+  </g>
+  <circle class="ps-num" cx="842" cy="458" r="17"/>
+  <text class="ps-t ps-n" x="842" y="465" text-anchor="middle">3</text>
+  <text class="ps-t ps-h" x="870" y="467">Flick to swap</text>
+  <text class="ps-t2 ps-s" x="820" y="504">two fingers, a brisk flick</text>
+</svg>

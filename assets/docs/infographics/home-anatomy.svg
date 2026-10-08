@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="100%" role="img" style="font-family:var(--display,'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif)">
+  <title>The home screen, top to bottom: widgets, status bar, terminal, pinned apps, A-Z row, extra keys and the built-in keyboard</title>
+  <style>
+    .ha-t{fill:var(--on,#EEEDE8)}
+    .ha-t2{fill:var(--on-2,rgba(238,237,232,.64))}
+    .ha-lead{fill:none;stroke:var(--klein-soft,#B9C1FF);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .ha-dot{fill:var(--klein-soft,#B9C1FF);stroke:rgba(9,10,15,.85);stroke-width:3}
+    .ha-frame{fill:none;stroke:rgba(238,237,232,.16);stroke-width:2}
+    .ha-lbl{font-size:34px;font-weight:650}
+    .ha-sub{font-size:28px}
+  </style>
+  <defs>
+    <clipPath id="ha-clip"><rect x="40" y="22" width="300" height="675" rx="28"/></clipPath>
+  </defs>
+
+  <image href="assets/docs/figures/home-still.webp" x="40" y="22" width="300" height="675" preserveAspectRatio="xMidYMid slice" clip-path="url(#ha-clip)"/>
+  <rect class="ha-frame" x="40" y="22" width="300" height="675" rx="28"/>
+
+  <!-- leaders: label edge, bend, then onto the region -->
+  <path class="ha-lead" d="M455 62 H390 L318 83"/>
+  <path class="ha-lead" d="M455 154 H390 L318 122"/>
+  <path class="ha-lead" d="M455 248 H390 L318 267"/>
+  <path class="ha-lead" d="M455 342 H390 L318 425"/>
+  <path class="ha-lead" d="M455 436 H390 L318 457"/>
+  <path class="ha-lead" d="M455 530 H390 L318 479"/>
+  <path class="ha-lead" d="M455 624 H390 L318 589"/>
+  <circle class="ha-dot" cx="318" cy="83" r="7"/>
+  <circle class="ha-dot" cx="318" cy="122" r="7"/>
+  <circle class="ha-dot" cx="318" cy="267" r="7"/>
+  <circle class="ha-dot" cx="318" cy="425" r="7"/>
+  <circle class="ha-dot" cx="318" cy="457" r="7"/>
+  <circle class="ha-dot" cx="318" cy="479" r="7"/>
+  <circle class="ha-dot" cx="318" cy="589" r="7"/>
+
+  <text class="ha-t ha-lbl" x="470" y="72">Widgets</text>
+  <text class="ha-t2 ha-sub" x="470" y="106">clock, media, any Android widget</text>
+
+  <text class="ha-t ha-lbl" x="470" y="164">Status bar</text>
+  <text class="ha-t2 ha-sub" x="470" y="198">sessions, CPU, memory, weather</text>
+
+  <text class="ha-t ha-lbl" x="470" y="258">Terminal</text>
+  <text class="ha-t2 ha-sub" x="470" y="292">your shell; hold a border to drag it</text>
+
+  <text class="ha-t ha-lbl" x="470" y="352">Pinned apps</text>
+  <text class="ha-t2 ha-sub" x="470" y="386">hold the row to choose</text>
+
+  <text class="ha-t ha-lbl" x="470" y="446">A-Z row</text>
+  <text class="ha-t2 ha-sub" x="470" y="480">slide along it to find an app</text>
+
+  <text class="ha-t ha-lbl" x="470" y="540">Extra keys</text>
+  <text class="ha-t2 ha-sub" x="470" y="574">editable; swipe for more pages</text>
+
+  <text class="ha-t ha-lbl" x="470" y="634">Keyboard</text>
+  <text class="ha-t2 ha-sub" x="470" y="668">built in; swipe up on the bottom border</text>
+</svg>
