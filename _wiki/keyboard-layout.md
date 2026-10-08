@@ -1,10 +1,11 @@
 ---
 title: Keyboard layout schema
-order: 60
+group: Reference
+order: 220
 ---
 The embedded keyboard is a Termux-focused port of Unexpected Keyboard. A custom file at `~/.termux/keyboard/layout.xml` replaces the complete bundled layout, including every center key and swipe slot.
 
-Start by copying the exact layout shipped with your installed build:
+Start by copying the example layout shipped with your installed build:
 
 ```sh
 mkdir -p ~/.termux/keyboard
@@ -12,7 +13,15 @@ cp ~/.termux/launcher/examples/keyboard-layout.xml ~/.termux/keyboard/layout.xml
 termux-reload-settings
 ```
 
+The example is close to the bundled layout but not identical: the bundled bottom row marks its keys with `role="action"` and `role="space_bar"`, and its `Ctrl` key has clipboard history on the north-east swipe (`ne="loc switch_clipboard" sw="loc meta"`), where the example has those two swapped.
+
 Delete the live file to return to the bundled layout. If an edit is invalid, the launcher keeps the last working layout and then falls back to the bundled one.
+
+## The layout ring
+
+Your file is one layout among several. **Settings → Keyboard → Layouts → Layouts** ("Choose the layouts the keyboard cycles through") sets the ring, up to 16 layouts. Your `layout.xml` appears there as `main` (the bundled QWERTY when the file is absent). From a binding or an Extra Key, `keyboard.select_layout main` switches to it and `keyboard.cycle_layout` moves through the ring; see [Action reference](#wiki/action-reference).
+
+The label font and key radius are settings, not layout attributes: **Typeface** on the **Keyboard theme** page (the font picker browses internal storage, and icon glyphs keep the symbols font), and **Key radius** in the Layout editor.
 
 ## Document structure
 
@@ -75,13 +84,31 @@ The short compass names and long `key0` … `key8` names are synonyms; do not pu
 | `shift` | Empty horizontal space before the key; default `0` |
 | `anticircle` | Value produced by the counter-clockwise circle gesture |
 | `indication` | Label drawn on the key without changing its output |
-| `role` | Optional rendering/behavior role used by the keyboard engine |
+| `role` | Rendering/behaviour role: `normal` (default), `action`, `space_bar`, or `suggestion` |
+| `split_before` | `"true"` starts the right half of the split keyboard at this key |
+| `split_at` | Cuts a wide key this many units from its left edge when the keyboard is split |
 
 Prefix a value with `loc ` to reserve its position while letting the keyboard's optional-key setting decide whether it is visible:
 
 ```xml
 <key c="a" nw="loc tab"/>
 <key c="backspace" ne="loc delete"/>
+```
+
+## Where the split keyboard cuts
+
+When the keyboard is in its split form, each row is parted in two. You choose where with two marks:
+
+- `split_before="true"` on a key starts the right half at that key.
+- `split_at="<units>"` on a wide key cuts that key the given number of units from its left edge. Both pieces type the centre value; west-side swipes stay on the left piece, east-side swipes on the right, and north, south and the circle gesture go to the wider piece.
+
+A row with neither mark is cut at its middle. Putting both marks on one key is an error, as is a negative or non-finite `split_at`. Both halves are the same width, set against the screen edges with one straight gap between them.
+
+The bundled and example layouts cut `q`–`t` | `y`–`p`, `a`–`g` | `h`–`l`, `shift z`–`v` | `b`–`m backspace`, and the space bar with `split_at="2.5"`:
+
+```xml
+<key c="y" split_before="true" ne="6" sw="^"/>
+<key width="4.0" role="space_bar" c="space" split_at="2.5" w="cursor_left" e="cursor_right"/>
 ```
 
 ## Put launcher actions on keys and swipes
@@ -141,6 +168,8 @@ The shipped layout maps `Fn+Q` … `Fn+P` to `F1` … `F10`, `Fn+Z/X` to `F11/F1
 
 Values may be literal Unicode text, named keyboard keys such as `esc`, `tab`, `enter`, `backspace`, `delete`, `home`, `page_up`, `left`, or `f1`, keyboard modifiers such as `ctrl`, `alt`, `shift`, and `fn`, built-in gestures such as `cursor_left`, or `tool:` launcher actions.
 
+The shipped layout also uses these named values: `switch_clipboard` (clipboard history), `switch_numeric`, `switch_backward`, `config`, `change_method`, `voice_typing`, `compose`, `meta`, `insert` and `page_down`.
+
 XML-reserved characters must be escaped: write `&amp;`, `&lt;`, `&gt;`, and `&quot;`. The shipped example also demonstrates escaped keyboard parser values such as `\?`, `\#`, `\@`, and `\\`.
 
 ## Safe editing and limits
@@ -154,3 +183,5 @@ XML-reserved characters must be escaped: write `&amp;`, `&lt;`, `&gt;`, and `&qu
 - Run `termux-reload-settings` after every edit; no app restart is required.
 
 When debugging, begin with the shipped example and make one change at a time. The command palette lists action IDs, while **Key inspector** shows the key event and terminal bytes produced by ordinary keyboard values.
+
+Full details: [Keyboard](https://github.com/PickleHik3/termux-launcher/blob/dev/docs/en/Keyboard.md)

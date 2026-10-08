@@ -1,0 +1,218 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b0d">
+<meta name="description" content="Termux Launcher is an Android home launcher built on the Termux terminal emulator — the closest you can get to controlling your Android from a terminal.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Termux Launcher">
+<meta property="og:description" content="Your home screen is a terminal.">
+<meta property="og:url" content="https://picklehik3.github.io/termux-launcher-site/docs/">
+<meta property="og:image" content="https://picklehik3.github.io/termux-launcher-site/assets/social-preview-command.webp">
+<meta name="twitter:card" content="summary_large_image">
+<title>Docs — Termux Launcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../assets/icons/termux-launcher.png">
+<link rel="apple-touch-icon" href="../assets/icons/termux-launcher.png">
+<link rel="stylesheet" href="../styles.css?v=20261007-1">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
+</head>
+<body>
+<div id="site-shell">
+
+<div class="wallpaper" aria-hidden="true">
+  <i class="wallpaper-blob wallpaper-blob--1"></i>
+  <i class="wallpaper-blob wallpaper-blob--2"></i>
+  <i class="wallpaper-blob wallpaper-blob--3"></i>
+  <i class="wallpaper-blob wallpaper-blob--4"></i>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<div id="tl" class="tl">
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="site-nav glass glass--fixed">
+    <div class="site-nav-inner">
+      <a class="brand-button" href="../" aria-label="Go to the home page">
+        <img src="../assets/icons/termux-launcher.png" alt="" width="30" height="30">
+        <span>Termux Launcher</span>
+      </a>
+      <div class="nav-tabs">
+        <i class="nav-indicator" aria-hidden="true"></i>
+        <a href="../">About</a>
+        <button data-nav="wiki" aria-current="page">Docs</button>
+      </div>
+      <div class="nav-actions">
+        <a class="nav-link" data-hide-sm href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="download-button btn btn--primary btn--sm" href="../#install">Install</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================================================== -->
+  <!-- ====================  2:WIKI  ====================== -->
+  <!-- ==================================================== -->
+  <section data-view="wiki" data-screen-label="Docs" style="display:block">
+    <div class="wiki-layout">
+      {% assign wiki_articles = site.wiki | sort: "order" %}
+      {% assign docs_home = site.data.docs_home %}
+
+      <aside class="wiki-sidebar glass">
+        <div class="wiki-search" data-search>
+          <label class="wiki-search-label" for="wiki-sidebar-search">Search docs</label>
+          <input class="wiki-search-input" type="text" id="wiki-sidebar-search" data-search-input
+            placeholder="Search docs…" autocomplete="off" role="combobox" aria-autocomplete="list"
+            aria-controls="wiki-sidebar-search-results" aria-expanded="false">
+          <div class="search-results" data-search-results id="wiki-sidebar-search-results" role="listbox" hidden></div>
+        </div>
+        <nav class="wiki-article-nav">
+          {% for group in docs_home.groups %}
+            <div class="wiki-group-label">{{ group | escape }}</div>
+            {% if forloop.first %}
+              <button class="wiki-article-button" data-article="landing">Docs home</button>
+            {% endif %}
+            {% assign group_articles = wiki_articles | where: "group", group %}
+            {% for article in group_articles %}
+              {% assign article_filename = article.path | split: "/" | last %}
+              {% assign article_key = article_filename | split: "." | first %}
+              <button class="wiki-article-button" data-article="{{ article_key | escape }}">{{ article.title | escape }}</button>
+            {% endfor %}
+          {% endfor %}
+          <i class="wiki-sidebar-indicator" aria-hidden="true"></i>
+        </nav>
+        <div class="wiki-sidebar-links">
+          <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub repo ↗</a>
+        </div>
+      </aside>
+
+      <main data-wiki-content>
+        {% if wiki_articles.size > 0 %}
+          <article data-article-body="landing" class="wiki-landing" style="display:block">
+            <div class="wiki-kicker" data-reveal>Documentation</div>
+            <h1 data-reveal>Everything the tour did not show you</h1>
+            <p class="wiki-landing-lead" data-reveal>The in-app tour teaches eight moves. Below: a recap of all of them, then the features the tour leaves out.</p>
+
+            <div class="wiki-search wiki-landing-search" data-search>
+              <label class="wiki-search-label" for="wiki-landing-search">Search docs</label>
+              <input class="wiki-search-input" type="text" id="wiki-landing-search" data-search-input
+                placeholder="Search docs…" autocomplete="off" role="combobox" aria-autocomplete="list"
+                aria-controls="wiki-landing-search-results" aria-expanded="false">
+              <div class="search-results" data-search-results id="wiki-landing-search-results" role="listbox" hidden></div>
+            </div>
+
+            <section class="wiki-landing-section{% if docs_home.infographic %} has-infographic{% endif %}" data-reveal>
+              <h2>The tour on one page</h2>
+              {% if docs_home.infographic %}
+                {% include tour-infographic.html %}
+              {% endif %}
+              <ol class="tour-moves" data-reveal-stagger aria-label="The eight moves the in-app tour teaches">
+                {% for move in docs_home.moves %}
+                  <li class="tour-move glass glass--sm">
+                    <span class="tour-move-n" aria-hidden="true">{{ move.n }}</span>
+                    <span class="tour-move-gesture">{{ move.gesture | escape }}</span>
+                    <span class="tour-move-body">{{ move.body | escape }}</span>
+                  </li>
+                {% endfor %}
+              </ol>
+              <p class="tour-moves-caption">Replay any time: Settings → About &amp; support → Play the tour again.</p>
+            </section>
+
+            <section class="wiki-landing-section" data-reveal>
+              <h2>Beyond the tour</h2>
+              <div class="beyond-grid" data-reveal-stagger>
+                {% for card in docs_home.beyond %}
+                  <button class="beyond-card glass glass--sm" data-article="{{ card.key | escape }}">
+                    {% if card.poster %}<img class="beyond-card-poster" src="../{{ card.poster }}" alt="" loading="lazy" decoding="async">{% endif %}
+                    <span class="beyond-card-rank" aria-hidden="true">{{ forloop.index | prepend: "00" | slice: -2, 2 }}</span>
+                    <span class="beyond-card-title">{{ card.title | escape }}</span>
+                    <span class="beyond-card-line">{{ card.line | escape }}</span>
+                  </button>
+                {% endfor %}
+              </div>
+            </section>
+
+            <section class="wiki-landing-section" data-reveal>
+              <h2>Pick an edition</h2>
+              <div class="edition-strip" data-reveal-stagger>
+                {% for ed in docs_home.editions %}
+                  <a class="edition-chip glass glass--sm{% if ed.recommended %} is-recommended{% endif %}" href="{{ ed.href | default: '../#install' }}">
+                    <span class="edition-chip-name">{{ ed.name | escape }}</span>
+                    <span class="edition-chip-note">{{ ed.note | escape }}</span>
+                  </a>
+                {% endfor %}
+              </div>
+              <button class="link-slide wiki-landing-getstarted" data-article="get-started">Get started guide →</button>
+            </section>
+
+            <section class="wiki-landing-section" data-reveal>
+              <h2>Reference</h2>
+              <div class="reference-shelf" data-reveal-stagger>
+                {% for ref in docs_home.reference %}
+                  {% if ref.key %}
+                    <button class="reference-pill" data-article="{{ ref.key | escape }}">{{ ref.title | escape }}</button>
+                  {% else %}
+                    <a class="reference-pill" href="{{ ref.href }}" target="_blank" rel="noopener">{{ ref.title | escape }} ↗</a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </section>
+          </article>
+
+          {% for article in wiki_articles %}
+            {% assign article_filename = article.path | split: "/" | last %}
+            {% assign article_key = article_filename | split: "." | first %}
+            <article data-article-body="{{ article_key | escape }}" style="display:none">
+              <div class="wiki-kicker" data-reveal>DOCUMENTATION</div>
+              <h1 data-spy id="w-{{ article_key | escape }}" data-reveal>{{ article.title | escape }}</h1>
+              <div class="wiki-article-meta" data-reveal><span data-article-meta></span><i></i></div>
+              <div class="wiki-prose" data-reveal>{{ article.content | markdownify }}</div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <div class="wiki-empty">
+            <div class="wiki-kicker">DOCUMENTATION</div>
+            <h1>No wiki pages yet</h1>
+            <p>Create the first page from the content manager.</p>
+          </div>
+        {% endif %}
+      </main>
+
+      <aside class="wiki-toc-col glass">
+        <div class="wiki-toc-title">On this page</div>
+        <nav class="wiki-inline-toc" data-wiki-toc aria-label="On this page"></nav>
+        <i class="wiki-toc-indicator" aria-hidden="true"></i>
+      </aside>
+
+    </div>
+  </section>
+
+
+  <!-- footer -->
+  <footer class="site-footer glass">
+    <div class="site-footer-inner">
+      <div class="site-footer-brand" data-reveal>
+        <img src="../assets/icons/termux-launcher.png" alt="" width="22" height="22">
+        <span>termux-launcher · the shell is the launcher</span>
+      </div>
+      <div class="site-footer-links" data-reveal-stagger>
+        <a class="link-slide" href="../">Overview</a>
+        <a class="link-slide" data-nav="wiki" href="#wiki">Docs</a>
+        <a class="link-slide" data-article="on-device-ai" href="#wiki/on-device-ai">On-device AI</a>
+        <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener">Licenses ↗</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</div>
+<script src="../app.js?v=20261007-1" defer></script>
+<script src="../motion.js?v=20261007-1" defer></script>
+</body>
+</html>

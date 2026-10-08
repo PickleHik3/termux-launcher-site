@@ -1,575 +1,582 @@
----
----
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080b0d">
-<meta name="description" content="Termux Launcher is an Android home launcher built on the Termux terminal emulator — the closest you can get to controlling your Android from a terminal.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Termux Launcher</title>
+<meta name="theme-color" content="#090A0F">
+<meta name="description" content="Termux Launcher is an Android home launcher built on the Termux terminal emulator. A full Linux terminal, your widgets, a Linux display and on-device AI, behind one piece of glass.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Termux Launcher">
-<meta property="og:description" content="Your home screen is a terminal.">
+<meta property="og:description" content="The terminal is the home screen.">
 <meta property="og:url" content="https://picklehik3.github.io/termux-launcher-site/">
 <meta property="og:image" content="https://picklehik3.github.io/termux-launcher-site/assets/social-preview-command.webp">
 <meta name="twitter:card" content="summary_large_image">
-<title>Termux Launcher — Your home screen is a terminal</title>
+<script>if(/^#wiki(\/|$)/.test(location.hash)){location.replace("docs/"+location.hash)}</script>
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icons/termux-launcher.png">
+<link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="assets/icons/termux-launcher.png">
-<link rel="apple-touch-icon" href="assets/icons/termux-launcher.png">
-<link rel="stylesheet" href="styles.css?v=20260928-1">
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" defer></script>
-</head>
-<body>
-<div id="site-shell">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#090A0F;
+  --surface:#0F1118;
+  --surface-2:#151823;
+  --surface-3:#1C2030;
+  --on:#EEEDE8;
+  --on-2:rgba(238,237,232,.64);
+  --on-3:rgba(238,237,232,.40);
+  --on-4:rgba(238,237,232,.22);
+  --klein:#1F2BD4;
+  --klein-bright:#4654F2;
+  --klein-soft:#B9C1FF;
+  --line:rgba(255,255,255,.085);
+  --glass:rgba(255,255,255,.045);
+  --glass-strong:rgba(255,255,255,.075);
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --gutter:clamp(20px,5vw,72px);
+  --max:1440px;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --snap:cubic-bezier(.22,1,.36,1);
+  --spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067 22.5%,1.089 26%,1.079 30.3%,1.049 36%,1.024 42.6%,1.011 50.3%,1.004 59.2%,1.001 69.3%,1);
+  --ph:min(82vh,860px);
+  --pw:calc(var(--ph) / 2.2333);
+  --nav-h:56px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  background:var(--bg);color:var(--on);
+  font-family:var(--display);font-variation-settings:"opsz" 14,"wdth" 100;
+  font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--klein);color:#fff}
+:focus-visible{outline:2px solid var(--klein-soft);outline-offset:3px;border-radius:6px}
 
-<div class="wallpaper" aria-hidden="true">
-  <i class="wallpaper-blob wallpaper-blob--1"></i>
-  <i class="wallpaper-blob wallpaper-blob--2"></i>
-  <i class="wallpaper-blob wallpaper-blob--3"></i>
-  <i class="wallpaper-blob wallpaper-blob--4"></i>
-</div>
+/* ───────────── Backdrops: generated plates behind the stage ───────────── */
+.backdrops{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.plate{
+  position:absolute;inset:-6% 0 0 0;height:106%;
+  background-size:cover;background-position:center 40%;
+  opacity:0;transition:opacity 1.4s var(--ease-out);
+  will-change:transform,opacity;
+}
+.plate::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(9,10,15,.55) 0%,rgba(9,10,15,.25) 30%,rgba(9,10,15,.7) 72%,var(--bg) 100%),
+  linear-gradient(90deg,rgba(9,10,15,.5) 0%,transparent 45%,transparent 70%,rgba(9,10,15,.4) 100%)}
+.plate.sea{background-image:url(assets/home/hero-sea.webp)}
+.plate.desk{background-image:url(assets/home/night-desk.webp);background-position:center 60%}
+body[data-bg="sea"] .plate.sea{opacity:.78}
+body[data-bg="desk"] .plate.desk{opacity:.55}
+.atmos{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.atmos .glow{
+  position:absolute;width:70vmax;height:70vmax;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(70,84,242,.2),rgba(70,84,242,.05) 45%,transparent 72%);
+  filter:blur(10px);left:50%;top:30%;transform:translate(-50%,-50%);
+  animation:drift 22s var(--ease-out) infinite alternate;will-change:transform;
+}
+.atmos .glow.b{width:46vmax;height:46vmax;left:75%;top:70%;
+  background:radial-gradient(closest-side,rgba(255,255,255,.05),transparent 70%);
+  animation-duration:31s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translate(-50%,-50%) translate3d(-6vw,-3vh,0) scale(1)}to{transform:translate(-50%,-50%) translate3d(8vw,6vh,0) scale(1.12)}}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ───────────── Nav ───────────── */
+.nav{
+  position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;z-index:50;transform:translateX(-50%);
+  display:flex;align-items:center;gap:6px;height:var(--nav-h);padding:6px 8px 6px 14px;border-radius:999px;
+  background:rgba(14,16,24,.55);border:1px solid var(--line);
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+  box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+  animation:navIn .9s var(--spring) both;animation-delay:.05s;max-width:calc(100vw - 32px);
+}
+@keyframes navIn{from{opacity:0;transform:translateX(-50%) translateY(-18px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.nav .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;letter-spacing:-.01em;padding-right:10px;white-space:nowrap}
+.nav .mark{width:24px;height:24px;border-radius:7px;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.1);transition:transform .5s var(--snap)}
+.nav .brand:hover .mark{transform:scale(1.06)}
+.nav .links{display:flex;gap:2px;padding:0 6px;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.nav .links a{position:relative;padding:8px 11px;border-radius:999px;font-size:.84rem;color:var(--on-2);transition:color .35s var(--snap),background-color .35s var(--snap)}
+.nav .links a:hover{color:var(--on);background:var(--glass)}
+.nav .links a[aria-current="true"]{color:var(--on);background:var(--glass-strong)}
+.nav .idx{font-variant-numeric:tabular-nums;font-size:.8rem;color:var(--on-3);padding:0 10px;letter-spacing:.06em;white-space:nowrap}
+.nav .gh{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 14px;border-radius:999px;background:var(--on);color:#0b0c12;font-size:.84rem;font-weight:600;transition:transform .5s var(--snap),box-shadow .5s var(--snap);white-space:nowrap}
+.nav .gh:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(255,255,255,.18)}
+.nav .gh:active{transform:translateY(0) scale(.97)}
+.nav .gh svg{width:15px;height:15px}
+
+/* ───────────── Stage ───────────── */
+.stage{position:relative;z-index:1;width:min(var(--max),100%);margin:0 auto;padding:0 var(--gutter);
+  display:grid;grid-template-columns:1.15fr .85fr;column-gap:clamp(24px,4vw,64px)}
+.copy{min-width:0}
+.rail{position:relative;min-width:0}
+.stick{position:sticky;top:calc((100vh - var(--ph)) / 2);height:var(--ph);display:flex;align-items:center;justify-content:center}
+
+/* ───────────── Hero ───────────── */
+.hero{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--nav-h) + 40px) 0 48px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-3);font-variation-settings:"opsz" 12,"wdth" 100}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--klein-soft);opacity:.7}
+h1{margin-top:22px;font-size:clamp(3rem,8.4vw,9.4rem);font-weight:700;letter-spacing:-.045em;line-height:.9;font-variation-settings:"opsz" 96,"wdth" 88;text-wrap:balance;max-width:11ch}
+h1 .light{font-weight:260;letter-spacing:-.035em;font-variation-settings:"opsz" 96,"wdth" 96}
+h1 .k{color:var(--klein-soft)}
+.lede{margin-top:28px;max-width:44ch;font-size:clamp(1.02rem,1.3vw,1.25rem);line-height:1.55;color:var(--on-2);font-variation-settings:"opsz" 18,"wdth" 100}
+.cta-row{margin-top:36px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.cta{position:relative;display:inline-flex;align-items:center;gap:12px;height:54px;padding:0 10px 0 26px;border-radius:999px;
+  background:var(--klein);color:#fff;font-weight:600;font-size:.95rem;letter-spacing:-.005em;
+  box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 14px 40px rgba(31,43,212,.35);
+  transition:transform .55s var(--snap),box-shadow .55s var(--snap),background-color .4s var(--snap);overflow:hidden}
+.cta .arr{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;transition:transform .55s var(--snap)}
+.cta .arr svg{width:14px;height:14px}
+.cta:hover{transform:translateY(-2px);background:var(--klein-bright);box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 22px 56px rgba(31,43,212,.45)}
+.cta:hover .arr{transform:translateX(3px)}
+.cta:active{transform:translateY(0) scale(.98)}
+.cta-note{font-size:.84rem;color:var(--on-3)}
+.cta-note b{color:var(--on-2);font-weight:500}
+.spec-line{margin-top:auto;padding-top:48px;display:flex;gap:28px;flex-wrap:wrap;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--on-3);font-variation-settings:"opsz" 12}
+.spec-line span{display:inline-flex;align-items:center;gap:10px}
+.spec-line span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--klein-soft);opacity:.75}
+
+/* ───────────── Phone ───────────── */
+.phone-wrap{perspective:1600px;perspective-origin:50% 45%}
+.phone{position:relative;width:var(--pw);height:var(--ph);border-radius:calc(var(--pw) * .13);background:#07080c;padding:calc(var(--pw) * .028);
+  box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 0 calc(var(--pw) * .012) #0d0f16,0 0 0 calc(var(--pw) * .012 + 1px) rgba(255,255,255,.08),0 60px 140px rgba(0,0,0,.65),0 24px 48px rgba(0,0,0,.45);
+  transform-style:preserve-3d;will-change:transform;animation:phoneIn 1.3s var(--spring) both;animation-delay:.25s}
+@keyframes phoneIn{from{opacity:0;transform:translateY(80px) rotateX(10deg) scale(.96)}to{opacity:1;transform:translateY(0) rotateX(0) scale(1)}}
+.phone .screen{position:absolute;inset:calc(var(--pw) * .028);border-radius:calc(var(--pw) * .105);overflow:hidden;background:#05060a;transform:translateZ(0)}
+.phone .layer,.phone .frame{position:absolute;inset:0}
+.phone .layer{opacity:0;transform:scale(1.05);transition:opacity .8s var(--ease-out),transform 1.1s var(--ease-out);pointer-events:none}
+.phone .layer.on{opacity:1;transform:scale(1)}
+.phone .frame{opacity:0;transition:opacity .7s var(--ease-out)}
+.phone .frame.on{opacity:1}
+.phone .frame video,.phone .frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.phone::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:3;
+  background:linear-gradient(118deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.02) 22%,transparent 40%,transparent 68%,rgba(255,255,255,.05) 100%);mix-blend-mode:screen}
+.phone .punch{position:absolute;z-index:4;left:50%;top:calc(var(--pw) * .055);width:calc(var(--pw) * .052);height:calc(var(--pw) * .052);border-radius:50%;background:#000;transform:translateX(-50%);box-shadow:0 0 0 1.5px rgba(255,255,255,.06)}
+/* caption under the phone naming what is on screen */
+.cap{position:absolute;left:50%;bottom:calc(-1 * clamp(28px,3vh,40px));transform:translateX(-50%) translateY(6px);white-space:nowrap;
+  font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--on-3);opacity:0;transition:opacity .6s var(--ease-out),transform .8s var(--spring)}
+.cap.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Pills: one or two per frame, naming what the phone is showing.
+   Enter on the spring (physical), leave on the snap (system response). */
+.chips{position:absolute;inset:0;pointer-events:none}
+.chip{position:absolute;display:inline-flex;align-items:center;gap:9px;padding:9px 13px 9px 10px;border-radius:999px;
+  background:rgba(16,18,28,.66);border:1px solid var(--line);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:0 10px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08);font-size:.8rem;color:var(--on-2);white-space:nowrap;
+  opacity:0;transform:translateY(14px) scale(.96);
+  transition:opacity .5s var(--ease-out),transform .75s var(--spring);transition-delay:var(--d,0s)}
+.chip b{color:var(--on);font-weight:600}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--klein-soft);box-shadow:0 0 12px var(--klein-soft)}
+.chip.in{opacity:1;transform:translateY(0) scale(1);animation:float 6s ease-in-out infinite alternate;animation-delay:var(--f,0s)}
+.chip.out{opacity:0;transform:translateY(-10px) scale(.98);transition:opacity .22s var(--snap),transform .22s var(--snap);transition-delay:0s;animation:none}
+.chip[data-slot="l1"]{left:-6%;top:14%} .chip[data-slot="r1"]{right:-8%;top:24%}
+.chip[data-slot="l2"]{left:-10%;top:46%} .chip[data-slot="r2"]{right:-4%;top:58%}
+.chip[data-slot="l3"]{left:2%;top:80%} .chip[data-slot="r3"]{right:-2%;top:86%}
+@keyframes float{from{translate:0 0}to{translate:0 -8px}}
+
+/* ───────────── Chapters ───────────── */
+.chapters{padding-bottom:calc(var(--ph) / 2 - 6vh)}
+.chapter{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:10vh 0}
+.chapter .num{display:flex;align-items:center;gap:14px;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-3);font-variant-numeric:tabular-nums}
+.chapter .num b{color:var(--klein-soft);font-weight:600}
+.chapter .num::after{content:"";flex:0 0 40px;height:1px;background:var(--line)}
+.chapter h2{margin-top:20px;font-size:clamp(2.3rem,4.9vw,5.4rem);font-weight:600;letter-spacing:-.04em;line-height:.95;font-variation-settings:"opsz" 96,"wdth" 90;max-width:14ch;text-wrap:balance}
+.chapter h2 .light{font-weight:260;letter-spacing:-.03em}
+.chapter .lede{margin-top:22px;max-width:46ch;font-size:clamp(1rem,1.2vw,1.15rem)}
+.specs{margin-top:36px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;border-top:1px solid var(--line)}
+.specs div{padding:16px 0 15px;border-bottom:1px solid var(--line);min-width:0}
+.specs dt{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--on-3)}
+.specs dd{margin-top:5px;font-size:.98rem;color:var(--on-2);line-height:1.4;font-variation-settings:"opsz" 16}
+.specs dd b{color:var(--on);font-weight:500}
+.chapter .more{margin-top:26px;display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--on-2);transition:color .35s var(--snap)}
+.chapter .more::after{content:"";width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg);transition:transform .45s var(--snap)}
+.chapter .more:hover{color:var(--on)}
+.chapter .more:hover::after{transform:rotate(-45deg) translate(2px,2px)}
+
+.reveal{opacity:0;transform:translateY(26px);filter:blur(8px);transition:opacity .8s var(--ease-out),transform .9s var(--ease-out),filter .8s var(--ease-out);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none;filter:blur(0)}
+.wsplit .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding:.06em .14em .08em .04em;margin:-.06em -.14em -.08em -.04em}
+.wsplit .w>span{display:inline-block;transform:translateY(112%);transition:transform 1.05s var(--spring);transition-delay:var(--d,0s)}
+.wsplit.in .w>span{transform:translateY(0)}
+
+/* ───────────── Closer ───────────── */
+.closer{position:relative;z-index:1;width:min(var(--max),100%);margin:0 auto;padding:16vh var(--gutter) 10vh;text-align:center}
+.closer .pane{position:relative;overflow:hidden;border-radius:40px;padding:clamp(56px,9vw,120px) clamp(24px,6vw,96px);
+  background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 40px 120px rgba(0,0,0,.5)}
+.closer .pane .img{position:absolute;inset:0;background:url(assets/home/glass-panes.webp) center/cover no-repeat;opacity:.55;transform:scale(1.04);transition:transform 6s var(--ease-out)}
+.closer .pane .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,17,24,.35),rgba(15,17,24,.75))}
+.closer .pane:hover .img{transform:scale(1)}
+.closer h2{position:relative;font-size:clamp(2.6rem,6.4vw,7rem);font-weight:700;letter-spacing:-.045em;line-height:.92;font-variation-settings:"opsz" 96,"wdth" 88;text-wrap:balance}
+.closer h2 .light{font-weight:260}
+.closer p{position:relative;margin:24px auto 0;max-width:46ch;color:var(--on-2);font-size:clamp(1rem,1.25vw,1.2rem)}
+.closer .cta-row{position:relative;justify-content:center;margin-top:40px}
+.closer .links{position:relative;margin-top:28px;display:flex;justify-content:center;gap:26px;font-size:.88rem;color:var(--on-3)}
+.closer .links a{transition:color .35s var(--snap)}
+.closer .links a:hover{color:var(--on)}
+footer{position:relative;z-index:1;width:min(var(--max),100%);margin:0 auto;padding:0 var(--gutter) 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--on-4);letter-spacing:.04em}
+
+/* ───────────── Responsive ───────────── */
+@media (max-width:1100px){:root{--ph:min(70vh,760px)} .stage{grid-template-columns:1.1fr .9fr} h1{max-width:9ch}}
+@media (max-width:860px){
+  :root{--ph:min(42vh,520px);--nav-h:50px}
+  .nav .links,.nav .idx{display:none}
+  .nav{padding-left:12px} .nav .gh{height:36px;padding:0 13px}
+  .stage{grid-template-columns:1fr;column-gap:0}
+  .rail{order:-1;position:sticky;top:calc(var(--nav-h) + 28px + env(safe-area-inset-top,0px));z-index:2;height:calc(var(--ph) + 18px);
+    margin:0 calc(var(--gutter) * -1);padding:0 var(--gutter);
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 78%,transparent 100%);pointer-events:none}
+  .stick{position:static;height:var(--ph);justify-content:center;padding-top:6px}
+  .phone{pointer-events:auto}
+  .cap{display:none}
+  .hero{min-height:0;padding:28px 0 56px;justify-content:flex-start}
+  h1{font-size:clamp(2.6rem,12.5vw,4.8rem);max-width:none}
+  .lede{max-width:none}
+  .spec-line{padding-top:36px;gap:16px}
+  .chapter{min-height:0;padding:9vh 0} .chapter h2{max-width:none}
+  .specs{grid-template-columns:1fr}
+  .chips{display:none}
+  .closer .pane{border-radius:28px}
+  .atmos .glow{filter:blur(6px)}
+}
+@media (max-width:460px){:root{--ph:min(36vh,420px)} .cta{height:50px;padding-left:22px} .nav .brand span{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .nav,.phone{animation:none} .atmos .glow{animation:none}
+  .reveal{opacity:1;transform:none;filter:none;transition:none}
+  .wsplit .w>span{transform:none;transition:none}
+  .phone .layer{transition:opacity .4s linear;transform:none}
+  .chip.in{animation:none}
+  .plate{transition:none}
+}
+</style>
+</head>
+<body data-bg="sea">
+
+<div class="backdrops" aria-hidden="true"><div class="plate sea" id="plateSea"></div><div class="plate desk" id="plateDesk"></div></div>
+<div class="atmos" aria-hidden="true"><div class="glow"></div><div class="glow b"></div></div>
 <div class="grain" aria-hidden="true"></div>
 
-<div id="tl" class="tl">
+<nav class="nav" aria-label="Primary">
+  <a class="brand" href="#top"><img class="mark" src="assets/icons/termux-launcher.png" alt="" width="24" height="24"><span>Termux Launcher</span></a>
+  <div class="links">
+    <a href="#terminal" data-nav="terminal">Terminal</a>
+    <a href="#widgets" data-nav="widgets">Widgets</a>
+    <a href="#display" data-nav="display">Display</a>
+    <a href="#look" data-nav="look">Look</a>
+    <a href="#ai" data-nav="ai">AI</a>
+  </div>
+  <span class="idx" id="idx" aria-live="polite">00 / 05</span>
+  <a class="gh" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
+</nav>
 
-  <!-- ===================== NAV ===================== -->
-  <nav class="site-nav glass glass--fixed">
-    <div class="site-nav-inner">
-      <button class="brand-button" data-nav="setup" aria-label="Go to overview">
-        <img src="assets/icons/termux-launcher.png" alt="" width="30" height="30">
-        <span>Termux Launcher</span>
-      </button>
-      <div class="nav-tabs">
-        <i class="nav-indicator" aria-hidden="true"></i>
-        <button data-nav="setup">About</button>
-        <button data-nav="wiki">Docs</button>
-        <button data-nav="ai">Termux&nbsp;AI</button>
+<main class="stage" id="top">
+  <div class="copy">
+
+    <header class="hero">
+      <p class="eyebrow reveal" style="--d:.15s">Android home launcher</p>
+      <h1 class="wsplit" data-split><span class="light">The terminal</span><br>is the <span class="k">home&nbsp;screen.</span></h1>
+      <p class="lede reveal" style="--d:.55s">A full Linux terminal, your widgets, a Linux display and on-device AI, behind one piece of glass.</p>
+      <div class="cta-row reveal" style="--d:.7s">
+        <a class="cta" href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">
+          Get the app
+          <span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+        <span class="cta-note">Free and open source. <b>Built on Termux.</b></span>
       </div>
-      <div class="nav-actions">
-        <a class="nav-link" data-hide-sm href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
-        <button class="download-button btn btn--primary btn--sm" data-nav="setup" data-scrollto="tl-install">Install</button>
-      </div>
+      <p class="spec-line reveal" style="--d:.9s"><span>Full Linux terminal</span><span>Android widgets</span><span>X11 display</span><span>Private on-device AI</span></p>
+    </header>
+
+    <div class="chapters">
+
+      <section class="chapter" id="terminal" data-chapter="terminal">
+        <p class="num reveal"><b>01</b> Terminal</p>
+        <h2 class="wsplit" data-split><span class="light">A modern terminal,</span><br>as your Android home.</h2>
+        <p class="lede reveal" style="--d:.2s">Woven into Android itself. Run the TUI apps you use every day, launch anything from the dock, and answer a notification with a swipe up on its app icon.</p>
+        <dl class="specs">
+          <div class="reveal" style="--d:.25s"><dt>Panes</dt><dd><b>Split, move, resize.</b> Sessions hold windows, windows hold panes. No tmux needed.</dd></div>
+          <div class="reveal" style="--d:.31s"><dt>Command palette</dt><dd><b>Every action, one swipe.</b> Swipe up on the space bar and type.</dd></div>
+          <div class="reveal" style="--d:.37s"><dt>Keyboard</dt><dd><b>A port of Julow's Unexpected Keyboard.</b> Theme it, set any font, reshape the layout, keep a clipboard inside it.</dd></div>
+          <div class="reveal" style="--d:.43s"><dt>Touch</dt><dd><b>Drag a pane's edge to resize it.</b> Swap two panes with a two-finger swipe. Pinch to zoom one pane.</dd></div>
+          <div class="reveal" style="--d:.49s"><dt>Status bar</dt><dd><b>Swipe down from the terminal's top edge.</b> Now playing, live system stats through Shizuku, and the notifications you marked essential.</dd></div>
+          <div class="reveal" style="--d:.55s"><dt>tlstore</dt><dd><b>Builds patched for the launcher.</b> fastfetch that plays GIFs, and dawn, a notes app that writes, searches and speaks with the models on your phone.</dd></div>
+          <div class="reveal" style="--d:.61s"><dt>Graphics</dt><dd><b>Kitty and sixel.</b> Images and previews render inline, in the shell.</dd></div>
+        </dl>
+        <a class="more reveal" style="--d:.62s" href="docs/#wiki/panes" target="_blank" rel="noopener">Panes and sessions</a>
+      </section>
+
+      <section class="chapter" id="widgets" data-chapter="widgets">
+        <p class="num reveal"><b>02</b> Widgets</p>
+        <h2 class="wsplit" data-split>Your widgets,<br><span class="light">one swipe left.</span></h2>
+        <p class="lede reveal" style="--d:.2s">A page for the widgets you actually need. Eleven first-party ones ship with it, drawn in the launcher's own theme, beside any Android widget.</p>
+        <dl class="specs">
+          <div class="reveal" style="--d:.25s"><dt>Get there</dt><dd><b>Hold the pane border and swipe,</b> or tap the house icon at the status bar's edge.</dd></div>
+          <div class="reveal" style="--d:.31s"><dt>Built in</dt><dd><b>Analog and Digital clock, Agenda, Calendar, Weather, Battery, System, Media, Notifications, Tasks, Scratchpad.</b></dd></div>
+          <div class="reveal" style="--d:.37s"><dt>Add</dt><dd><b>Hold the page</b> to add a widget or edit the ones you have.</dd></div>
+          <div class="reveal" style="--d:.43s"><dt>Edit mode</dt><dd><b>Hold the pane border</b> for more controls. In edit mode, set the grid's rows and columns.</dd></div>
+        </dl>
+        <a class="more reveal" style="--d:.62s" href="docs/#wiki/widgets" target="_blank" rel="noopener">The Widgets page</a>
+      </section>
+
+      <section class="chapter" id="display" data-chapter="display">
+        <p class="num reveal"><b>03</b> Display</p>
+        <h2 class="wsplit" data-split><span class="light">A third place:</span><br>a Linux desktop.</h2>
+        <p class="lede reveal" style="--d:.2s">A built-in X11 display, so the full GUI apps in the termux-x11 repository run on the phone too.</p>
+        <dl class="specs">
+          <div class="reveal" style="--d:.25s"><dt>Server</dt><dd><b>Install from the termux-x11 repository</b> and the app lands in the drawer. Launch it like any Android app.</dd></div>
+          <div class="reveal" style="--d:.31s"><dt>Reach it</dt><dd>Hold the pane border and drag, tap the screen glyph at the status bar's edge, or bind <b>Go to Display</b>.</dd></div>
+          <div class="reveal" style="--d:.37s"><dt>Controls</dt><dd><b>Hold the display's border</b> for its controls: change scaling on the fly, or switch the display off to free resources.</dd></div>
+          <div class="reveal" style="--d:.43s"><dt>Windows</dt><dd>The status bar lists the display's windows. Tap one to switch, tap it again for a close button.</dd></div>
+          <div class="reveal" style="--d:.49s"><dt>Touchpad</dt><dd><b>A touchpad mode that behaves like a touch screen.</b> Scroll with one finger, tap a text field and the keyboard rises.</dd></div>
+        </dl>
+        <a class="more reveal" style="--d:.62s" href="docs/#wiki/display" target="_blank" rel="noopener">Linux display</a>
+      </section>
+
+      <section class="chapter" id="look" data-chapter="look">
+        <p class="num reveal"><b>04</b> Look &amp; layout</p>
+        <h2 class="wsplit" data-split>Glass, Material,<br><span class="light">laid out your way.</span></h2>
+        <p class="lede reveal" style="--d:.2s">Four sane defaults, or tune every element yourself.</p>
+        <dl class="specs">
+          <div class="reveal" style="--d:.25s"><dt>Look</dt><dd><b>Clear, Mist, Tint, Solid, Custom.</b> At Custom: blur, grain, opacity, tint, margin and corner radius, per surface.</dd></div>
+          <div class="reveal" style="--d:.31s"><dt>Clock</dt><dd>Tap the status bar to tune it on its own, with faces <b>Flip, LCD, Minimal, LED matrix, Tape, Slab</b>.</dd></div>
+          <div class="reveal" style="--d:.37s"><dt>Layout</dt><dd><b>Docked or floating.</b> Corners, margin, hidden elements. Portrait and landscape each keep their own.</dd></div>
+          <div class="reveal" style="--d:.43s"><dt>Wallpaper</dt><dd>Set it from Appearance and the glass gains AGSL-shaded effects and a parallax scroll under the wallpaper.</dd></div>
+          <div class="reveal" style="--d:.49s"><dt>Icons</dt><dd>System icons or any installed icon pack, for the pinned row only if you prefer.</dd></div>
+          <div class="reveal" style="--d:.55s"><dt>Effects</dt><dd>Cursor trails and terminal effects, a contrast control for the terminal, size and icons for the dock.</dd></div>
+        </dl>
+        <a class="more reveal" style="--d:.62s" href="docs/#wiki/look" target="_blank" rel="noopener">Look and themes</a>
+      </section>
+
+      <section class="chapter" id="ai" data-chapter="ai">
+        <p class="num reveal"><b>05</b> On-device AI</p>
+        <h2 class="wsplit" data-split><span class="light">Models that</span><br>live on the phone.</h2>
+        <p class="lede reveal" style="--d:.2s">Speech in, speech out, an assistant, a search index. Even the app drawer is sorted by a model that never leaves the phone.</p>
+        <dl class="specs">
+          <div class="reveal" style="--d:.25s"><dt>Drawer</dt><dd><b>Categories, sorted on the phone.</b> Gemma groups your installed apps into Communication, Work, Photo, Desktops, Linux apps and more. Nothing leaves the device.</dd></div>
+          <div class="reveal" style="--d:.31s"><dt>Runtimes</dt><dd><b>LiteRT-LM</b> by Google and <b>MNN-LLM</b> by Alibaba. CPU or GPU, picked per function.</dd></div>
+          <div class="reveal" style="--d:.37s"><dt>Endpoint</dt><dd><b>OpenAI and Ollama compatible</b> APIs on localhost. Existing SDKs and tools just work.</dd></div>
+          <div class="reveal" style="--d:.43s"><dt>Speech</dt><dd><b>Whisper and Parakeet</b> for voice typing, and Gemma tidies what you said. <b>KittenTTS</b> reads aloud.</dd></div>
+          <div class="reveal" style="--d:.49s"><dt>Modalities</dt><dd>Text, vision and audio input. Embeddings for search by meaning. Image generation.</dd></div>
+          <div class="reveal" style="--d:.55s"><dt>Model centre</dt><dd>One row per job: Automatic, On this phone, Remote or Off. Benchmark the models to find what suits your phone.</dd></div>
+        </dl>
+        <a class="more reveal" style="--d:.62s" href="docs/#wiki/on-device-ai" target="_blank" rel="noopener">On-device AI</a>
+      </section>
+
     </div>
-  </nav>
+  </div>
 
-  <!-- ==================================================== -->
-  <!-- ====================  1:SETUP  ===================== -->
-  <!-- ==================================================== -->
-  <section class="about-view" data-view="setup" data-screen-label="1 About" style="display:block">
-
-    <!-- hero -->
-    <section class="hero" data-hero>
-      <div class="hero-copy">
-        <p class="hero-eyebrow" data-hero-item>An Android home app built on Termux</p>
-        <h1 class="hero-title" data-hero-item aria-label="Your home screen is a terminal.">
-          <span class="word-mask"><span class="word">Your</span></span>
-          <span class="word-mask"><span class="word">home</span></span>
-          <span class="word-mask"><span class="word">screen</span></span>
-          <span class="word-mask"><span class="word">is</span></span>
-          <span class="word-mask"><span class="word hero-title-mono">a terminal.<i class="hero-cursor" aria-hidden="true"></i></span></span>
-        </h1>
-        <a class="hero-cta btn btn--primary" data-hero-item data-scrollto="tl-install" href="#setup">Get the APK</a>
-      </div>
-      <div class="hero-phone" data-phone>
-        <div class="phone-frame glass glass--fixed">
-          <video class="phone-video" src="assets/screen-20260803-124853-web.mp4" poster="assets/screen-recording-poster.jpg" muted autoplay loop playsinline preload="metadata" width="720" height="1608" aria-label="Termux Launcher workflow screen recording"></video>
-          <img class="phone-shot" data-shot="home" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          <img class="phone-shot" data-shot="clock" src="assets/shots/clock.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          <img class="phone-shot" data-shot="kew" src="assets/shots/kew.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          <img class="phone-shot" data-shot="notify" src="assets/shots/notify.jpeg" alt="" width="957" height="2048" loading="lazy" decoding="async">
-          <img class="phone-shot" data-shot="rainbow" src="assets/shots/rainbow.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          <img class="phone-shot" data-shot="settings" src="assets/shots/settings.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-        </div>
-      </div>
-      <div class="hero-strip" data-hero-item>
-        <span data-release-tag="PickleHik3/termux-launcher:main">latest release</span>
-        <span>GPL-3.0-only</span>
-        <span>Android 8+</span>
-      </div>
-    </section>
-
-    <!-- spine: the 10 additions -->
-    <section class="spine section" data-spine>
-      <div class="spine-head">
-        <p class="rule" data-reveal>On top of official Termux <span></span> 10 additions</p>
-      </div>
-      <div class="spine-grid">
-        <ol class="spine-chapters">
-          <li class="chapter glass" data-chapter="01" data-shot="kew" data-reveal>
-            <em>01</em>
-            <h3>Terminal</h3>
-            <p>Sixel + Kitty graphics, Kitty fonts and shaping, animated cursor, TUI-aware touch</p>
-            <img class="chapter-shot" src="assets/shots/kew.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="02" data-shot="home" data-reveal>
-            <em>02</em>
-            <h3>In-app multiplexer</h3>
-            <p>Sessions, windows, panes, floating panes, pinch zoom per pane</p>
-            <img class="chapter-shot" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="03" data-shot="clock" data-reveal>
-            <em>03</em>
-            <h3>In-app status bar</h3>
-            <p>Sessions, real CPU &amp; RAM, weather, a slide-down clock and widgets page</p>
-            <img class="chapter-shot" src="assets/shots/clock.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="04" data-shot="home" data-reveal>
-            <em>04</em>
-            <h3>Command palette</h3>
-            <p>Every launcher action - swipe up on the space bar and type</p>
-            <img class="chapter-shot" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="05" data-shot="rainbow" data-reveal>
-            <em>05</em>
-            <h3>In-app keyboard</h3>
-            <p>Julow's Unexpected Keyboard built in, custom layouts included</p>
-            <img class="chapter-shot" src="assets/shots/rainbow.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="06" data-shot="notify" data-reveal>
-            <em>06</em>
-            <h3>Quick reply</h3>
-            <p>Answer a notification without opening the app</p>
-            <img class="chapter-shot" src="assets/shots/notify.jpeg" alt="" width="957" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="07" data-shot="home" data-reveal>
-            <em>07</em>
-            <h3>App drawer + dock</h3>
-            <p>Pin what you use, search the rest, clones and work profiles included</p>
-            <img class="chapter-shot" src="assets/shots/home.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="08" data-shot="rainbow" data-reveal>
-            <em>08</em>
-            <h3>Material themes</h3>
-            <p>Wallpaper colours across launcher surfaces and the shell</p>
-            <img class="chapter-shot" src="assets/shots/rainbow.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="09" data-shot="settings" data-reveal>
-            <em>09</em>
-            <h3>Shizuku integration</h3>
-            <p>Optional - detailed system stats, process labels, power-button lock</p>
-            <img class="chapter-shot" src="assets/shots/settings.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-          <li class="chapter glass" data-chapter="10" data-shot="settings" data-reveal>
-            <em>10</em>
-            <h3>Local LLM backends</h3>
-            <p>Google LiteRT and Alibaba MNN, over an OpenAI/Ollama-compatible API</p>
-            <img class="chapter-shot" src="assets/shots/settings.jpeg" alt="" width="917" height="2048" loading="lazy" decoding="async">
-          </li>
-        </ol>
-        <div class="spine-phone-slot" data-phone-slot aria-hidden="true"></div>
-      </div>
-    </section>
-
-    <!-- what it actually is -->
-    <section class="statements-section section">
-      <p class="rule" data-reveal>What it actually is <span></span></p>
-      <hr class="divider" data-reveal>
-      <div class="statements" data-reveal-stagger>
-        <div class="line-mask"><p class="statement">It starts from Termux and makes it the thing your home button opens. <code>pkg</code>, the repos and everything you know keep working.</p></div>
-        <div class="line-mask"><p class="statement">On top: a multiplexer with pinch zoom per pane, Sixel and Kitty graphics, and a command palette that reaches every launcher feature.</p></div>
-        <div class="line-mask"><p class="statement">And it stays a launcher: dock and drawer, quick replies from the terminal, Material colours from your wallpaper, local models over an OpenAI-compatible API.</p></div>
-      </div>
-    </section>
-
-    <!-- install -->
-    <section class="install section" id="tl-install">
-      <p class="rule" data-reveal>Install <span></span> one APK</p>
-      <h2 class="section-title" data-reveal="blur">Pick an edition, then set it as home.</h2>
-      <p class="install-lead" data-reveal>You only need the Main APK to try it — on first launch it downloads its bootstrap packages. Termux:API and Termux:Styling are optional; if you use either, take the one matching your edition, since Android rejects mismatched signatures. Styling is largely unnecessary anyway — fonts and colors are handled in-app.</p>
-      <div class="edition-grid" id="setup-downloads" data-reveal-stagger>
-        <div class="edition-slot">
-          <article class="edition-card glass gradient-border recommended" data-tilt>
-            <span class="edition-badge">Recommended</span>
-            <div class="edition-body">
-              <div class="edition-package">com.termux</div>
-              <h3>Termux edition</h3>
-              <p>Official Termux package ecosystem and timely updates. All four Android ABIs. Cannot be installed alongside official Termux.</p>
-              <a class="edition-link btn btn--primary" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:main" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:main">latest</span> ↗</a>
+  <aside class="rail" id="rail" aria-label="Phone preview">
+    <div class="stick">
+      <div class="phone-wrap">
+        <div class="phone" id="phone">
+          <div class="screen">
+            <div class="layer on" data-layer="hero">
+              <div class="frame on" data-cap="Home · terminal"><video muted loop playsinline autoplay preload="auto" poster="assets/home/hero-poster.webp"><source src="assets/home/hero.webm" type="video/webm"><source src="assets/home/hero.mp4" type="video/mp4"></video></div>
             </div>
-          </article>
-        </div>
-        <div class="edition-slot">
-          <article class="edition-card glass" data-tilt>
-            <div class="edition-body">
-              <div class="edition-package alt">com.termux.launcher.nix</div>
-              <h3>Nix edition</h3>
-              <p>The entire nixpkgs collection, declarative configs and rollbacks, side by side with official Termux. arm64-v8a and x86_64. Companions: <a class="link-slide" href="https://github.com/PickleHik3/termux-api/releases/tag/nix-v0.53.1" target="_blank" rel="noopener">TLNix:API</a> · <a class="link-slide" href="https://github.com/PickleHik3/termux-styling/releases/tag/nix-v0.32.2" target="_blank" rel="noopener">TLNix:Styling</a>.</p>
-              <a class="edition-link edition-alt-link btn btn--ghost" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:nix" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:nix">v0.2.35-a-nix</span> ↗</a>
+            <div class="layer" data-layer="terminal">
+              <div class="frame" data-cap="Panes" data-pills='[["Panes","split, move, resize","r1"],["No tmux","sessions, windows, panes","l2"]]'><video muted playsinline preload="none" poster="assets/home/mux-poster.webp"><source src="assets/home/mux.webm" type="video/webm"><source src="assets/home/mux.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="Status bar" data-pills='[["Status bar","swipe down for the clock","l1"],["tlstore","tools from inside the terminal","r2"]]'><video muted playsinline preload="none" poster="assets/home/statusbar-poster.webp"><source src="assets/home/statusbar.webm" type="video/webm"><source src="assets/home/statusbar.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="dawn · notes in the terminal" data-pills='[["dawn","write now, in the terminal","r1"],["Headings, math, tables","rendered in the pane","l2"]]'><video muted playsinline preload="none" poster="assets/home/dawn-poster.webp"><source src="assets/home/dawn.webm" type="video/webm"><source src="assets/home/dawn.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="tlstore" data-pills='[["tlstore","btop, coding agents, more","r1"],["Live previews","italics, right in the list","l3"]]'><video muted playsinline preload="none" poster="assets/home/tlstore-poster.webp"><source src="assets/home/tlstore.webm" type="video/webm"><source src="assets/home/tlstore.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="fastfetch" data-pills='[["fastfetch","an animated logo in the shell","l1"]]'><video muted playsinline preload="none" poster="assets/home/fastfetch-poster.webp"><source src="assets/home/fastfetch.webm" type="video/webm"><source src="assets/home/fastfetch.mp4" type="video/mp4"></video></div>
             </div>
-          </article>
-        </div>
-        <div class="edition-slot">
-          <article class="edition-card glass" data-tilt>
-            <div class="edition-body">
-              <div class="edition-package alt">io.vaj.tl</div>
-              <h3>Demo edition</h3>
-              <p>Runs off a manually compiled package repo that is not updated anymore — at most consider it a demo of the launcher, not for daily use. Installs alongside official Termux. arm64-v8a only.<br><a class="edition-migrate-link link-slide" href="migrate-vaj.html">Deprecated · VAJ → Nix migration guide</a></p>
-              <a class="edition-link edition-alt-link btn btn--ghost" href="https://github.com/PickleHik3/termux-launcher/releases" data-release-link="PickleHik3/termux-launcher:vaj" target="_blank" rel="noopener">Releases · <span data-release-tag="PickleHik3/termux-launcher:vaj">v0.2.35-a-vaj</span> ↗</a>
+            <div class="layer" data-layer="widgets">
+              <div class="frame" data-cap="Widgets page" data-pills='[["Widgets","one swipe left of the terminal","r1"],["Tasks, Scratchpad","plain files in ~/notes","l3"]]'><video muted loop playsinline preload="none" poster="assets/home/widgets-poster.webp"><source src="assets/home/widgets.webm" type="video/webm"><source src="assets/home/widgets.mp4" type="video/mp4"></video></div>
             </div>
-          </article>
-        </div>
-      </div>
-      <div class="install-next-grid glass" data-reveal-stagger>
-        <div><small>THEN, ONCE</small><p>Open it, let the bootstrap download finish and you land in the shell.<br>Settings <i>→</i> Launcher &amp; Apps <i>→</i> <strong>Set as default launcher</strong></p></div>
-        <div><small>OPTIONAL · QUICK START</small><p>One interactive script installs the shell from the demo videos — fish + a Material prompt that follows your wallpaper, eza, zoxide, Neovim and optional showcase tools. Every replaced config gets a <b>.bak</b> first. On the Nix edition the same setup is <b>setup-toolkits</b>.</p><button class="link-slide" data-article="shell-goodies">Shell setup script →</button> <button class="link-slide" data-article="nix">Nix: setup-toolkits →</button></div>
-        <div><p>Companions, ABIs, signing keys and the full walkthrough live in the docs.</p><button class="link-slide" data-article="overview">Full install guide →</button></div>
-      </div>
-    </section>
-
-    <!-- docs ticker -->
-    <section class="docs-ticker">
-      <div class="section">
-        <h2 class="section-title docs-ticker-title" data-reveal>Screenshots, keybinds and the rest are in the docs.</h2>
-      </div>
-      <div class="marquee" id="docs-marquee" data-reveal>
-        <div class="marquee-inner">
-          <button class="marquee-item glass glass--sm" data-article="install">Home launcher &amp; gestures <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="tour">Command palette <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="surface">Terminal, panes &amp; workspaces <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="shell">In-app keyboard <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="keybindings">Keybindings &amp; multiplexer <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="extra-keys">Extra Keys recipes <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="install" aria-hidden="true" tabindex="-1">Home launcher &amp; gestures <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="tour" aria-hidden="true" tabindex="-1">Command palette <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="surface" aria-hidden="true" tabindex="-1">Terminal, panes &amp; workspaces <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="shell" aria-hidden="true" tabindex="-1">In-app keyboard <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="keybindings" aria-hidden="true" tabindex="-1">Keybindings &amp; multiplexer <span>→</span></button>
-          <button class="marquee-item glass glass--sm" data-article="extra-keys" aria-hidden="true" tabindex="-1">Extra Keys recipes <span>→</span></button>
-        </div>
-      </div>
-      <div class="section marquee-controls" data-reveal>
-        <button class="marquee-toggle" type="button" data-marquee-toggle aria-pressed="false" aria-controls="docs-marquee">Pause ticker</button>
-      </div>
-    </section>
-  </section>
-
-
-  <!-- ==================================================== -->
-  <!-- ====================  2:WIKI  ====================== -->
-  <!-- ==================================================== -->
-  <section data-view="wiki" data-screen-label="2 Docs" style="display:none">
-    <div class="wiki-layout">
-      {% assign wiki_articles = site.wiki | sort: "order" %}
-
-      <aside class="wiki-sidebar glass">
-        <div class="wiki-sidebar-title">Documentation</div>
-        <nav class="wiki-article-nav">
-          {% for article in wiki_articles %}
-            {% assign article_filename = article.path | split: "/" | last %}
-            {% assign article_key = article_filename | split: "." | first %}
-            <button class="wiki-article-button" data-article="{{ article_key | escape }}">{{ article.title | escape }}</button>
-          {% endfor %}
-          <i class="wiki-sidebar-indicator" aria-hidden="true"></i>
-        </nav>
-        <div class="wiki-sidebar-links">
-          <a class="link-slide" data-nav="ai" href="#ai">Termux AI ↗</a>
-          <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub repo ↗</a>
-        </div>
-      </aside>
-
-      <main data-wiki-content>
-        {% if wiki_articles.size > 0 %}
-          {% for article in wiki_articles %}
-            {% assign article_filename = article.path | split: "/" | last %}
-            {% assign article_key = article_filename | split: "." | first %}
-            <article data-article-body="{{ article_key | escape }}" style="display:{% if forloop.first %}block{% else %}none{% endif %}">
-              <div class="wiki-kicker" data-reveal>DOCUMENTATION</div>
-              <h1 data-spy id="w-{{ article_key | escape }}" data-reveal>{{ article.title | escape }}</h1>
-              <div class="wiki-article-meta" data-reveal><span data-article-meta></span><i></i></div>
-              <div class="wiki-prose" data-reveal>{{ article.content | markdownify }}</div>
-            </article>
-          {% endfor %}
-        {% else %}
-          <div class="wiki-empty">
-            <div class="wiki-kicker">DOCUMENTATION</div>
-            <h1>No wiki pages yet</h1>
-            <p>Create the first page from the content manager.</p>
-          </div>
-        {% endif %}
-      </main>
-
-      <aside class="wiki-toc-col glass">
-        <div class="wiki-toc-title">On this page</div>
-        <nav class="wiki-inline-toc" data-wiki-toc aria-label="On this page"></nav>
-        <i class="wiki-toc-indicator" aria-hidden="true"></i>
-      </aside>
-
-    </div>
-  </section>
-
-  <!-- ==================================================== -->
-  <!-- ==================  3:TERMUX-AI  =================== -->
-  <!-- ==================================================== -->
-  <section data-view="ai" data-screen-label="3 Termux AI" style="display:none">
-    <!-- product hero -->
-    <div class="ai-hero">
-      <div class="ai-hero-kicker" data-reveal>TAI &middot; TERMUX AI</div>
-      <h1 class="ai-hero-title" data-reveal="blur">Local language models,<br><span class="ai-hero-accent">on your device.</span></h1>
-      <p class="ai-hero-lead" data-reveal>TAI hosts models locally and speaks OpenAI- and Ollama-compatible HTTP. Your prompts and output stay on the device unless you deliberately expose the API to your network.</p>
-    </div>
-
-    <!-- feature grid -->
-    <div class="ai-section">
-      <div class="ai-grid ai-grid--features" data-reveal-stagger>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9670;</div><div class="ai-card-title">On-device &amp; private</div><div class="ai-card-body">Localhost bind by default. Bearer-token auth on every request.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#8644;</div><div class="ai-card-title">OpenAI + Ollama</div><div class="ai-card-body">Drop-in for Codex, OpenCode, Crush, AIChat and Ollama clients.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9636;</div><div class="ai-card-title">Two backends</div><div class="ai-card-body">LiteRT-LM (default) and a bundled MNN backend, routed per model.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9881;</div><div class="ai-card-title">Isolated runtime</div><div class="ai-card-body">Native model work runs in its own :tai_runtime process, apart from the launcher.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#9680;</div><div class="ai-card-title">Capability-aware</div><div class="ai-card-body">Text, image, audio, tools, embeddings, each model reports what it serves.</div></div>
-        <div class="ai-card glass"><div class="ai-card-icon">&#8613;</div><div class="ai-card-title">Import your own</div><div class="ai-card-body">LiteRT-LM <span class="ai-mono">.litertlm</span>/<span class="ai-mono">.task</span> and MNN model directories.</div></div>
-      </div>
-    </div>
-
-    <!-- model catalog -->
-    <div class="ai-section" id="ai-catalog">
-      <h2 class="ai-section-title" data-reveal>Model catalog</h2>
-      <p class="ai-section-lead" data-reveal>Models aren't bundled in the APK, pull them from the in-app gallery or with <span class="ai-mono">tai</span> (several GB each). Only one generation model loads at a time, inside the isolated <span class="ai-mono">:tai_runtime</span> process. This is the full built-in catalog; you can also <a class="ai-link" data-scrollto="ai-import" href="#ai">import your own</a>.</p>
-      <p class="ai-section-note" data-reveal>Two backends &mdash; <span class="ai-mono ai-mono--mute">LiteRT-LM</span> (Google AI Edge) and <span class="ai-mono ai-mono--mute">MNN</span>. <span class="ai-tag ai-tag--green">rec</span> = recommended default &middot; <span class="ai-tag ai-tag--orange">gated</span> = accept the provider's Hugging Face terms first &middot; <span class="ai-tag ai-tag--cyan">import</span> = added via the import flow, not a direct download. Multimodal LiteRT-LM models also appear as separate <span class="ai-mono ai-mono--mute">-vision</span> / <span class="ai-mono ai-mono--mute">-audio</span> IDs on the API.</p>
-      <div class="ai-table glass glass--sm" data-reveal>
-        <table>
-          <thead><tr>
-            <th>Model</th>
-            <th>Backend</th>
-            <th>Best for</th>
-            <th class="ai-table-num">Download</th>
-            <th class="ai-table-num">RAM</th>
-          </tr></thead>
-          <tbody>
-            <tr><td>Gemma 4 E2B IT <span class="ai-tag ai-tag--green">&middot; rec</span></td><td class="ai-mono">LiteRT-LM</td><td>General chat &middot; image &middot; audio &middot; tools</td><td class="ai-table-num">2.4 GB</td><td class="ai-table-num">8 GB+</td></tr>
-            <tr><td>Gemma 4 E4B IT</td><td class="ai-mono">LiteRT-LM</td><td>Coding &middot; reasoning &middot; multimodal &middot; tools</td><td class="ai-table-num">3.7 GB</td><td class="ai-table-num">12 GB+</td></tr>
-            <tr><td>Qwen2.5 1.5B Instruct <span class="ai-tag ai-tag--cyan">&middot; import</span></td><td class="ai-mono">LiteRT-LM</td><td>Lightweight text &middot; code &middot; multilingual</td><td class="ai-table-num">1.5 GB</td><td class="ai-table-num">6 GB+</td></tr>
-            <tr><td>DeepSeek-R1 Distill 1.5B</td><td class="ai-mono">LiteRT-LM</td><td>Small reasoning tasks</td><td class="ai-table-num">1.7 GB</td><td class="ai-table-num">6 GB+</td></tr>
-            <tr><td>FunctionGemma 270M <span class="ai-tag ai-tag--orange">&middot; gated</span></td><td class="ai-mono">LiteRT-LM</td><td>Function/tool selection (CPU-only)</td><td class="ai-table-num">0.3 GB</td><td class="ai-table-num">6 GB+</td></tr>
-            <tr><td>EmbeddingGemma 300M <span class="ai-tag ai-tag--orange">&middot; gated</span></td><td class="ai-mono">LiteRT-LM</td><td>Embeddings (<span class="ai-mono">/v1/embeddings</span>)</td><td class="ai-table-num">183 MB</td><td class="ai-table-num">4 GB+</td></tr>
-            <tr><td>Qwen3 Embedding 0.6B</td><td class="ai-mono">MNN</td><td>Embeddings (<span class="ai-mono">/v1/embeddings</span>)</td><td class="ai-table-num">378 MB</td><td class="ai-table-num">4 GB+</td></tr>
-            <tr><td>Qwen2.5-Coder 1.5B <span class="ai-tag ai-tag--green">&middot; rec</span></td><td class="ai-mono">MNN</td><td>Coding &middot; tools &middot; terminal clients</td><td class="ai-table-num">971 MB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
-            <tr><td>Qwen2.5-Coder 7B</td><td class="ai-mono">MNN</td><td>Higher-quality coding</td><td class="ai-table-num">4.4 GB</td><td class="ai-table-num">10&ndash;12 GB+</td></tr>
-            <tr><td>Qwen2.5 0.5B</td><td class="ai-mono">MNN</td><td>Tiny general chat</td><td class="ai-table-num">557 MB</td><td class="ai-table-num">3 GB+</td></tr>
-            <tr><td>Qwen2.5 1.5B</td><td class="ai-mono">MNN</td><td>Lightweight multilingual chat</td><td class="ai-table-num">879 MB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
-            <tr><td>Qwen2.5 3B</td><td class="ai-mono">MNN</td><td>Balanced multilingual chat</td><td class="ai-table-num">2.4 GB</td><td class="ai-table-num">6&ndash;8 GB+</td></tr>
-            <tr><td>DeepSeek-R1 1.5B Qwen</td><td class="ai-mono">MNN</td><td>Small reasoning tasks</td><td class="ai-table-num">1.0 GB</td><td class="ai-table-num">4&ndash;6 GB+</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="ai-callout ai-callout--orange" data-reveal>
-        <span class="ai-callout-icon">&#9680;</span><span><b class="ai-callout-strong">About the multimodal LiteRT models.</b> Gemma 4 E2B / E4B are multimodal, but rather than holding text, vision and audio in memory at once, TAI splits each into separate <span class="ai-mono">-vision</span> and <span class="ai-mono">-audio</span> model IDs that share one downloaded file. Only the mode you request is loaded at a time, a deliberate trade-off to cut RAM cost and avoid memory pressure on phones. Pick the ID matching the input you intend to send.<br><span class="ai-callout-sub">Learn more about the backends: <a class="ai-link" href="https://ai.google.dev/edge/litert" target="_blank" rel="noopener">LiteRT (Google AI Edge) &#8599;</a> &middot; <a class="ai-link" href="https://github.com/alibaba/MNN" target="_blank" rel="noopener">MNN &#8599;</a> (<a class="ai-link" href="https://mnn-docs.readthedocs.io/" target="_blank" rel="noopener">docs</a>)</span></span>
-      </div>
-    </div>
-
-    <!-- ===== IMPORT & ADD MODELS ===== -->
-    <div class="ai-section" id="ai-import">
-      <h2 class="ai-section-title" data-reveal>Add &amp; import your own models</h2>
-      <p class="ai-section-lead" data-reveal>Beyond the built-in catalog, TAI can pull any compatible model straight from Hugging Face. The suggested flow: set a Hugging Face token once, then either download a catalog entry or paste a model's repo URL into the import window. Everything runs through <span class="ai-mono">Settings &rarr; TAI / Termux AI</span>.</p>
-      <div class="ai-callout ai-callout--green" data-reveal>
-        <span class="ai-callout-icon">&#8615;</span><span><b class="ai-callout-strong">Recommended: let the app download for you.</b> Rather than fetching files by hand, just paste the model's Hugging Face URL into the import window, TAI downloads, verifies, and registers it. Browse compatible models here: <a class="ai-link" href="https://huggingface.co/litert-community" target="_blank" rel="noopener">huggingface.co/litert-community</a> (LiteRT) and <a class="ai-link" href="https://huggingface.co/taobao-mnn" target="_blank" rel="noopener">huggingface.co/taobao-mnn</a> (MNN). Copy any model's page URL and paste it into <b class="ai-callout-strong">Add a model</b>.</span>
-      </div>
-
-      <div class="ai-grid ai-grid--import" data-reveal-stagger>
-        <!-- step 1: HF token -->
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num ai-step-num--filled">1</div>
-            <h3 class="ai-step-title">Set a Hugging Face token</h3>
-          </div>
-          <div class="ai-phone-shot"><img src="assets/screenshots/tai-hf-token.jpeg" alt="Hugging Face token dialog in Termux AI settings" loading="lazy" width="917" height="2048"></div>
-          <p class="ai-step-body">A classic <b class="ai-callout-strong">Read</b> token, or a fine-grained token with <span class="ai-mono">Contents: Read</span>, is enough. It's sent only to Hugging Face download URLs. For a <span class="ai-tag ai-tag--orange">gated</span> model, also open its huggingface.co page and accept the terms first.</p>
-        </div>
-
-        <!-- step 2: import window -->
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num">2</div>
-            <h3 class="ai-step-title">Paste a repo URL to add</h3>
-          </div>
-          <div class="ai-phone-shot"><img src="assets/screenshots/tai-import.jpeg" alt="Add a model window: Hugging Face repo URL and capability checkboxes" loading="lazy" width="917" height="2048"></div>
-          <p class="ai-step-body">In <b class="ai-callout-strong">Add a model</b>, paste a Hugging Face repo URL (or pick a local LiteRT package). Capabilities are guessed from known LiteRT/MNN model names, tick or untick them, then <span class="ai-mono">Import &amp; verify</span>. Catalog entries download the same way; just tap one and confirm the provider terms.</p>
-        </div>
-
-        <!-- step 3: connect clients -->
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num">3</div>
-            <h3 class="ai-step-title">Point your client at it</h3>
-          </div>
-          <div class="ai-phone-shot"><img src="assets/screenshots/tai-endpoint.jpeg" alt="Endpoint and access dialog showing OpenAI base URL and bearer token" loading="lazy" width="917" height="2048"></div>
-          <p class="ai-step-body">Once installed, load it (<span class="ai-mono">tai load MODEL_ID</span>) and connect any OpenAI- or Ollama-compatible client with the local base URL and bearer token from <b class="ai-callout-strong">Endpoint &amp; access</b>, the same values live in <span class="ai-mono">~/.launcherctl/</span>.</p>
-        </div>
-      </div>
-
-      <div class="ai-callout ai-callout--cyan" data-reveal>
-        <span class="ai-callout-icon">&#8505;</span><span><b class="ai-callout-strong">Supported packages:</b> LiteRT-LM <span class="ai-mono">.litertlm</span> / <span class="ai-mono">.task</span>, MNN model directories (<span class="ai-mono">config.json</span> + sidecars), and LiteRT EmbeddingGemma <span class="ai-mono">.tflite</span> with its tokenizer. GGUF, safetensors, PyTorch and ONNX weights are <b class="ai-callout-strong">not</b> supported, run those under a separate runtime such as llama.cpp in Termux.</span>
-      </div>
-    </div>
-
-    <!-- ===== QUICKSTART: AICHAT ===== -->
-    <div class="ai-section" id="ai-aichat">
-      <h2 class="ai-section-title" data-reveal>Quickstart: chat from the terminal with AIChat</h2>
-      <p class="ai-section-lead" data-reveal><a class="ai-link" href="https://github.com/sigoden/aichat" target="_blank" rel="noopener">AIChat</a> is the fastest and lightest way to talk to your on-device model right now, a single terminal binary, no extra runtime. It's in both this launcher's repo and the official Termux repo.</p>
-
-      <div class="ai-grid ai-grid--two" data-reveal-stagger>
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num ai-step-num--filled">1</div>
-            <h3 class="ai-step-title">Install</h3>
-          </div>
-          <div class="ai-cmd glass glass--sm" data-cmd>
-            <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-            <pre data-cmd-text>pkg i -y aichat</pre>
-          </div>
-        </div>
-        <div class="ai-step">
-          <div class="ai-step-head">
-            <div class="ai-step-num">2</div>
-            <h3 class="ai-step-title">Run &amp; answer the prompts</h3>
-          </div>
-          <div class="ai-cmd glass glass--sm" data-cmd>
-            <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-            <pre data-cmd-text>aichat</pre>
-          </div>
-        </div>
-      </div>
-
-      <p class="ai-body-text" data-reveal>On first run, AIChat offers to create a config file. Walk through it:</p>
-      <ol class="ai-list" data-reveal>
-        <li>Choose the <b class="ai-callout-strong">OpenAI-Compatible</b> platform.</li>
-        <li>Give it any name (e.g. <span class="ai-mono">tai</span>).</li>
-        <li>Paste the <b class="ai-callout-strong">API base URL</b> and <b class="ai-callout-strong">API key</b> from <span class="ai-mono">Settings &rarr; TAI / Termux AI &rarr; Endpoint &amp; access</span>, the base URL already ends in <span class="ai-mono">/v1</span>, and the key is the bearer token. (The same two values are in <span class="ai-mono">~/.launcherctl/endpoint</span> and <span class="ai-mono">~/.launcherctl/token</span>.)</li>
-      </ol>
-
-      <p class="ai-body-text ai-body-text--dim" data-reveal>Prefer to write the config by hand? It looks like this in <span class="ai-mono ai-mono--mute">~/.config/aichat/config.yaml</span>:</p>
-      <div class="ai-cmd ai-cmd--wide glass glass--sm" data-cmd data-reveal>
-        <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-        <pre data-cmd-text>clients:
-  - type: openai-compatible
-    name: tai
-    api_base: http://127.0.0.1:54298/v1   # your endpoint
-    api_key: YOUR_TOKEN                    # your bearer token
-    models:
-      - name: gemma-4-e2b-it-litert-lm     # any installed model id</pre>
-      </div>
-      <div class="ai-callout ai-callout--orange ai-callout--warn" data-reveal>
-        <span class="ai-callout-icon">&#9888;</span><span>Chat and coding models work well over AIChat. The <b class="ai-callout-strong">embedding models are untested</b> with AIChat's RAG features for now, treat them as experimental.</span>
-      </div>
-    </div>
-
-    <!-- tai commands -->
-    <div class="ai-section" id="ai-commands">
-      <h2 class="ai-section-title" data-reveal>tai commands</h2>
-      <div class="ai-grid ai-grid--commands" data-reveal-stagger>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai status</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai models</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai download MODEL_ID URL --accept-terms</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai preflight MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai load MODEL_ID [--auto|--cpu|--gpu]</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai keep-warm MODEL_ID --minutes 30</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai runtime</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai unload</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai delete MODEL_ID</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-        <div class="ai-cmd ai-cmd--row glass glass--sm" data-cmd><code data-cmd-text><span class="ai-prompt">$</span> tai doctor</code><button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button></div>
-      </div>
-      <p class="ai-footnote" data-reveal>Prefix any command with <span class="ai-mono ai-mono--mute">tai --json</span> for raw API JSON you can pipe into <span class="ai-mono ai-mono--mute">jq</span> and scripts. <span class="ai-mono ai-mono--mute">tai load</span>, <span class="ai-mono ai-mono--mute">preflight</span>, and <span class="ai-mono ai-mono--mute">keep-warm</span> default to the assistant model when no ID is given. See <span class="ai-mono ai-mono--mute">tai --help</span> for the full command set.</p>
-    </div>
-
-    <!-- ===== API REFERENCE ===== -->
-    <div class="ai-api">
-      <div class="api-layout">
-        <!-- endpoint index -->
-        <aside class="api-sidebar" data-reveal>
-          <div class="api-sidebar-title">API REFERENCE</div>
-          <button class="api-nav-button" data-scrollto="ep-intro">Introduction</button>
-          <button class="api-nav-button" data-scrollto="ep-base">Base URL &amp; auth</button>
-          <button class="api-nav-button" data-scrollto="ep-ratelimits">Rate limits</button>
-          <button class="api-nav-button" data-scrollto="ep-errors">Errors &amp; status</button>
-          <button class="api-nav-button" data-scrollto="ep-streaming">Streaming</button>
-          <div class="api-sidebar-label">Endpoints</div>
-          <div data-eplist class="api-eplist"></div>
-        </aside>
-        <!-- endpoint detail -->
-        <main class="ai-spy-main">
-          <div class="ai-spy-block" data-spy data-reveal id="ep-intro">
-            <div class="ai-spy-kicker">API REFERENCE</div>
-            <h2 class="ai-spy-title">Introduction</h2>
-            <p class="ai-spy-body">Use TAI's local API to run and interact with models. The same server also powers <span class="ai-mono">launcherctl</span>. API routes accept the bearer token or <span class="ai-mono">X-Api-Key</span> when authentication is enabled; CORS preflight and the root health route are exempt.</p>
-          </div>
-
-          <div class="ai-spy-block" data-spy data-reveal id="ep-base">
-            <h3 class="ai-spy-subtitle">Base URL &amp; auth</h3>
-            <p class="ai-spy-body">TAI stores its current address and secret token in <span class="ai-mono">~/.launcherctl/</span>. OpenAI-compatible clients append <span class="ai-mono">/v1</span>; Ollama clients use the base address as-is.</p>
-            <div class="ai-cmd glass glass--sm" data-cmd>
-              <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-              <pre data-cmd-text>BASE=$(sed -n '1p' ~/.launcherctl/endpoint)
-TOKEN=$(cat ~/.launcherctl/token)
-export OPENAI_BASE_URL="$BASE/v1"
-export OPENAI_API_KEY="$TOKEN"</pre>
+            <div class="layer" data-layer="display">
+              <div class="frame" data-cap="Firefox on the X11 display" data-pills='[["termux-x11","Firefox, full screen","l1"],["Go to Display","from the status bar\u2019s edge","r2"]]'><video muted loop playsinline preload="none" poster="assets/home/display-poster.webp"><source src="assets/home/display.webm" type="video/webm"><source src="assets/home/display.mp4" type="video/mp4"></video></div>
             </div>
-            <p class="ai-footnote">Default bind mode is <span class="ai-mono ai-mono--mute">localhost</span> (<span class="ai-mono ai-mono--mute">127.0.0.1</span>). LAN mode is opt-in; treat the token as a network secret when enabled. Token auth can be relaxed for localhost in settings, but is always enforced on LAN.</p>
+            <div class="layer" data-layer="look" data-hold="2200">
+              <div class="frame" data-cap="Appearance · Wallpaper" data-pills='[["Wallpaper","Lock and Home, last five photos","r1"]]'><img src="assets/home/appear-wallpaper.webp" alt="" loading="lazy"></div>
+              <div class="frame" data-cap="Appearance · Look" data-pills='[["Look · Custom","blur, grain, opacity, tint","l2"]]'><img src="assets/home/appear-look.webp" alt="" loading="lazy"></div>
+              <div class="frame" data-cap="Appearance · Layout" data-pills='[["Layout","corners 22 dp, margin 6 dp","r2"]]'><img src="assets/home/appear-layout.webp" alt="" loading="lazy"></div>
+              <div class="frame" data-cap="Appearance · Icon pack" data-pills='[["Icon pack","System or an installed pack","l1"]]'><img src="assets/home/appear-iconpack.webp" alt="" loading="lazy"></div>
+            </div>
+            <div class="layer" data-layer="ai" data-hold="2200">
+              <div class="frame" data-cap="Drawer · categories sorted on-device" data-pills='[["Gemma 4","sorts the drawer into categories","r1"],["Nothing leaves the phone","118 apps, sorted locally","l3"]]'><video muted playsinline preload="none" poster="assets/home/drawer-poster.webp"><source src="assets/home/drawer.webm" type="video/webm"><source src="assets/home/drawer.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="Settings · Drawer layout" data-pills='[["Re-sort apps","only the new ones","l2"]]'><img src="assets/home/ai-resort.webp" alt="" loading="lazy"></div>
+              <div class="frame" data-cap="Voice typing" data-pills='[["Whisper","voice typing","l1"],["Gemma 4","tidy dictation","r2"]]'><video muted playsinline preload="none" poster="assets/home/stt-poster.webp"><source src="assets/home/stt.webm" type="video/webm"><source src="assets/home/stt.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="Read aloud" data-pills='[["KittenTTS","read aloud","r1"]]'><video muted playsinline preload="none" poster="assets/home/tts-poster.webp"><source src="assets/home/tts.webm" type="video/webm"><source src="assets/home/tts.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="dawn · search by meaning" data-pills='[["EmbeddingGemma 2","search by meaning","l2"]]'><video muted playsinline preload="none" poster="assets/home/search-poster.webp"><source src="assets/home/search.webm" type="video/webm"><source src="assets/home/search.mp4" type="video/mp4"></video></div>
+              <div class="frame" data-cap="tai status" data-pills='[["LiteRT-LM","runtime, CPU or GPU","r1"],["localhost","OpenAI-compatible endpoint","l3"]]'><img src="assets/home/ai.webp" alt="" loading="lazy"></div>
+            </div>
           </div>
+          <span class="punch" aria-hidden="true"></span>
+          <span class="cap" id="cap" aria-hidden="true"></span>
+        </div>
+      </div>
+      <div class="chips" id="chips" aria-hidden="true"></div>
+    </div>
+  </aside>
+</main>
 
-          <div class="ai-spy-block" data-spy data-reveal id="ep-ratelimits">
-            <h3 class="ai-spy-subtitle">Rate limits</h3>
-            <p class="ai-spy-body">Operational routes use per-route rolling 60-second windows. Exceeding a configured limit returns <span class="ai-mono">HTTP 429</span> with <span class="ai-mono">Retry-After</span>, <span class="ai-mono">RateLimit-Limit</span>, <span class="ai-mono">RateLimit-Remaining</span> and <span class="ai-mono">RateLimit-Reset</span> headers. Wait for the advertised interval before retrying.</p>
-            <div class="ai-table ai-table--plain glass glass--sm"><table><tbody>
-              <tr><td>Reads (status, runtime, models)</td><td class="ai-table-num">120 / min</td></tr>
-              <tr><td>Generation (chat, responses, completions, embeddings)</td><td class="ai-table-num">60 / min</td></tr>
-              <tr><td>App launch</td><td class="ai-table-num">30 / min</td></tr>
-              <tr><td>Model load / download / import</td><td class="ai-table-num">20 / min</td></tr>
-              <tr><td>Model delete / cancel download</td><td class="ai-table-num">30 / min</td></tr>
-              <tr><td>Unload / preflight / keep-warm / runtime cancel</td><td class="ai-table-num">60 / min</td></tr>
-              <tr><td>Token rotate</td><td class="ai-table-num">5 / min</td></tr>
-            </tbody></table></div>
-          </div>
+<section class="closer">
+  <div class="pane">
+    <div class="img" aria-hidden="true"></div>
+    <h2 class="wsplit" data-split>Complexity,<br><span class="light">folded away.</span></h2>
+    <p class="reveal" style="--d:.2s">A cyberdeck that still looks like a phone. Everything above is one swipe or one command from a quiet home screen.</p>
+    <div class="cta-row reveal" style="--d:.35s">
+      <a class="cta" href="https://github.com/PickleHik3/termux-launcher/releases" target="_blank" rel="noopener">
+        Get the app
+        <span class="arr" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+      </a>
+    </div>
+    <div class="links reveal" style="--d:.45s">
+      <a href="docs/" target="_blank" rel="noopener">Read the guide</a>
+      <a href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">Source on GitHub</a>
+    </div>
+  </div>
+</section>
+<footer><span>Termux Launcher</span><span>Open source · Built on Termux</span></footer>
 
-          <div class="ai-spy-block" data-spy data-reveal id="ep-errors">
-            <h3 class="ai-spy-subtitle">Errors &amp; status</h3>
-            <p class="ai-spy-body">Errors use the OpenAI error envelope, with a string <span class="ai-mono">code</span> you can switch on. Common codes: <span class="ai-mono ai-mono--mute">bad_request</span> (400), <span class="ai-mono ai-mono--mute">model_not_found</span> (404), <span class="ai-mono ai-mono--mute">unsupported_audio_output</span> (501). Missing or wrong bearer token returns 401.</p>
-            <div class="ai-cmd glass glass--sm" data-cmd>
-              <button class="ai-copy-button" data-copy><span data-copy-label>copy</span></button>
-              <pre data-cmd-text>{
-  "error": {
-    "type": "invalid_request_error",
-    "code": "model_not_found",
-    "message": "Unknown TAI model: MODEL_ID"
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 1. Word masks */
+  document.querySelectorAll('[data-split]').forEach(h => {
+    const walk = node => {
+      [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span'); w.className = 'w';
+            const i = document.createElement('span'); i.textContent = part; w.appendChild(i);
+            frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') walk(n);
+      });
+    };
+    walk(h);
+    h.querySelectorAll('.w > span').forEach((s, i) => s.style.setProperty('--d', (0.08 + i * 0.07) + 's'));
+  });
+
+  /* 2. Reveals */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal, .wsplit').forEach(el => io.observe(el));
+
+  /* 3. Layers: each holds one or more frames (video or still). A layer plays its
+        frames in sequence while it is on screen: a video frame advances when it
+        ends, a still frame after data-hold milliseconds. Each frame names what is
+        on screen (caption) and which pills fly in beside the phone. */
+  const layers = [...document.querySelectorAll('.layer')];
+  const cap = document.getElementById('cap');
+  const chips = document.getElementById('chips');
+  const timers = new WeakMap();
+  let pillGen = 0;
+  function setPills(list) {
+    const gen = ++pillGen;
+    const old = [...chips.children];
+    old.forEach(c => c.classList.add('out'));
+    setTimeout(() => old.forEach(c => c.remove()), 260);
+    list.forEach(([label, detail, slot], i) => {
+      const el = document.createElement('span');
+      el.className = 'chip'; el.dataset.slot = slot;
+      el.style.setProperty('--d', (0.12 + i * 0.09) + 's');
+      el.style.setProperty('--f', (i * 1.3) + 's');
+      el.innerHTML = '<i></i><b></b> <span></span>';
+      el.querySelector('b').textContent = label;
+      el.querySelector('span').textContent = detail;
+      chips.appendChild(el);
+      requestAnimationFrame(() => requestAnimationFrame(() => { if (gen === pillGen) el.classList.add('in'); }));
+    });
   }
-}</pre>
-            </div>
-          </div>
+  function setCaption(text) {
+    cap.classList.remove('on');
+    setTimeout(() => { cap.textContent = text || ''; cap.classList.add('on'); }, 220);
+  }
+  function stopLayer(layer) {
+    clearTimeout(timers.get(layer));
+    layer.querySelectorAll('video').forEach(v => { v.pause(); v.onended = null; });
+  }
+  function showFrame(layer, i) {
+    const frames = [...layer.querySelectorAll('.frame')];
+    if (!frames.length) return;
+    const f = frames[i % frames.length];
+    frames.forEach(x => x.classList.toggle('on', x === f));
+    clearTimeout(timers.get(layer));
+    let pills = [];
+    try { pills = JSON.parse(f.dataset.pills || '[]'); } catch (e) {}
+    setPills(pills);
+    setCaption(f.dataset.cap);
+    const v = f.querySelector('video');
+    if (v) {
+      if (v.preload === 'none') v.preload = 'auto';
+      v.currentTime = 0;
+      v.play().catch(() => {});
+      if (frames.length > 1) v.onended = () => showFrame(layer, i + 1);
+    } else if (frames.length > 1) {
+      timers.set(layer, setTimeout(() => showFrame(layer, i + 1), +layer.dataset.hold || 2600));
+    }
+  }
+  let current = 'hero';
+  const rail = document.getElementById('rail');
+  const idx = document.getElementById('idx');
+  const navLinks = [...document.querySelectorAll('[data-nav]')];
+  const chapters = [...document.querySelectorAll('[data-chapter]')];
+  function setScreen(name) {
+    if (name === current) return;
+    current = name;
+    layers.forEach(l => {
+      const on = l.dataset.layer === name;
+      l.classList.toggle('on', on);
+      if (on) showFrame(l, 0); else stopLayer(l);
+    });
+    const n = chapters.findIndex(c => c.dataset.chapter === name) + 1;
+    idx.textContent = String(n).padStart(2, '0') + ' / 05';
+    navLinks.forEach(a => a.setAttribute('aria-current', a.dataset.nav === name ? 'true' : 'false'));
+  }
+  cap.textContent = 'Home · terminal'; cap.classList.add('on');
 
-          <div class="ai-spy-block" data-spy data-reveal id="ep-streaming">
-            <h3 class="ai-spy-subtitle">Streaming</h3>
-            <p class="ai-spy-body">The OpenAI routes (<span class="ai-mono">/v1/chat/completions</span>, <span class="ai-mono">/v1/responses</span>) stream as <b class="ai-callout-strong">Server-Sent Events</b> when you send <span class="ai-mono">"stream": true</span>, terminated by a <span class="ai-mono ai-mono--mute">data: [DONE]</span> line. The Ollama routes (<span class="ai-mono">/api/chat</span>, <span class="ai-mono">/api/generate</span>) stream <b class="ai-callout-strong">newline-delimited JSON</b> by default.</p>
-          </div>
-
-          <div data-epdetail class="ai-epdetail"></div>
-        </main>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- footer -->
-  <footer class="site-footer glass">
-    <div class="site-footer-inner">
-      <div class="site-footer-brand" data-reveal>
-        <img src="assets/icons/termux-launcher.png" alt="" width="22" height="22">
-        <span>termux-launcher · the shell is the launcher</span>
-      </div>
-      <div class="site-footer-links" data-reveal-stagger>
-        <a class="link-slide" data-nav="setup" href="#setup">Overview</a>
-        <a class="link-slide" data-nav="wiki" href="#wiki">Docs</a>
-        <a class="link-slide" data-nav="ai" href="#ai">Termux AI</a>
-        <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher" target="_blank" rel="noopener">GitHub ↗</a>
-        <a class="link-slide" href="https://github.com/PickleHik3/termux-launcher/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener">Licenses ↗</a>
-      </div>
-    </div>
-  </footer>
-
-</div>
-</div>
-<script src="app.js?v=20260928-1" defer></script>
-<script src="motion.js?v=20260928-1" defer></script>
+  /* 4. Scroll: active chapter, phone tilt, backdrop parallax */
+  let mx = 0, lastY = window.scrollY, vel = 0, tilt = 0, rafId = 0;
+  const phone = document.getElementById('phone');
+  const plateSea = document.getElementById('plateSea');
+  const closer = document.querySelector('.closer');
+  function update() {
+    rafId = 0;
+    const mid = innerHeight * 0.5;
+    let active = 'hero';
+    for (const c of chapters) {
+      const r = c.getBoundingClientRect();
+      if (r.top < mid && r.bottom > mid) { active = c.dataset.chapter; break; }
+    }
+    if (active === 'hero' && chapters[chapters.length - 1].getBoundingClientRect().bottom <= mid) active = 'ai';
+    setScreen(active);
+    const y = window.scrollY;
+    const closerNear = closer.getBoundingClientRect().top < innerHeight * 0.75;
+    document.body.dataset.bg = closerNear ? 'none' : active === 'hero' ? 'sea' : active === 'ai' ? 'desk' : 'none';
+    if (!reduce) {
+      vel = y - lastY; lastY = y;
+      const target = Math.max(-5, Math.min(5, vel * 0.08));
+      tilt += (target - tilt) * 0.12;
+      phone.style.transform = `rotateX(${tilt.toFixed(2)}deg) rotateY(${(mx * 3).toFixed(2)}deg)`;
+      plateSea.style.transform = `translate3d(0, ${Math.min(y, innerHeight * 1.5) * 0.18}px, 0)`;
+      if (Math.abs(tilt - target) > 0.01) schedule();
+    }
+  }
+  function schedule() { if (!rafId) rafId = requestAnimationFrame(update); }
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule, { passive: true });
+  if (!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    addEventListener('pointermove', e => { mx = (e.clientX / innerWidth - 0.5); schedule(); }, { passive: true });
+  }
+  setTimeout(() => { phone.style.animation = 'none'; update(); }, reduce ? 0 : 1700);
+  update();
+})();
+</script>
 </body>
 </html>
