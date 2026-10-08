@@ -34,7 +34,7 @@ Keep the set matched. Mixing official add-ons, old forks or APKs signed with a d
 ## First launch
 
 1. The app downloads and unpacks the Termux bootstrap.
-2. A **Before you start** card asks for the few permissions the launcher can use. Each row has its own **Allow**: **Wallpaper** (colour the launcher after your wallpaper), **Weather** (shown only while the weather reading is on) and **Linux display** (only in builds that have it). Tap **Continue** when you are done. Everything stays changeable later in Settings.
+2. A **Before you start** card asks for the few permissions the launcher can use. Each row has its own **Allow**: **Wallpaper** (colour the launcher after your wallpaper), **Weather** (shown only while the weather widget or readout is on; its text reads "Shows the weather for a place you pick, or for where you are.") and **Linux display** (only in builds that have it). The **Weather** row has a city search field under its text, the same search as **Settings → Status bar → Weather → Location**, credited "Search by Open-Meteo." Pick a place and the row reads "Now:" followed by the place, with no permission asked. A small **Use my location** button clears the place and runs the **Allow** flow instead; once granted the row reads **Allowed** and the search stays available. Tap **Continue** when you are done. Everything stays changeable later in Settings.
 3. The tour offers itself: **Take the tour** or **Not now**.
 
 The tour plays over the real home screen, one card per gesture, in this order:
@@ -45,7 +45,7 @@ The tour plays over the real home screen, one card per gesture, in this order:
 4. Swipe up on the bottom border to raise the keyboard, down to put it away.
 5. Swipe down on the top border to open the status bar, up to fold it.
 6. Hold an empty spot in the apps row to pin apps.
-7. Pull the apps row away from its edge to open the app drawer.
+7. Swipe down on the apps row to open the app drawer (swipe right on a left rail, left on a right rail).
 8. Swipe up on the space bar for the command palette.
 9. After an update only: the offer of the new extra-keys row.
 10. Use Termux Launcher as your home screen.

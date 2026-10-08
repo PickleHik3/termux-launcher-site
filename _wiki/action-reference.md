@@ -165,6 +165,7 @@ All of these need the in-app keyboard, except `keyboard.toggle_enabled`, `voice.
 | `app.command_palette` | none | Open the searchable command palette |
 | `app.launch` | `query` (required) | Launch by exact package, app label, or stable ID, with fuzzy ranking fallback |
 | `app.key_inspector` | none | Toggle the key-event and terminal-byte inspector |
+| `app.open_app_drawer` | none | "App drawer": open the app drawer |
 | `app.open_drawer` | none | "Open sessions": open the sessions drawer |
 | `app.close_drawer` | none | "Close sessions": close the sessions drawer |
 

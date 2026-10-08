@@ -7,7 +7,7 @@ Look is what things look like: wallpaper, glass, colours, icons and terminal eff
 
 ## Appearance
 
-Open **Appearance** from **Settings → Appearance**, from a pane's corner tab, or from the terminal's long-press menu. It opens on the real home screen with four tabs in a pill at the top: **Wallpaper | Look | Layout | Icon pack**. It opens on Wallpaper, or on the tab you last used if you were there in the past 30 minutes.
+Open **Appearance** from **Settings → Appearance**, from a pane's corner tab, or from the terminal's long-press menu. It opens on the real home screen with four tabs in a pill at the top: **Wallpaper | Look | Layout | Icon pack**. It opens on Wallpaper, or on the tab you last used if you were there in the past 30 minutes. On a tablet (smallest width 600dp or more) held in landscape, the controls sit in a side pane on the right and the preview fits and centres to its left; the pill stays on top, tall pages scroll inside the pane, and the clock face popup opens inside it. In portrait the controls return to the bottom sheet. Phones are unchanged.
 
 Home, Terminal and Display share one look, so a change here applies to all three.
 
@@ -16,7 +16,7 @@ One **Done**, top right, applies everything from every tab at once: the Home wal
 ## Wallpaper
 
 * Two cards, **Lock screen** and **Home screen**. The Lock card can be **Same as Home**.
-* **Choose photo** picks an image, previewed before you apply it. Your last five photos stay on the tab for a quick switch.
+* **Choose photo** picks an image, previewed before you apply it. Your last five photos stay on the tab for a quick switch. While another app set the current wallpaper, a small grey line under it reads "Set your wallpaper here to see fancier glass." It goes away once you apply a wallpaper from Appearance.
 * If another app set your lock screen wallpaper, the Lock card notices, and applying a Home wallpaper does not overwrite it.
 
 ## Look

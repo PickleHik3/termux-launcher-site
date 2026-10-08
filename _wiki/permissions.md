@@ -84,7 +84,7 @@ launched through `rish`.
 | Permission | Used for |
 | --- | --- |
 | Internet | `pkg` installs, model downloads, weather |
-| Approximate location | Weather, only when no city is set under **Settings → Status bar → Weather → Location**. With a city picked there, no location permission is asked. Weather feeds the status-bar card and the Weather widget |
+| Approximate location | Weather, only when no city is set under **Settings → Status bar → Weather → Location**. With a city picked there, or on the **Before you start** card, no location permission is asked; **Use my location** there runs the permission prompt instead. Weather feeds the status-bar card and the Weather widget |
 | Calendar | The built-in Agenda and Calendar widgets; asked when you place one |
 | Bind widgets | Placing app widgets on the Widgets place (Android shows its own allow dialog) |
 | Notifications | The persistent session notification, download progress, notifications sent from the shell (`launcherctl notify`, OSC 99) and the progress ring (`launcherctl progress`) |
