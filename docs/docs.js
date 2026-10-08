@@ -107,7 +107,7 @@
         aspectRatio: `${src.w} / ${src.h}`,
       });
       // No cropped frame taller than about 440px at full width.
-      if (figure.classList.contains("wide")) figure.style.maxWidth = `${Math.min(760, Math.round(440 * aspect))}px`;
+      if (figure.classList.contains("wide")) figure.style.maxWidth = `${Math.min(760, Math.round(440 * aspect), Math.round(crop.w * src.w))}px`;
     } else if (size && media) {
       // Reserve the box before the poster or image arrives, and never stretch past the source's own width.
       media.style.aspectRatio = `${size.w} / ${size.h}`;

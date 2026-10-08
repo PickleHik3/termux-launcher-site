@@ -62,7 +62,7 @@ caption: fastfetch drawing its logo through the kitty graphics protocol, over a 
 
 ```clip
 name: kew
-crop: 0.13 0.28 0.74 0.46
+crop: 0.13 0.28 0.74 0.34
 title: Album art in the terminal
 caption: kew, a terminal music player, drawing cover art through the same graphics protocol.
 ```

@@ -93,7 +93,7 @@ Two that lean on the graphics and font work above. `sigye` is in the tlstore cat
 
 ```clip
 name: kew
-crop: 0.13 0.28 0.74 0.46
+crop: 0.13 0.28 0.74 0.34
 title: kew
 caption: kew - music in the terminal, cover art drawn through the kitty graphics protocol.
 ```
