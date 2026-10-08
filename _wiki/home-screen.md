@@ -68,7 +68,7 @@ caption: Typing "%" and a query at the prompt searches installed apps; Enter ope
 
 ## The app drawer
 
-Swipe down on the pinned apps row for a full-screen app drawer. The gesture is the **Swipe down for app drawer** switch under **Settings → Apps**. **Settings → Apps → Drawer layout** chooses the layout: **Vertical**, **Horizontal pages** or **Categories**. The same page has:
+Swipe down on the pinned apps row for a full-screen app drawer. On a left rail swipe right, and on a right rail swipe left. The gesture is the **Swipe down for app drawer** switch under **Settings → Apps**. **Settings → Apps → Drawer layout** chooses the layout: **Vertical**, **Horizontal pages** or **Categories**. The same page has:
 
 * **Open keyboard automatically**: start typing a search as soon as the drawer opens.
 * **Search keyboard**: use the Android keyboard, with its suggestions and swipe typing, for the drawer's search.

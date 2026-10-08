@@ -82,6 +82,8 @@ In Touchscreen mode the keyboard follows text fields: tapping a text field on th
 the keyboard up, and tapping elsewhere puts it down again (**Settings → Display → Input → OSK
 auto-show**). A keyboard you opened yourself stays open until you close it.
 
+In Touchscreen mode an interrupted gesture leaves no ghost finger behind, so a later one-finger touch is never read as a pinch.
+
 ## GPU acceleration
 
 The display server itself always draws in software, but apps you run on it, such as a game or a

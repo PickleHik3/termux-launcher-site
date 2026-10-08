@@ -27,6 +27,8 @@ caption: One pane split in two, focus moved, then reshaped - no tmux running.
 * **Move**: drag the move icon onto another pane. Under `dwindle`, the pane takes the half you drop it on.
 * **Maximise**: zoom the pane to fill the window. The tab stays out while maximised and offers **Restore pane**.
 
+**Swap with a neighbour** without the tab: flick two fingers briskly across a split pane towards the edge you want. The pane swaps its shell with the pane across that edge and both slide; the layout shape and sizes never change, also under `dwindle`. In a T layout, flicking a lower column up swaps it with the full-width row. A slow drag does nothing, nor does a third finger, a lone, maximised or floating pane, selected text, or an edge with no neighbour. Pinch and two-finger scroll work as before, and the gesture puts the corner tab away if it was out.
+
 A lone pane's tab instead offers minimal mode, the **automatic tiling** switch, settings and help. Holding a corner shows the tab only; it does not resize.
 
 **Zoom** without the tab: apply the `stack` layout (`Ctrl+Alt+L` cycles to it, or pick it by name in the palette) to maximise the focused pane while the rest stay alive behind it. It is temporary: saving a workspace stores the underlying pane tree, not the maximised view.

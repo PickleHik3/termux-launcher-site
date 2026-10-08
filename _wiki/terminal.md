@@ -13,6 +13,7 @@ The terminal core is upstream Termux, with a lot built on top. This page covers 
 * **In a plain shell** there is no mouse for an app to take, so the same hold always starts text selection.
 * **Modifiers ride along**: Ctrl, Alt and Shift from the extra-keys row or a hardware keyboard are sent with a mouse click, xterm style. A latched Ctrl covers one click, so **Ctrl+tap** lets a TUI open its own links.
 * **Mouse mode** turns every touch into the mouse, for a program that wants one without you holding first: a finger down clicks at that cell, held and dragged it drags, two fingers turn the wheel. Tap the **Mouse** key on the shipped extra-keys row, run **Mouse mode** from the palette, or bind `tool:mouse.toggle` to any key. A small mouse icon at the end of the status bar shows it is on.
+* **Two-finger flick** on a split pane swaps it with the pane across the edge the fingers moved towards. See [Panes & sessions](#wiki/panes).
 * **Pinch to zoom** changes the focused pane's font size, with jitter filtering so two-finger scrolling doesn't zoom by accident. A new split or window inherits the size of the pane it came from; panes you have never zoomed keep following the global terminal size.
 
 ## Find text

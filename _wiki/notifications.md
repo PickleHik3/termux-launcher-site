@@ -54,7 +54,7 @@ Some rules worth copying:
 * **Hold** a card for the whole message with **Open**, **Dismiss** and **Mute this rule**. Mute turns that rule's switch off.
 * TalkBack users get the same actions on each card.
 
-The clock keeps its full face as cards arrive and scales down as one piece to the room left, never below its compact size. A media session shares the space only with a single card.
+The clock keeps its full face as cards arrive and scales down as one piece to the room left, never below its compact size. A media session shares the space only with a single card. In the open status bar the album art sits next to the play controls, the next button stays clear of the bar's end so a near miss does not page, and tapping the art or title opens the playing app.
 
 ## Where the rules live
 
