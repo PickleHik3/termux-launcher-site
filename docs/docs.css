@@ -198,6 +198,14 @@ details.sec>.sec-body>:first-child{margin-top:0}
 .clip-frame.phone{aspect-ratio:800/1680;border-radius:24px}
 .clip-frame.phone video{position:absolute;top:-6.131%;left:-17.5%;width:135%;max-width:none;height:auto}
 .clip-frame.raw video,.clip-frame img{width:100%;height:auto}
+/* crop: the frame takes the declared region's aspect (inline); docs.js scales and shifts the media behind it */
+.clip-frame.crop{aspect-ratio:var(--ar,16/10)}
+.clip-frame.crop video,.clip-frame.crop img{position:absolute;max-width:none;height:auto}
+/* inlined SVG infographics carry their own surface */
+.clip-frame.infographic{aspect-ratio:auto;background:transparent;border:0;box-shadow:none;border-radius:0}
+.clip-frame.infographic svg{display:block;width:100%;height:auto}
+/* three stills in one row; they wrap on phones */
+.clips.trio .clip{flex:1 1 180px;max-width:240px}
 .clip-toggle{position:absolute;inset:0;display:grid;place-items:center;background:rgba(6,8,12,.32);transition:background-color .25s var(--snap)}
 .clip-toggle::before{content:"";border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent var(--on);
   filter:drop-shadow(0 2px 10px rgba(0,0,0,.8));transition:opacity .25s var(--snap)}
