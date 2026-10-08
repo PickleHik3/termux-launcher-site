@@ -42,7 +42,9 @@ The wallpaper-matching oh-my-posh prompt theme and a matching Neovim colour sche
 A config you already have is never replaced silently: `tlstore update` shows you the change and asks, and the answer defaults to no. Say yes and it leaves a timestamped backup right beside your file. Everything tlstore installs lives under `~/.local`, never in Termux's own `bin`, so a bootstrap reinstall never takes your tools with it.
 
 ```clip
-image: assets/uploads/whatsapp-image-2026-08-02-at-12.40.06-am.jpeg
+image: assets/docs/figures/fish-prompt.webp
+size: 576x440
+shape: wide
 title: fish-shell result
 caption: The shell after tlstore install fish-shell - fish, wallpaper-Material prompt, eza listings.
 ```
@@ -91,12 +93,14 @@ Two that lean on the graphics and font work above. `sigye` is in the tlstore cat
 
 ```clip
 name: kew
+crop: 0.13 0.28 0.74 0.46
 title: kew
 caption: kew - music in the terminal, cover art drawn through the kitty graphics protocol.
 ```
 
 ```clip
 name: sigye
+crop: 0.13 0.40 0.74 0.22
 title: sigye
 caption: sigye - the clock in box-drawing glyphs, which join because the launcher computes them as geometry.
 ```

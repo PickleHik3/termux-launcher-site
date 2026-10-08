@@ -10,7 +10,9 @@ The launcher ships a built-in port of [Unexpected Keyboard](https://github.com/J
 The port is built into the app as a view: no separate keyboard to install, no Android input-method setup, and your system keyboard for other apps is untouched. It shows when you tap the terminal. **Ctrl + Alt + K** toggles it.
 
 ```clip
-image: assets/uploads/whatsapp-image-2026-08-02-at-12.36.58-am.jpeg
+image: assets/docs/figures/home-still.webp
+size: 480x1080
+crop: 0 0.70 1 0.28
 title: Built-in keyboard
 caption: The built-in keyboard - corner symbols on every key, real Ctrl and Alt.
 ```
@@ -27,6 +29,7 @@ caption: The built-in keyboard - corner symbols on every key, real Ctrl and Alt.
 
 ```clip
 name: keybind-discovery
+crop: 0.13 0.60 0.74 0.30
 title: Keybind hints
 caption: Holding Ctrl + Alt lights the bound keys and prints the chord map above them.
 ```

@@ -6,9 +6,9 @@ order: 28
 The status bar is the launcher's own bar: a clock, the row of sessions and windows, and readings for CPU, memory and weather. This page covers what each part shows, how to open and fold it, and where to set it up. Its settings are under **Settings → Status bar**. Pinned notifications in the bar are on [Notifications](#wiki/notifications).
 
 ```clip
-image: assets/screenshots/clock-status-pane.webp
-title: Expanded clock and status pane
-caption: The open status bar: the clock above the session badge, a window chip and the CPU, RAM and weather readings.
+svg: status-bar
+title: Folded and open
+caption: Tap the bar to open it: the clock and date sit above the session row and the CPU, memory and weather readings.
 ```
 
 ## Open and fold it

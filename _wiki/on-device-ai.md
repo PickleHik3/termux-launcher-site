@@ -60,12 +60,6 @@ Each catalogue row shows a **License:** line before you download. Gemma 4 and Em
 - **Set a Hugging Face token** under **Settings → On-device AI → Hugging Face token**. A classic **Read** token, or a fine-grained one with `Contents: Read`, is enough. For a gated model, accept its terms on huggingface.co first. Gated rows and refused downloads also offer **Add token**.
 - **Paste a link** to any compatible LiteRT-LM or MNN model into **Paste a Hugging Face link…** at the top of **Get models** and tap **Add**, or tap **File** to pick a `.litertlm`, `.task` or `.tflite` file. An MNN model folder goes through **More ways to add a model → Add a model folder (MNN)**.
 
-```clip
-image: assets/screenshots/tai-hf-token.jpeg
-title: Hugging Face token
-caption: Set a Hugging Face token once - it's only ever sent to Hugging Face download URLs.
-```
-
 ## Remote model
 
 **Settings → On-device AI → Remote model** lets a function use a model on another server with your own key. Set the **Server address** (presets **OpenAI**, **OpenRouter** and **Server on this phone or LAN**; plain http is allowed only for this phone and your own network), the **API key** (stored encrypted), the **Model**, whether it **Understands images**, and **When to use it**: **Prefer remote** or **Only when no local model fits**. **Test connection** sends one short message and times the answer; **Remove** forgets the address, key and model. Function pickers then offer it as "Remote · <model>".
@@ -125,9 +119,9 @@ export OPENAI_API_KEY="$(cat ~/.launcherctl/token)"
 ```
 
 ```clip
-image: assets/screenshots/tai-endpoint.jpeg
+svg: ai-endpoint
 title: Endpoint & access
-caption: Endpoint & access - the base URL and bearer token any OpenAI/Ollama client needs.
+caption: Any OpenAI-compatible client talks to the model on the phone through the base URL and bearer token.
 ```
 
 - OpenAI-shaped: `/v1/chat/completions`, `/v1/responses`, `/v1/completions`, `/v1/embeddings`, `/v1/tokenize`, `/v1/audio/transcriptions`, `/v1/audio/speech`, with streaming.

@@ -6,9 +6,9 @@ order: 90
 No tmux needed: the app is a multiplexer of its own. The hierarchy is **sessions → windows → panes**: a session is a fully separate workspace, a window is a tab inside it, and a pane is one shell. Everything below is reachable from the [Command palette](#wiki/command-palette), keybinds, extra keys, or the space-bar swipes on the built-in keyboard. The shortcuts below assume **Split-pane controls** is on; a few change meaning when it is off (see "With split panes off" below).
 
 ```clip
-name: window-splitting
-title: Window splitting
-caption: One pane split in two, focus moved, then reshaped - no tmux running.
+svg: pane-splitting
+title: Split, split again, swap
+caption: A pane splits in two, the new pane splits again (dwindle), and a two-finger flick swaps neighbours. No tmux running.
 ```
 
 ## Panes
