@@ -15,6 +15,8 @@ The **Launcher default** row has seven keys. Swipe up on a key for its second ac
 * **New pane**: swipe up for **New window**.
 * **Sessions**: open the sessions browser; swipe up for **New session**.
 
+Other launcher actions can be added from the editor's search. **App drawer** (`app.open_app_drawer`, "Open the app drawer.") opens the app drawer from the apps row's current edge, and does nothing while **Swipe down for app drawer** is off in **Settings → Apps**. It is not on the shipped row. **DRAWER** still opens the sessions drawer.
+
 The second page ships empty, so the row has one page until you add keys to another.
 
 Keys that cannot act on the current place go faint and stop responding. On Display, the pane, window and session keys are dimmed; on Widgets, typing keys, modifiers, Paste and Scroll are dimmed.

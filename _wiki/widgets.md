@@ -31,7 +31,7 @@ Listed first in the picker under **Termux Launcher**:
 
 * **Analog clock** and **Digital clock**
 * **Agenda** and **Calendar** (a month view)
-* **Weather**, **Battery** and **System** (device stats)
+* **Weather**, **Battery** and **System** (device stats). Weather follows the place picked under **Settings → Status bar → Weather → Location** as soon as you return, with no tap needed
 * **Media** (what is playing, with controls) and **Notifications**
 * **Tasks**, a task list kept in `~/notes/tasks.md`
 * **Scratchpad**, a note kept in `~/notes/scratch.md`; a tap opens the file in your editor

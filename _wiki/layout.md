@@ -22,7 +22,7 @@ Home, Terminal and Display share one layout, so whatever you arrange applies to 
 
 ## The Layout editor
 
-The canvas, a picture of your screen, fills the editor. Under it is a sheet of fixed height:
+The canvas, a picture of your screen, fills the editor. Under it is a sheet of fixed height. On a tablet in landscape the same controls sit in a side pane on the right instead, and the move control stops at the pane's left edge. The other orientation is drawn in your device's real shape, so a tablet is not shown as a phone outline.
 
 * **Row A:** the **Portrait/Landscape** toggle, **Style: Docked / Floating**, and the eye-off **Hidden elements** button.
 * **Row B:** **Corners** and **Margin**, or the keyboard's own tools while the keyboard is selected.

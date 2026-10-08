@@ -25,7 +25,7 @@ moves:
     gesture: Hold the apps row
     body: Choose your pinned apps.
   - n: 3
-    gesture: Pull the apps row away from its edge
+    gesture: Swipe down on the apps row
     body: The app drawer; Home brings you back.
   - n: 4
     gesture: Swipe up on the bottom border
