@@ -119,6 +119,7 @@ button{cursor:pointer}
   .toc-close{display:block}
 }
 @media (max-width:460px){.nav .brand span{display:none}.nav{padding-left:10px}.nav .gh{height:36px;padding:0 13px}}
+@media (max-width:600px){.nav .links .discord{display:none}}
 
 /* ───────────── Intro ───────────── */
 .intro{padding-bottom:56px;border-bottom:1px solid var(--line)}
@@ -126,6 +127,9 @@ button{cursor:pointer}
 .eyebrow::before,.kicker::before{content:"";width:22px;height:1px;background:var(--klein-soft);opacity:.7}
 .intro h1{margin-top:18px;font-size:clamp(2.8rem,6vw,5.6rem);font-weight:700;letter-spacing:-.045em;line-height:.92;font-variation-settings:"opsz" 96,"wdth" 88}
 .intro .lede{margin-top:20px;max-width:52ch;font-size:clamp(1.02rem,1.3vw,1.2rem);color:var(--on-2)}
+.intro .ask{margin-top:14px;max-width:60ch;font-size:.92rem;color:var(--on-3)}
+.intro .ask a{color:var(--on);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+.intro .ask a:hover{text-decoration-color:currentColor}
 .moves-title{margin-top:40px;font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--on-3)}
 .moves{margin-top:14px;list-style:none;counter-reset:m;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;border-top:1px solid var(--line)}
 .moves li{counter-increment:m;display:grid;grid-template-columns:28px minmax(0,1fr);column-gap:8px;padding:14px 0;border-bottom:1px solid var(--line);line-height:1.4}
